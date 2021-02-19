@@ -1,0 +1,41 @@
+
+      <colgroup>
+        <col style="width: 50%;">
+        <col style="width: 20%;">
+        <col style="width: 20%;">
+        <col style="width: 10%;">
+      </colgroup>
+      <thead>
+        <tr>
+          <th colspan="4" class="table-secondary"><img id="imgLoad1" class="imgLoad" src="pngs/green-button30.png" alt="" border="1" height="100%"> FIR BRASÍLIA</th>
+        </tr>
+        <tr>
+          
+        </tr>
+
+        
+      <tr class="table-warning"><td><b>GAMET VALID 051800/052400 SBBS - <br> [V1]  ... 4000M RA ...  S OF S19 <span style="color:red" title="Localidades (dentre as listadas abaixo) que se encontram na área geográfica desta previsão..."> [  SBBH SBPR SBSJ ]</span> <br>[V2]  ... 4500M RA ...  W OF W042 S OF S14 N OF S19 <span style="color:red" title="Localidades (dentre as listadas abaixo) que se encontram na área geográfica desta previsão..."> [  SBBH SBPR ]</span> <br> - <br> [T1]  ... ISOL CB 3000/ABV 10000FT ...  S OF S19 <span style="color:red" title="Localidades (dentre as listadas abaixo) que se encontram na área geográfica desta previsão..."> [  SBBH SBPR SBSJ ]</span> <br>[T2]  ... ISOL CB 3000/ABV 10000FT ...  W OF W042 S OF S14 N OF S19 <span style="color:red" title="Localidades (dentre as listadas abaixo) que se encontram na área geográfica desta previsão..."> [  SBBH SBPR ]</span> <br>[T3]  ... ISOL TCU 2500/ABV 10000FT ...  <span style="color:red" title="Localidades (dentre as listadas abaixo) que se encontram na área geográfica desta previsão..."> [  SBBH SBPR SBSJ ]</span> <br>21/24 <br>[T4]  ... BKN 0700/2000FT ...  S OF S23 <span style="color:red" title="Localidades (dentre as listadas abaixo) que se encontram na área geográfica desta previsão..."> [  SBSJ ]</span> <br></b></td><td></td><td></td><td></td></tr><tr class="cabecalho"><td><b>Mensagem</b></td><td><b>Status GAMET</b></td><td><b>Status AIRMET</b></td><td><b>CMA-1</b></td></tr></thead>
+
+      <tbody><tr title="PAMPULHA - BELO HORIZONTE, MG
+Lat: 19 °S
+Long: 43 °W
+
+CMA-1: SBBR
+
+" class="table-striped trSBBH"><td><b>METAR SBBH 052100Z 10011KT 9999 <span style="color:red"> TS </span> SCT040 FEW045CB BKN070 27/17 Q1015=
+</b></td><td></td><td></td><td>SBBR</td></tr><tr title="CARLOS PRATES - BELO HORIZONTE, MG
+Lat: 19 °S
+Long: 43 °W
+
+CMA-1: SBBR
+
+" class="table-striped trSBPR"><td><b>METAR SBPR 052100Z 21008KT 9999 <span style="color:red"> TS </span> VCSH SCT025 FEW030CB 25/20 Q1017=
+</b></td><td></td><td></td><td>SBBR</td></tr><tr title="PROFESSOR URBANO ERNESTO STUMPF - SÃO JOSÉ DOS CAMPOS, SP
+Lat: 23 °S
+Long: 45 °W
+
+CMA-1: SBGL
+
+" class="table-striped trSBSJ"><td><b>METAR SBSJ 052100Z 26006KT 7000 <span style="color:red"> -TSRA </span> FEW030 FEW040CB SCT080 25/19 Q1013 RETS=
+</b></td><td></td><td></td><td>SBGL</td></tr></tbody>
+    

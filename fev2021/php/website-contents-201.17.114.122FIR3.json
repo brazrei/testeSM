@@ -1,0 +1,64 @@
+
+       <colgroup>
+         <col style="width: 70%;">
+         <col style="width: 20%;">
+         <col style="width: 10%;">
+        </colgroup>
+        <thead>
+            <tr>
+                <th colspan="3" class="table-secondary"><img id="imgLoad3" class="imgLoad" src="pngs/green-button30.png" alt="" border="1" height="100%">  FIR CURITIBA</th>
+            </tr>
+
+            <tr>
+                
+            </tr>
+            
+        </thead>
+
+        <tbody id="firCWlines"><tr title="LAURO CARNEIRO DE LOYOLA - JOINVILLE, SC
+Lat: 26 °S
+Long: 48 °W
+
+CMA-1: SBPA" class="table-striped"><td><b>METAR SBJV 220200Z 00000KT <span style="color:red"> 4000 </span> -RA <span style="color:red"> BKN006 </span> BKN020 21/21 Q1016=
+</b></td><td> | VIS = 4000M | | TETO = 600FT |</td><td>SBPA</td></tr><tr title="AFONSO PENA - CURITIBA, PR
+Lat: 25 °S
+Long: 49 °W
+
+CMA-1: SBPA" class="table-striped"><td><b>METAR SBCT 220200Z 12009KT 9999 <span style="color:red"> OVC005 </span> 18/18 Q1018=
+</b></td><td> | TETO = 500FT |</td><td>SBPA</td></tr><tr title="BACACHERI - CURITIBA, PR
+Lat: 25 °S
+Long: 49 °W
+
+CMA-1: SBPA" class="table-striped"><td><b>METAR SBBI 220100Z 09007KT 9999 <span style="color:red"> BKN008 </span> 20/18 Q1018=
+</b></td><td> | TETO = 800FT |</td><td>SBPA</td></tr><tr title="CONGONHAS - SÃO PAULO, SP
+Lat: 23 °S
+Long: 46 °W
+
+CMA-1: SBGR" class="table-striped"><td><b>METAR SBSP 220200Z 16006KT 9000 -RA <span style="color:red"> BKN004 </span> 21/19 Q1017 RETS=
+</b></td><td> | TETO = 400FT |</td><td>SBGR</td></tr><tr title="CONGONHAS - SÃO PAULO, SP
+Lat: 23 °S
+Long: 46 °W
+
+CMA-1: SBGR" class="table-striped"><td><b>SPECI SBSP 220200Z 16007KT 9999 // <span style="color:red"> BKN003 </span> OVC007 21/19 Q1017=
+</b></td><td> | TETO = 300FT |</td><td>SBGR</td></tr><tr title="GUARULHOS - SÃO PAULO, SP
+Lat: 23 °S
+Long: 46 °W
+
+CMA-1: SBGR" class="table-striped"><td><b>METAR SBGR 220200Z 12003KT <span style="color:red"> 4000 </span> -DZ BR <span style="color:red"> OVC008 </span> 21/21 Q1017=
+</b></td><td> | VIS = 4000M | | TETO = 800FT |</td><td>SBGR</td></tr><tr title="BASE DE AVIAÇÃO DE TAUBATÉ - TAUBATÉ, SP
+Lat: 23 °S
+Long: 45 °W
+
+CMA-1: SBGL" class="table-striped"><td><b>METAR SBTA 220200Z VRB04KT <span style="color:red"> 2000 </span> -TSRA FEW009 BKN028 FEW048CB OVC057 21/20 Q1015 RERA=
+</b></td><td> | VIS = 2000M |</td><td>SBGL</td></tr><tr title="PLATAFORMA P-20 - MACAÉ, RJ
+Lat: 22 °S
+Long: 40 °W
+
+CMA-1: SBGL" class="table-striped"><td><b>METAR SBMM 220200Z AUTO  <span style="color:red">02026KT</span>  9999 NCD 26/23 Q1011 W///S5=
+</b></td><td> | VNT =26KT |</td><td>SBGL</td></tr><tr title="PLATAFORMA P-25 - MACAÉ, RJ
+Lat: 22 °S
+Long: 39 °W
+
+CMA-1: SBGL" class="table-striped"><td><b>METAR SBLB 220200Z AUTO  <span style="color:red">02028KT</span>  9999 NCD 27/22 Q1012 W27/S4=
+</b></td><td> | VNT =28KT |</td><td>SBGL</td></tr></tbody>
+    

@@ -1,0 +1,24 @@
+
+       <colgroup>
+         <col style="width: 70%;">
+         <col style="width: 20%;">
+         <col style="width: 10%;">
+        </colgroup>
+        <thead>
+            <tr>
+                <th colspan="3" class="table-secondary"><img id="imgLoad1" class="imgLoad" src="pngs/green-button30.png" alt="" border="1" height="100%">  FIR BRASÍLIA</th>
+            </tr>
+            <tr>
+                
+            </tr>
+
+            
+        <tr class="table-warning"><td><b>GAMET VALID 191800/192400 SBBS - <br> [V1]  ... 1500M RA ...  S OF S13 <span style="color:red" title="Localidades (dentre as listadas abaixo) que se encontram na área geográfica desta previsão..."> [  SBRP ]</span> <br> - <br> [T1]  ... ISOL EMBD TCU/CB 3000/ABV 10000FT ...  S OF S13 <span style="color:red" title="Localidades (dentre as listadas abaixo) que se encontram na área geográfica desta previsão..."> [  SBRP ]</span> <br>[T2]  ... BKN 0300/2000FT ...  S OF S13 <span style="color:red" title="Localidades (dentre as listadas abaixo) que se encontram na área geográfica desta previsão..."> [  SBRP ]</span> <br></b></td><td></td><td></td></tr><tr class="cabecalho"><td><b>Mensagem</b></td><td><b>Status</b></td><td><b>CMA-1</b></td></tr></thead>
+
+        <tbody><tr title="LEITE LOPES - RIBEIRÃO PRETO, SP
+Lat: 21 °S
+Long: 47 °W
+
+CMA-1: SBGR" class="table-striped"><td><b>SPECI SBRP 192119Z 31015<span style="color:red">G27KT</span>  9999 -TSRA SCT035 FEW040CB 28/19 Q1008=
+</b></td><td> | RAJADA = 27KT |</td><td>SBGR</td></tr></tbody>
+    

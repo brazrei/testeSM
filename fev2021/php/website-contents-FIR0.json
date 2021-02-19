@@ -1,0 +1,42 @@
+
+      <colgroup>
+        <col style="width: 50%;">
+        <col style="width: 20%;">
+        <col style="width: 20%;">
+        <col style="width: 10%;">
+      </colgroup>
+      <thead>
+        <tr>
+          <th colspan="4" class="table-secondary"><img id="imgLoad0" class="imgLoad" src="pngs/green-button30.png" alt="" border="1" height="100%"> FIR AMAZÔNICA </th>
+        </tr>
+
+        <tr>
+          
+        </tr>
+
+        
+      <tr class="table-warning"><td><b>GAMET VALID 051800/052400 SBAZ - <br> [V1]  ... 3000M RA ...  W OF W064 <span style="color:red" title="Localidades (dentre as listadas abaixo) que se encontram na área geográfica desta previsão..."> [  ]</span> <br>[V2]  ... 4000M RA ...  W OF W050 <span style="color:red" title="Localidades (dentre as listadas abaixo) que se encontram na área geográfica desta previsão..."> [  SBEK ]</span> <br>[V3]  ... 4500M RA ...  N OF S08 <span style="color:red" title="Localidades (dentre as listadas abaixo) que se encontram na área geográfica desta previsão..."> [  SBIZ SBEK ]</span> <br> - <br> [T1]  ... ISOL CB 3000/ABV 10000FT ...  W OF W050 <span style="color:red" title="Localidades (dentre as listadas abaixo) que se encontram na área geográfica desta previsão..."> [  SBEK ]</span> <br>[T2]  ... ISOL CB 3000/ABV 10000FT ...  N OF S07 <span style="color:red" title="Localidades (dentre as listadas abaixo) que se encontram na área geográfica desta previsão..."> [  SBIZ SBEK ]</span> <br>[T3]  ... ISOL TCU 2500/ABV 10000FT ...  <span style="color:red" title="Localidades (dentre as listadas abaixo) que se encontram na área geográfica desta previsão..."> [  SBIZ SBEK ]</span> <br></b></td><td></td><td></td><td></td></tr><tr class="cabecalho"><td><b>Mensagem</b></td><td><b>Status GAMET</b></td><td><b>Status AIRMET</b></td><td><b>CMA-1</b></td></tr></thead>
+
+      <tbody><tr title="PREFEITO RENATO MOREIRA - IMPERATRIZ, MA
+Lat: 5 °S
+Long: 47 °W
+
+CMA-1: SBEG
+
+" class="table-striped trSBIZ"><td><b>METAR SBIZ 052000Z 04007KT 9999 <span style="color:red"> TS </span> SCT025 FEW030CB SCT080 31/24 Q1008=
+</b></td><td></td><td></td><td>SBEG</td></tr><tr title="PREFEITO RENATO MOREIRA - IMPERATRIZ, MA
+Lat: 5 °S
+Long: 47 °W
+
+CMA-1: SBEG
+
+" class="table-striped trSBIZ"><td><b>SPECI SBIZ 052045Z 16002KT 9999 <span style="color:red"> TS </span> SCT020 FEW030CB 29/24 Q1008=
+</b></td><td></td><td></td><td>SBEG</td></tr><tr title="JACAREACANGA - JACAREACANGA, PA
+Lat: 6 °S
+Long: 57 °W
+
+CMA-1: SBEG
+
+" class="table-striped trSBEK"><td><b>SPECI SBEK 051945Z 27014KT 5000 <span style="color:red"> -TSRA </span> SCT010 FEW025CB OVC070 24/23 Q1008=
+</b></td><td></td><td></td><td>SBEG</td></tr></tbody>
+    

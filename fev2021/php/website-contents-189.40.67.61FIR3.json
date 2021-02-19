@@ -1,0 +1,39 @@
+
+       <colgroup>
+         <col style="width: 70%;">
+         <col style="width: 20%;">
+         <col style="width: 10%;">
+        </colgroup>
+        <thead>
+            <tr>
+                <th colspan="3" class="table-secondary"><img id="imgLoad3" class="imgLoad" src="pngs/green-button30.png" alt="" height="100%" border="1">  FIR CURITIBA</th>
+            </tr>
+
+            <tr>
+                
+            </tr>
+            
+        </thead>
+
+        <tbody id="firCWlines"><tr title="LAURO CARNEIRO DE LOYOLA - JOINVILLE, SC
+Lat: 26 °S
+Long: 48 °W
+
+CMA-1: SBPA" class="table-striped"><td><b>METAR SBJV 221000Z 29003KT <span style="color:red"> 2000 </span> -DZ BR OVC006 20/20 Q1015=
+</b></td><td> | VIS = 2000M |</td><td>SBPA</td></tr><tr title="MAJOR BRIGADEIRO DOORGAL BORGES - BARBACENA, MG
+Lat: 21 °S
+Long: 43 °W
+
+CMA-1: SBGL" class="table-striped"><td><b>METAR SBBQ 221000Z 13003KT 090V170 <span style="color:red"> 4000 </span> BR SCT010 BKN020 20/19 Q1020=
+</b></td><td> | VIS = 4000M |</td><td>SBGL</td></tr><tr title="PLATAFORMA P-20 - MACAÉ, RJ
+Lat: 22 °S
+Long: 40 °W
+
+CMA-1: SBGL" class="table-striped"><td><b>METAR SBMM 221000Z AUTO  <span style="color:red">01030KT</span>  9999 NCD 26/23 Q1011 W///S4=
+</b></td><td> | VNT =30KT |</td><td>SBGL</td></tr><tr title="PLATAFORMA P-25 - MACAÉ, RJ
+Lat: 22 °S
+Long: 39 °W
+
+CMA-1: SBGL" class="table-striped"><td><b>METAR SBLB 221000Z AUTO  <span style="color:red">00030KT</span>  9999 NCD 26/22 Q1011 W27/S4=
+</b></td><td> | VNT =30KT |</td><td>SBGL</td></tr></tbody>
+    
