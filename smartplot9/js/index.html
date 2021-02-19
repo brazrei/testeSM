@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <link rel="shortcut icon" href="">
+  <title>Smart Plot</title>
+
+  <link rel="icon" type="image/png" href="png/weather.png">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/switch.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin="" />
+  <link rel="stylesheet" href="css/context-menu.css">
+  <link rel="stylesheet" href="css/context-menu.css">
+
+
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script>
+  <script src="js/leaflet-heat.js"></script>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Mono">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css">
+  <link rel="stylesheet" href="css/leaflet-sidebar.min.css">
+  <link rel="stylesheet" href="css/editorx.css" />
+
+
+  <script src="js/context-menu.js"></script>
+  <script src="js/popup-menu-conf.js"></script>
+
+  <script src="https://unpkg.com/@mapbox/leaflet-pip@latest/leaflet-pip.js"></script>
+
+  <script src="js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+  <script src="js/leaflet-sidebar.min.js"></script>
+
+  <!--Biblioteca que calcula interseções-->
+  <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
+
+
+
+
+
+
+
+  <style>
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      background-color: #EEF2F7;
+    }
+
+    #map {
+      width: 70%;
+      height: 100%;
+      float: left;
+    }
+
+    .hora {
+      font-size: 25px;
+
+    }
+
+    .stsc {
+      font-size: 14px;
+
+    }
+
+    .sombra {
+      box-shadow: 5px 10px 8px #888888;
+
+    }
+
+    .degrade {
+      background-color: #b8c6db;
+      background-image: linear-gradient(315deg, #b8c6db 0%, #f5f7fa 74%);
+    }
+
+    .button {
+      width: 100%;
+      color: #444444;
+      background: #F3F3F3;
+      border: 1px #DADADA solid;
+      padding: 5px 10px;
+      border-radius: 2px;
+      font-weight: bold;
+      font-size: 9pt;
+      outline: none;
+    }
+
+    .button:hover {
+      border: 1px #C6C6C6 solid;
+      box-shadow: 1px 1px 1px #EAEAEA;
+      color: #333333;
+      background: #F7F7F7;
+    }
+
+    .button:active {
+      box-shadow: inset 1px 1px 1px #DFDFDF;
+    }
+
+    /* Blue button as seen on translate.google.com*/
+    .button .blue {
+      color: white;
+      background: #4C8FFB;
+      border: 1px #3079ED solid;
+      box-shadow: inset 0 1px 0 #80B0FB;
+    }
+
+    .button .blue:hover {
+      border: 1px #2F5BB7 solid;
+      box-shadow: 0 1px 1px #EAEAEA, inset 0 1px 0 #5A94F1;
+      background: #3F83F1;
+    }
+
+    .button .blue:active {
+      box-shadow: inset 0 2px 5px #2370FE;
+    }
+
+
+    #painel {
+      width: 29%;
+      height: 100%;
+      float: left;
+      padding-left: 8px;
+
+    }
+
+    #corpo {
+      width: 98%;
+      height: 90%;
+      padding: 15px;
+    }
+
+    #header {
+      width: 98%;
+      height: 60px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 15px;
+      margin-top: 10px;
+    }
+
+    .gradientgrey {
+      background-image: -ms-linear-gradient(top, #FFF 0%, #CFCFCF 100%);
+      background-image: -moz-linear-gradient(top, #FFF 0%, #CFCFCF 100%);
+      background-image: -o-linear-gradient(top, #FFF 0%, #CFCFCF 100%);
+      background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #FFF), color-stop(1, #CFCFCF));
+      background-image: -webkit-linear-gradient(top, #FFF 0%, #CFCFCF 100%);
+      background-image: linear-gradient(top, #FFF 0%, #CFCFCF 100%);
+    }
+
+    .loading,
+    .loadingstsc {
+      width: 20px;
+      height: 20px;
+    }
+  </style>
+
+
+</head>
+
+<body>
+  <script src="js/firSkyVector.js"></script>
+
+  <script src="js/airmet.js"></script>
+  <script src="js/sigmet.js"></script>
+  <script src="js/aeroportos20102020.js"></script>
+  <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.2.0/leaflet-omnivore.min.js'></script>
+  <script src="js/kmlLoad.js"></script>
+  <script src="js/stsc.js"></script>
+  <script src="js/editorx.js"></script>
+  <script src="js/intersect.js"></script>
+  <script src="js/imgSat.js"></script>
+
+  <div id='header' class='gradientgrey sombra'>
+    <h1>SMART PLOT</h1>
+  </div>
+  <div id='corpo' class='sombra'>
+
+    <!-- Inicio do Editor-->
+    <div id="sidebar" class="leaflet-sidebar collapsed">
+      <!-- Nav tabs -->
+      <div class="leaflet-sidebar-tabs">
+        <ul role="tablist">
+          <li><a href="#home" role="tab"><i class="fa fa-bars"></i></a></li>
+          <li class="disabled"><a href="#profile" id="toggledraw" role="tab"><i class="fa fa-pen"></i></a></li>
+        </ul>
+      </div>
+
+      <!-- Tab panes -->
+      <div class="leaflet-sidebar-content">
+        <div class="leaflet-sidebar-pane" id="home">
+          <h1 class="leaflet-sidebar-header">
+            Layers
+            <span class="leaflet-sidebar-close"><i class="fa fa-caret-right"></i></span>
+          </h1>
+          <span id="layercontrol"></span>
+          <div id="latlng"></div>
+
+        </div>
+
+        <div class="leaflet-sidebar-pane" id="profile">
+          <h1 class="leaflet-sidebar-header">Profile<span class="leaflet-sidebar-close"><i
+                class="fa fa-caret-right"></i></span></h1>
+        </div>
+      </div>
+    </div>
+    <!-- Fim do Editor-->
+
+    <div id='map'></div>
+
+    <div id='painel' class='degrade'>
+      <span class="hora">Hora da última Atualização dos AIRMETs: </span><span class="hora" id="clock">--:--</span>
+      <h4 class="loading">Carregando Airmets</h4>
+      <img src="gif/loading.gif" alt="Carregando Airmets" class="loading">
+      <br><br>
+
+      <label class="switch">
+        <input type="checkbox" id="chkSTSC" onchange="plota_stsc(this)" checked />
+        <span class="slider round"></span>
+      </label>
+      <span>Mostrar STSC</span>
+      <span class="stsc"> (</span><span class="stsc" id="clockSTSC">--:--</span>
+      <span class="stsc"> )</span><br>
+
+      <label class="switch">
+        <input type="checkbox" id="chkSigmet" onchange="mostraSigmet(this)" checked />
+        <span class="slider round"></span>
+      </label>
+      <span>Mostrar SIGMET's</span>
+      <span class="sigmet"> (</span><span class="sigmet" id="clockSigmet">--:--</span>
+      <span class="sigmet"> )</span><br>
+      <!-- 
+      <label class="switch">
+        <input type="checkbox" id="chkImgSat" onchange="carrega_img_sat(this)" />
+        <span class="slider round"></span>
+      </label>
+      <span>Mostrar na Imagem de Satélite</span><br><br>
+-->
+      <label class="switch">
+        <input type="checkbox" id="chkCopiaAuto" />
+        <span class="slider round"></span>
+      </label>
+      <span> Cópia Automática (Copiar Automaticamente as Coordenadas das
+        Figuras Clicadas para Área de Transferência )</span>
+      <br><br>
+
+      <span class="stsc" id="latlng">teste</span>
+      <textarea id="taCoordenadas" style="resize: none; box-sizing: border-box; width:98%; text-transform: uppercase"
+        rows="4"
+        placeholder="Cole aqui as coordenadas a serem plotadas (Redemet, Skyvector ou Windy) e pressione <enter>!"></textarea>
+
+      <br>
+      <input type="button" value="Copiar" onclick="copyFromTextArea()" class="blue">
+      <br><br><br>
+
+      <input type="button" value="Separar Área por FIRs" onclick="cutPlotFIRs()" class="blue" style = "display: none;">
+
+      <br><br>
+      <input type="button" value="Recortar Áreas Sobrepostas" id="btnDiffPlot" class="blue" onclick="cutPlotSobr()" style = "display: none;">
+
+      <br><br>
+      <input type="button" value="Inserir Plotagem Externa" style="display:none" id="btnInsertPlot" class="blue"
+        onclick="plotagemDaArTransf()">
+
+      <h5 id="h5latlng" style="color: red"></h5>
+      <h5 class="infoCoordinates" id="h5angulo" style="color: red; display: none;"></h5>
+      <h5 class="infoCoordinates" id="h5distancia" style="color: red; display: none;"></h5>
+
+
+    </div>
+  </div>
+  <div id='footer' class='gradientgrey '>
+    <h3 style="color: blue"> ATENÇÃO! APLICATIVO EM TESTE! VERSÃO BETA!</h3>
+    <h3 style="color: red"> É ALTAMENTE RECOMENDADO CONFERIR A PLOTAGEM NO SKYVECTOR!</h3>
+  </div>
+
+
+</body>
+
+</html>
