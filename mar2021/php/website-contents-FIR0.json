@@ -1,0 +1,39 @@
+
+      <colgroup>
+        <col style="width: 50%;">
+        <col style="width: 15%;">
+        <col style="width: 15%;">
+        <col style="width: 15%;">
+        <col style="width: 5%;">
+      </colgroup>
+      <thead>
+        <tr>
+          <th colspan="5" class="table-secondary"><img id="imgLoad0" class="imgLoad" src="pngs/green-button30.png" alt="" border="1" height="100%"> FIR AMAZÔNICA </th>
+        </tr>
+
+        <tr>
+          
+        </tr>
+
+        
+      <tr class="table-warning tableGametContent"><td><b>GAMET VALID 080600/081200 SBAZ - <br> [V1]  ... 1000M RA ...  <span style="color:red" title="Localidades (dentre as listadas abaixo) que se encontram na área geográfica desta previsão..."> [  SBEG SBAA ]</span> <br> - <br> [T1]  ... ISOL CB 2500/ABV 10000FT ...  <span style="color:red" title="Localidades (dentre as listadas abaixo) que se encontram na área geográfica desta previsão..."> [  SBEG SBAA ]</span> <br>[T2]  ... EMBD CB 2500/ABV 10000FT ...  <span style="color:red" title="Localidades (dentre as listadas abaixo) que se encontram na área geográfica desta previsão..."> [  SBEG SBAA ]</span> <br>[T3]  ... ISOL TCU 2500/ABV 10000FT ...  <span style="color:red" title="Localidades (dentre as listadas abaixo) que se encontram na área geográfica desta previsão..."> [  SBEG SBAA ]</span> <br>[T4]  ... BKN 0300/2000FT ...  <span style="color:red" title="Localidades (dentre as listadas abaixo) que se encontram na área geográfica desta previsão..."> [  SBEG SBAA ]</span> <br></b></td><td></td><td></td><td></td><td></td></tr><tr class="cabecalho"><td><b>Mensagem</b></td><td><b>Status AD WRNG</b></td><td><b>Status GAMET</b></td><td><b>Status AIRMET</b></td><td><b>CMA-1</b></td></tr></thead>
+
+      <tbody><tr title="EDUARDO GOMES - MANAUS, AM
+Lat: 3 °S
+Long: 60 °W
+
+CMA-1: SBEG
+
+" class="table-striped trSBEG"><td><b>METAR SBEG 081000Z 01002KT 9999 <span style="color:red"> TS </span> SCT010 FEW025CB SCT080 24/24 Q1010=
+</b></td><td></td><td> <span style="color:red">1000M</span>  /  <span style="color:red">0300FT</span> </td><td></td><td>SBEG</td></tr><tr title="CONCEIÇÃO DO ARAGUAIA - CONCEIÇÃO DO ARAGUAIA, PA
+Lat: 8 °S
+Long: 49 °W
+
+CMA-1: SBEG
+
+
+
+AIRMET SBAZ - N. 4 - VALID 080840/081210 - 
+TETO: 100/0500FT " class="table-striped trSBAA table-danger"><td><b>SPECI SBAA 081012Z AUTO /////KT ///V/// <span style="color:red"> 0750 </span> FG <span style="color:red"> VV002 </span> 23/23 Q1012=
+</b><b> <span style="color:red"><br>Parâmetros descobertos: Visibilidade</span> <b></b></b></td><td></td><td> <span style="color:red">1000M</span>  /  <span style="color:red">0300FT</span> </td><td>9999M /  <span style="color:red">100FT</span> </td><td>SBEG</td></tr></tbody>
+    

@@ -1,0 +1,27 @@
+
+      <colgroup>
+        <col style="width: 50%;">
+        <col style="width: 15%;">
+        <col style="width: 15%;">
+        <col style="width: 15%;">
+        <col style="width: 5%;">
+     </colgroup>
+
+      <thead>
+        <tr>
+          <th colspan="5" class="table-secondary"><img id="imgLoad2" class="imgLoad" src="pngs/green-button30.png" alt="" border="1" height="100%"> FIR RECIFE</th>
+        </tr>
+
+        <tr>
+          
+        </tr>
+
+        
+      <tr class="table-warning tableGametContent"><td><b>GAMET VALID 080600/081200 SBRE - <br> [V1]  ... 1000M RA ...  N OF S06 <span style="color:red" title="Localidades (dentre as listadas abaixo) que se encontram na área geográfica desta previsão..."> [  ]</span> <br>[V2]  ... 1000M RA ...  E OF W041 <span style="color:red" title="Localidades (dentre as listadas abaixo) que se encontram na área geográfica desta previsão..."> [  ]</span> <br> - <br> [T1]  ... ISOL CB 3000/ABV 10000FT ...  N OF S05 <span style="color:red" title="Localidades (dentre as listadas abaixo) que se encontram na área geográfica desta previsão..."> [  ]</span> <br>[T2]  ... ISOL TCU 2500/ABV 10000FT ...  N OF S09 <span style="color:red" title="Localidades (dentre as listadas abaixo) que se encontram na área geográfica desta previsão..."> [  ]</span> <br>[T3]  ... BKN 0300/2000FT ...  E OF W041 <span style="color:red" title="Localidades (dentre as listadas abaixo) que se encontram na área geográfica desta previsão..."> [  ]</span> <br></b></td><td></td><td></td><td></td><td></td></tr><tr class="cabecalho"><td><b>Mensagem</b></td><td><b>Status AD WRNG</b></td><td><b>Status GAMET</b></td><td><b>Status AIRMET</b></td><td><b>CMA-1</b></td></tr></thead>
+
+      <tbody><tr title="
+
+CMA-1: 
+
+" class="table-striped comum"><td><b>NENHUMA LOCALIDADE COM RESTRIÇÃO</b></td><td></td><td></td><td></td><td></td></tr></tbody>
+    
