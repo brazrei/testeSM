@@ -418,9 +418,11 @@ function trataSigmetRedemet(texto) {
 
             }
 
-            arrSigmetGeral.push({ codigo: idxSigmet, FIR: idx, tipo: tipo, base: base, visibilidade: vis, texto: textoSigmet, cancelado: false, coord: coord, coordDeg: coordDeg, locs: "" })
-            arrIdxSigmetGeral.push(idxSigmet)
-        }
+            if (!arrIdxSigmetGeral.includes(idxSigmet)){ 
+              arrSigmetGeral.push({ codigo: idxSigmet, FIR: idx, tipo: tipo, base: base, visibilidade: vis, texto: textoSigmet, cancelado: false, coord: coord, coordDeg: coordDeg, locs: "" })
+              arrIdxSigmetGeral.push(idxSigmet)
+            }
+         }
         idx++;
     }
     trataSigmetsCNL()
