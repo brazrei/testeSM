@@ -196,7 +196,7 @@ function setGrupos() {
 
 function openSmartPlot() {
   if (!smartPlot || smartPlot.closed)
-    smartPlot = window.open("../../smartplot9/index.html", 'SMART PLOT', '')
+    smartPlot = window.open("../spmar2021/index.html", 'SMART PLOT', '')
  // smartPlot = window.open("../../smartplot8/index.html", 'SMART PLOT', 'menubar=no,status=no')
   else
   smartPlot.focus()
