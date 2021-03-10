@@ -1,4 +1,5 @@
 var TipoConsulta, oldResponse;
+var smartPlotOnline = false
 var TempoCorrido;
 var arrayTableFir = ["firAZtable", "firBStable", "firREtable", "firCWtable"];
 var globalVisMax = 5000;
@@ -756,7 +757,9 @@ function strToCell(arr, idxFIR, novo, naoAdiciona) {//nãoadiciona significa sub
     if (smartPlot)
       smartplot.close();
     regAirmet.status = "SMARTPLOT OFFLINE"
-  }
+    smartPlotOnline = false
+  } else
+    smartPlotOnline = true
   let regSigmet = getStatusSigmet(loc);
   let statusSigmet = ""
   let statusAdWRNG = getStatusAdWRNG(loc)
