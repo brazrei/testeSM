@@ -63,6 +63,7 @@ function checaValidadeAdWRNG(adWRNG) {
 
 function getTxtAdWRNG(texto) {
     texto = removeEspacosDuplos(texto);
+    texto = texto.replace(/WPSD/g,"WSPD")
     if (texto.indexOf("SFC ") == -1)
         return "NIL"
     var strEnd = ""
