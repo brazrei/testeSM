@@ -1037,9 +1037,11 @@ function GetWebContentAirmet(url, primeiraVez) {
                 } catch (e) {
                     erroConexao = true
                 }
-                if (erroConexao || !opener.smartPlotOnline)
+                if (erroConexao || !opener.smartPlotOnline){
+                    $("#h5Offline").show();
                     alert("Perda de conexão com o SMARTMETAR! Favor reabrir o SMARTPLOT através do link no site do SMARTMETAR!");
-
+                } else
+                    $("#h5Offline").hide();
                 bringEditableToFront();
                 bringCuttedToFront();
                 escondeLoading("Airmet");
