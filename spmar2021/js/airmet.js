@@ -1030,7 +1030,11 @@ function GetWebContentAirmet(url, primeiraVez) {
                 plotaAirmets(arrAirmetGeral, primeiraVez);
 
                 AtualizaAirmetsAeroportos();
-                window.opener.BtnMetarGERALClick(false);
+                try {
+                    window.opener.BtnMetarGERALClick(false);
+                } catch (e) {
+                    alert("Perda de conexão com o SMARTMETAR! Favor reabrir o SMARTPLOT através do link no site do SMARTMETAR!");
+                }
                 bringEditableToFront();
                 bringCuttedToFront();
                 escondeLoading("Airmet");
