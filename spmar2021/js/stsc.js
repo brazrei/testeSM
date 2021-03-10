@@ -72,7 +72,7 @@ function updateAlertaSTSC(on) {
 }
 
 function setSTSCLabel(label) {
-    $('#clockSTSC').text(label);
+    $('#clockSTSC').text(label + ":00 UTC");
 }
 
 function plota_stsc(obj_chk) {
