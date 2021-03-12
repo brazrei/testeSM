@@ -246,8 +246,8 @@ function limpaArrayStatusGamet(idxFIR) {
 
 function trataMetarRedemet(response, idxFIR) {
 
-  function isMostRecent(arr,loc,i) {
-      return (i==(arr.length-1) || !arr[i+1].includes(loc))
+  function isMostRecent(arr, loc, i) {
+    return (i == (arr.length - 1) || !arr[i + 1].includes(loc))
   }
 
   var erroDeAcesso = response.includes("ErroSM=");
@@ -414,7 +414,7 @@ function trataMetarRedemet(response, idxFIR) {
         // return metar.includes(" TS ") || metar.includes("TSRA ") || metar.includes("TSGR ");
         var strStatusMetar = visStr + tetoStr + ventoStr + ventoRajStr + cortanteStr + trovoadaStr;
         //updateArrayStatus (strStatusMetar);
-        strToCell([metar, strStatusMetar, { vento: vento, teto: arrayTeto[2], visibilidade: parseInt(visibilidade),maisRecente:isMostRecent(arrayMetares,localidade,i) }], idxFIR, novo, xEscondeSpeciAuto);
+        strToCell([metar, strStatusMetar, { vento: vento, teto: arrayTeto[2], visibilidade: parseInt(visibilidade), maisRecente: isMostRecent(arrayMetares, localidade, i) }], idxFIR, novo, xEscondeSpeciAuto);
 
         cont = cont + 1;
       }
@@ -657,7 +657,27 @@ function verificaStatusMetar(statusMetar, statusAdWRNG, statusAirmet, statusSigm
     return false
   }
 
-  function isLower(dado1, dado2) {
+  function isLower(dado1, dado2, tipo) {
+
+    function ajustaParametroTaf(dado, tipo) {
+      let arrayVis = [150, 350, 600, 800, 1500, 3000, 5000]//m
+      let arrayTeto = [100, 200, 500, 1000, 1500]//ft
+      let array
+      if (tipo == "T")
+        array = arrayTeto.slice()
+      else
+        array = arrayVis.slice()
+
+      let i = 0
+      while ((dado > array[i]) && (i < array.length)) {
+        i++
+      }
+      if (i == 0)
+        return 0
+      else
+        return array[i - 1]
+    }
+
     dado1 = parseInt(dado1)
     dado2 = parseInt(dado2)
 
@@ -667,8 +687,12 @@ function verificaStatusMetar(statusMetar, statusAdWRNG, statusAirmet, statusSigm
     if (dado1 <= 0)
       return false
 
-    if (dado2 > 0 && dado1 < dado2)
-      return true
+    if (dado2 > 0 && dado1 < dado2) {
+      dado1 = ajustaParametroTaf(dado1, tipo)
+      dado2 = ajustaParametroTaf(dado2, tipo)
+      if (dado1 < dado2)
+        return true
+    }
     else if (dado2 <= 0)
       return true
 
@@ -683,9 +707,9 @@ function verificaStatusMetar(statusMetar, statusAdWRNG, statusAirmet, statusSigm
   if (tetoMetar > 0) {
     let tetoCobertoA = true
     let tetoCobertoS = true
-    if (isLower(tetoMetar, statusAirmet.tetoNum))
+    if (isLower(tetoMetar, statusAirmet.tetoNum), "T")
       tetoCobertoA = false
-    if (isLower(tetoMetar, statusSigmet.teto))
+    if (isLower(tetoMetar, statusSigmet.teto), "T")
       tetoCobertoS = false
     if (!tetoCobertoA && !tetoCobertoS) //return apenas se descoberto
       arrayRest.push("Teto")
@@ -695,9 +719,9 @@ function verificaStatusMetar(statusMetar, statusAdWRNG, statusAirmet, statusSigm
   if (visMetar > 0 && visMetar < 5000) {
     let visCobertaA = true
     let visCobertaS = true
-    if (isLower(visMetar, getNum(statusAirmet.vis)))
+    if (isLower(visMetar, getNum(statusAirmet.vis), "V"))
       visCobertaA = false
-    if (isLower(visMetar, statusSigmet.vis))
+    if (isLower(visMetar, statusSigmet.vis), "V")
       visCobertaS = false
     if (!visCobertaA && !visCobertaS) //return apenas se descoberto
       arrayRest.push("Visibilidade")
@@ -753,7 +777,7 @@ function strToCell(arr, idxFIR, novo, naoAdiciona) {//nãoadiciona significa sub
   }
 
   let regAirmet = getStatusAirmet(loc);
-  if (!smartPlot || smartPlot.closed){ 
+  if (!smartPlot || smartPlot.closed) {
     if (smartPlot)
       smartplot.close();
     regAirmet.status = "SMARTPLOT OFFLINE"
@@ -783,16 +807,16 @@ function strToCell(arr, idxFIR, novo, naoAdiciona) {//nãoadiciona significa sub
       teto = spanRed(teto, teto)
     statusSigmet = vis + " / " + teto
     let arrStatusMetar = verificaStatusMetar(arr[2], statusAdWRNG, regAirmet, regSigmet)
-    if (!arrStatusMetar.coberto && arr[2].maisRecente){
+    if (!arrStatusMetar.coberto && arr[2].maisRecente) {
       classe = classe + " table-danger"
-      descRestricao = '<br>' +'Parâmetros descobertos: '
+      descRestricao = '<br>' + 'Parâmetros descobertos: '
       let sep = ''
-      arrStatusMetar.tipo.forEach(i =>{
+      arrStatusMetar.tipo.forEach(i => {
         descRestricao += sep + i
         sep = ', '
       })
 
-      descRestricao = '<b>' + spanRed(descRestricao,descRestricao) + '<b>'
+      descRestricao = '<b>' + spanRed(descRestricao, descRestricao) + '<b>'
 
 
     }
@@ -802,7 +826,7 @@ function strToCell(arr, idxFIR, novo, naoAdiciona) {//nãoadiciona significa sub
   if (naoAdiciona)
     $('#' + arrayTableFir[idxFIR] + ' tr:last').remove();
 
-  let line = '<tr title="' + tit.toUpperCase() + latLong + '&#10;&#10;CMA-1: ' + cma + '&#10;&#10;' + regAirmet.texto + txtTitleAdWRNG + '" ' + classe + id + '><td><b>' + arr[0] + '</b>'+ descRestricao+'</td><td>' + txtAdWRNG + '</td><td>' + statusSigmet + '</td><td>' + regAirmet.status + '</td><td>' + cma + '</td></tr>'
+  let line = '<tr title="' + tit.toUpperCase() + latLong + '&#10;&#10;CMA-1: ' + cma + '&#10;&#10;' + regAirmet.texto + txtTitleAdWRNG + '" ' + classe + id + '><td><b>' + arr[0] + '</b>' + descRestricao + '</td><td>' + txtAdWRNG + '</td><td>' + statusSigmet + '</td><td>' + regAirmet.status + '</td><td>' + cma + '</td></tr>'
   var row = $('#' + arrayTableFir[idxFIR] + ' tbody').append(line);
   $('.tr' + loc).click(function () {
     var loc = $(this).closest('tr').prop('class').split(" ")[1];
@@ -956,5 +980,3 @@ function getMinVis() {
 function getMaxVnt() {
   return globalVentoMax;
 }
-
-
