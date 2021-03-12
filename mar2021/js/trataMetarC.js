@@ -703,13 +703,13 @@ function verificaStatusMetar(statusMetar, statusAdWRNG, statusAirmet, statusSigm
   let visMetar = parseInt(statusMetar.visibilidade);
   let arrayRest = []
 
-  //Check Teto
+ //Check Teto
   if (tetoMetar > 0) {
     let tetoCobertoA = true
     let tetoCobertoS = true
-    if (isLower(tetoMetar, statusAirmet.tetoNum), "T")
+    if (isLower(tetoMetar, statusAirmet.tetoNum, "T"))
       tetoCobertoA = false
-    if (isLower(tetoMetar, statusSigmet.teto), "T")
+    if (isLower(tetoMetar, statusSigmet.teto, "T"))
       tetoCobertoS = false
     if (!tetoCobertoA && !tetoCobertoS) //return apenas se descoberto
       arrayRest.push("Teto")
@@ -721,7 +721,7 @@ function verificaStatusMetar(statusMetar, statusAdWRNG, statusAirmet, statusSigm
     let visCobertaS = true
     if (isLower(visMetar, getNum(statusAirmet.vis), "V"))
       visCobertaA = false
-    if (isLower(visMetar, statusSigmet.vis), "V")
+    if (isLower(visMetar, statusSigmet.vis, "V"))
       visCobertaS = false
     if (!visCobertaA && !visCobertaS) //return apenas se descoberto
       arrayRest.push("Visibilidade")
