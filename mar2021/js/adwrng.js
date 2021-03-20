@@ -216,7 +216,7 @@ function trataAdWRNGRedemet(texto) {
     //var adWRNG = texto.slice(arrayLocalidadeCMA[idx]+ " adWRNG");
     var adWRNG = texto.split(" - ");
     adWRNG = adWRNG.slice(1)
-    console.log(adWRNG.toString())
+    //console.log(adWRNG.toString())
     for (var i in adWRNG) {//varre os AdWRNGs da CMA
         let idx = getIdxCMA(adWRNG[i])
 
