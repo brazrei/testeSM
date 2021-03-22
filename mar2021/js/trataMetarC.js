@@ -249,8 +249,8 @@ function trataMetarRedemet(response, idxFIR) {
   function isMostRecent(arr, loc, i) {
     return (i == (arr.length - 1) || !arr[i + 1].includes(loc))
   }
-  if (idxFIR ==0)
-    response = "2021032216 - METAR SBEG 221600Z 03006KT 1500 BR BKN002 31/22 Q1012="
+//  if (idxFIR ==0)
+//    response = "2021032216 - METAR SBEG 221600Z 03006KT 1500 BR BKN002 31/22 Q1012="
 
   var erroDeAcesso = response.includes("ErroSM=");
   if (!erroDeAcesso)
@@ -851,7 +851,7 @@ function strToCell(arr, idxFIR, novo, naoAdiciona) {//nãoadiciona significa sub
       descRestricao = '<b>' + spanRed(descRestricao, descRestricao) + '<b>'
     }
     if (arrStatusMetar.alerta && arr[2].maisRecente) {
-      descAlerta = '<br>' + 'Parâmetros em alerta: '
+      descAlerta = '<br>' + 'Parâmetros em degradação: '
       let sep = ''
       arrStatusMetar.tipoAlerta.forEach(i => {
         descAlerta += sep + i
