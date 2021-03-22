@@ -671,7 +671,7 @@ function verificaStatusMetar(statusMetar, statusAdWRNG, statusAirmet, statusSigm
         array = arrayVis.slice()
 
       let i = 0
-      while ((dado > array[i]) && (i < array.length)) {
+      while ((dado >= array[i]) && (i < array.length)) {
         i++
       }
       if (i == 0)
