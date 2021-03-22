@@ -685,20 +685,20 @@ function verificaStatusMetar(statusMetar, statusAdWRNG, statusAirmet, statusSigm
       dado2 = -1
 
     if (dado1 <= 0)
-      return {retricao: false, alerta: false}
+      return {restricao: false, alerta: false}
 
     if (dado2 > 0 && dado1 < dado2) {
       dado1 = ajustaParametroTaf(dado1, tipo)
       dado2 = ajustaParametroTaf(dado2, tipo)
       if (dado1 < dado2)
-        return {retricao: true, alerta: false}
+        return {restricao: true, alerta: false}
       else
-        return {retricao: false, alerta: true}
+        return {restricao: false, alerta: true}
     }
     else if (dado2 <= 0)
-      return {retricao: true, alerta: false}
+      return {restricao: true, alerta: false}
 
-    return {retricao: false, alerta: false}
+    return {restricao: false, alerta: false}
   }
 
   let tetoMetar = parseInt(statusMetar.teto) * 100;
@@ -715,13 +715,13 @@ function verificaStatusMetar(statusMetar, statusAdWRNG, statusAirmet, statusSigm
     let checkTetoAirmet = isLower(tetoMetar, statusAirmet.tetoNum, "T")
     if (checkTetoAirmet.restricao) {
       tetoCobertoA = false
-      alertaTetoAirmet = checkAirmet.alerta
+      alertaTetoAirmet = checkTetoAirmet.alerta
     }
     
     let checkTetoSigmet = isLower(tetoMetar, statusSigmet.teto, "T")
     if (checkTetoSigmet.restricao){
       tetoCobertoS = false
-      alertaTetoSigmet = checkSigmet.alerta
+      alertaTetoSigmet = checkTetoSigmet.alerta
     }
     
     if (checkTetoSigmet.alerta  || checkTetoAirmet.alerta)
