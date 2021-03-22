@@ -704,6 +704,7 @@ function verificaStatusMetar(statusMetar, statusAdWRNG, statusAirmet, statusSigm
   let tetoMetar = parseInt(statusMetar.teto) * 100;
   let visMetar = parseInt(statusMetar.visibilidade);
   let arrayRest = []
+  let arrayAlerta = []
 
  //Check Teto
   let alertaTetoAirmet = false
@@ -711,17 +712,21 @@ function verificaStatusMetar(statusMetar, statusAdWRNG, statusAirmet, statusSigm
   if (tetoMetar > 0) {
     let tetoCobertoA = true
     let tetoCobertoS = true
-    let checkAirmet = isLower(tetoMetar, statusAirmet.tetoNum, "T")
-    if (checkAirmet.restricao) {
+    let checkTetoAirmet = isLower(tetoMetar, statusAirmet.tetoNum, "T")
+    if (checkTetoAirmet.restricao) {
       tetoCobertoA = false
       alertaTetoAirmet = checkAirmet.alerta
     }
     
-    let checkSigmet = isLower(tetoMetar, statusSigmet.teto, "T")
-    if (checkSigmet.restricao){
+    let checkTetoSigmet = isLower(tetoMetar, statusSigmet.teto, "T")
+    if (checkTetoSigmet.restricao){
       tetoCobertoS = false
       alertaTetoSigmet = checkSigmet.alerta
     }
+    
+    if (checkTetoSigmet.alerta  || checkTetoAirmet.alerta)
+        arrayAlerta.push("Teto")
+
     if (!tetoCobertoA && !tetoCobertoS) //return apenas se descoberto
       arrayRest.push("Teto")
   }
@@ -746,6 +751,9 @@ function verificaStatusMetar(statusMetar, statusAdWRNG, statusAirmet, statusSigm
     }
     if (!visCobertaA && !visCobertaS) //return apenas se descoberto
       arrayRest.push("Visibilidade")
+    
+    if (checkVisSigmet.alerta || checkVisAirmet.alerta)
+      arrayAlerta.push("Visibilidade")
   }
 
   //if (parseInt(statusMetar.vento[1]) > globalVentoMax) {
@@ -760,7 +768,7 @@ function verificaStatusMetar(statusMetar, statusAdWRNG, statusAirmet, statusSigm
       arrayRest.push("Vento");
   }
 
-  return { coberto: (arrayRest.length == 0), tipo: arrayRest, alerta: {alertaTetoAirmet || alertaTetoSigmet || alertaVisAirmet || alertaVisSigmet}}
+  return { coberto: (arrayRest.length == 0), tipo: arrayRest, alerta: arrayAlerta.length>0, tipoAlerta: arrayAlerta}
 }
 
 function strToCell(arr, idxFIR, novo, naoAdiciona) {//nãoadiciona significa substituir(apagar o anterior)
@@ -811,6 +819,7 @@ function strToCell(arr, idxFIR, novo, naoAdiciona) {//nãoadiciona significa sub
   let txtAdWRNG = ""
   let txtTitleAdWRNG = ""
   let descRestricao = ""
+  let descAlerta = ""
 
   if ((statusAdWRNG.min > 0) && (!statusAdWRNG.cancelado)) {
     txtAdWRNG = statusAdWRNG.min + "KT MAX " + statusAdWRNG.max
@@ -838,16 +847,26 @@ function strToCell(arr, idxFIR, novo, naoAdiciona) {//nãoadiciona significa sub
       })
 
       descRestricao = '<b>' + spanRed(descRestricao, descRestricao) + '<b>'
-
-
     }
+    if (arrStatusMetar.alerta && arr[2].maisRecente) {
+      let descAlerta = '<br>' + 'Parâmetros em alerta: '
+      let sep = ''
+      arrStatusMetar.tipoAlerta.forEach(i => {
+        descAlerta += sep + i
+        sep = ', '
+      })
+      descAlerta = '<b>' + spanRed(descAlerta, descAlerta) + '<b>'
+      
+    }
+    
+    
   }
   classe = classe + '"'
 
   if (naoAdiciona)
     $('#' + arrayTableFir[idxFIR] + ' tr:last').remove();
 
-  let line = '<tr title="' + tit.toUpperCase() + latLong + '&#10;&#10;CMA-1: ' + cma + '&#10;&#10;' + regAirmet.texto + txtTitleAdWRNG + '" ' + classe + id + '><td><b>' + arr[0] + '</b>' + descRestricao + '</td><td>' + txtAdWRNG + '</td><td>' + statusSigmet + '</td><td>' + regAirmet.status + '</td><td>' + cma + '</td></tr>'
+  let line = '<tr title="' + tit.toUpperCase() + latLong + '&#10;&#10;CMA-1: ' + cma + '&#10;&#10;' + regAirmet.texto + txtTitleAdWRNG + '" ' + classe + id + '><td><b>' + arr[0] + '</b>' + descRestricao + descAlerta + '</td><td>' + txtAdWRNG + '</td><td>' + statusSigmet + '</td><td>' + regAirmet.status + '</td><td>' + cma + '</td></tr>'
   var row = $('#' + arrayTableFir[idxFIR] + ' tbody').append(line);
   $('.tr' + loc).click(function () {
     var loc = $(this).closest('tr').prop('class').split(" ")[1];
