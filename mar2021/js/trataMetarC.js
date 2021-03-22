@@ -849,14 +849,13 @@ function strToCell(arr, idxFIR, novo, naoAdiciona) {//nãoadiciona significa sub
       descRestricao = '<b>' + spanRed(descRestricao, descRestricao) + '<b>'
     }
     if (arrStatusMetar.alerta && arr[2].maisRecente) {
-      let descAlerta = '<br>' + 'Parâmetros em alerta: '
+      descAlerta = '<br>' + 'Parâmetros em alerta: '
       let sep = ''
       arrStatusMetar.tipoAlerta.forEach(i => {
         descAlerta += sep + i
         sep = ', '
       })
-      //descAlerta = '<b>' + spanRed(descAlerta, descAlerta) + '<b>'
-      
+      descAlerta = '<b>' + spanRed(descAlerta, descAlerta) + '<b>'      
     }
     
     
@@ -866,7 +865,7 @@ function strToCell(arr, idxFIR, novo, naoAdiciona) {//nãoadiciona significa sub
   if (naoAdiciona)
     $('#' + arrayTableFir[idxFIR] + ' tr:last').remove();
 
-  let line = '<tr title="' + tit.toUpperCase() + latLong + '&#10;&#10;CMA-1: ' + cma + '&#10;&#10;' + regAirmet.texto + txtTitleAdWRNG + '" ' + classe + id + '><td><b>' + arr[0] + '</b>' + descAlerta + '</td><td>' + txtAdWRNG + '</td><td>' + statusSigmet + '</td><td>' + regAirmet.status + '</td><td>' + cma + '</td></tr>'
+  let line = '<tr title="' + tit.toUpperCase() + latLong + '&#10;&#10;CMA-1: ' + cma + '&#10;&#10;' + regAirmet.texto + txtTitleAdWRNG + '" ' + classe + id + '><td><b>' + arr[0] + '</b>' + descRestricao + descAlerta + '</td><td>' + txtAdWRNG + '</td><td>' + statusSigmet + '</td><td>' + regAirmet.status + '</td><td>' + cma + '</td></tr>'
   var row = $('#' + arrayTableFir[idxFIR] + ' tbody').append(line);
   $('.tr' + loc).click(function () {
     var loc = $(this).closest('tr').prop('class').split(" ")[1];
