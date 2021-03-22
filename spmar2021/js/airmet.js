@@ -473,6 +473,16 @@ function plotaMarca(lat, lng, loc) {
             alt: 500
         });
 
+        var orangeIcon = new L.Icon({
+            iconUrl: 'png/condicao_laranja.png',
+            //shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+            iconSize: [12, 12],
+            iconAnchor: [0, 0],
+            popupAnchor: [1, -12],
+            shadowSize: [6, 6],
+            alt: 500
+        });
+
         var redIcon = new L.Icon({
             //            iconUrl: 'png/marker-icon-green.png',
             iconUrl: 'png/condicao_vermelho.png',
@@ -512,7 +522,10 @@ function plotaMarca(lat, lng, loc) {
                 updateDescobertos(loc)
             }
             else {
-                icon = yellowIcon
+                if (desc.toUpperCase().includes("DEGRADA"))
+                    icon = orangeIcon
+                else
+                    icon = yellowIcon
                 addMarker(L.marker([lat, lng], { icon: cssIconYellow }), "", restricao, true)
             }
         } else
