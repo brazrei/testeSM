@@ -685,18 +685,20 @@ function verificaStatusMetar(statusMetar, statusAdWRNG, statusAirmet, statusSigm
       dado2 = -1
 
     if (dado1 <= 0)
-      return false
+      return {retricao: false, alerta: false}
 
     if (dado2 > 0 && dado1 < dado2) {
       dado1 = ajustaParametroTaf(dado1, tipo)
       dado2 = ajustaParametroTaf(dado2, tipo)
       if (dado1 < dado2)
-        return true
+        return {retricao: true, alerta: false}
+      else
+        return {retricao: false, alerta: true}
     }
     else if (dado2 <= 0)
-      return true
+      return {retricao: true, alerta: false}
 
-    return false
+    return {retricao: false, alerta: false}
   }
 
   let tetoMetar = parseInt(statusMetar.teto) * 100;
@@ -704,25 +706,44 @@ function verificaStatusMetar(statusMetar, statusAdWRNG, statusAirmet, statusSigm
   let arrayRest = []
 
  //Check Teto
+  let alertaTetoAirmet = false
+  let alertaTetoSigmet = false
   if (tetoMetar > 0) {
     let tetoCobertoA = true
     let tetoCobertoS = true
-    if (isLower(tetoMetar, statusAirmet.tetoNum, "T"))
+    let checkAirmet = isLower(tetoMetar, statusAirmet.tetoNum, "T")
+    if (checkAirmet.restricao) {
       tetoCobertoA = false
-    if (isLower(tetoMetar, statusSigmet.teto, "T"))
+      alertaTetoAirmet = checkAirmet.alerta
+    }
+    
+    let checkSigmet = isLower(tetoMetar, statusSigmet.teto, "T")
+    if (checkSigmet.restricao){
       tetoCobertoS = false
+      alertaTetoSigmet = checkSigmet.alerta
+    }
     if (!tetoCobertoA && !tetoCobertoS) //return apenas se descoberto
       arrayRest.push("Teto")
   }
 
   //Check Visib
+  let alertaVisAirmet = false
+  let alertaVisSigmet = false
   if (visMetar > 0 && visMetar < 5000) {
     let visCobertaA = true
     let visCobertaS = true
-    if (isLower(visMetar, getNum(statusAirmet.vis), "V"))
+    
+    let checkVisAirmet = isLower(visMetar, getNum(statusAirmet.vis), "V")
+    if (checkVisAirmet.restricao){
       visCobertaA = false
-    if (isLower(visMetar, statusSigmet.vis, "V"))
+      alertaVisAirmet = checkVisAirmet.alerta
+    }
+    
+    let checkVisSigmet = isLower(visMetar, statusSigmet.vis, "V")
+    if (checkVisSigmet.restricao){
       visCobertaS = false
+      alertaVisSigmet = checkVisSigmet.aterta
+    }
     if (!visCobertaA && !visCobertaS) //return apenas se descoberto
       arrayRest.push("Visibilidade")
   }
@@ -739,7 +760,7 @@ function verificaStatusMetar(statusMetar, statusAdWRNG, statusAirmet, statusSigm
       arrayRest.push("Vento");
   }
 
-  return { coberto: (arrayRest.length == 0), tipo: arrayRest }
+  return { coberto: (arrayRest.length == 0), tipo: arrayRest, alerta: {alertaTetoAirmet || alertaTetoSigmet || alertaVisAirmet || alertaVisSigmet}}
 }
 
 function strToCell(arr, idxFIR, novo, naoAdiciona) {//nãoadiciona significa substituir(apagar o anterior)
