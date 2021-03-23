@@ -449,7 +449,7 @@ function updateDescobertos(loc) {
 
 function plotaMarca(lat, lng, loc) {
     function removeInfo(desc) {
-        if (desc.includes("</b><b>")
+        if (desc.includes("</b><b>"))
             return desc.split("</b><b>")[0]
         else
             return desc
