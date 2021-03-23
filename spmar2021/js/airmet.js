@@ -448,6 +448,13 @@ function updateDescobertos(loc) {
 }
 
 function plotaMarca(lat, lng, loc) {
+    function removeInfo(desc) {
+        if (desc.includes("</b><b>")
+            return desc.split("</b><b>")[0]
+        else
+            return desc
+    }
+    
     if (!isNaN(lat) && !isNaN(lng)) {
 
         desc = getMetar(loc)
@@ -542,7 +549,7 @@ function plotaMarca(lat, lng, loc) {
             selectedMarker = d.replace("METARCOR", "").replace("SPECICOR", "").replace("METAR", "").replace("SPECI", "").substr(0, 4)
             openContextMenuMarker(event, event.target);
         }, this);
-
+        desc = removeInfo(desc)
         m.bindTooltip(desc, { closeButton: false, offset: L.point(0, -20) })
         //console.log(m)
     } else
