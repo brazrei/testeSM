@@ -857,7 +857,7 @@ function strToCell(arr, idxFIR, novo, naoAdiciona) {//nãoadiciona significa sub
         descAlerta += sep + i
         sep = ', '
       })
-      let titleDegrada = "Parâmetros (segundo o item 8.2.9, da ICA 105-17):&#10;&#10;Parâmetros de visibilidade = 150M, 350M, 600M, 800M, 1500M, 3000M, 5000M &#10;Parâmetros de teto = 100FT, 200FT, 500FT, 1000FT, 1500FT"
+      let titleDegrada = "Parâmetros (segundo o item 8.2.9, da ICA 105-17/2020):&#10;&#10;Parâmetros de visibilidade = 150M, 350M, 600M, 800M, 1500M, 3000M, 5000M &#10;Parâmetros de teto = 100FT, 200FT, 500FT, 1000FT, 1500FT"
       descAlerta = '<b>' + spanRed(descAlerta, descAlerta,titleDegrada) + '<b>'      
       descAlerta = descAlerta + '<img src="pngs/info-26.png" title="' + titleDegrada + '" style="cursor: pointer;">'
     }
