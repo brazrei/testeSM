@@ -416,7 +416,7 @@ function trataMetarRedemet(response, idxFIR) {
         // return metar.includes(" TS ") || metar.includes("TSRA ") || metar.includes("TSGR ");
         var strStatusMetar = visStr + tetoStr + ventoStr + ventoRajStr + cortanteStr + trovoadaStr;
         //updateArrayStatus (strStatusMetar);
-        strToCell([metar, strStatusMetar, { vento: vento, teto: arrayTeto[2], visibilidade: parseInt(visibilidade), maisRecente: isMostRecent(arrayMetares, localidade, i) }], idxFIR, novo, xEscondeSpeciAuto);
+        strToCell([metar, strStatusMetar, { vento: vento, teto: arrayTeto[2], tetoBaixo:tetoBaixo, visibilidade: parseInt(visibilidade), maisRecente: isMostRecent(arrayMetares, localidade, i) }], idxFIR, novo, xEscondeSpeciAuto);
 
         cont = cont + 1;
       }
@@ -711,7 +711,7 @@ function verificaStatusMetar(statusMetar, statusAdWRNG, statusAirmet, statusSigm
  //Check Teto
   let alertaTetoAirmet = false
   let alertaTetoSigmet = false
-  if (tetoMetar > 0) {
+  if (statusMetar.tetoBaixo) {
     let tetoCobertoA = true
     let tetoCobertoS = true
     let checkTetoAirmet = isLower(tetoMetar, statusAirmet.tetoNum, "T")
