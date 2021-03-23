@@ -697,7 +697,7 @@ function verificaStatusMetar(statusMetar, statusAdWRNG, statusAirmet, statusSigm
       else
         return {restricao: false, alerta: true}
     }
-    else if (dado2 <= 0)
+    else if (dado2 < 0)
       return {restricao: true, alerta: false}
 
     return {restricao: false, alerta: false}
