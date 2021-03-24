@@ -686,7 +686,7 @@ function verificaStatusMetar(statusMetar, statusAdWRNG, statusAirmet, statusSigm
     if (isNaN(dado2))
       dado2 = -1
 
-    if (dado1 <= 0)
+    if (dado1 < 0)
       return {restricao: false, alerta: false}
 
     if (dado2 > 0 && dado1 < dado2) {
