@@ -449,8 +449,10 @@ function updateDescobertos(loc) {
 
 function plotaMarca(lat, lng, loc) {
     function removeInfo(desc) {
-        if (desc.includes("</b><b>"))
-            return desc.split("</b><b>")[0]
+        if (desc.includes("</b><b>")){ 
+            desc = desc.split("<b><img src=")[0]
+            return desc.replace(/&#10/g,"<br>")
+        }
         else
             return desc
     }
