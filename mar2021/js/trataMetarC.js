@@ -822,6 +822,10 @@ function strToCell(arr, idxFIR, novo, naoAdiciona) {//nãoadiciona significa sub
   let txtTitleAdWRNG = ""
   let descRestricao = ""
   let descAlerta = ""
+  let infoAlerta = ""
+  let titleDegrada = "São utilizados nos AIRMETS, por analogia, os parâmetros para confecção de emendas TAF (segundo o item 8.2.9, da ICA 105-17/2020):&#10;&#10;&#10;Parâmetros de visibilidade = 150M, 350M, 600M, 800M, 1500M, 3000M, 5000M &#10;&#10;Parâmetros de teto = 100FT, 200FT, 500FT, 1000FT, 1500FT"
+  let infoAlerta = ''
+  let xInfoAlerta = '<img src="pngs/info-26.png" title="' + titleDegrada + '" style="cursor: pointer;">'
 
   if ((statusAdWRNG.min > 0) && (!statusAdWRNG.cancelado)) {
     txtAdWRNG = statusAdWRNG.min + "KT MAX " + statusAdWRNG.max
@@ -857,11 +861,12 @@ function strToCell(arr, idxFIR, novo, naoAdiciona) {//nãoadiciona significa sub
         descAlerta += sep + i
         sep = ', '
       })
-      let titleDegrada = "São utilizados nos AIRMETS, por analogia, os parâmetros para confecção de emendas TAF (segundo o item 8.2.9, da ICA 105-17/2020):&#10;&#10;&#10;Parâmetros de visibilidade = 150M, 350M, 600M, 800M, 1500M, 3000M, 5000M &#10;&#10;Parâmetros de teto = 100FT, 200FT, 500FT, 1000FT, 1500FT"
-      descAlerta = '<b>' + spanRed(descAlerta, descAlerta,titleDegrada) + '<b>'      
-      descAlerta = descAlerta + '<img src="pngs/info-26.png" title="' + titleDegrada + '" style="cursor: pointer;">'
+      
+      descAlerta = '<b>' + spanRed(descAlerta, descAlerta, titleDegrada) + '<b>'      
+      
     }
-    
+    if (length(descAlerta + descRestricao) > 0)
+      infoAlerta = xInfoAlerta
     
   }
   classe = classe + '"'
@@ -869,7 +874,7 @@ function strToCell(arr, idxFIR, novo, naoAdiciona) {//nãoadiciona significa sub
   if (naoAdiciona)
     $('#' + arrayTableFir[idxFIR] + ' tr:last').remove();
 
-  let line = '<tr title="' + tit.toUpperCase() + latLong + '&#10;&#10;CMA-1: ' + cma + '&#10;&#10;' + regAirmet.texto + txtTitleAdWRNG + '" ' + classe + id + '><td><b>' + arr[0] + '</b>' + descRestricao + descAlerta + '</td><td>' + txtAdWRNG + '</td><td>' + statusSigmet + '</td><td>' + regAirmet.status + '</td><td>' + cma + '</td></tr>'
+  let line = '<tr title="' + tit.toUpperCase() + latLong + '&#10;&#10;CMA-1: ' + cma + '&#10;&#10;' + regAirmet.texto + txtTitleAdWRNG + '" ' + classe + id + '><td><b>' + arr[0] + '</b>' + descRestricao + descAlerta + infoAlerta + '</td><td>' + txtAdWRNG + '</td><td>' + statusSigmet + '</td><td>' + regAirmet.status + '</td><td>' + cma + '</td></tr>'
   var row = $('#' + arrayTableFir[idxFIR] + ' tbody').append(line);
   $('.tr' + loc).click(function () {
     var loc = $(this).closest('tr').prop('class').split(" ")[1];
