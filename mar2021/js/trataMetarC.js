@@ -864,7 +864,7 @@ function strToCell(arr, idxFIR, novo, naoAdiciona) {//nãoadiciona significa sub
       descAlerta = '<b>' + spanRed(descAlerta, descAlerta, titleDegrada) + '<b>'      
       
     }
-    if (length(descAlerta + descRestricao) > 0)
+    if ((descAlerta + descRestricao).length > 0)
       infoAlerta = xInfoAlerta
     
   }
