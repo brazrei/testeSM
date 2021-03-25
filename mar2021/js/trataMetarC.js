@@ -754,7 +754,7 @@ function verificaStatusMetar(statusMetar, statusAdWRNG, statusAirmet, statusSigm
     if (!visCobertaA && !visCobertaS) //return apenas se descoberto
       arrayRest.push("Visibilidade")
     
-    if (checkVisSigmet.alerta || checkVisAirmet.alerta)
+    if (checkVisSigmet.alerta && checkVisAirmet.alerta)
       arrayAlerta.push("Visibilidade")
   }
 
