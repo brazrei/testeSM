@@ -726,7 +726,7 @@ function verificaStatusMetar(statusMetar, statusAdWRNG, statusAirmet, statusSigm
       alertaTetoSigmet = checkTetoSigmet.alerta
     }
     
-    if (checkTetoSigmet.alerta  || checkTetoAirmet.alerta)
+    if (checkTetoSigmet.alerta && checkTetoAirmet.alerta)
         arrayAlerta.push("Teto")
 
     if (!tetoCobertoA && !tetoCobertoS) //return apenas se descoberto
