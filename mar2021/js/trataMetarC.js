@@ -833,7 +833,7 @@ function strToCell(arr, idxFIR, novo, naoAdiciona) {//nãoadiciona significa sub
   } else
     statusAdWRNG = ""
 //  if (regSigmet.loc) {
-  if (true) {
+  if (loc && (loc.length==4)) {
     let vis = regSigmet.vis + "M"
     let teto = regSigmet.teto + "FT"
 
