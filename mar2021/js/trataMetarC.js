@@ -591,7 +591,7 @@ function getStatusSigmet(loc) {
       return ({ loc: loc, teto: arrayStatusGamet[i].teto, vis: arrayStatusGamet[i].vis })
     }
   }
-  return ({ loc: false })
+  return ({ loc: false , teto: 1500, vis: 9999 })
 }
 
 function getStatusAirmet(loc) {
@@ -832,7 +832,8 @@ function strToCell(arr, idxFIR, novo, naoAdiciona) {//nãoadiciona significa sub
     txtTitleAdWRNG = '&#10;' + 'AVISO DE AERÓDROMO' + '&#10;&#10;' + statusAdWRNG.textoFull
   } else
     statusAdWRNG = ""
-  if (regSigmet.loc) {
+//  if (regSigmet.loc) {
+  if (true) {
     let vis = regSigmet.vis + "M"
     let teto = regSigmet.teto + "FT"
 
