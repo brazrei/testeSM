@@ -749,22 +749,29 @@
  <m> <lt>-26.8755555556</lt><ln>-052.3730555556</ln><t>SSXX - XANXERê</t><l>XANXERÊ, SC</l></m>
  <m> <lt>-10.6336111111</lt><ln>-068.5505555556</ln><t>SWXU - XAPURI</t><l>XAPURI, AC</l></m>
  <m> <lt>-10.8369444444</lt><ln>-042.6825000000</ln><t>SNXQ - XIQUE-XIQUE</t><l>XIQUE-XIQUE, BA</l></m>
- <m> <lt>-22</lt><ln>-41</ln><t>SBFS - Farol de São Tomé</t><l>Campos dos Goytacazes, RJ</l></m>
- <m> <lt>-22</lt><ln>-39</ln><t>SBLB - PLATAFORMA P-25</t><l>Macaé, RJ</l></m>
- <m> <lt>-22</lt><ln>-40</ln><t>SBMM - PLATAFORMA P-20</t><l>Macaé, RJ</l></m>
- <m> <lt>-22</lt><ln>-40</ln><t>SBEN - Plataforma Fixa Central de Enchova PCE-1</t><l>Macaé, RJ</l></m>
- <m> <lt>-28</lt><ln>-49</ln><t>SBJA - Regional Sul</t><l>Jaguaruna, SC</l></m>
- <m> <lt>-22</lt><ln>-42</ln><t>SBMI - MARICÁ</t><l>MARICÁ, RJ</l></m>
- <m> <lt>-14</lt><ln>-40</ln><t>SBVC - Glauber de Andrade Rocha</t><l>Vitória da Conquista, BA</l></m>
- <m> <lt>-02</lt><ln>-40</ln><t>SBJE - Comandante Ariston Pessoa</t><l>CRUZ, CE</l></m>
- <m> <lt>-05</lt><ln>-35</ln><t>SBSG - Governador Aluizio Alves</t><l>São Gonçalo do Amarante, RN </l></m>
- <m> <lt>-09</lt><ln>-38</ln><t>SBUF - Paulo Afonso</t><l>Paulo Afonso, BA</l></m>
- <m> <lt>-18</lt><ln>-49</ln><t>SBIT - Hidrelétrica de Itumbiara</t><l>Itumbiara, GO</l></m>
- <m> <lt>-26</lt><ln>-52</ln><t>SBPO - JUVENAL LOUREIRO CARDOSO</t><l>PATO BRANCO, PR</l></m>
- <m> <lt>-12</lt><ln>-38</ln><t>SDIY - João Durval Carneiro</t><l>FEIRA DE SANTANA, BA</l></m>
- <m> <lt>-25</lt><ln>-51</ln><t>SSGG - Tancredo Thomas de Faria</t><l>GUARAPUAVA, PR</l></m>
- <m> <lt>-16.53</lt><ln>-39.1</ln><t>SBTV - Aeroporto Terravista</t><l>Porto Seguro, BA</l></m>
- <m> <lt>-25.18444444</lt><ln>-50.14388889</ln><t>SBPG - Comandante Antônio Amilton Beraldo</t><l>PONTA GROSSA, PR</l></m>
+ <m> <lt>-22.0288888922</lt><ln>-041.0697222200</ln><t>SBFS - Farol de São Tomé</t><l>Campos dos Goytacazes, RJ</l></m>
+ <m> <lt>-22.1094444400</lt><ln>-039.9169444400</ln><t>SBLB - PLATAFORMA P-25</t><l>Macaé, RJ</l></m>
+ <m> <lt>-22.3572222200</lt><ln>-040.0902777800</ln><t>SBMM - PLATAFORMA P-20</t><l>Macaé, RJ</l></m>
+ <m> <lt>-22.7080555600</lt><ln>-040.6930555600</ln><t>SBEN - Plataforma Fixa Central de Enchova PCE-1</t><l>Macaé, RJ</l></m>
+ <m> <lt>-28.6752777800</lt><ln>-049.0602777800</ln><t>SBJA - Regional Sul</t><l>Jaguaruna, SC</l></m>
+ <m> <lt>-22.9180555600</lt><ln>-042.8288888900</ln><t>SBMI - MARICÁ</t><l>MARICÁ, RJ</l></m>
+ <m> <lt>-14.9077777800</lt><ln>-040.9147222200</ln><t>SBVC - Glauber de Andrade Rocha</t><l>Vitória da Conquista, BA</l></m>
+ <m> <lt>-02.9066666700</lt><ln>-040.3580555600</ln><t>SBJE - Comandante Ariston Pessoa</t><l>CRUZ, CE</l></m>
+ <m> <lt>-05.7688888900</lt><ln>-035.3663888900</ln><t>SBSG - Governador Aluizio Alves</t><l>São Gonçalo do Amarante, RN </l></m>
+ <m> <lt>-09.4011111100</lt><ln>-038.2511111100</ln><t>SBUF - Paulo Afonso</t><l>Paulo Afonso, BA</l></m>
+ <m> <lt>-18.4450000000</lt><ln>-049.2141666700</ln><t>SBIT - Hidrelétrica de Itumbiara</t><l>Itumbiara, GO</l></m>
+ <m> <lt>-26.2172222200</lt><ln>-052.6944444400</ln><t>SBPO - JUVENAL LOUREIRO CARDOSO</t><l>PATO BRANCO, PR</l></m>
+ <m> <lt>-12.2005555600</lt><ln>-038.9005555600</ln><t>SDIY - João Durval Carneiro</t><l>FEIRA DE SANTANA, BA</l></m>
+ <m> <lt>-25.3883333300</lt><ln>-051.5236111100</ln><t>SSGG - Tancredo Thomas de Faria</t><l>GUARAPUAVA, PR</l></m>
+ <m> <lt>-16.5413888900</lt><ln>-039.1080555600</ln><t>SBTV - Aeroporto Terravista</t><l>Porto Seguro, BA</l></m>
+ <m> <lt>-16.6255555600</lt><ln>-049.3494444400</ln><t>SBNV - Aeródromo Nacional de Aviação</t><l>Goiânia, GO</l></m>
+ <m> <lt>-25.1844444400</lt><ln>-050.1438888900</ln><t>SBPG - Comandante Antônio Amilton Beraldo</t><l>PONTA GROSSA, PR</l></m>
+ <m> <lt>-16.5880555600</lt><ln>-054.7216666700</ln><t>SBRD - Maestro Marinho Franco</t><l>RONDONÓPOLIS, MT</l></m>
+ <m> <lt>-21.7644444400</lt><ln>-048.4047222200</ln><t>SBGP - EMBRAER - Unidade Gavião Peixoto</t><l>GAVIÃO PEIXOTO, SP</l></m>
+ <m> <lt>-20.7513888900</lt><ln>-051.6802777800</ln><t>SBTG - Três Lagoas</t><l>TRÊS LAGOAS, MS</l></m>
+ <m> <lt>-12.4727777800</lt><ln>-055.6688888900</ln><t>SBSO - REGIONAL DE SORRISO ADOLINO BEDIN</t><l>SORRISO, MT</l></m>
+ <m> <lt>-22.8591666700</lt><ln>-047.1080555600</ln><t>SDAM - Estadual de Campos dos Amarais - Prefeito Francisco Amaral</t><l>CAMPINAS, SP</l></m>
  
+
 
 </markers>
