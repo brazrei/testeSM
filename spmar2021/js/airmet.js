@@ -129,11 +129,14 @@ function isCloseToValidOff(ini, fim) {
 
     let restante = getUTCDate(new Date(fim - agora))
 
-    let increment = 0
-    if (isLinux())
-        increment = 1
-    if (restante.getHours() == increment) { // não sei porque, mas está começando da hora 01 no Linux
-        if (restante.getMinutes() <= 10)
+    if (isLinux()){
+        if ((restante.getYear() == 69) && (restante.getMonth() == 11) && (restante.getDate() == 31) && (restante.getHours() == 21) )
+          return (restante.getMinutes() <= minutesOff)
+
+    }
+
+    if (restante.getHours() == 0) { // não sei porque, mas está começando da hora 01 no Linux
+        if (restante.getMinutes() <= minutesOff)
             return true
     }
     return false
