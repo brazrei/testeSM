@@ -30,7 +30,7 @@ function getAdWRNGCNL(aviso) {
 
 function getIniAdWRNG(hora) {
     //201200/201800
-    return hora.substr(2, 2); makeDataHoraAgora
+    return hora.substr(2, 2); 
 }
 
 function getFimAdWRNG(hora) {
