@@ -117,10 +117,12 @@ function plota_stsc(obj_chk) {
                 let diffHora = dif.getHours()
                 let diffMin = dif.getMinutes()
 
-                if (isLinux())
-                    diffHora -= 1; //decrementa 1 hora, bug do linux
+                if (isLinux()){ 
+                    diffHora -= 21; //decrementa 1 hora, bug do linux
+                }
 
-                let erro = ((diffDia + diffHora + diffMin) > 20) //20 minutos
+                diffMin += (diffHora*60)
+                let erro = (diffMin > 20) //20 minutos
 
                 formataErro('#clockSTSC', erro)
                 formataErro('#labelSTSC', erro)
