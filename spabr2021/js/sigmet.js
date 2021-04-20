@@ -197,7 +197,7 @@ function plotaSigmets(arr, primeiraVez) {
             var poly = invertLatLong(a.coordDeg)
             //console.log("poly ==>", poly)
             color = getColorSigmet(a.tipo)
-            let raio = 200
+            let raio = 200*1000
             let opt = {
                 className: "",
                 color: color,
@@ -209,7 +209,7 @@ function plotaSigmets(arr, primeiraVez) {
 
             let p;
             if (a.tipo ==  "TC")
-              p = L.circle(poly, opt).addTo(map);
+              p = L.circle(L.latLng(poly[0], poly[1]), opt).addTo(map);
             else
               p = L.polygon(poly, opt).addTo(map);
             p.bringToBack();
