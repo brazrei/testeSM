@@ -39,8 +39,11 @@ function checaValidadeSigmet(sigmet) {
 */
 function getTxtSigmet(texto) {
     txt = removeEspacosDuplos(texto);
+    txts = removeEspacos(texto);
 
-    if (texto.indexOf("OBS") > -1) {
+    if (txts.indexOf("FIRTC") > -1) {
+        strEnd = "TOP FL"
+    } else if (texto.indexOf("OBS") > -1) {
         strEnd = "OBS";
     } else if (texto.indexOf("FCST") > -1) {
         strEnd = "FCST";
