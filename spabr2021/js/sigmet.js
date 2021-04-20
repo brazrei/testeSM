@@ -187,7 +187,7 @@ function getColorSigmet(tipo) {
     } else if (tipo == "T") {
         return "yellow"
     } else if (tipo == "TC") {
-        return "#FF4500"
+        return "#FFA600"
     }
 }
 
