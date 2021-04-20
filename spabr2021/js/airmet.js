@@ -115,7 +115,7 @@ function isValidAirmet(ini, fim) {
     return false
 }
 function isLinux() {
-    return navigator.appVersion.indexOf("Linux") > -1
+    return navigator.platform.indexOf("Linux") > -1
 }
 
 function isCloseToValidOff(ini, fim) {
