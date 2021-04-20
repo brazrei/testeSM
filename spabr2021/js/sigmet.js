@@ -183,6 +183,8 @@ function getColorSigmet(tipo) {
         //return "#00FFFF"
     } else if (tipo == "T") {
         return "yellow"
+    } else if (tipo == "TC") {
+        return "#FF4500"
     }
 }
 
@@ -195,14 +197,21 @@ function plotaSigmets(arr, primeiraVez) {
             var poly = invertLatLong(a.coordDeg)
             //console.log("poly ==>", poly)
             color = getColorSigmet(a.tipo)
+            let raio = 200
             let opt = {
                 className: "",
                 color: color,
-                fillColor: color
+                fillColor: color,
+                radius: raio
             }
             if (isCloseToValidOff(a.codigo))
                 opt.className = "pulse";
-            var p = L.polygon(poly, opt).addTo(map);
+
+            let p;
+            if (a.tipo ==  "TC")
+              p = L.circle(poly, opt).addTo(map);
+            else
+              p = L.polygon(poly, opt).addTo(map);
             p.bringToBack();
 
             p.bindTooltip(getSigmetDescription(a), { closeButton: false, sticky: true });
@@ -359,6 +368,8 @@ function getTipoSigmet(sigmet) {
         return "I"
     else if (sigmet.includes(" TURB "))
         return "T"
+    else if (sigmet.includes(" TC "))
+        return "TC"
     else
         return ""
 
