@@ -365,7 +365,7 @@ function getCoordDegSigmet(coord) {
 }
 
 function getRaioTC(sigmet) {
-    let aux = " KM OF TC "
+    let aux = "KM OF TC"
     if (sigmet.includes(aux))
         return getNum((sigmet.split(aux)[0]).split("WI")[1])
     else
