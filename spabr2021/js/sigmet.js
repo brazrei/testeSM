@@ -197,7 +197,7 @@ function plotaSigmets(arr, primeiraVez) {
             var poly = invertLatLong(a.coordDeg)
             //console.log("poly ==>", poly)
             color = getColorSigmet(a.tipo)
-            let raio = 200*1000
+            let raio = a.raio*1000
             let opt = {
                 className: "",
                 color: color,
@@ -361,6 +361,13 @@ function getCoordDegSigmet(coord) {
     return getCoordDegAirmet(coord)
 }
 
+function getRaioTC(sigmet) {
+    let aux = " KM OF TC "
+    if (sigmet.includes(aux))
+        return getNum((sigmet.split(aux)[0]).split("WI")[1])
+    else
+        return 0
+}
 function getTipoSigmet(sigmet) {
     if (sigmet.includes(" TS "))
         return "N"
@@ -412,6 +419,7 @@ function trataSigmetRedemet(texto) {
             var coord = ""
             var cnl = getSigmetCNL(sigmet[i])
             var coordDeg = []
+            let raio = 0
             if (cnl.length > 0) {
                 tipo = "C" // c de cancelamento // deve marcar o cancelado apenas apos varrer o array
                 textoSigmet = cnl
@@ -419,6 +427,9 @@ function trataSigmetRedemet(texto) {
 
                 try {
                     tipo = getTipoSigmet(sigmet[i])
+                    if (tipo == "TC")
+                        raio = getRaioTC(sigmet[i])
+                        
                     coord = getCoordSigmet(sigmet[i])
 
                     coordDeg = getCoordDegSigmet(coord)
@@ -430,7 +441,7 @@ function trataSigmetRedemet(texto) {
             }
 
             if (!arrIdxSigmetGeral.includes(idxSigmet)){ 
-              arrSigmetGeral.push({ codigo: idxSigmet, FIR: idx, tipo: tipo, base: base, visibilidade: vis, texto: textoSigmet, cancelado: false, coord: coord, coordDeg: coordDeg, locs: "" })
+              arrSigmetGeral.push({ codigo: idxSigmet, FIR: idx, tipo: tipo, raio: raio, base: base, visibilidade: vis, texto: textoSigmet, cancelado: false, coord: coord, coordDeg: coordDeg, locs: "" })
               arrIdxSigmetGeral.push(idxSigmet)
             }
          }
