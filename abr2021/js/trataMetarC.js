@@ -727,7 +727,7 @@ function verificaStatusMetar(statusMetar, statusAdWRNG, statusAirmet, statusSigm
     }
     
     if (checkTetoSigmet.alerta || checkTetoAirmet.alerta)
-      if (checkTetoSigmetSemFiltro.alerta && checkTetoAirmetSemFiltro.alerta) //apenas se o teto estiver menor do que nas duas previsoes
+      if (checkTetoSigmetSemFiltro.restricao && checkTetoAirmetSemFiltro.restricao) //apenas se o teto estiver menor do que nas duas previsoes
          arrayAlerta.push("Teto")
 
     if (!tetoCobertoA && !tetoCobertoS) //return apenas se descoberto
@@ -754,7 +754,7 @@ function verificaStatusMetar(statusMetar, statusAdWRNG, statusAirmet, statusSigm
       arrayRest.push("Visibilidade")
     
     if (checkVisSigmet.alerta || checkVisAirmet.alerta)
-      if (checkVisSigmetSemFiltro.alerta && checkVisAirmetSemFiltro.alerta) //apenas se a vis estiver menor do que nas duas previsoes
+      if (checkVisSigmetSemFiltro.restricao && checkVisAirmetSemFiltro.restricao) //apenas se a vis estiver menor do que nas duas previsoes
         arrayAlerta.push("Visibilidade")
   }
 
