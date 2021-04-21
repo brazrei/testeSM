@@ -659,7 +659,7 @@ function verificaStatusMetar(statusMetar, statusAdWRNG, statusAirmet, statusSigm
     return false
   }
 
-  function isLower(dado1, dado2, tipo) {
+  function isLower(dado1, dado2, tipo, semFiltro = false) {
 
     function ajustaParametroTaf(dado, tipo) {
       let arrayVis = [150, 350, 600, 800, 1500, 3000, 5000]//m
@@ -690,8 +690,10 @@ function verificaStatusMetar(statusMetar, statusAdWRNG, statusAirmet, statusSigm
       return {restricao: false, alerta: false}
 
     if (dado2 > 0 && dado1 < dado2) {
-      dado1 = ajustaParametroTaf(dado1, tipo)
-      dado2 = ajustaParametroTaf(dado2, tipo)
+      if (!semFiltro){
+        dado1 = ajustaParametroTaf(dado1, tipo)
+        dado2 = ajustaParametroTaf(dado2, tipo)
+      }
       if (dado1 < dado2)
         return {restricao: true, alerta: false}
       else
@@ -713,45 +715,47 @@ function verificaStatusMetar(statusMetar, statusAdWRNG, statusAirmet, statusSigm
     let tetoCobertoA = true
     let tetoCobertoS = true
     let checkTetoAirmet = isLower(tetoMetar, statusAirmet.tetoNum, "T")
+    let checkTetoAirmetSemFiltro = isLower(tetoMetar, statusAirmet.tetoNum, "T", true)
     if (checkTetoAirmet.restricao) {
       tetoCobertoA = false
     }
     
     let checkTetoSigmet = isLower(tetoMetar, statusSigmet.teto, "T")
+    let checkTetoSigmetSemFiltro = isLower(tetoMetar, statusSigmet.teto, "T", true)
     if (checkTetoSigmet.restricao){
       tetoCobertoS = false
     }
     
     if (checkTetoSigmet.alerta || checkTetoAirmet.alerta)
-        arrayAlerta.push("Teto")
+      if (checkTetoSigmetSemFiltro.alerta && checkTetoAirmetSemFiltro.alerta) //apenas se o teto estiver menor do que nas duas previsoes
+         arrayAlerta.push("Teto")
 
     if (!tetoCobertoA && !tetoCobertoS) //return apenas se descoberto
       arrayRest.push("Teto")
   }
 
   //Check Visib
-  let alertaVisAirmet = false
-  let alertaVisSigmet = false
   if (visMetar > 0 && visMetar < 5000) {
     let visCobertaA = true
     let visCobertaS = true
     
     let checkVisAirmet = isLower(visMetar, getNum(statusAirmet.vis), "V")
+    let checkVisAirmetSemFiltro = isLower(visMetar, getNum(statusAirmet.vis), "V", true)
     if (checkVisAirmet.restricao){
       visCobertaA = false
-      alertaVisAirmet = checkVisAirmet.alerta
     }
     
     let checkVisSigmet = isLower(visMetar, statusSigmet.vis, "V")
+    let checkVisSigmetSemFiltro = isLower(visMetar, statusSigmet.vis, "V", true)
     if (checkVisSigmet.restricao){
       visCobertaS = false
-      alertaVisSigmet = checkVisSigmet.aterta
     }
     if (!visCobertaA && !visCobertaS) //return apenas se descoberto
       arrayRest.push("Visibilidade")
     
     if (checkVisSigmet.alerta || checkVisAirmet.alerta)
-      arrayAlerta.push("Visibilidade")
+      if (checkVisSigmetSemFiltro.alerta && checkVisAirmetSemFiltro.alerta) //apenas se a vis estiver menor do que nas duas previsoes
+        arrayAlerta.push("Visibilidade")
   }
 
   //if (parseInt(statusMetar.vento[1]) > globalVentoMax) {
