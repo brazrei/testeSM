@@ -709,21 +709,17 @@ function verificaStatusMetar(statusMetar, statusAdWRNG, statusAirmet, statusSigm
   let arrayAlerta = []
 
  //Check Teto
-  let alertaTetoAirmet = false
-  let alertaTetoSigmet = false
   if (statusMetar.tetoBaixo) {
     let tetoCobertoA = true
     let tetoCobertoS = true
     let checkTetoAirmet = isLower(tetoMetar, statusAirmet.tetoNum, "T")
     if (checkTetoAirmet.restricao) {
       tetoCobertoA = false
-      alertaTetoAirmet = checkTetoAirmet.alerta
     }
     
     let checkTetoSigmet = isLower(tetoMetar, statusSigmet.teto, "T")
     if (checkTetoSigmet.restricao){
       tetoCobertoS = false
-      alertaTetoSigmet = checkTetoSigmet.alerta
     }
     
     if (checkTetoSigmet.alerta || checkTetoAirmet.alerta)
