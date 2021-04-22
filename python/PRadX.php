@@ -1,5 +1,5 @@
 <?php
-
+  echo "tentando converter script python para PHP"
   $command = "python3 calculaK.py";
   $pid = popen( $command,"r");
   while( !feof( $pid ) )
