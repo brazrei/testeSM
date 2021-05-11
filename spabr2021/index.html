@@ -37,8 +37,8 @@
 
   <script src="js/context-menu.js"></script>
   <script src="js/popup-menu-conf.js"></script>
-  
-  
+
+
 
   <script src="https://unpkg.com/@mapbox/leaflet-pip@latest/leaflet-pip.js"></script>
 
@@ -169,6 +169,10 @@
       cursor: pointer;
     }
 
+    .labelTMA{
+      color: white;
+      font-weight: bold;
+    }
     .gradientgrey {
       background-image: -ms-linear-gradient(top, #FFF 0%, #CFCFCF 100%);
       background-image: -moz-linear-gradient(top, #FFF 0%, #CFCFCF 100%);
@@ -429,10 +433,12 @@
         <input type="button" value="Inserir Plotagem Externa" style="display:none" id="btnInsertPlot" class="blue"
           onclick="plotagemDaArTransf()">
 
-        <h5 class="infoOffline" id="h5Offline" style="color: red; display: none;">SMARTPLOT OFFLINE! DADOS DESATUALIZADOS! <br>REINICIAR PELO LINK DO SMARTMETAR!</h5>
+        <h5 class="infoOffline" id="h5Offline" style="color: red; display: none;">SMARTPLOT OFFLINE! DADOS
+          DESATUALIZADOS! <br>REINICIAR PELO LINK DO SMARTMETAR!</h5>
         <br>
 
-        <h5 class="infoDescobertas" id="h5descobertas" style="color: red;" title= "Localidades que estão com Algum Parâmetro Descoberto"></h5>
+        <h5 class="infoDescobertas" id="h5descobertas" style="color: red;"
+          title="Localidades que estão com Algum Parâmetro Descoberto"></h5>
         <br><br>
 
         <h5 id="h5latlng" style="color: red"></h5>
@@ -441,15 +447,22 @@
         <br><br>
 
         <div>
-          <span class="errorPulse" id="labelAvisoSTSC" style="display: none; font-size: 20px;">ALERTA STSC:<br> ALERTA DE TEMPO SEVERO CONVECTIVO:!</span>
-          <section class="grid grid-template-columns-1">
-            <div class="itemGrid" id="labelTMABH">TMA-BH</div>
-            <div class="itemGrid" id="labelTMACT">TMA-CT</div>
-            <div class="itemGrid" id="labelTMARJ">TMA-RJ</div>
-            <div class="itemGrid" id="labelTMASP">TMA-SP</div>
+          <span id="labelAvisoSTSC" style="display: none; font-size: 20px;">ALERTA DE TEMPO SEVERO CONVECTIVO:</span>
+          <section class="grid grid-template-columns-1" style="display: none;">
+            <div class="itemGrid gridTMABH">
+              <span class="labelTMA labelTMABH">TMA-BH</span>
+            </div>
+            <div class="itemGrid gridTMACT" id="labelTMACT">
+              <span class="labelTMA labelTMACT">TMA-CT</span>
+            </div>
+            <div class="itemGrid gridTMARJ" id="labelTMARJ">
+              <span class="labelTMA labelTMARJ">TMA-RJ</span>
+            </div>
+            <div class="itemGrid gridTMASP" id="labelTMASP">
+              <span class="labelTMA labelTMASP">TMA-SP</span>
+            </div>
           </section>
         </div>
-        
 
 
       </div>
