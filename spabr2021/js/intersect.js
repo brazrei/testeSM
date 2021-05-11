@@ -215,22 +215,6 @@ function cutPlotSobr(poly) {
 
 }
 
-function detectSTSC() {
-    let coordEdit = $("#taCoordenadas").val()
-
-    let poly = turf.polygon([getCoordDegAirmet(coordEdit)]);
-
-    let cont = 0
-    //for (let i in arrCutted)
-    //    formataLayerEdit(arrCutted[i])
-    stscAneis.forEach(anel => {
-        if (turf.booleanPointInPolygon([anel[1], anel[0]], poly)) {
-            cont++
-        }
-    });
-    return cont
-}
-
 function cutPlotFIRs(poly) {
     let coordEdit
     if (!poly) {
