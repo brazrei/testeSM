@@ -5,7 +5,7 @@
 
 /* 100px é o valor total, ignora conteúdo, margem e etc. Respeita apenas o min-width do item.*/
 .grid-template-columns-1 {
-	grid-template-columns: 100px 100px 100px 100px 100px;
+	grid-template-columns: 25% 25% 25% 25%;
 }
 
 /* fr é uma unidade fracional */
@@ -48,7 +48,7 @@
 }
 
 .grid {
-	max-width: 500px;
+	max-width: 95%;
 	margin: 0 auto;
 	border: 1px solid #ccc;
 }
