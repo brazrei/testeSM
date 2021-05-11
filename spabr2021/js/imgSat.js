@@ -141,7 +141,7 @@ function saveImageToFile(url, filename) {
     //jsonString = JSON.stringify(data);
     $.ajax({
       url: 'php/saveImgSat.php',
-      data: { 'url': url, 'filename': filename },
+      data: { url: url, filename: filename },
       type: 'POST'
     });
   }
