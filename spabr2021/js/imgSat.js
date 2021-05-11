@@ -40,18 +40,18 @@ function carrega_img_sat(id, srcImage, TopLat, TopLon, ButtonLat, ButtonLon) {
                 $("#img_sat_carregar_info").html("");
                 // Setting the Overlay Image
                 
-                map.createPane('imagebg');
-                map.getPane('imagebg').style.zIndex = 50;
+                //map.createPane('imagebg');
+                //map.getPane('imagebg').style.zIndex = 50;
 
                 extent = [ButtonLon, ButtonLat, TopLon, TopLat];
                 var img_sat = L.imageOverlay(srcImage, [
                     [TopLat, TopLon],
                     [ButtonLat, ButtonLon]
-                ]);
-                img_sat.setOptions({pane:"imagebg"})
+                ] );
+                //img_sat.setOptions({pane:"imagebg"})
                 map.addLayer(img_sat);
 
-                img_sat.setOpacity(0.4);
+                img_sat.setOpacity(0.5);
                 img_sat.bringToBack();
             }, 500);
         }
