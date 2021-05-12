@@ -1,4 +1,3 @@
-layerImg_sat = []
 
 function getXMLHttpRequest() {
     if (window.XMLHttpRequest) {
@@ -16,11 +15,11 @@ function getXMLHttpRequest() {
 function carrega_img_sat(id, srcImage, TopLat, TopLon, ButtonLat, ButtonLon) {
     //srcImage = "sat/realcada_202011201330.png"
     //srcImage = "sat/S11635390_202011201520.jpg"
-    /*TopLat = 12.90
+    TopLat = 12.90
     TopLon = -25.24
     ButtonLat = -50.00
     ButtonLon = -100
-*/
+
     $("#img_sat_progresso").attr("aria-valuenow", 0);
     $("#img_sat_progresso").css("width", "0%");
     var temp = $("#img_sat_carregar_info").html();
@@ -45,15 +44,15 @@ function carrega_img_sat(id, srcImage, TopLat, TopLon, ButtonLat, ButtonLon) {
                 //map.getPane('imagebg').style.zIndex = 50;
 
                 extent = [ButtonLon, ButtonLat, TopLon, TopLat];
-                layerImg_sat = L.imageOverlay(srcImage, [
+                var img_sat = L.imageOverlay(srcImage, [
                     [TopLat, TopLon],
                     [ButtonLat, ButtonLon]
                 ] );
                 //img_sat.setOptions({pane:"imagebg"})
-                map.addLayer(layerImg_sat);
+                map.addLayer(img_sat);
 
-                layerImg_sat.setOpacity(0.5);
-                layerImg_sat.bringToBack();
+                img_sat.setOpacity(0.5);
+                img_sat.bringToBack();
             }, 500);
         }
     };
@@ -122,10 +121,7 @@ function plota_ImgSat(obj_chk) {
 
                 saveImageToFile(srcImage, filename)
 
-                carrega_img_sat(id,"imgsat/"+filename, TopLat, TopLon, ButtonLat, ButtonLon, 5000);
-
-                escondeLoading("ImgSat");
-
+                
             },
             error: function (e) {
                 console.log(e);
@@ -144,6 +140,10 @@ function saveImageToFile(url, filename) {
       url: 'php/saveImgSat.php',
       data: { url: url, filename: filename },
       type: 'POST'
+    }).done( function (){
+           carrega_img_sat(id,"php/imgsat/"+filename, TopLat, TopLon, ButtonLat, ButtonLon, 5000);
+
+           escondeLoading("ImgSat");        
     });
   }
   
