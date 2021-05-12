@@ -69,10 +69,10 @@ var intervalImgSat = false;
 
 function plota_ImgSat(obj_chk) {
     //obj_chk = false
-    if (LayerImg_sat)
-      map.addLayer(LayerImg_sat)
     if (!obj_chk || obj_chk.checked) {
         mostraLoading("ImgSat");
+        //if (LayerImg_sat)
+        //  map.addLayer(LayerImg_sat)
         $.ajax({
             url: 'https://api-redemet.decea.gov.br/api/produtos/satelite/realcada?api_key=U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei',
             contentType: 'application/json',
