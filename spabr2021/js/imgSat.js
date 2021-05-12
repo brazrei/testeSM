@@ -1,4 +1,9 @@
 var LayerImg_sat = false
+    TopLat = 12.90
+    TopLon = -25.24
+    ButtonLat = -50.00
+    ButtonLon = -100
+
 function getXMLHttpRequest() {
     if (window.XMLHttpRequest) {
         return new XMLHttpRequest();
