@@ -67,13 +67,18 @@ function carrega_img_sat(id, srcImage, TopLat, TopLon, ButtonLat, ButtonLon) {
 
 // Plotando ImgSat
 //var ImgSatCenterMap=[];
-function actvateImgSatInterval(){
-    if (!intervalImgSat)
+function updateImgSatInterval(){
+    if (intervalImgSat){
+        clearInterval(intervalImgSat);
+        intervalImgSat = false
+    }
+    else
         intervalImgSat = setInterval(plota_ImgSat($.('.chkImgSat')),300000)
 
 }
 function plota_ImgSat(obj_chk) {
     //obj_chk = false
+    updateImgSatInterval()
     if (!obj_chk || obj_chk.checked) {
         mostraLoading("ImgSat");
         //if (LayerImg_sat)
