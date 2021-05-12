@@ -51,7 +51,7 @@ var arrayteste = []
 //var stscCenterMap=[];
 
 function isSTSCOn(){
-    return $("#chkSTSC").is(':checked'))
+    return $("#chkSTSC").is(':checked')
 }
 
 function detectSTSC(coordEdit, lat, long) {
