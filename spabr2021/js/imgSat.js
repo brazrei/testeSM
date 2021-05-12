@@ -7,7 +7,7 @@ var ButtonLat = -50.00
 var ButtonLon = -100
 
 function isImgSatOn(){
-    return $("#chkImgSat").is(':checked'))
+    return $("#chkImgSat").is(':checked')
 }
 
 function getXMLHttpRequest() {
