@@ -35,7 +35,7 @@ function carrega_img_sat(id, srcImage, TopLat, TopLon, ButtonLat, ButtonLon) {
     }
     xhr.onreadystatechange = function () {
         if ((xhr.readyState == 4) && (xhr.status == 200)) {
-            setTimeout(function () {
+           
                 $("#img_sat_progresso").attr("aria-valuenow", "0");
                 $("#img_sat_progresso").css("width", "0%");
                 $("#img_sat_carregar_info").html("");
@@ -55,12 +55,12 @@ function carrega_img_sat(id, srcImage, TopLat, TopLon, ButtonLat, ButtonLon) {
 
                 LayerImg_sat.setOpacity(0.5);
                 LayerImg_sat.bringToBack();
-            }, 500);
+            
         }
     };
     xhr.open("GET", srcImage, true);
     xhr.overrideMimeType('text/plain; charset=x-user-defined');
-    setTimeout("xhr.send(null);",5000);
+    xhr.send(null);
 }
 
 // Plotando ImgSat
