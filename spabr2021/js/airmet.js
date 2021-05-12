@@ -567,8 +567,8 @@ function plotaMarca(lat, lng, loc) {
         desc = removeInfo(desc)
         m.bindTooltip(desc, { closeButton: false, offset: L.point(0, -20) })
         //console.log(m)
-    } else
-        console.log("Erro na plotagem de ", loc);
+    } //else
+        //console.log("Erro na plotagem de ", loc);
 }
 
 function bringRedMarkersToFront(layers) {
