@@ -129,7 +129,7 @@ function addHours(data, horas) {
     
 }
 
-function isCloseToValidOff(ini, fim) {
+function isCloseToValidOff(ini, fim, timer = 10) {
     if (!fim) {
         let valid = getValidadeAirmet(ini)
         ini = valid.split("/")[0]
@@ -145,7 +145,7 @@ function isCloseToValidOff(ini, fim) {
         //restante.addHours(3)
     }
     if (restante.getHours() == 0) { // não sei porque, mas estava começando da hora 01 no Linux
-        if (restante.getMinutes() <= 10)
+        if (restante.getMinutes() <= timer)
             return true
     }
     
