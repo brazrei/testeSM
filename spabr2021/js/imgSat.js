@@ -72,8 +72,7 @@ function updateImgSatInterval(){
         clearInterval(intervalImgSat);
         intervalImgSat = false
     }
-    else
-        intervalImgSat = setInterval('plota_ImgSat(false)' ,300000)
+    intervalImgSat = setInterval('plota_ImgSat(false)' ,300000)
 
 }
 function plota_ImgSat(obj_chk) {
