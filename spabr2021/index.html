@@ -370,7 +370,7 @@
           <input type="checkbox" id="chkSTSC" onchange="plota_stsc(this)" checked />
           <span class="slider round"></span>
         </label>
-        <span id="labelSTSC">Mostrar STSC</span>
+        <span id="labelSTSC">STSC</span>
         <span class="stsc"> (</span><span class="stsc" id="clockSTSC">--:--</span>
         <span class="stsc"> ) </span>
         <!-- <img src="gif/loading.gif" alt="Carregando STSC" class="loading"><br> -->
@@ -380,7 +380,7 @@
           <input type="checkbox" id="chkSigmet" onchange="mostraSigmet(this)" checked />
           <span class="slider round"></span>
         </label>
-        <span>Mostrar SIGMET's</span>
+        <span>SIGMET's</span>
         <span class="sigmet"> (</span><span class="sigmet" id="clockSigmet">--:--</span>
         <span class="sigmet"> ) </span>
         <img src="gif/loading.gif" alt="Carregando Sigmets" class="loading loadingSigmet">
@@ -391,20 +391,22 @@
           <input type="checkbox" id="chkAirmet" onchange="mostraAirmet(this)" checked />
           <span class="slider round"></span>
         </label>
-        <span>Mostrar AIRMET's</span>
+        <span>AIRMET's</span>
         <span class="airmet"> (</span><span class="airmet" id="clockAirmet">--:--</span>
         <span class="airmet"> ) </span>
         <img src="gif/loading.gif" alt="Carregando Airmets" class="loading loadingAirmet"><br>
         <br>
-
-
-
          
-      <label class="switch">
-        <input type="checkbox" id="chkImgSat" onchange="carrega_img_sat(this)" />
-        <span class="slider round"></span>
-      </label>
-      <span>Mostrar na Imagem de Satélite</span><br><br>
+        <label class="switch">
+          <input type="checkbox" id="chkImgSat" onchange="carrega_img_sat(this)" />
+          <span class="slider round"></span>
+        </label>
+        <span class="imgsat" id="clock">Imagem de Satélite </span>
+        <span class="imgsat"> (</span><span class="imgsat" id="clockImgSat">--:--</span>
+        <span class="imgsat"> ) </span>
+        <br><br>
+        <img src="gif/loading.gif" alt="Carregando Imagem de Satélite" class="loading loadingImgSat"><br>
+        <br>
 
         <label class="switch">
           <input type="checkbox" id="chkCopiaAuto" />
