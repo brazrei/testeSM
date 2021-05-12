@@ -1,8 +1,8 @@
 var LayerImg_sat = false
-    TopLat = 12.90
-    TopLon = -25.24
-    ButtonLat = -50.00
-    ButtonLon = -100
+var TopLat = 12.90
+var TopLon = -25.24
+var ButtonLat = -50.00
+var ButtonLon = -100
 
 function getXMLHttpRequest() {
     if (window.XMLHttpRequest) {
@@ -20,10 +20,6 @@ function getXMLHttpRequest() {
 function carrega_img_sat(id, srcImage, TopLat, TopLon, ButtonLat, ButtonLon) {
     //srcImage = "sat/realcada_202011201330.png"
     //srcImage = "sat/S11635390_202011201520.jpg"
-    TopLat = 12.90
-    TopLon = -25.24
-    ButtonLat = -50.00
-    ButtonLon = -100
 
     $("#img_sat_progresso").attr("aria-valuenow", 0);
     $("#img_sat_progresso").css("width", "0%");
@@ -54,6 +50,7 @@ function carrega_img_sat(id, srcImage, TopLat, TopLon, ButtonLat, ButtonLon) {
                     [ButtonLat, ButtonLon]
                 ] );
                 //img_sat.setOptions({pane:"imagebg"})
+                removeImgSat();
                 map.addLayer(LayerImg_sat);
 
                 LayerImg_sat.setOpacity(0.5);
@@ -72,6 +69,8 @@ var intervalImgSat = false;
 
 function plota_ImgSat(obj_chk) {
     //obj_chk = false
+    if (LayerImg_sat)
+      map.addLayer(LayerImg_sat)
     if (!obj_chk || obj_chk.checked) {
         mostraLoading("ImgSat");
         $.ajax({
@@ -83,7 +82,7 @@ function plota_ImgSat(obj_chk) {
             dataType: 'json',
             success: function (data) {
                 
-                removeImgSat();
+                //removeImgSat();
                 var i = 0;
                 var hoje = new Date();
                 var hoje_dia = hoje.getUTCDate();
@@ -110,7 +109,7 @@ function plota_ImgSat(obj_chk) {
                 if (isLinux())
                     diffHora -= 1; //decementa 1 hora, bug do linux
 
-                let erro = ((diffDia + diffHora + diffMin) > 20) //20 minutos
+                let erro = ((diffDia + diffHora + diffMin) > 60) //20 minutos
 
                 formataErro('#clockImgSat', erro)
                 formataErro('#labelImgSat', erro)
