@@ -1,3 +1,4 @@
+layerImg_sat = []
 
 function getXMLHttpRequest() {
     if (window.XMLHttpRequest) {
@@ -44,15 +45,15 @@ function carrega_img_sat(id, srcImage, TopLat, TopLon, ButtonLat, ButtonLon) {
                 //map.getPane('imagebg').style.zIndex = 50;
 
                 extent = [ButtonLon, ButtonLat, TopLon, TopLat];
-                var img_sat = L.imageOverlay(srcImage, [
+                layerImg_sat = L.imageOverlay(srcImage, [
                     [TopLat, TopLon],
                     [ButtonLat, ButtonLon]
                 ] );
                 //img_sat.setOptions({pane:"imagebg"})
-                map.addLayer(img_sat);
+                map.addLayer(layerImg_sat);
 
-                img_sat.setOpacity(0.5);
-                img_sat.bringToBack();
+                layerImg_sat.setOpacity(0.5);
+                layerImg_sat.bringToBack();
             }, 500);
         }
     };
@@ -132,9 +133,9 @@ function plota_ImgSat(obj_chk) {
                 formataErro('#labelImgSat', true)
             }
         });
-    }// else {
-     //   removeImgSat();
-    //}
+    } else {
+        removeImgSat();
+    }
 }
 
 function saveImageToFile(url, filename) {
