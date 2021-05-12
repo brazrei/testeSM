@@ -71,7 +71,12 @@ function carrega_img_sat(id, srcImage, TopLat, TopLon, ButtonLat, ButtonLon) {
                     [ButtonLat, ButtonLon]
                 ] );
                 //img_sat.setOptions({pane:"imagebg"})
-                map.addLayer(LayerImg_sat);
+                if (isImgSatOn()){
+                    map.addLayer(LayerImg_sat);
+                    if (isSTSCOn() && heat && (heat.length>0) && heat[0].layer)
+                        heat[0].layer.setOptions(optImgSat)
+                        
+                }
 
                 LayerImg_sat.setOpacity(0.5);
                 LayerImg_sat.bringToBack();
@@ -96,7 +101,8 @@ function updateImgSatInterval(){
 function plota_ImgSat(obj_chk) {
     //obj_chk = false
     updateImgSatInterval()
-    if (!obj_chk || obj_chk.checked) {
+    //if (!obj_chk || obj_chk.checked) {
+    if (true) {
         mostraLoading("ImgSat");
         //if (LayerImg_sat)
         //  map.addLayer(LayerImg_sat)
@@ -171,6 +177,9 @@ function saveImageToFile(url, filename) {
   
 
 function removeImgSat() {
-    if (map && LayerImg_sat)
+    if (map && LayerImg_sat){
         map.removeLayer(LayerImg_sat);
+    if (isSTSCOn() && heat && (heat.length>0) && heat[0].layer)
+        heat[0].layer.setOptions(optDefault)
+    }
 }
