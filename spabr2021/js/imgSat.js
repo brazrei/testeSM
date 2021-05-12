@@ -47,12 +47,12 @@ function carrega_img_sat(id, srcImage, TopLat, TopLon, ButtonLat, ButtonLon) {
                 //map.getPane('imagebg').style.zIndex = 50;
 
                 extent = [ButtonLon, ButtonLat, TopLon, TopLat];
+                removeImgSat();
                 LayerImg_sat = L.imageOverlay(srcImage, [
                     [TopLat, TopLon],
                     [ButtonLat, ButtonLon]
                 ] );
                 //img_sat.setOptions({pane:"imagebg"})
-                removeImgSat();
                 map.addLayer(LayerImg_sat);
 
                 LayerImg_sat.setOpacity(0.5);
