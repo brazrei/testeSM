@@ -242,8 +242,10 @@ function plota_stsc(obj_chk) {
                     updateAlertaSTSC(alertaSTSC, TMAs)
 
                     //let heatColor = ['#ffffb2', '#fd8d3c', '#fd8d3c', '#f03b20', '#bd0026']
-
-                    xheat.push(L.heatLayer(stscAneis, optDefault));
+                    if (isImgSatOn())
+                        xheat.push(L.heatLayer(stscAneis, optImgSat));
+                   else
+                        xheat.push(L.heatLayer(stscAneis, optDefault));
                 }
 
                 if (!heat) // dessabilita a animacao
