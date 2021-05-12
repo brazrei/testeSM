@@ -146,7 +146,7 @@ function saveImageToFile(url, filename) {
       data: { url: url, filename: filename },
       type: 'POST'
     }).done( function (){
-           carrega_img_sat(id,"php/imgsat/"+filename, TopLat, TopLon, ButtonLat, ButtonLon, 5000);
+           carrega_img_sat(0,"php/imgsat/"+filename, TopLat, TopLon, ButtonLat, ButtonLon, 5000);
 
            escondeLoading("ImgSat");        
     });
@@ -154,6 +154,6 @@ function saveImageToFile(url, filename) {
   
 
 function removeImgSat() {
-    if (map)
+    if (map && LayerImg_sat)
         map.removeLayer(LayerImg_sat);
 }
