@@ -19,6 +19,21 @@ function getXMLHttpRequest() {
     }
 }
 
+function isOlderThan(ini, fim, timer = 10) {
+    let restante = getUTCDate(new Date(fim - ini))
+
+    if (isLinux()) { 
+        addHours(restante,3)
+        //restante.addHours(3)
+    }
+    if (restante.getHours() == 0) { // não sei porque, mas estava começando da hora 01 no Linux
+        if (restante.getMinutes() <= timer)
+            return true
+    }
+    
+    return false
+}
+
 function carrega_img_sat(id, srcImage, TopLat, TopLon, ButtonLat, ButtonLon) {
     //srcImage = "sat/realcada_202011201330.png"
     //srcImage = "sat/S11635390_202011201520.jpg"
@@ -109,16 +124,7 @@ function plota_ImgSat(obj_chk) {
                 data_prod = hoje_mes + " " + hoje_dia + ' ' + hoje_ano + ' ' + data.data.anima[0]
                 data_prod = new Date(data_prod)
 
-
-                let dif = new Date(hoje - data_prod)
-                let diffDia = dif.getDate() - 1
-                let diffHora = dif.getHours()
-                let diffMin = dif.getMinutes()
-
-                if (isLinux())
-                    diffHora -= 1; //decementa 1 hora, bug do linux
-
-                let erro = ((diffDia + diffHora + diffMin) > 60) //20 minutos
+                let erro = isOlderThan(data_prod, hoje, 60)
 
                 formataErro('#clockImgSat', erro)
                 formataErro('#labelImgSat', erro)
