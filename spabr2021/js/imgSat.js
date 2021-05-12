@@ -24,14 +24,13 @@ function isOlderThan(ini, fim, timer = 10) {
 
     if (isLinux()) { 
         addHours(restante,3)
-        //restante.addHours(3)
-    }
-    if (restante.getHours() == 0) { // não sei porque, mas estava começando da hora 01 no Linux
-        if (restante.getMinutes() <= timer)
-            return true
     }
     
+    if (((restante.getHours() * 60) + restante.getMinutes()) >= timer)
+        return true
+    
     return false
+
 }
 
 function carrega_img_sat(id, srcImage, TopLat, TopLon, ButtonLat, ButtonLon) {
