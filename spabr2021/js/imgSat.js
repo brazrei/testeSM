@@ -71,7 +71,7 @@ var intervalImgSat = false;
 //var ImgSatCenterMap=[];
 
 function plota_ImgSat(obj_chk) {
-    obj_chk = false
+    //obj_chk = false
     if (!obj_chk || obj_chk.checked) {
         mostraLoading("ImgSat");
         $.ajax({
