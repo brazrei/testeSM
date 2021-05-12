@@ -50,6 +50,10 @@ var arrayteste = []
 
 //var stscCenterMap=[];
 
+function isSTSCOn(){
+    return $("#chkSTSC").is(':checked'))
+}
+
 function detectSTSC(coordEdit, lat, long) {
     // let coordEdit = $("#taCoordenadas").val()
 
