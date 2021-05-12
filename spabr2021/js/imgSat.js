@@ -97,7 +97,7 @@ function plota_ImgSat(obj_chk) {
                 }
 
                 let data_prod = hoje_dia + '/' + hoje_mes + '/' + hoje_ano + ' ' + data.data.anima[0]
-                $('#clockImgSat').text(data_prod.split(" ")[1]);
+                $('#clockImgSat').text(data_prod.split(" ")[1] + " UTC");
                 data_prod = hoje_mes + " " + hoje_dia + ' ' + hoje_ano + ' ' + data.data.anima[0]
                 data_prod = new Date(data_prod)
 
@@ -154,18 +154,6 @@ function saveImageToFile(url, filename) {
   
 
 function removeImgSat() {
-    //    if (intervalImgSat)
-    //      clearInterval(intervalImgSat)
-
-    //if (heat)
-    //    map.removeLayer(heat);
-    /*    for (var i in ImgSatAneis) {
-        if (ImgSatAneis.hasOwnProperty(i)) {
-            map.removeLayer(heat);
-        }
-    }*/
-
-    //ImgSatAneis = [];
-
-    //ImgSatCenterMap = [];
+    if (map)
+        map.removeLayer(LayerImg_sat);
 }
