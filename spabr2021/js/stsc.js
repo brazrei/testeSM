@@ -11,6 +11,31 @@ var centroAvisoSTSCTMASP = [["-23.50", "-046.63"], // SBMT
 ["-23.43", "-046.47"],//SBGR
 ["-23.00", "-047.13"] //SBKP
 ]
+optImgSat = {
+    opacity: 1,
+    blur: 2,
+    maxZoom: 8,
+    gradient: {  // HeatMap todo em vermelho
+        0.2: '	#FF0000',
+        0.4: '	#FF0000',
+        0.6: '	#FF0000',
+        0.8: '	#FF0000',
+        1: '	#FF0000'
+    },
+    minOpacity: 1,
+    radius: 2
+}
+optDefault = {
+    radius: 5,
+    blur: 1,
+    maxZoom: 8,
+    gradient: {
+        0.0: 'green',
+        0.5: 'yellow',
+        1.0: 'red'
+    }
+}
+
 
 var boolAlertaSTSCTMASP = boolAlertaSTSCTMABH = boolAlertaSTSCTMACT = boolAlertaSTSCTMARJ = false
 
@@ -25,13 +50,13 @@ var arrayteste = []
 
 //var stscCenterMap=[];
 
-function detectSTSC(coordEdit,lat,long) {
+function detectSTSC(coordEdit, lat, long) {
     // let coordEdit = $("#taCoordenadas").val()
 
     let poly = turf.polygon([getCoordDegAirmet(coordEdit)]);
 
     return (turf.booleanPointInPolygon([long, lat], poly))
-        //for (let i in arrCutted)
+    //for (let i in arrCutted)
     //    formataLayerEdit(arrCutted[i])
     /*stscAneis.forEach(anel => {
         if (turf.booleanPointInPolygon([anel[1], anel[0]], poly)) {
@@ -50,33 +75,33 @@ function inAreaAvisoSTSC(lat, long) {
             distancia = getDistancia([long, lat], [centroAvisoSTSCTMASP[i][1], centroAvisoSTSCTMASP[i][0]])
             boolAlertaSTSCTMASP = (distancia <= raioAvisoSTSC)
             if (boolAlertaSTSCTMASP)
-                return {ativo: true, TMA: "TMASP"}
+                return { ativo: true, TMA: "TMASP" }
         }
     }
 
     //OUTRAS TERMINAIS
 
     if (!boolAlertaSTSCTMABH) {
-        boolAlertaSTSCTMABH = detectSTSC(coordTMABH,lat,long)
+        boolAlertaSTSCTMABH = detectSTSC(coordTMABH, lat, long)
         if (boolAlertaSTSCTMABH)
-            return {ativo: true, TMA: "TMABH"}
+            return { ativo: true, TMA: "TMABH" }
     }
 
     if (!boolAlertaSTSCTMACT) {
-        boolAlertaSTSCTMACT = detectSTSC(coordTMACT,lat,long)
+        boolAlertaSTSCTMACT = detectSTSC(coordTMACT, lat, long)
         if (boolAlertaSTSCTMACT)
-            return {ativo: true, TMA: "TMACT"}
+            return { ativo: true, TMA: "TMACT" }
     }
 
     if (!boolAlertaSTSCTMARJ) {
-        boolAlertaSTSCTMARJ = detectSTSC(coordTMARJ,lat,long)
+        boolAlertaSTSCTMARJ = detectSTSC(coordTMARJ, lat, long)
         if (boolAlertaSTSCTMARJ)
-            return {ativo: true, TMA: "TMARJ"}
+            return { ativo: true, TMA: "TMARJ" }
     }
 
     //arrayteste.push(distancia)
 
-    return {ativo: false, TMA: ""}
+    return { ativo: false, TMA: "" }
 }
 
 function animaSTSC() {
@@ -108,19 +133,19 @@ function animaSTSC() {
     intervalAnimaSTSC = setTimeout('animaSTSC()', intervalo);
 }
 
-function clearGridTMAs(){
+function clearGridTMAs() {
     boolAlertaSTSCTMASP = boolAlertaSTSCTMABH = boolAlertaSTSCTMACT = boolAlertaSTSCTMARJ = false
-    allTMAs = ["TMABH","TMACT","TMARJ","TMASP"]
-    for (let i in allTMAs){
-        $(".grid"+allTMAs[i]).removeClass("pulse")
-        $(".grid"+allTMAs[i]).css("background-color", "green");
+    allTMAs = ["TMABH", "TMACT", "TMARJ", "TMASP"]
+    for (let i in allTMAs) {
+        $(".grid" + allTMAs[i]).removeClass("pulse")
+        $(".grid" + allTMAs[i]).css("background-color", "green");
     }
 }
 
-function updateGridSTSC(TMAs){
-    for (let i in TMAs){
-        $(".grid"+TMAs[i]).addClass("pulse")
-        $(".grid"+TMAs[i]).css("background-color", "red");
+function updateGridSTSC(TMAs) {
+    for (let i in TMAs) {
+        $(".grid" + TMAs[i]).addClass("pulse")
+        $(".grid" + TMAs[i]).css("background-color", "red");
     }
 }
 
@@ -130,7 +155,7 @@ function updateAlertaSTSC(on, TMAs) {
         $("#labelAvisoSTSC").css("color", "red");
         $(".grid").show()
         updateGridSTSC(TMAs)
-    } else{
+    } else {
         $("#labelAvisoSTSC").hide()
         $(".grid").hide()
     }
@@ -203,7 +228,7 @@ function plota_stsc(obj_chk) {
                         stscAneis.push([pontos[key].la, pontos[key].lo, 1]);
                         if (i == data.data.stsc.length - 1) {//só busca na mais recente
                             let checkArea = inAreaAvisoSTSC(pontos[key].la, pontos[key].lo)
-                            if (checkArea.TMA!=="" && !TMAs.includes(checkArea.TMA))
+                            if (checkArea.TMA !== "" && !TMAs.includes(checkArea.TMA))
                                 TMAs.push(checkArea.TMA)
                             alertaSTSC = alertaSTSC || checkArea.ativo
                         }
@@ -211,19 +236,12 @@ function plota_stsc(obj_chk) {
                     }
 
                     updateAlertaSTSC(alertaSTSC, TMAs)
-                    xheat.push(L.heatLayer(stscAneis, {
-                        radius: 5,
-                        blur: 1,
-                        maxZoom: 8,
-                        /*gradient: {  // HeatMap todo em vermelho
-                            0.2: '#ffffb2',
-                            0.4: '#fd8d3c',
-                            0.6: '#fd8d3c',
-                            0.8: '#f03b20',
-                            1: '#bd0026'
-                          }*/
-                    }));
+
+                    //let heatColor = ['#ffffb2', '#fd8d3c', '#fd8d3c', '#f03b20', '#bd0026']
+
+                    xheat.push(L.heatLayer(stscAneis, optDefault));
                 }
+
                 if (!heat) // dessabilita a animacao
                     heat = []
                 else {
