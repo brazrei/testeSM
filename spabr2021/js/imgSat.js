@@ -132,9 +132,9 @@ function plota_ImgSat(obj_chk) {
                 formataErro('#labelImgSat', true)
             }
         });
-    } else {
-        removeImgSat();
-    }
+    }// else {
+     //   removeImgSat();
+    //}
 }
 
 function saveImageToFile(url, filename) {
