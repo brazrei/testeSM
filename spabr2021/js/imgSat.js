@@ -1,4 +1,4 @@
-
+var LayerImg_sat = false
 function getXMLHttpRequest() {
     if (window.XMLHttpRequest) {
         return new XMLHttpRequest();
@@ -44,15 +44,15 @@ function carrega_img_sat(id, srcImage, TopLat, TopLon, ButtonLat, ButtonLon) {
                 //map.getPane('imagebg').style.zIndex = 50;
 
                 extent = [ButtonLon, ButtonLat, TopLon, TopLat];
-                var img_sat = L.imageOverlay(srcImage, [
+                LayerImg_sat = L.imageOverlay(srcImage, [
                     [TopLat, TopLon],
                     [ButtonLat, ButtonLon]
                 ] );
                 //img_sat.setOptions({pane:"imagebg"})
-                map.addLayer(img_sat);
+                map.addLayer(LayerImg_sat);
 
-                img_sat.setOpacity(0.5);
-                img_sat.bringToBack();
+                LayerImg_sat.setOpacity(0.5);
+                LayerImg_sat.bringToBack();
             }, 500);
         }
     };
