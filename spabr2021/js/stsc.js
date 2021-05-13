@@ -13,6 +13,7 @@ var centroAvisoSTSCTMASP = [["-23.50", "-046.63"], // SBMT
 ]
 optImgSat = {
     opacity: 1,
+    minOpacity: 1,
     blur: 2,
     maxZoom: 8,
     gradient: {  // HeatMap todo em vermelho
@@ -22,13 +23,14 @@ optImgSat = {
         0.8: '	#FF0000',
         1: '	#FF0000'
     },
-    minOpacity: 1,
     radius: 2
 }
 optDefault = {
     radius: 5,
     blur: 1,
     maxZoom: 8,
+    opacity: 1,
+    minOpacity: 0.1,
     gradient: {
         0.0: 'green',
         0.5: 'yellow',
