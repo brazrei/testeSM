@@ -248,6 +248,9 @@ function plota_stsc(obj_chk) {
                         xheat.push(L.heatLayer(stscAneis, optDefault));
                 }
 
+                if (xheat.length>0)
+                  heat.push(xheat[0])
+                
                 if (!heat) // dessabilita a animacao
                     heat = []
                 else {
