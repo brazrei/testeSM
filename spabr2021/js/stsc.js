@@ -32,8 +32,8 @@ optDefault = {
     opacity: 1,
     minOpacity: 0.1,
     gradient: {
-        0.0: 'green',
-        0.5: 'yellow',
+        0.0: '#00ff99',
+        0.5: '#6600ff',
         1.0: 'red'
     }
 }
