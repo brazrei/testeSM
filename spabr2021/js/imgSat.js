@@ -177,9 +177,10 @@ function saveImageToFile(url, filename) {
   
 
 function removeImgSat() {
-    if (map && LayerImg_sat){
+    if (map && LayerImg_sat)
         map.removeLayer(LayerImg_sat);
-    if (isSTSCOn() && heat && (heat.length>0) && heat[0].layer)
+    
+    if (isSTSCOn() && heat && (heat.length>0) && heat[0].layer){
         heat[0].layer.setOptions(optDefault)
     }
 }
