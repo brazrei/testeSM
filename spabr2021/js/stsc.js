@@ -30,12 +30,12 @@ optDefault = {
     blur: 1,
     maxZoom: 8,
     opacity: 1,
-    minOpacity: 0.1,
-    gradient: {
+    minOpacity: 0.1
+    /*gradient: {
         0.0: 'green',
         0.5: 'yellow',
         1.0: 'red'
-    }
+    }*/
 }
 
 
