@@ -1,5 +1,5 @@
 // Plotando STSC
-var heat = false;
+var heat = [];
 var idxSTSC = -1
 var horaSTSCAnterior = ""
 //var stscAneis = [];
