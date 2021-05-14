@@ -5,11 +5,14 @@ var TopLat = 12.90
 var TopLon = -25.24
 var ButtonLat = -50.00
 var ButtonLon = -100
-var slider = document.getElementById("myRange");
-var output = document.getElementById("demo");
-output.innerHTML = slider.value; // Display the default slider value
 
+$( document ).ready(function() {
+  slider = document.getElementById("myRange");
+  //output = document.getElementById("demo");
+  //output.innerHTML = slider.value; // Display the default slider value
+});
 // Update the current slider value (each time you drag the slider handle)
+
 slider.oninput = function() {
   if (isImgSatOn() && LayerImg_sat)
     LayerImg_sat.setOpacity(this.value/100);
