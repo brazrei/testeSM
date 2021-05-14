@@ -115,9 +115,9 @@ function plota_ImgSat(obj_chk) {
     //obj_chk = false
     updateImgSatInterval()
     if (isImgSatOn())
-      $('.myRange').show()
+      $('#myRange').show()
     else
-      $('.myRange').hide()
+      $('#myRange').hide()
       
     //if (!obj_chk || obj_chk.checked) {
     if (true) {
