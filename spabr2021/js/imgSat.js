@@ -8,15 +8,16 @@ var ButtonLon = -100
 
 $( document ).ready(function() {
   slider = document.getElementById("myRange");
+  slider.oninput = function() {
+  if (isImgSatOn() && LayerImg_sat)
+    LayerImg_sat.setOpacity(this.value/100);
+}
   //output = document.getElementById("demo");
   //output.innerHTML = slider.value; // Display the default slider value
 });
 // Update the current slider value (each time you drag the slider handle)
 
-slider.oninput = function() {
-  if (isImgSatOn() && LayerImg_sat)
-    LayerImg_sat.setOpacity(this.value/100);
-}
+
 
 function isImgSatOn(){
     return $("#chkImgSat").is(':checked')
