@@ -114,7 +114,7 @@ function inAreaAvisoSTSC(lat, long) {
 function animaSTSC() {
     if (!heat || heat.length == 0)
         return;
-    let intervalo = 200;
+    let intervalo = 50;
     let tam = heat.length
 
     if (idxSTSC > -1) {
