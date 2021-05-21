@@ -34,7 +34,8 @@ optDefault = {
     gradient: {
         0.0: '#00ff99',
         0.5: '#6600ff',
-        1.0: 'red'
+        0.8: '#33ffff',
+        1.0: '#fcf932' 
     }
 }
 
