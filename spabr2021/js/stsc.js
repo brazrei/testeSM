@@ -258,7 +258,7 @@ function plota_stsc(obj_chk) {
                             for (let i in heat) {
                                 heat[i].layer.removeFrom(map);
                             }
-                            heat = []
+                            //heat = []
                         }
                     } catch (e) {
 
@@ -267,7 +267,7 @@ function plota_stsc(obj_chk) {
                 }
 
                 heat.push({ layer: xheat[xheat.length - 1], hora: horaAnima })
-                if (heat.length > 10)
+                if (heat.length > 40)
                     heat = heat.slice(1)
                 idxSTSC = -1
                 animaSTSC();
