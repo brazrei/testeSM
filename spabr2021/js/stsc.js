@@ -57,8 +57,24 @@ $(document).ready(function () {
         //if (isImgSatOn() && LayerImg_sat)
         //    LayerImg_sat.setOpacity(this.value / 100);
     }
+
+    $('.playSTSC').click (function () {
+        $("#bg").attr('src',"img/picture1.jpg");
+    })
     //output = document.getElementById("demo");
     //output.innerHTML = slider.value; // Display the default slider value
+});
+
+$('.play-pauseSTSC').click(function(){
+    if (!$(this).hasClass('playSTSC')) {
+        $(this).attr('src', 'png/play.png');
+        $(this).addClass('playSTSC')
+        //$('.cycle-slideshow').cycle('pause');   
+    } else  {
+        $(this).attr('src', 'png/pause.png');
+        $(this).removeClass('playSTSC')
+        //$('.cycle-slideshow').cycle('resume');
+    }
 });
 
 
@@ -144,7 +160,7 @@ function animaSTSC() {
         idxSTSC = 0
         intervalo = 1000
         if (sliderSTSC)
-            sliderSTSC.value = 0;
+            sliderSTSC.value = 100;
     } else {
         idxSTSC++;
         sliderSTSC.value = Math.round(idxSTSC / (tam - 1)*100)
