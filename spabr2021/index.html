@@ -152,8 +152,6 @@
       cursor: pointer;
     }
 
-
-
     #corpo {
       width: 100%;
       height: 100%;
@@ -170,10 +168,11 @@
       cursor: pointer;
     }
 
-    .labelTMA{
+    .labelTMA {
       color: white;
       font-weight: bold;
     }
+
     .gradientgrey {
       background-image: -ms-linear-gradient(top, #FFF 0%, #CFCFCF 100%);
       background-image: -moz-linear-gradient(top, #FFF 0%, #CFCFCF 100%);
@@ -223,6 +222,13 @@
     #light {
       display: inline-block;
       text-shadow: #444 0 0 1px, rgba(255, 255, 255, 0.1) 0 1px 3px;
+    }
+
+    .play-pauseSTSC {
+      padding-bottom: 5px;
+      padding-left: 50px;
+      width: 75px;
+      height: 27px;
     }
 
     .pop:hover {
@@ -376,7 +382,7 @@
         <span class="stsc"> ) </span>
         <!-- <img src="gif/loading.gif" alt="Carregando STSC" class="loading"><br> -->
         <br>
-        <img src="png/play.png" alt="Play/Pausa Animação STSC" class="play-pauseSTSC play">
+        <img src="png/play.png" alt="Play/Pausa Animação STSC" class="play-pauseSTSC playSTSC pop popClick">
         <input type="range" min="1" max="100" value="50" id="rangeSTSC">
         <br>
 
@@ -399,7 +405,7 @@
         <span class="airmet"> (</span><span class="airmet" id="clockAirmet">--:--</span>
         <span class="airmet"> ) </span>
         <img src="gif/loading.gif" alt="Carregando Airmets" class="loading loadingAirmet"><br>
-         
+
         <label class="switch">
           <input type="checkbox" id="chkImgSat" onchange="plota_ImgSat(this)" />
           <span class="slider round"></span>
@@ -407,7 +413,8 @@
         <span class="imgsat" id="labelImgSat">IMAGEM DE SATÉLITE </span>
         <span class="imgsat"> (</span><span class="imgsat" id="clockImgSat">--:--</span>
         <span class="imgsat"> ) </span>
-        <img src="gif/loading.gif" alt="Carregando Imagem de Satélite" class="loading loadingImgSat" style="display: none;"><br>
+        <img src="gif/loading.gif" alt="Carregando Imagem de Satélite" class="loading loadingImgSat"
+          style="display: none;"><br>
         <input type="range" min="1" max="100" value="50" id="myRange" style="display: none;">
         <br>
         <br>

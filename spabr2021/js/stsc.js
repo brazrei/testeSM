@@ -39,7 +39,6 @@ optDefault = {
     }
 }
 
-
 var boolAlertaSTSCTMASP = boolAlertaSTSCTMABH = boolAlertaSTSCTMACT = boolAlertaSTSCTMARJ = false
 
 var coordTMARJ = "S2238 W04338 - S2236 W04301 - S2303 W04238 - S2314 W04327 - S2238 W04338"
@@ -58,25 +57,34 @@ $(document).ready(function () {
         //    LayerImg_sat.setOpacity(this.value / 100);
     }
 
-    $('.playSTSC').click (function () {
-        $("#bg").attr('src',"img/picture1.jpg");
+    $('.playSTSC').click(function () {
+        $("#bg").attr('src', "img/picture1.jpg");
     })
     //output = document.getElementById("demo");
     //output.innerHTML = slider.value; // Display the default slider value
+
+    $('.play-pauseSTSC').click(function () {
+        if (!$(this).hasClass('playSTSC')) {
+            $(this).attr('src', 'png/play.png');
+            $(this).addClass('playSTSC')
+            playSTSC();
+            //$('.cycle-slideshow').cycle('pause');   
+        } else {
+            $(this).attr('src', 'png/pause.png');
+            $(this).removeClass('playSTSC')
+            pauseSTSC();
+            //$('.cycle-slideshow').cycle('resume');
+        }
+    });
 });
 
-$('.play-pauseSTSC').click(function(){
-    if (!$(this).hasClass('playSTSC')) {
-        $(this).attr('src', 'png/play.png');
-        $(this).addClass('playSTSC')
-        //$('.cycle-slideshow').cycle('pause');   
-    } else  {
-        $(this).attr('src', 'png/pause.png');
-        $(this).removeClass('playSTSC')
-        //$('.cycle-slideshow').cycle('resume');
-    }
-});
+function playSTSC(){
 
+}
+
+function pauseSTSC(){
+
+}
 
 //var stscCenterMap=[];
 
@@ -163,7 +171,7 @@ function animaSTSC() {
             sliderSTSC.value = 100;
     } else {
         idxSTSC++;
-        sliderSTSC.value = Math.round(idxSTSC / (tam - 1)*100)
+        sliderSTSC.value = Math.round(idxSTSC / (tam - 1) * 100)
     }
     if (intervalAnimaSTSC)
         clearTimeout(intervalAnimaSTSC)
@@ -282,9 +290,9 @@ function plota_stsc(obj_chk) {
 
                     //let heatColor = ['#ffffb2', '#fd8d3c', '#fd8d3c', '#f03b20', '#bd0026']
                     if (isImgSatOn())
-                        xheat.push({layer: L.heatLayer(stscAneis, optImgSat), hora: data.data.anima[i]});
+                        xheat.push({ layer: L.heatLayer(stscAneis, optImgSat), hora: data.data.anima[i] });
                     else
-                        xheat.push({layer: L.heatLayer(stscAneis, optDefault), hora: data.data.anima[i]});
+                        xheat.push({ layer: L.heatLayer(stscAneis, optDefault), hora: data.data.anima[i] });
                 }
 
                 if (!heat) // dessabilita a animacao
