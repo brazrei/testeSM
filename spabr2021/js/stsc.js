@@ -35,7 +35,7 @@ optDefault = {
         0.0: '#00ff99',
         0.5: '#6600ff',
         0.8: '#33ffff',
-        1.0: '#fcf932' 
+        1.0: '#fcf932'
     }
 }
 
@@ -51,9 +51,20 @@ var coordTMACT = "S2510 W04920 - S2523 W04855 - S2552 W04903 - S2541 W04934 - S2
 
 var arrayteste = []
 
+$(document).ready(function () {
+    sliderSTSC = document.getElementById("myRange");
+    sliderSTSC.oninput = function () {
+        //if (isImgSatOn() && LayerImg_sat)
+        //    LayerImg_sat.setOpacity(this.value / 100);
+    }
+    //output = document.getElementById("demo");
+    //output.innerHTML = slider.value; // Display the default slider value
+});
+
+
 //var stscCenterMap=[];
 
-function isSTSCOn(){
+function isSTSCOn() {
     return $("#chkSTSC").is(':checked')
 }
 
@@ -132,8 +143,11 @@ function animaSTSC() {
     if (idxSTSC == tam - 1) {//ultimo
         idxSTSC = 0
         intervalo = 1000
+        if (sliderSTSC)
+            sliderSTSC.value = 0;
     } else {
         idxSTSC++;
+        sliderSTSC.value = Math.round(idxSTSC / (tam - 1))
     }
     if (intervalAnimaSTSC)
         clearTimeout(intervalAnimaSTSC)
@@ -176,9 +190,14 @@ function setSTSCLabel(label) {
 function plota_stsc(obj_chk) {
     if (!obj_chk || obj_chk.checked) {
         mostraLoading("stsc");
+        let url;
+        if (horaSTSCAnterior == "")
+            url = 'https://api-redemet.decea.gov.br/api/produtos/stsc?api_key=U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei&anima=10'
+        else
+            url = 'https://api-redemet.decea.gov.br/api/produtos/stsc?api_key=U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei'
+
         $.ajax({
-            url: 'https://api-redemet.decea.gov.br/api/produtos/stsc?api_key=U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei',
-            //url: 'https://api-redemet.decea.gov.br/api/produtos/stsc?api_key=U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei&anima=1',
+            url: url,
             contentType: 'application/json',
             crossDomain: true,
             cache: false,
@@ -242,15 +261,16 @@ function plota_stsc(obj_chk) {
                         // i++;
                     }
 
-                    updateAlertaSTSC(alertaSTSC, TMAs)
+                    if (i == data.data.stsc.length - 1) //só atualiza na mais recente
+                        updateAlertaSTSC(alertaSTSC, TMAs)
 
                     //let heatColor = ['#ffffb2', '#fd8d3c', '#fd8d3c', '#f03b20', '#bd0026']
                     if (isImgSatOn())
-                        xheat.push(L.heatLayer(stscAneis, optImgSat));
-                   else
-                        xheat.push(L.heatLayer(stscAneis, optDefault));
+                        xheat.push({layer: L.heatLayer(stscAneis, optImgSat), hora: data.data.anima[i]});
+                    else
+                        xheat.push({layer: L.heatLayer(stscAneis, optDefault)});
                 }
-             
+
                 if (!heat) // dessabilita a animacao
                     heat = []
                 else {
@@ -267,7 +287,8 @@ function plota_stsc(obj_chk) {
 
                 }
 
-                heat.push({ layer: xheat[xheat.length - 1], hora: horaAnima })
+                heat = heat.concat(xheat)
+
                 if (heat.length > 40)
                     heat = heat.slice(1)
                 idxSTSC = -1

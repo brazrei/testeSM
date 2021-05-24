@@ -6,20 +6,20 @@ var TopLon = -25.24
 var ButtonLat = -50.00
 var ButtonLon = -100
 
-$( document ).ready(function() {
-  slider = document.getElementById("myRange");
-  slider.oninput = function() {
-  if (isImgSatOn() && LayerImg_sat)
-    LayerImg_sat.setOpacity(this.value/100);
-}
-  //output = document.getElementById("demo");
-  //output.innerHTML = slider.value; // Display the default slider value
+$(document).ready(function () {
+    slider = document.getElementById("myRange");
+    slider.oninput = function () {
+        if (isImgSatOn() && LayerImg_sat)
+            LayerImg_sat.setOpacity(this.value / 100);
+    }
+    //output = document.getElementById("demo");
+    //output.innerHTML = slider.value; // Display the default slider value
 });
 // Update the current slider value (each time you drag the slider handle)
 
 
 
-function isImgSatOn(){
+function isImgSatOn() {
     return $("#chkImgSat").is(':checked')
 }
 
@@ -39,13 +39,13 @@ function getXMLHttpRequest() {
 function isOlderThan(ini, fim, timer = 10) {
     let restante = getUTCDate(new Date(fim - ini))
 
-    if (isLinux()) { 
-        addHours(restante,3)
+    if (isLinux()) {
+        addHours(restante, 3)
     }
-    
+
     if (((restante.getHours() * 60) + restante.getMinutes()) >= timer)
         return true
-    
+
     return false
 
 }
@@ -68,32 +68,32 @@ function carrega_img_sat(id, srcImage, TopLat, TopLon, ButtonLat, ButtonLon) {
     }
     xhr.onreadystatechange = function () {
         if ((xhr.readyState == 4) && (xhr.status == 200)) {
-           
-                $("#img_sat_progresso").attr("aria-valuenow", "0");
-                $("#img_sat_progresso").css("width", "0%");
-                $("#img_sat_carregar_info").html("");
-                // Setting the Overlay Image
-                
-                //map.createPane('imagebg');
-                //map.getPane('imagebg').style.zIndex = 50;
 
-                extent = [ButtonLon, ButtonLat, TopLon, TopLat];
-                removeImgSat();
-                LayerImg_sat = L.imageOverlay(srcImage, [
-                    [TopLat, TopLon],
-                    [ButtonLat, ButtonLon]
-                ] );
-                //img_sat.setOptions({pane:"imagebg"})
-                if (isImgSatOn()){
-                    map.addLayer(LayerImg_sat);
-                    if (isSTSCOn() && heat && (heat.length>0) && heat[0].layer)
-                        heat[0].layer.setOptions(optImgSat)
-                        
-                }
+            $("#img_sat_progresso").attr("aria-valuenow", "0");
+            $("#img_sat_progresso").css("width", "0%");
+            $("#img_sat_carregar_info").html("");
+            // Setting the Overlay Image
 
-                LayerImg_sat.setOpacity(0.5);
-                LayerImg_sat.bringToBack();
-            
+            //map.createPane('imagebg');
+            //map.getPane('imagebg').style.zIndex = 50;
+
+            extent = [ButtonLon, ButtonLat, TopLon, TopLat];
+            removeImgSat();
+            LayerImg_sat = L.imageOverlay(srcImage, [
+                [TopLat, TopLon],
+                [ButtonLat, ButtonLon]
+            ]);
+            //img_sat.setOptions({pane:"imagebg"})
+            if (isImgSatOn()) {
+                map.addLayer(LayerImg_sat);
+                if (isSTSCOn() && heat && (heat.length > 0) && heat[0].layer)
+                    heat[0].layer.setOptions(optImgSat)
+
+            }
+
+            LayerImg_sat.setOpacity(0.5);
+            LayerImg_sat.bringToBack();
+
         }
     };
     xhr.open("GET", srcImage, true);
@@ -103,22 +103,22 @@ function carrega_img_sat(id, srcImage, TopLat, TopLon, ButtonLat, ButtonLon) {
 
 // Plotando ImgSat
 //var ImgSatCenterMap=[];
-function updateImgSatInterval(){
-    if (intervalImgSat){
+function updateImgSatInterval() {
+    if (intervalImgSat) {
         clearInterval(intervalImgSat);
         intervalImgSat = false
     }
-    intervalImgSat = setInterval('plota_ImgSat(false)' ,300000)
+    intervalImgSat = setInterval('plota_ImgSat(false)', 300000)
 
 }
 function plota_ImgSat(obj_chk) {
     //obj_chk = false
     updateImgSatInterval()
     if (isImgSatOn())
-      $('#myRange').show()
+        $('#myRange').show()
     else
-      $('#myRange').hide()
-      
+        $('#myRange').hide()
+
     //if (!obj_chk || obj_chk.checked) {
     if (true) {
         mostraLoading("ImgSat");
@@ -132,7 +132,7 @@ function plota_ImgSat(obj_chk) {
             method: 'GET',
             dataType: 'json',
             success: function (data) {
-                
+
                 //removeImgSat();
                 var i = 0;
                 var hoje = new Date();
@@ -167,7 +167,7 @@ function plota_ImgSat(obj_chk) {
 
                 saveImageToFile(srcImage, filename)
 
-                
+
             },
             error: function (e) {
                 console.log(e);
@@ -183,22 +183,22 @@ function plota_ImgSat(obj_chk) {
 function saveImageToFile(url, filename) {
     //jsonString = JSON.stringify(data);
     $.ajax({
-      url: 'php/saveImgSat.php',
-      data: { url: url, filename: filename },
-      type: 'POST'
-    }).done( function (){
-           carrega_img_sat(0,"php/imgsat/"+filename, TopLat, TopLon, ButtonLat, ButtonLon, 5000);
+        url: 'php/saveImgSat.php',
+        data: { url: url, filename: filename },
+        type: 'POST'
+    }).done(function () {
+        carrega_img_sat(0, "php/imgsat/" + filename, TopLat, TopLon, ButtonLat, ButtonLon, 5000);
 
-           escondeLoading("ImgSat");        
+        escondeLoading("ImgSat");
     });
-  }
-  
+}
+
 
 function removeImgSat() {
     if (map && LayerImg_sat)
         map.removeLayer(LayerImg_sat);
-    
-    if (isSTSCOn() && heat && (heat.length>0) && heat[0].layer){
+
+    if (isSTSCOn() && heat && (heat.length > 0) && heat[0].layer) {
         heat[0].layer.setOptions(optDefault)
     }
 }
