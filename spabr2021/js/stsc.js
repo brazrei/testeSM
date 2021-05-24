@@ -79,11 +79,12 @@ $(document).ready(function () {
 });
 
 function playSTSC(){
-
+    animaSTSC()
 }
 
 function pauseSTSC(){
-
+    if (intervalAnimaSTSC)
+        clearTimeout(intervalAnimaSTSC)
 }
 
 //var stscCenterMap=[];
