@@ -55,6 +55,11 @@ $(document).ready(function () {
     sliderSTSC.oninput = function () {
         //if (isImgSatOn() && LayerImg_sat)
         //    LayerImg_sat.setOpacity(this.value / 100);
+        idxSTSC = Math.round((sliderSTSC.value/100)*heat.length)-1
+        if (idxSTSC<0)
+          idxSTSC = 0
+        animaSTSC(true)
+        
     }
 
     $('.playSTSC').click(function () {
@@ -86,7 +91,6 @@ function pauseSTSC(){
     if (intervalAnimaSTSC)
         clearTimeout(intervalAnimaSTSC)
 }
-
 //var stscCenterMap=[];
 
 function isSTSCOn() {
@@ -147,7 +151,7 @@ function inAreaAvisoSTSC(lat, long) {
     return { ativo: false, TMA: "" }
 }
 
-function animaSTSC() {
+function animaSTSC(oneTime = false) {
     if (!heat || heat.length == 0)
         return;
     let intervalo = 75;
@@ -176,7 +180,8 @@ function animaSTSC() {
     }
     if (intervalAnimaSTSC)
         clearTimeout(intervalAnimaSTSC)
-    intervalAnimaSTSC = setTimeout('animaSTSC()', intervalo);
+    if (!oneTime)
+      intervalAnimaSTSC = setTimeout('animaSTSC()', intervalo);
 }
 
 function clearGridTMAs() {
