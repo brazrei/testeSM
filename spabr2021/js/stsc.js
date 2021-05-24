@@ -52,7 +52,7 @@ var coordTMACT = "S2510 W04920 - S2523 W04855 - S2552 W04903 - S2541 W04934 - S2
 var arrayteste = []
 
 $(document).ready(function () {
-    sliderSTSC = document.getElementById("myRange");
+    sliderSTSC = document.getElementById("rangeSTSC");
     sliderSTSC.oninput = function () {
         //if (isImgSatOn() && LayerImg_sat)
         //    LayerImg_sat.setOpacity(this.value / 100);
@@ -147,7 +147,7 @@ function animaSTSC() {
             sliderSTSC.value = 0;
     } else {
         idxSTSC++;
-        sliderSTSC.value = Math.round(idxSTSC / (tam - 1))
+        sliderSTSC.value = Math.round(idxSTSC / (tam - 1)*100)
     }
     if (intervalAnimaSTSC)
         clearTimeout(intervalAnimaSTSC)
