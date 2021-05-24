@@ -268,7 +268,7 @@ function plota_stsc(obj_chk) {
                     if (isImgSatOn())
                         xheat.push({layer: L.heatLayer(stscAneis, optImgSat), hora: data.data.anima[i]});
                     else
-                        xheat.push({layer: L.heatLayer(stscAneis, optDefault)});
+                        xheat.push({layer: L.heatLayer(stscAneis, optDefault), hora: data.data.anima[i]});
                 }
 
                 if (!heat) // dessabilita a animacao
