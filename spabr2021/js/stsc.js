@@ -216,6 +216,10 @@ function setSTSCLabel(label) {
     $('#clockSTSC').text(label + ":00 UTC");
 }
 
+function isHeatAnimationOn(){
+    return $('#imgPlayPauseSTSC').hasClass('playSTSC');
+}
+
 function plota_stsc(obj_chk) {
     if (!obj_chk || obj_chk.checked) {
         mostraLoading("stsc");
@@ -320,8 +324,9 @@ function plota_stsc(obj_chk) {
 
                 if (heat.length > 40)
                     heat = heat.slice(1)
-                idxSTSC = -1
-                animaSTSC();
+                idxSTSC = -1;
+                if (isHeatAnimationOn)
+                  animaSTSC();
 
                 escondeLoading("stsc");
 
