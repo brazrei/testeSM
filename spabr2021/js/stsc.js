@@ -6,6 +6,7 @@ var horaSTSCAnterior = ""
 var intervalSTSC = false;
 var intervalAnimaSTSC = false
 var raioAvisoSTSC = 35 //milhas
+var layerHeatAnterior = false
 var centroAvisoSTSCTMASP = [["-23.50", "-046.63"], // SBMT
 ["-23.62", "-046.65"], //SBSP
 ["-23.43", "-046.47"],//SBGR
@@ -59,7 +60,7 @@ $(document).ready(function () {
         if (idxSTSC<0)
           idxSTSC = 0
         animaSTSC(true)
-        
+
     }
 
     $('.playSTSC').click(function () {
@@ -157,16 +158,14 @@ function animaSTSC(oneTime = false) {
     let intervalo = 50;
     let tam = heat.length
 
-    if (idxSTSC > -1) {
-        let anterior = idxSTSC - 1
-        if (anterior < 0)
-            anterior = tam - 1
-        heat[anterior].layer.removeFrom(map);
+    if (layerHeatAnterior) {
+        layerHeatAnterior.removeFrom(map);
     } else
         idxSTSC = 0
 
 
     heat[idxSTSC].layer.addTo(map);
+    layerHeatAnterior = heat[idxSTSC].layer;
     setSTSCLabel(heat[idxSTSC].hora)
 
     if (idxSTSC == tam - 1) {//ultimo
