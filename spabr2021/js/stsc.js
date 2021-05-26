@@ -2,11 +2,11 @@
 var heat = [];
 var idxSTSC = -1
 var horaSTSCAnterior = ""
+var layerHeatAnterior = false
 //var stscAneis = [];
 var intervalSTSC = false;
 var intervalAnimaSTSC = false
 var raioAvisoSTSC = 35 //milhas
-var layerHeatAnterior = false
 var centroAvisoSTSCTMASP = [["-23.50", "-046.63"], // SBMT
 ["-23.62", "-046.65"], //SBSP
 ["-23.43", "-046.47"],//SBGR
@@ -71,12 +71,12 @@ $(document).ready(function () {
 
     $('.play-pauseSTSC').click(function () {
         if (!$(this).hasClass('playSTSC')) {
-            $(this).attr('src', 'png/play.png');
+            $(this).attr('src', 'png/pause.png');
             $(this).addClass('playSTSC')
             playSTSC();
             //$('.cycle-slideshow').cycle('pause');   
         } else {
-            $(this).attr('src', 'png/pause.png');
+            $(this).attr('src', 'png/play.png');
             $(this).removeClass('playSTSC')
             pauseSTSC();
             //$('.cycle-slideshow').cycle('resume');
