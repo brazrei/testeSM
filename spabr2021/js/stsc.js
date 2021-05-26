@@ -158,13 +158,13 @@ function animaSTSC(oneTime = false) {
     let intervalo = 50;
     let tam = heat.length
 
-    if (layerHeatAnterior) {
-        layerHeatAnterior.removeFrom(map);
+    if (idxSTSC > -1) {
+        if (layerHeatAnterior)
+          layerHeatAnterior.removeFrom(map);
     } else
         idxSTSC = 0
-
-
-    heat[idxSTSC].layer.addTo(map);
+    if (idxSTSC > -1)
+      heat[idxSTSC].layer.addTo(map);
     layerHeatAnterior = heat[idxSTSC].layer;
     setSTSCLabel(heat[idxSTSC].hora)
 
