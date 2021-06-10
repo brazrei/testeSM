@@ -64,23 +64,25 @@ $(document).ready(function () {
 
     }
 
-    $('.playSTSC').click(function () {
-        $("#bg").attr('src', "img/picture1.jpg");
-    })
+    //$('.playSTSC').click(function () {
+    //    $("#bg").attr('src', "img/picture1.jpg");
+    //})
     //output = document.getElementById("demo");
     //output.innerHTML = slider.value; // Display the default slider value
 
     $('.play-pauseSTSC').click(function () {
-        if (!$(this).hasClass('playSTSC')) {
-            $(this).attr('src', 'png/pause.png');
-            $(this).addClass('playSTSC')
-            playSTSC();
+        if (isSTSCOn()) {
+          if (!$(this).hasClass('playSTSC')) {
+              $(this).attr('src', 'png/pause.png');
+              $(this).addClass('playSTSC')
+              playSTSC();
             //$('.cycle-slideshow').cycle('pause');   
-        } else {
-            $(this).attr('src', 'png/play.png');
-            $(this).removeClass('playSTSC')
-            pauseSTSC();
+          } else {
+              $(this).attr('src', 'png/play.png');
+              $(this).removeClass('playSTSC')
+              pauseSTSC();
             //$('.cycle-slideshow').cycle('resume');
+          }
         }
     });
 });
