@@ -230,7 +230,8 @@ function isHeatAnimationOn(){
 }
 
 function plota_stsc(obj_chk) {
-    if (!obj_chk || obj_chk.checked) {
+    //if (!obj_chk || obj_chk.checked) {
+    if (true) {
         mostraLoading("stsc");
         let url;
         if (horaSTSCAnterior == "")
@@ -334,7 +335,7 @@ function plota_stsc(obj_chk) {
                 if (heat.length > 25)
                     heat = heat.slice(1)
                 idxSTSC = -1;
-                if (isHeatAnimationOn())
+                if (isHeatAnimationOn() && isSTSCOn())
                   animaSTSC();
 
                 escondeLoading("stsc");
@@ -354,13 +355,11 @@ function plota_stsc(obj_chk) {
 
 
 function removeSTSC(onlyLast) {
-    //    if (intervalSTSC)
-    //      clearInterval(intervalSTSC)
     if (intervalAnimaSTSC)
         clearTimeout(intervalAnimaSTSC);
 
-    if (intervalSTSC)
-        clearTimeout(intervalSTSC);
+    //if (intervalSTSC)
+     //   clearTimeout(intervalSTSC);
     if (heat) {
         for (i in heat)
             map.removeLayer(heat[i].layer);
