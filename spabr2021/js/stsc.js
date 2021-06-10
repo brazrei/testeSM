@@ -12,6 +12,7 @@ var centroAvisoSTSCTMASP = [["-23.50", "-046.63"], // SBMT
 ["-23.43", "-046.47"],//SBGR
 ["-23.00", "-047.13"] //SBKP
 ]
+
 optImgSat = {
     opacity: 1,
     minOpacity: 1,
@@ -152,6 +153,14 @@ function inAreaAvisoSTSC(lat, long) {
     return { ativo: false, TMA: "" }
 }
 
+function setSlider(value){
+    //sliderSTSC.value = value;
+    value += ""
+    if (!value.includes('%'))
+      value += "%"
+    $('#rangeSTSC').css('width', value);
+}
+
 function animaSTSC(oneTime = false) {
     if (!heat || heat.length == 0)
         return;
@@ -172,10 +181,10 @@ function animaSTSC(oneTime = false) {
         idxSTSC = 0
         intervalo = 1000
         if (sliderSTSC)
-            sliderSTSC.value = 100;
+          setSlider(100)
     } else {
         idxSTSC++;
-        sliderSTSC.value = Math.round(idxSTSC / (tam - 1) * 100)
+        setSlider( Math.round(idxSTSC / (tam - 1) * 100) )
     }
     if (intervalAnimaSTSC)
         clearTimeout(intervalAnimaSTSC)
@@ -224,10 +233,10 @@ function plota_stsc(obj_chk) {
     if (!obj_chk || obj_chk.checked) {
         mostraLoading("stsc");
         let url;
-        //if (horaSTSCAnterior == "")
-        //    url = 'https://api-redemet.decea.gov.br/api/produtos/stsc?api_key=U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei&anima=5'
-        //else
-        url = 'https://api-redemet.decea.gov.br/api/produtos/stsc?api_key=U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei';
+        if (horaSTSCAnterior == "")
+            url = 'https://api-redemet.decea.gov.br/api/produtos/stsc?api_key=U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei&anima=5'
+        else
+          url = 'https://api-redemet.decea.gov.br/api/produtos/stsc?api_key=U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei';
 
         $.ajax({
             url: url,
