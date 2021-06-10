@@ -374,7 +374,7 @@ function removeSTSC(onlyLast) {
     if (heat) {
         for (i in heat)
             map.removeLayer(heat[i].layer);
-        heat = []
+        //heat = []
     }
     /*    for (var i in stscAneis) {
         if (stscAneis.hasOwnProperty(i)) {
