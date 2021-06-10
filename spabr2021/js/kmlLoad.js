@@ -1,5 +1,5 @@
 function loadFirBrasil() {
-  var url = 'kml/wms.kml'
+  var url = 'kml/firBrasil.kml'
   map = makeMap();
   firBrasil = omnivore.kml(url).on('ready', function() {
         // when this is fired, the layer
