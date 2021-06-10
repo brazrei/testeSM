@@ -243,11 +243,11 @@ function toggle_stsc(objSTSC) {
 }
 
 function atualizaPHP_STSC() {
-    
+    //grava o array heat via PHP
 }
 
 function loadPHP_STSC() {
-    
+    //carrega os dados STSC heatmap e filtra, deixando apenas as informacoes recentes
 }
 
 function plota_stsc(obj_chk) {
