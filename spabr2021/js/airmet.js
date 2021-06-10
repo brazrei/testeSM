@@ -781,17 +781,15 @@ function formataErro(id, off) {
 }
 
 function atualizaSTSC() {
-    if ($('#chkSTSC').prop('checked')) {
-        try {
-            plota_stsc()
-        }
-        catch (e) {
-            // declarações para manipular quaisquer exceções
-            console.log(e); // passa o objeto de exceção para o manipulador de erro
-            formataErro('#clockSTSC', true)
-            formataErro('#labelSTSC', true)
-        }
-    }
+     try {
+          plota_stsc()
+      }
+      catch (e) {
+          // declarações para manipular quaisquer exceções
+          console.log(e); // passa o objeto de exceção para o manipulador de erro
+          formataErro('#clockSTSC', true)
+          formataErro('#labelSTSC', true)
+      }
 }
 
 function start() {
