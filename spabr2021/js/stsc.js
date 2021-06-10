@@ -229,6 +229,17 @@ function isHeatAnimationOn(){
     return $('#imgPlayPauseSTSC').hasClass('playSTSC');
 }
 
+function toggle_stsc(objSTSC) {
+    if (isSTSCOn())
+        if (intervalSTSC)
+            animaSTSC() //se j[a carrecado só anima
+        else 
+            plota_stsc(objSTSC)
+    else
+        removeSTSC();
+        
+}
+
 function plota_stsc(obj_chk) {
     //if (!obj_chk || obj_chk.checked) {
     if (true) {
@@ -348,9 +359,7 @@ function plota_stsc(obj_chk) {
                 formataErro('#labelSTSC', true)
             }
         });
-    } else {
-        removeSTSC();
-    }
+    } 
 }
 
 
