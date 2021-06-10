@@ -242,13 +242,23 @@ function toggle_stsc(objSTSC) {
         
 }
 
+function atualizaPHP_STSC() {
+    
+}
+
+function loadPHP_STSC() {
+    
+}
+
 function plota_stsc(obj_chk) {
     //if (!obj_chk || obj_chk.checked) {
     if (true) {
         mostraLoading("stsc");
         let url;
-        if (horaSTSCAnterior == "")
+        if (horaSTSCAnterior == "") {
             url = 'https://api-redemet.decea.gov.br/api/produtos/stsc?api_key=U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei&anima=5'
+            loadPHP_STSC()
+        }
         else
           url = 'https://api-redemet.decea.gov.br/api/produtos/stsc?api_key=U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei';
 
@@ -322,9 +332,9 @@ function plota_stsc(obj_chk) {
 
                     //let heatColor = ['#ffffb2', '#fd8d3c', '#fd8d3c', '#f03b20', '#bd0026']
                     if (isImgSatOn())
-                        xheat.push({ layer: L.heatLayer(stscAneis, optImgSat), hora: data.data.anima[i] });
+                        xheat.push({ layer: L.heatLayer(stscAneis, optImgSat), hora: data.data.anima[i], dataHora: hoje });
                     else
-                        xheat.push({ layer: L.heatLayer(stscAneis, optDefault), hora: data.data.anima[i] });
+                        xheat.push({ layer: L.heatLayer(stscAneis, optDefault), hora: data.data.anima[i], dataHora: hoje });
                 }
 
                 if (!heat) // dessabilita a animacao
@@ -335,6 +345,7 @@ function plota_stsc(obj_chk) {
                             for (let i in heat) {
                                 heat[i].layer.removeFrom(map);
                             }
+                            atualizaPHP_STSC();
                             //heat = []
                         }
                     } catch (e) {
