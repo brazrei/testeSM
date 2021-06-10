@@ -331,7 +331,7 @@ function plota_stsc(obj_chk) {
 
                 heat = heat.concat(xheat)
 
-                if (heat.length > 40)
+                if (heat.length > 25)
                     heat = heat.slice(1)
                 idxSTSC = -1;
                 if (isHeatAnimationOn())
