@@ -58,12 +58,17 @@
       height: 100%;
       margin: 0;
       background-color: #EEF2F7;
-      
-      user-select: none; /* supported by Chrome and Opera */
-      -webkit-user-select: none; /* Safari */
-      -khtml-user-select: none; /* Konqueror HTML */
-      -moz-user-select: none; /* Firefox */
-      -ms-user-select: none; /* Internet Explorer/Edge */
+
+      user-select: none;
+      /* supported by Chrome and Opera */
+      -webkit-user-select: none;
+      /* Safari */
+      -khtml-user-select: none;
+      /* Konqueror HTML */
+      -moz-user-select: none;
+      /* Firefox */
+      -ms-user-select: none;
+      /* Internet Explorer/Edge */
     }
 
     #map {
@@ -314,6 +319,20 @@
         opacity: 0.0;
       }
     }
+
+    .neonText {
+      color: #fff;
+
+    }
+
+    .shine {
+      text-shadow:
+        0 0 7px #fff,
+        0 0 10px #fff,
+        0 0 21px #fff,
+        0 0 42px #0fa,
+        0 0 82px #0fa;
+    }
   </style>
 
 
@@ -365,7 +384,8 @@
         </div>
 
         <div class="leaflet-sidebar-pane" id="profile">
-          <h1 class="leaflet-sidebar-header">Profile<span class="leaflet-sidebar-close"><i class="fa fa-caret-right"></i></span></h1>
+          <h1 class="leaflet-sidebar-header">Profile<span class="leaflet-sidebar-close"><i
+                class="fa fa-caret-right"></i></span></h1>
         </div>
       </div>
     </div>
@@ -374,11 +394,27 @@
     <div id='map'></div>
     <div class='glass'>
       <div id='painel' class='degrade sombra'>
+        <div>
+          <h1 class="neonText shine">
+            VENTO
+          </h1>
+        </div>
+        <div>
+          <h1 class="neonText shine">
+            VISIBILIDADE
+          </h1>
+        </div>
+        <div>
+          <h1 class="neonText shine">
+            TETO
+          </h1>
+        </div>
+        <div>
+          <h1 class="neonText shine">
+            TROVOADA
+          </h1>
+        </div>
 
-        <!--      <span class="hora">Hora da última Atualização dos AIRMETs: </span><span class="hora" id="clock">--:--</span>
-      <h4 class="loading">Carregando Airmets</h4>
-      <br><br>
--->
         <br>
         <label class="switch">
           <input type="checkbox" id="chkSTSC" onchange="toggle_stsc(this)" checked />
@@ -389,11 +425,12 @@
         <span class="stsc"> ) </span>
         <!-- <img src="gif/loading.gif" alt="Carregando STSC" class="loading"><br> -->
         <br>
-        <img src="png/pause.png" alt="Play/Pausa Animação STSC" id="imgPlayPauseSTSC" class="play-pauseSTSC playSTSC pop popClick">
+        <img src="png/pause.png" alt="Play/Pausa Animação STSC" id="imgPlayPauseSTSC"
+          class="play-pauseSTSC playSTSC pop popClick">
 
         <!-- <input type="range" min="1" max="100" value="50" id="rangeSTSC"> -->
-        <div class="meter blue nostripes" >
-          <span style="width: 0%" id = "rangeSTSC"></span>
+        <div class="meter blue nostripes">
+          <span style="width: 0%" id="rangeSTSC"></span>
         </div>
         <br>
 
