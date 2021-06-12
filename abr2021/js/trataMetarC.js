@@ -452,7 +452,7 @@ function spanGray(txt, palavra, title) {
 
 }
 
-function updateShks(source) {
+function updateChks(source) {
     if (!smartPlotOnline)
         return;
     if (source == "SP") {
