@@ -399,35 +399,36 @@
     <div id='map'></div>
     <div class='glass'>
       <div id='painel' class='degrade sombra'>
-        <div class="divStatus">
-          <label class="switch">
-            <input type="checkbox" id="chkTeto" onchange="window.opener.$('chkTeto').prop('checked',this.checked)" checked />
-            <span class="slider round"></span>
-          </label>
-          <span>TETO</span>
+        <div style="width:100%; margin-top: 10px;margin-bottom: 20px;">
+          <div class="divStatus">
+            <label class="switch">
+              <input type="checkbox" id="chkTeto" onchange="" checked />
+              <span class="slider round"></span>
+            </label>
+            <span>TETO</span>
+          </div>
+          <div class="divStatus">
+            <label class="switch">
+              <input type="checkbox" id="chkVisibilidade" onchange="" checked />
+              <span class="slider round"></span>
+            </label>
+            <span>VISIBILIDADE</span>
+          </div>
+          <div class="divStatus">
+            <label class="switch">
+              <input type="checkbox" id="chkVento" onchange="" checked />
+              <span class="slider round"></span>
+            </label>
+            <span>VENTO</span>
+          </div>
+          <div class="divStatus">
+            <label class="switch">
+              <input type="checkbox" id="chkTrovoada" onchange="" checked />
+              <span class="slider round"></span>
+            </label>
+            <span>TROVOADA</span>
+          </div>
         </div>
-        <div class="divStatus">
-          <label class="switch">
-            <input type="checkbox" id="chkVisibilidade" onchange="" checked />
-            <span class="slider round"></span>
-          </label>
-          <span>VISIBILIDADE</span>
-        </div>
-        <div class="divStatus">
-          <label class="switch">
-            <input type="checkbox" id="chkVento" onchange="" checked />
-            <span class="slider round"></span>
-          </label>
-          <span>VENTO</span>
-        </div>
-        <div class="divStatus">
-          <label class="switch">
-            <input type="checkbox" id="chkTrovoada" onchange="" checked />
-            <span class="slider round"></span>
-          </label>
-          <span>TROVOADA</span>
-        </div>
-
         <br>
         <label class="switch">
           <input type="checkbox" id="chkSTSC" onchange="toggle_stsc(this)" checked />
