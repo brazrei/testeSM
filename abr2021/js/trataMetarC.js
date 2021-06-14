@@ -461,7 +461,8 @@ function updateChks(source) {
         $('#chkVento').prop('checked', smartPlot.$('#chkVento').prop('checked'))
         $('#chkTrovoada').prop('checked', smartPlot.$('#chkTrovoada').prop('checked'))
         $('#chkVis').prop('checked', smartPlot.$('#chkVisibilidade').prop('checked'))
-    } else if (source == "SM") {
+    } else //if (source == "SM") 
+    {
         smartPlot.$('#chkTeto').prop('checked', $('#chkTeto').prop('checked'))
         smartPlot.$('#chkVento').prop('checked', $('#chkVento').prop('checked'))
         smartPlot.$('#chkTrovoada').prop('checked', $('#chkTrovoada').prop('checked'))
