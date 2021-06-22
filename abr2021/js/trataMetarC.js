@@ -827,10 +827,12 @@ function strToCell(arr, idxFIR, novo, naoAdiciona) {//nãoadiciona significa sub
     }
 
     let regAirmet = getStatusAirmet(loc);
+    let classStatusAirmet = ""
     if (!smartPlot || smartPlot.closed) {
         //if (smartPlot)
             //smartplot.close();
         regAirmet.status = "SMARTPLOT OFFLINE"
+        classStatusAirmet = " class='errorPulse' style='color: red; font-weight: bold;'"
         smartPlotOnline = false
     } else
         smartPlotOnline = true
@@ -893,7 +895,7 @@ function strToCell(arr, idxFIR, novo, naoAdiciona) {//nãoadiciona significa sub
     if (naoAdiciona)
         $('#' + arrayTableFir[idxFIR] + ' tr:last').remove();
 
-    let line = '<tr title="' + tit.toUpperCase() + latLong + '&#10;&#10;CMA-1: ' + cma + '&#10;&#10;' + regAirmet.texto + txtTitleAdWRNG + '" ' + classe + id + '><td><b>' + arr[0] + '</b>' + descRestricao + descAlerta + infoAlerta + '</td><td>' + txtAdWRNG + '</td><td>' + statusSigmet + '</td><td>' + regAirmet.status + '</td><td>' + cma + '</td></tr>'
+    let line = '<tr title="' + tit.toUpperCase() + latLong + '&#10;&#10;CMA-1: ' + cma + '&#10;&#10;' + regAirmet.texto + txtTitleAdWRNG + '" ' + classe + id + '><td><b>' + arr[0] + '</b>' + descRestricao + descAlerta + infoAlerta + '</td><td>' + txtAdWRNG + '</td><td>' + statusSigmet + '</td><td '+classStatusAirmet+'>' + regAirmet.status + '</td><td>' + cma + '</td></tr>'
     var row = $('#' + arrayTableFir[idxFIR] + ' tbody').append(line);
     $('.tr' + loc).click(function () {
         var loc = $(this).closest('tr').prop('class').split(" ")[1];
