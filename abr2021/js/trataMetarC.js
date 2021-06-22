@@ -828,8 +828,8 @@ function strToCell(arr, idxFIR, novo, naoAdiciona) {//nãoadiciona significa sub
 
     let regAirmet = getStatusAirmet(loc);
     if (!smartPlot || smartPlot.closed) {
-        if (smartPlot)
-            smartplot.close();
+        //if (smartPlot)
+            //smartplot.close();
         regAirmet.status = "SMARTPLOT OFFLINE"
         smartPlotOnline = false
     } else
