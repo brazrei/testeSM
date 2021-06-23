@@ -7,7 +7,7 @@ var timerCopiaCoords = null
 
 function updateSmartMetar() {
   window.opener.BtnMetarGERALClick(false,'SP');
-  setTimeout("window.opener.BtnMetarGERALClick(false,'');",5000) //força a atualizacao dos gamets com a nova lista de metares
+  setTimeout("window.opener.BtnMetarGERALClick(false,'');",2000) //força a atualizacao dos gamets com a nova lista de metares
 }
 
 function fillZero(num) {
