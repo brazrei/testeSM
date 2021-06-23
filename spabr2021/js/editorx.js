@@ -5,6 +5,11 @@ var latLngClicked
 var disableCtrl = false
 var timerCopiaCoords = null
 
+function updateSmartMetar() {
+  window.opener.BtnMetarGERALClick(false,'SP');
+  setTimeout("window.opener.BtnMetarGERALClick(false,'');",5000) //força a atualizacao dos gamets com a nova lista de metares
+}
+
 function fillZero(num) {
   //num = parseInt(num)
   if (Math.abs(num) < 10) {
