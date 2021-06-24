@@ -18,6 +18,10 @@ function getIp() {
   }, "jsonp");
 }
 
+function updateMetarGamet() {
+   BtnMetarGERALClick(false,'SM');
+   setTimeout("BtnMetarGERALClick(false,'SM');",2000)  
+}
 
 function updateTime() {
   var now = new Date();
