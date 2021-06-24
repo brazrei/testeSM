@@ -466,7 +466,7 @@ function updateChks(source) {
         smartPlot.$('#chkTeto').prop('checked', $('#chkTeto').prop('checked'))
         smartPlot.$('#chkVento').prop('checked', $('#chkVento').prop('checked'))
         smartPlot.$('#chkTrovoada').prop('checked', $('#chkTrovoada').prop('checked'))
-        smartPlot.$('#chkVis').prop('checked', $('#chkVis').prop('checked'))
+        smartPlot.$('#chkVisibilidade').prop('checked', $('#chkVis').prop('checked'))
     }
 
 }
