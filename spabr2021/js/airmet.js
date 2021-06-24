@@ -120,13 +120,13 @@ function isLinux() {
 
 function addHours(data, horas) {
     if (!Date.prototype.addHours)
-       Date.prototype.addHours= function(h){
-          this.setHours(this.getHours()+h);
-          return this;
+        Date.prototype.addHours = function (h) {
+            this.setHours(this.getHours() + h);
+            return this;
         }
-    
+
     return data.addHours(horas)
-    
+
 }
 
 function isCloseToValidOff(ini, fim, timer = 10) {
@@ -140,15 +140,15 @@ function isCloseToValidOff(ini, fim, timer = 10) {
 
     let restante = getUTCDate(new Date(fim - agora))
 
-    if (isLinux()) { 
-        addHours(restante,3)
+    if (isLinux()) {
+        addHours(restante, 3)
         //restante.addHours(3)
     }
     if (restante.getHours() == 0) { // não sei porque, mas estava começando da hora 01 no Linux
         if (restante.getMinutes() <= timer)
             return true
     }
-    
+
     return false
 }
 
@@ -446,7 +446,7 @@ function getMetar(loc) {
 
 }
 function updateDescobertos(loc) {
-    if (!loc){ 
+    if (!loc) {
         $('#h5descobertas').html("")
         return
     }
@@ -462,14 +462,14 @@ function updateDescobertos(loc) {
 
 function plotaMarca(lat, lng, loc) {
     function removeInfo(desc) {
-        if (desc.includes("</b><b>")){ 
+        if (desc.includes("</b><b>")) {
             desc = desc.split("<b><img src=")[0]
-            return desc.replace(/&#10/g,"<br>")
+            return desc.replace(/&#10/g, "<br>")
         }
         else
             return desc
     }
-    
+
     if (!isNaN(lat) && !isNaN(lng)) {
 
         desc = getMetar(loc)
@@ -568,7 +568,7 @@ function plotaMarca(lat, lng, loc) {
         m.bindTooltip(desc, { closeButton: false, offset: L.point(0, -20) })
         //console.log(m)
     } //else
-        //console.log("Erro na plotagem de ", loc);
+    //console.log("Erro na plotagem de ", loc);
 }
 
 function bringRedMarkersToFront(layers) {
@@ -781,15 +781,15 @@ function formataErro(id, off) {
 }
 
 function atualizaSTSC() {
-     try {
-          plota_stsc()
-      }
-      catch (e) {
-          // declarações para manipular quaisquer exceções
-          console.log(e); // passa o objeto de exceção para o manipulador de erro
-          formataErro('#clockSTSC', true)
-          formataErro('#labelSTSC', true)
-      }
+    try {
+        plota_stsc()
+    }
+    catch (e) {
+        // declarações para manipular quaisquer exceções
+        console.log(e); // passa o objeto de exceção para o manipulador de erro
+        formataErro('#clockSTSC', true)
+        formataErro('#labelSTSC', true)
+    }
 }
 
 function start() {
@@ -934,13 +934,29 @@ function plotaAirmets(arr, primeiraVez) {
         if (a.tipo !== "C") {//o airmet de cancelamento nao eh plotado
             var poly = invertLatLong(a.coordDeg)
             //console.log("poly ==>", poly)
+
+            var bigStripes = new L.StripePattern({
+                patternContentUnits: 'objectBoundingBox',
+                patternUnits: 'objectBoundingBox',
+                weight: 0.1,
+                spaceWeight: 0.1,
+                height: 0.2,
+                angle: 45
+            });
+
+            bigStripes.addTo(map);
+
             let opt = {
                 className: "",
                 color: "black",
-                fillColor: "black"
+                fillColor: "black",
+                fillPattern: bigStripes
+
             }
             if (isCloseToValidOff(a.codigo))
                 opt.className = "pulse";
+
+            
             var p = L.polygon(poly, opt).addTo(map)
 
             p.bindTooltip(getAirmetDescription(a), { closeButton: false, sticky: true });
@@ -1070,7 +1086,7 @@ function GetWebContentAirmet(url, primeiraVez) {
                 } catch (e) {
                     erroConexao = true
                 }
-                if (erroConexao || !opener.smartPlotOnline){
+                if (erroConexao || !opener.smartPlotOnline) {
                     $("#h5Offline").show();
                     alert("Perda de conexão com o SMARTMETAR! Favor reabrir o SMARTPLOT através do link no site do SMARTMETAR!");
                 } else
