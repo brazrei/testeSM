@@ -935,7 +935,7 @@ function plotaAirmets(arr, primeiraVez) {
             var poly = invertLatLong(a.coordDeg)
             //console.log("poly ==>", poly)
 
-            var bigStripes = new L.StripePattern({
+            /*var bigStripes = new L.StripePattern({
                 patternContentUnits: 'objectBoundingBox',
                 patternUnits: 'objectBoundingBox',
                 weight: 0.1,
@@ -944,13 +944,13 @@ function plotaAirmets(arr, primeiraVez) {
                 angle: 45
             });
 
-            bigStripes.addTo(map);
+            bigStripes.addTo(map);*/
 
             let opt = {
                 className: "",
                 color: "black",
-                fillColor: "black",
-                fillPattern: bigStripes
+                fillColor: "black"
+                //fillPattern: bigStripes
 
             }
             if (isCloseToValidOff(a.codigo))
