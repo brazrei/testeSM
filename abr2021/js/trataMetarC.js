@@ -586,9 +586,9 @@ function getAirmet(loc) {
     let achou = false
     for (let i in airmets) {
         if ((!airmets[i].cancelado) && airmets[i].locs.includes(loc)) {
-            if ((airmets[i].visibilidade > 0) && (parseInt(airmets[i].visibilidade) < parseInt(vis)))
+            if ((airmets[i].visibilidade >= 0) && (parseInt(airmets[i].visibilidade) < parseInt(vis)))
                 vis = airmets[i].visibilidade
-            if ((airmets[i].base > 0) && (parseInt(airmets[i].base) < parseInt(teto)))
+            if ((airmets[i].base >= 0) && (parseInt(airmets[i].base) < parseInt(teto)))
                 teto = airmets[i].base
             result = result + sep + smartPlot.getAirmetDescription(airmets[i], true)
             achou = true
