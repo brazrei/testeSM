@@ -900,7 +900,7 @@ function strToCell(arr, idxFIR, novo, naoAdiciona) {//nãoadiciona significa sub
     $('.tr' + loc).click(function () {
         var loc = $(this).closest('tr').prop('class').split(" ")[1];
         loc = loc.replace("tr", "")
-        if (smartPlot.plotaAreaLocalidade !== undefined)
+        if (smartPlot.plotarAreaLocalidade !== undefined)
             smartPlot.plotarAreaLocalidade(loc, true);
     });
     return;
