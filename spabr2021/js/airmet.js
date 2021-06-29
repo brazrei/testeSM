@@ -262,9 +262,10 @@ function plotarAreaLocalidade(loc, onlyZoom) {
     if (!onlyZoom) {
         map.setView([lat, long], 10)
         setTimeout(plotaAirmetLoc, 1000, lat, long)
-    } else
+    } else {
+        map.setView([lat, long], 10)
         map.panTo([lat, long])
-
+    }
 }
 
 
