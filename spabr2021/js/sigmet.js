@@ -51,14 +51,16 @@ function getTxtSigmet(texto) {
         strEnd = "WI"
 
     txt = texto.split(" FIR ")[1].split(strEnd)[0];
+    
+    return txt
 
-    let fim = ""
+    /*let fim = ""
     if (texto.includes("TOP"))
         fim = " TOP"
     else
         fim = " FL"
-    fim = fim + texto.split(fim)[1]
-    return txt + " - " + fim
+    fim = fim + texto.split(fim)[1] 
+    return txt + " - " + fim */
 }
 
 function getBaseNuvemSigmet(nuvem) {
