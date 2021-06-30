@@ -369,9 +369,9 @@ function getCoordDegSigmet(coord) {
 function getRaioTC(sigmet) {
     let raio = 0 
     if (sigmet.includes("KM OF TC"))
-        raio =  getNum((sigmet.split(aux)[0]).split("WI")[1])
+        raio =  getNum((sigmet.split("KM OF TC")[0]).split("WI")[1])
     else if (sigmet.includes("NM OF TC"))
-        raio = getNum((sigmet.split(aux)[0]).split("WI")[1]) * 1.852
+        raio = getNum((sigmet.split("NM OF TC")[0]).split("WI")[1]) * 1.852
 
     
     return raio
