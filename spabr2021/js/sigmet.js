@@ -367,11 +367,14 @@ function getCoordDegSigmet(coord) {
 }
 
 function getRaioTC(sigmet) {
-    let aux = "KM OF TC"
-    if (sigmet.includes(aux))
-        return getNum((sigmet.split(aux)[0]).split("WI")[1])
-    else
-        return 0
+    let raio = 0 
+    if (sigmet.includes("KM OF TC"))
+        raio =  getNum((sigmet.split(aux)[0]).split("WI")[1])
+    else if (sigmet.includes("NM OF TC"))
+        raio = getNum((sigmet.split(aux)[0]).split("WI")[1]) * 1.852
+
+    
+    return raio
 }
 function getTipoSigmet(sigmet) {
     if (sigmet.includes(" TS "))
