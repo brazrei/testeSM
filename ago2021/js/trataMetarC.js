@@ -754,7 +754,7 @@ function verificaStatusMetar(statusMetar, statusAdWRNG, statusAirmet, statusSigm
     }
 
     //Check Visib
-    if (visMetar > 0 && visMetar < 5000) {
+    if (visMetar >= 0 && visMetar < 5000) {
         let visCobertaA = true
         let visCobertaS = true
 
