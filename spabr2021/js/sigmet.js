@@ -181,7 +181,7 @@ function getSigmetDescription(sigmet) {
             tipo = " TURBULÊNCIA: "
         }
     */
-    return "SIGMET " + cancelado + fir + " - N. " + cod + " - </br>" + spanRed(spanBold(texto)) + " - " + sigmet.textoFinal;
+    return "SIGMET " + cancelado + fir + " - N. " + cod + " - </br>" + spanRed(spanBold(texto)) + " - " + spanBold(sigmet.textoFinal);
 }
 
 function clearLayersSigmets() {
