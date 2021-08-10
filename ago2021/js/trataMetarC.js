@@ -291,7 +291,7 @@ function trataMetarRedemet(response, idxFIR) {
             arrayTeto = getTeto(metar);
             tetoBaixo = (arrayTeto[1] == "T") && (checkTetoOn());
 
-            VisibBaixa = (visibilidade > 0) && (visibilidade < visMinima);
+            VisibBaixa = (visibilidade >= 0) && (visibilidade < visMinima);
             VisibBaixa = VisibBaixa && checkVisOn();
 
             //setor = getSetor (metar, fir)
