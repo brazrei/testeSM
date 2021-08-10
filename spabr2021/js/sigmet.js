@@ -453,7 +453,7 @@ function trataSigmetRedemet(texto) {
 
                     coordDeg = getCoordDegSigmet(coord)
                     textoSigmet = getTxtSigmet(sigmet[i])
-                    textoFimSigmet = getTxtFimSigmet(sigmet[i], coord));
+                    textoFimSigmet = getTxtFimSigmet(sigmet[i], coord);
                 } catch (e) {
                     console.log(e)
                 }
