@@ -933,6 +933,8 @@ function plotaAirmets(arr, primeiraVez) {
     for (var i in arr) {
         a = arr[i]
         if (a.tipo !== "C") {//o airmet de cancelamento nao eh plotado
+            if (a.cancelado)            
+              continue;
             var poly = invertLatLong(a.coordDeg)
             //console.log("poly ==>", poly)
 
