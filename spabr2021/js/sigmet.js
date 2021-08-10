@@ -40,7 +40,10 @@ function checaValidadeSigmet(sigmet) {
 function getTxtFimSigmet(texto, coord) {
     let txt;
     try {
-        txt = texto.split(coord)[1].split("=")[0]
+        txt = texto.split("W0")
+        txt = txt[txt.length-1]
+        txt = txt.split(" ").splice(1).join(" ")
+        
     } catch {
         console.log("Erro ao tentar obter texto final do Sigmet: " + texto);
     }
@@ -178,7 +181,7 @@ function getSigmetDescription(sigmet) {
             tipo = " TURBULÊNCIA: "
         }
     */
-    return "SIGMET " + cancelado + fir + " - N. " + cod + " - </br>" + spanRed(spanBold(texto))
+    return "SIGMET " + cancelado + fir + " - N. " + cod + " - </br>" + spanRed(spanBold(texto)) + " " + sigmet.textoFinal;
 }
 
 function clearLayersSigmets() {
