@@ -37,6 +37,16 @@ function checaValidadeSigmet(sigmet) {
     return vis
 }
 */
+function getTxtFimSigmet(texto, coord) {
+    let txt;
+    try {
+        txt = texto.split(coord)[1].split("=")[0]
+    } catch {
+        console.log("Erro ao tentar obter texto final do Sigmet: " + texto);
+    }
+    return txt;
+}
+
 function getTxtSigmet(texto) {
     txt = removeEspacosDuplos(texto);
     txts = removeEspacos(texto);
@@ -424,6 +434,7 @@ function trataSigmetRedemet(texto) {
             var vis = ""
             var tipo = ""
             var textoSigmet = ""
+            var textoFimSigmet = ""
             var coord = ""
             var cnl = getSigmetCNL(sigmet[i])
             var coordDeg = []
@@ -442,6 +453,7 @@ function trataSigmetRedemet(texto) {
 
                     coordDeg = getCoordDegSigmet(coord)
                     textoSigmet = getTxtSigmet(sigmet[i])
+                    textoFimSigmet = getTxtFimSigmet(sigmet[i], coord));
                 } catch (e) {
                     console.log(e)
                 }
@@ -449,7 +461,7 @@ function trataSigmetRedemet(texto) {
             }
 
             if (!arrIdxSigmetGeral.includes(idxSigmet)){ 
-              arrSigmetGeral.push({ codigo: idxSigmet, FIR: idx, tipo: tipo, raio: raio, base: base, visibilidade: vis, texto: textoSigmet, cancelado: false, coord: coord, coordDeg: coordDeg, locs: "" })
+              arrSigmetGeral.push({ codigo: idxSigmet, FIR: idx, tipo: tipo, raio: raio, base: base, visibilidade: vis, texto: textoSigmet, textoFinal: textoFimSigmet, cancelado: false, coord: coord, coordDeg: coordDeg, locs: "" })
               arrIdxSigmetGeral.push(idxSigmet)
             }
          }
