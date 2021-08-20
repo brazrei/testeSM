@@ -650,7 +650,7 @@ function getStatusAdWRNG(loc) {
     let cancelado = false
     let textoFull = ""
     arrAdWRNGGeral.forEach(aviso => {
-        if ((!aviso.cancelado) && (aviso.locs.indexOf(loc) > -1)) {
+        if ((!aviso.cancelado) && (aviso.locs.indexOf(loc) > -1) && (aviso.tipo !=="C")) {
             min = aviso.vento[0]
             max = aviso.vento[1]
             cancelado = aviso.cancelado
