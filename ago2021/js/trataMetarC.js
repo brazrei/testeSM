@@ -955,16 +955,20 @@ function getVento(metar) {
     campos = metar.split(" ");
 
     vento = campos[posVento];
+    let inicioVel = 3
+    if (vento.includes('P99'))
+      inicioVel = 4
+      
     ventoeRajada[2] = vento;
 
     //00099G00KT
     if (vento.includes("G")) {
         ventoeRajada[1] = vento.substr(6, 2); //'6 ate o final
-        ventoeRajada[0] = vento.substr(3, 2);
+        ventoeRajada[0] = vento.substr(inicioVel, 2);
     }
     else {
         ventoeRajada[1] = "-1";  //'6 ate o final
-        ventoeRajada[0] = vento.substr(3, 2);
+        ventoeRajada[0] = vento.substr(inicioVel, 2);
     }
 
     return ventoeRajada;
