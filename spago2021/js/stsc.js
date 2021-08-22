@@ -224,7 +224,10 @@ function updateAlertaSTSC(on, TMAs) {
 }
 
 function setSTSCLabel(label) {
-    $('#clockSTSC').text(label + ":00 UTC");
+    if (label)
+        $('#clockSTSC').text(label + ":00 UTC");
+    else
+        $('#clockSTSC').text("-- UTC");
 }
 
 function isHeatAnimationOn(){
