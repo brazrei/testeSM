@@ -292,7 +292,10 @@ function plota_stsc(obj_chk) {
                     return;
                 horaSTSCAnterior = horaAnima
 
-                let data_prod = hoje_dia + '/' + hoje_mes + '/' + hoje_ano + ' ' + horaAnima
+                let data_prod = "--:--"
+                if (horaAnima)
+                    data_prod = hoje_dia + '/' + hoje_mes + '/' + hoje_ano + ' ' + horaAnima
+                
                 setSTSCLabel(data_prod);
                 data_prod = hoje_mes + " " + hoje_dia + ' ' + hoje_ano + ' ' + horaAnima
                 data_prod = new Date(data_prod)
