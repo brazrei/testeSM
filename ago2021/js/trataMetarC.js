@@ -963,7 +963,10 @@ function getVento(metar) {
 
     //00099G00KT
     if (vento.includes("G")) {
-        ventoeRajada[1] = vento.substr(6, 2); //'6 ate o final
+        let inicioVelRaj = inicioVel+3;
+        if (vento.includes("GP"))
+          inicioVelRaj +=1;
+        ventoeRajada[1] = vento.substr(inicioVelRaj, 2); //'6 ate o final
         ventoeRajada[0] = vento.substr(inicioVel, 2);
     }
     else {
