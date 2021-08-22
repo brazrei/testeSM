@@ -649,16 +649,18 @@ function getStatusAdWRNG(loc) {
     let max = -1
     let cancelado = false
     let textoFull = ""
+    let texto = ""
     arrAdWRNGGeral.forEach(aviso => {
         if ((!aviso.cancelado) && (aviso.locs.indexOf(loc) > -1) && (aviso.tipo !=="C")) {
             min = aviso.vento[0]
             max = aviso.vento[1]
             cancelado = aviso.cancelado
             textoFull = aviso.textoFull
+            texto = aviso.texto
         }
 
     })
-    return { min: min, max: max, cancelado: cancelado, textoFull }
+    return { min, max, cancelado, textoFull, texto }
 }
 
 function verificaStatusMetar(statusMetar, statusAdWRNG, statusAirmet, statusSigmet) {
@@ -848,7 +850,7 @@ function strToCell(arr, idxFIR, novo, naoAdiciona) {//nãoadiciona significa sub
     let xInfoAlerta = '<img src="pngs/info-26.png" title="' + titleDegrada + '" style="cursor: pointer;">'
 
     if ((statusAdWRNG.min > 0) && (!statusAdWRNG.cancelado)) {
-        txtAdWRNG = statusAdWRNG.min + "KT MAX " + statusAdWRNG.max
+        txtAdWRNG = statusAdWRNG.texto
         txtAdWRNG = spanRed(txtAdWRNG, txtAdWRNG)
         txtTitleAdWRNG = '&#10;' + 'AVISO DE AERÓDROMO' + '&#10;&#10;' + statusAdWRNG.textoFull
     } else
