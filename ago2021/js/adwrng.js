@@ -62,27 +62,26 @@ function checaValidadeAdWRNG(adWRNG) {
 }
 
 function getTxtAdWRNG(texto) {
-    texto = removeEspacosDuplos(texto);
-    texto = texto.replace(/WPSD/g,"WSPD")
-    if (texto.indexOf("SFC ") == -1)
-        return "NIL"
-    var strEnd = ""
+    try {
+        texto = removeEspacosDuplos(texto);
+        texto = texto.replace(/WPSD/g,"WSPD")
+    
+        texto = texto.split("VALID ")[1]
+        texto = texto.split(" ").splice(1).join(" ") //retira a validade
+        var strEnd = ""
 
-    let tipo = "WIND"
-    if (texto.includes("WSPD"))
-        tipo = "WSPD"
-
-
-    if (texto.indexOf("OBS") > -1) {
-        strEnd = "OBS";
-    } else if (texto.indexOf("FCST") > -1) {
-        strEnd = "FCST";
-    } else
-        strEnd = "WI"
-
-    let inicio = "SFC " + tipo
-    vis = inicio + texto.split(inicio)[1].split(strEnd)[0];
-    return vis
+        if (texto.indexOf("OBS") > -1) {
+            strEnd = "OBS";
+        } else if (texto.indexOf("FCST") > -1) {
+            strEnd = "FCST";
+        } else
+            strEnd = "WI"
+        texto = texto.split(strEnd)[0];
+    } catch {
+        texto = "ERRO"
+    }
+    
+    return texto
 }
 
 function getVntAdWRNG(texto) {
