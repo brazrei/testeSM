@@ -227,7 +227,7 @@ function setSTSCLabel(label) {
     if (label)
         $('#clockSTSC').text(label + ":00 UTC");
     else
-        $('#clockSTSC').text("-- UTC");
+        $('#clockSTSC').text("--:-- UTC");
 }
 
 function isHeatAnimationOn(){
@@ -292,7 +292,7 @@ function plota_stsc(obj_chk) {
                     return;
                 horaSTSCAnterior = horaAnima
 
-                let data_prod = "--:--"
+                let data_prod = false
                 if (horaAnima)
                     data_prod = hoje_dia + '/' + hoje_mes + '/' + hoje_ano + ' ' + horaAnima
                 
