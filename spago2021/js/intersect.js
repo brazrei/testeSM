@@ -328,8 +328,8 @@ function paste(pasteText) {
 
 function isFromSkyVector(coords) {
     coords = removeEspacos(coords);
-    let latLngPatt1 = /\d{6}[nNsS]\d{7}[W]/g
-    let latLngPatt2 = /\d{4}[nNsS]\d{5}[W]/g
+    let latLngPatt1 = /\d{6}[nNsS]\d{7}[WwEe]/g
+    let latLngPatt2 = /\d{4}[nNsS]\d{5}[WwEe]/g
     let arrCoords = coords.match(latLngPatt1)
 
     if (arrCoords && (arrCoords.length > 2)) {
@@ -345,7 +345,7 @@ function isFromSkyVector(coords) {
 
 function isFromRedemet(coords) {
     coords = removeEspacos(coords);
-    let latLngPatt = /[nNsS]\d{4}[W]\d{5}/g
+    let latLngPatt = /[nNsS]\d{4}[WwEe]\d{5}/g
     let arrCoords = coords.match(latLngPatt)
 
     return arrCoords && (arrCoords.length > 2)
@@ -354,8 +354,8 @@ function isFromRedemet(coords) {
 function skyVectorToRedemet(coords) {
     coords = removeEspacos(coords);
     //console.log(coords)
-    let latLngPatt1 = /\d{6}[nNsS]\d{7}[W]/g
-    let latLngPatt2 = /\d{4}[nNsS]\d{5}[W]/g
+    let latLngPatt1 = /\d{6}[nNsS]\d{7}[WwEe]/g
+    let latLngPatt2 = /\d{4}[nNsS]\d{5}[WwEe]/g
 
     let arrCoords = coords.match(latLngPatt1)
 
@@ -370,9 +370,14 @@ function skyVectorToRedemet(coords) {
         let sepLat = "S"
         if (icoord.includes("N"))
             sepLat = "N"
+            
+        let sepLon = "W"
+        if (icoord.includes("E"))
+            sepLon = "E"
+            
         let ilat = icoord.split(sepLat)[0].substr([0, 4])
         let ilong = icoord.split(sepLat)[1].substr(0, 5)
-        arrCoords[i] = sepLat + ilat + " W" + ilong
+        arrCoords[i] = sepLat + ilat + " " + sepLon + ilong
 
     }
     if (arrCoords[0] !== arrCoords[arrCoords.length - 1])
@@ -385,7 +390,7 @@ function formataCoordsExternas(coords) {
 
     coords = removeEspacos(coords);
     //console.log(coords)
-    let latLngPatt = /[nNsS]\d{4}[W]\d{5}/g
+    let latLngPatt = /[nNsS]\d{4}[WwEe]\d{5}/g
     let arrCoords = coords.match(latLngPatt)
 
     if (!arrCoords || arrCoords.length == 0)
