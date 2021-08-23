@@ -1188,9 +1188,18 @@ function latLngToDegree(latlng) {
     var latSign = 1
     if (latlng[0] == "S")
         latSign = -1
+    var longSign = 1
+    if (latlng.includes("W"))
+      longSign = -1
+      
     lat = parseFloat((parseInt(latlng.substr(1, 2)) + (latlng.substr(3, 2) / 60))) * latSign
-    latlng = latlng.split("W")[1]
-    long = parseFloat((parseInt(latlng.substr(0, 3)) + (latlng.substr(3, 2) / 60))) * -1
+
+    if (longSign == -1)
+      latlng = latlng.split("W")[1]
+    else
+      latlng = latlng.split("E")[1]
+
+    long = parseFloat((parseInt(latlng.substr(0, 3)) + (latlng.substr(3, 2) / 60))) * longSign
     return [long, lat] // obje)to d3 requer long, lat
 }
 
