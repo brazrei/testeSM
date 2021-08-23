@@ -433,28 +433,18 @@ function trataMetarRedemet(response, idxFIR) {
     return cont; //retorna o total de metares lidos +1
 }
 
-function spanColor(txt, palavra, title, color) {
-    var tit = ''
-    if (title)
-        tit = ' title="' + title + '"'
-    return txt.replace(palavra, ' <span style="color:' + color + '"' + tit + '>' + palavra + "</span> ")
+function spanColor(txt, palavra, title="", color, bold) {
+    if (title!=="")
+        title = ' title="' + title + '"'
+    bi=bf=""
+    if (bold) {
+        bi = "<b>"
+        bf = "</b>"
+    }
+      
+    return txt.replace(palavra, ' ' + bi+ '<span style="color:' + color + '"' + tit + '>' + palavra + "</span>" + bf + " ")
     //return txt.replace(palavra, ' <font color="' + color + '"' + tit + '>' + palavra + "</font> ")
 
-}
-
-function spanBold(txt, palavra, title, color) {
-    var tit = ''
-    if (title)
-        tit = ' title="' + title + '"'
-    return txt.replace(palavra, ' <span style="color:' + color + '"' + tit + '>' + palavra + "</span> ")
-    //return txt.replace(palavra, ' <font color="' + color + '"' + tit + '>' + palavra + "</font> ")
-
-}
-
-function spanBold(txt, palavra, title = false, color) {
-    if (title)
-        tit = ' title="' + title + '"'
-    return txt.replace(palavra, ' <span style="color:' + color + '"' + tit + '>' + palavra + "</span> ")
 }
 
 function spanRed(txt, palavra, title) {
@@ -463,7 +453,7 @@ function spanRed(txt, palavra, title) {
 }
 
 function spanRedBold(txt, palavra, title) {
-    return `<b>${spanColor(txt, palavra, title, "red")}</b>` 
+    return `${spanColor(txt, palavra, title, "red",true)}` 
 
 }
 
@@ -649,11 +639,11 @@ function getStatusAirmet(loc) {
         if (achouAirmet) {
             visAirmet = visAirmet + "M"
             if ((visAirmet !== "9999M"))
-                visAirmet = spanRed(visAirmet, visAirmet)
+                visAirmet = spanRedBold(visAirmet, visAirmet)
             tetoAirmet = tetoAirmet + "FT";
             if (tetoAirmet !== "1500FT")
-                tetoAirmet = spanRed(tetoAirmet, tetoAirmet)
-            statusAirmet = spanRed(visAirmet + " / " + tetoAirmet)
+                tetoAirmet = spanRedBold(tetoAirmet, tetoAirmet)
+            statusAirmet = visAirmet + " / " + tetoAirmet
             return { texto: txtAirmet, vis: visAirmet, teto: tetoAirmet, tetoNum: airmet.teto, status: statusAirmet, achou: true, offline: airmet.offline }
         }
     } catch (e) {
@@ -874,7 +864,7 @@ function strToCell(arr, idxFIR, novo, naoAdiciona) {//nãoadiciona significa sub
         
         let arrADTmp = ["TC ", "TS ", "GR ", "SN ", "FZRA ", "FZDZ ","RIME ", "SS ", "DS ", "SA ", "DU ", "SQ ", "FROST ", "VA ", "TSUNAMI ", "TOX CHEM "]
         arrADTmp.forEach(t => { 
-          txtAdWRNG = spanRed(txtAdWRNG, t)
+          txtAdWRNG = spanRedBold(txtAdWRNG, t)
         });
 
         txtAdWRNG = spanRedBold(txtAdWRNG, `${statusAdWRNG.min}KT MAX ${statusAdWRNG.max}`);
@@ -887,9 +877,9 @@ function strToCell(arr, idxFIR, novo, naoAdiciona) {//nãoadiciona significa sub
         let teto = regSigmet.teto + "FT"
 
         if (vis !== "9999M")
-            vis = spanRed(vis, vis)
+            vis = spanRedBold(vis, vis)
         if (teto !== "10000FT")
-            teto = spanRed(teto, teto)
+            teto = spanRedBold(teto, teto)
         statusSigmet = vis + " / " + teto
         let arrStatusMetar = verificaStatusMetar(arr[2], statusAdWRNG, regAirmet, regSigmet)
         if (!arrStatusMetar.coberto && arr[2].maisRecente) {
