@@ -851,7 +851,13 @@ function strToCell(arr, idxFIR, novo, naoAdiciona) {//nãoadiciona significa sub
 
     if ((statusAdWRNG.min > 0) && (!statusAdWRNG.cancelado)) {
         txtAdWRNG = statusAdWRNG.texto
-        txtAdWRNG = spanRed(txtAdWRNG, txtAdWRNG)
+        
+        let arrADTmp = ["TC ", "TS ", "GR ", "SN ", "FZRA ", "FZDZ ","RIME ", "SS ", "DS ", "SA ", "DU ", "SQ ", "FROST ", "VA ", "TSUNAMI ", "TOX CHEM "]
+        arrADTmp.forEach(t => { 
+          txtAdWRNG = spanRed(txtAdWRNG, t)
+        });
+
+        txtAdWRNG = spanRed(txtAdWRNG, `${statusAdWRNG.min}KT MAX ${statusAdWRNG.max}`);
         txtTitleAdWRNG = '&#10;' + 'AVISO DE AERÓDROMO' + '&#10;&#10;' + statusAdWRNG.textoFull
     } else
         statusAdWRNG = ""
