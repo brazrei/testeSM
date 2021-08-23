@@ -442,7 +442,7 @@ function spanColor(txt, palavra, title="", color, bold) {
         bf = "</b>"
     }
       
-    return txt.replace(palavra, ' ' + bi+ '<span style="color:' + color + '"' + tit + '>' + palavra + "</span>" + bf + " ")
+    return txt.replace(palavra, ' ' + bi+ '<span style="color:' + color + '"' + title + '>' + palavra + "</span>" + bf + " ")
     //return txt.replace(palavra, ' <font color="' + color + '"' + tit + '>' + palavra + "</font> ")
 
 }
