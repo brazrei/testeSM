@@ -442,8 +442,28 @@ function spanColor(txt, palavra, title, color) {
 
 }
 
+function spanBold(txt, palavra, title, color) {
+    var tit = ''
+    if (title)
+        tit = ' title="' + title + '"'
+    return txt.replace(palavra, ' <span style="color:' + color + '"' + tit + '>' + palavra + "</span> ")
+    //return txt.replace(palavra, ' <font color="' + color + '"' + tit + '>' + palavra + "</font> ")
+
+}
+
+function spanBold(txt, palavra, title = false, color) {
+    if (title)
+        tit = ' title="' + title + '"'
+    return txt.replace(palavra, ' <span style="color:' + color + '"' + tit + '>' + palavra + "</span> ")
+}
+
 function spanRed(txt, palavra, title) {
     return spanColor(txt, palavra, title, "red")
+
+}
+
+function spanRedBold(txt, palavra, title) {
+    return `<b>${spanColor(txt, palavra, title, "red")}</b>` 
 
 }
 
@@ -857,7 +877,7 @@ function strToCell(arr, idxFIR, novo, naoAdiciona) {//nãoadiciona significa sub
           txtAdWRNG = spanRed(txtAdWRNG, t)
         });
 
-        txtAdWRNG = spanRed(txtAdWRNG, `${statusAdWRNG.min}KT MAX ${statusAdWRNG.max}`);
+        txtAdWRNG = spanRedBold(txtAdWRNG, `${statusAdWRNG.min}KT MAX ${statusAdWRNG.max}`);
         txtTitleAdWRNG = '&#10;' + 'AVISO DE AERÓDROMO' + '&#10;&#10;' + statusAdWRNG.textoFull
     } else
         statusAdWRNG = ""
