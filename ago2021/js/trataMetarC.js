@@ -154,7 +154,8 @@ function getMetar(localidades, Legenda, idxFIR, onLine) {
     var url, url1, url2;
 
     if (redemet) {
-        url1 = "https://redemet.decea.gov.br//api/consulta_automatica/index.php?local=";
+        url1 = "https://www.redemet.intraer//api/consulta_automatica/index.php?local=";
+//        url1 = "https://redemet.decea.gov.br//api/consulta_automatica/index.php?local=";
         url2 = "&msg=metar";
     } else {//decea 
         url1 = "https://api-redemet.decea.gov.br/api/mensagens/metar/";
