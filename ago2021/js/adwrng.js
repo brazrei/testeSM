@@ -158,7 +158,7 @@ function limpaAdWRNGs() {
 
 
 function getAdWRNG(primeiraVez = false) {
-    var url = "https://www.redemet.aer.mil.br/api/consulta_automatica/index.php?local=SBEG,SBBR,SBRF,SBPA,SBGL,SBGR&msg=aviso_aerodromo";
+    var url = "https://www.redemet.intraer/api/consulta_automatica/index.php?local=SBEG,SBBR,SBRF,SBPA,SBGL,SBGR&msg=aviso_aerodromo";
 
     GetWebContentAdWRNG(url, primeiraVez);
 }
