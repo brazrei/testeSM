@@ -1143,7 +1143,7 @@ function getAirmet(primeiraVez = false) {
     dfim = "2020101815"
     var interval = ""
     //var interval = `&data_ini=${dini}&data_fim=${dfim}`
-    var url = "https://www.redemet.aer.mil.br/api/consulta_automatica/index.php?local=SBAZ,SBBS,SBRE,SBCW&msg=airmet" + interval;
+    var url = "https://www.redemet.intraer/api/consulta_automatica/index.php?local=SBAZ,SBBS,SBRE,SBCW&msg=airmet" + interval;
     //  var url = "https://www.redemet.aer.mil.br/api/consulta_automatica/index.php?local=SBAZ,SBBS,SBRE,SBCW&msg=airmet&data_ini="+dataIni+"&data_fim="+dataFim;
 
     GetWebContentAirmet(url, primeiraVez);
