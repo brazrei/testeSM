@@ -90,7 +90,7 @@ function trataGametRedemet(texto) {
         classe = "table-dark";
         erro = " **** Gamet fora da Validade! **** "
         erro = spanRed(erro, erro)
-        setTimeout("getGamet();",5000)
+        setTimeout("getGamet();", 5000)
 
       }
       let strStyle = ""
@@ -98,7 +98,7 @@ function trataGametRedemet(texto) {
         strStyle = 'style="display:none"'
 
       str = erro + "GAMET VALID " + val + " " + arrayLocalidadeFIR[idx].toUpperCase() + " - " + vis + " - " + teto;
-      $("#" + arrayTableFir[idx] + " thead").append('<tr class="' + classe + '" '+strStyle+'><td><b>' + str + '</td><td></b></td><td></td><td></td><td></td></tr>');
+      $("#" + arrayTableFir[idx] + " thead").append('<tr class="' + classe + '" ' + strStyle + '><td><b>' + str + '</td><td></b></td><td></td><td></td><td></td></tr>');
       $("#" + arrayTableFir[idx] + " thead").append('<tr class="cabecalho"><td><b>Mensagem</b></td><td><b>Status AD WRNG</b></td><td><b>Status GAMET</b></td><td><b>Status AIRMET</b></td><td><b>CMA-1</b></td></tr>');
 
       if ((gamet.indexOf("VIS") == -1) && (part1[idx] == 0)) {
@@ -133,11 +133,15 @@ function getGamet() {
   }
   var dataIni = agora.getFullYear().toString() + fillZero(agora.getMonth() + 1) + fillZero(agora.getDate()) + ini;
   var dataFim = agora.getFullYear().toString() + fillZero(agora.getMonth() + 1) + fillZero(agora.getDate()) + fim;
+//  if (redemet)
+    var url = "https://www.redemet.intraer/api/consulta_automatica/index.php?local=SBAZ,SBBS,SBRE,SBCW&msg=gamet&data_ini=" + dataIni + "&data_fim=" + dataFim;
+/*  else
+    url = "https://api-redemet.decea.gov.br/api/mensagens/gamet/" + "SBAZ,SBBS,SBRE,SBCW" + 
+     "?api_key=U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei";
 
-  var url = "https://www.redemet.aer.mil.br/api/consulta_automatica/index.php?local=SBAZ,SBBS,SBRE,SBCW&msg=gamet&data_ini=" + dataIni + "&data_fim=" + dataFim;
+*/
 
 
-
-  GetWebContentGamet(url);
+    GetWebContentGamet(url);
 }
 
