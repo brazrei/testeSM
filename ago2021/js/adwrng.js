@@ -158,7 +158,11 @@ function limpaAdWRNGs() {
 
 
 function getAdWRNG(primeiraVez = false) {
-    var url = "https://www.redemet.intraer/api/consulta_automatica/index.php?local=SBEG,SBBR,SBRF,SBPA,SBGL,SBGR&msg=aviso_aerodromo";
+//    https://api-redemet.decea.mil.br/mensagens/metar/
+//    var url = "https://www.redemet.intraer/api/consulta_automatica/index.php?local=SBEG,SBBR,SBRF,SBPA,SBGL,SBGR&msg=aviso_aerodromo";
+    var localidades = removeEspacos(localidadesFIR[0])+","+removeEspacos(localidadesFIR[1])+
+        ","+removeEspacos(localidadesFIR[2]) + "," +removeEspacos(localidadesFIR[3])
+    var url = `https://api-redemet.decea.mil.br/mensagens/aviso/${localidades}?api_key=U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei`;
 
     GetWebContentAdWRNG(url, primeiraVez);
 }
@@ -204,6 +208,10 @@ function getIdxCMA(aviso) {
 
 function trataAdWRNGRedemet(texto) {
     //texto = "2021012512 - Mensagem Aviso de Aeródromo de 'SBEG' para 25/01/2021 as 12(UTC) não localizada na base de dados da REDEMET 2021012512 - Mensagem Aviso de Aeródromo de 'SBBR' para 25/01/2021 as 12(UTC) não localizada na base de dados da REDEMET 2021012512 - Mensagem Aviso de Aeródromo de 'SBRF' para 25/01/2021 as 12(UTC) não localizada na base de dados da REDEMET 2021012512 - Mensagem Aviso de Aeródromo de 'SBPA' para 25/01/2021 as 12(UTC) não localizada na base de dados da REDEMET 2021012512 - SBGL SBES AD WRNG 3 VALID 251123/251325 SFC WSPD 15KT MAX 25 OBS AT 1121Z NC= 2021012512 - SBGL SBMM/SBLB/SBES/SBCB AD WRNG 4 VALID 251240/251640 SFC WSPD 15KT MAX 25 FCST NC= 2021012512 - SBGL AD WRNG 5 VALID 251310/251640 CNL AD WRNG 4 VALID 251240/251640= 2021012512 - Mensagem Aviso de Aeródromo de 'SBGR' para 25/01/2021 as 12(UTC) não localizada na base de dados da REDEMET"
+    if (texto.includes("mens")) { 
+        texto = convertToRedemet(texto,"AD WRNG")
+        texto = texto.replace(/ - /g," - SBGL ")
+    }
     lastAdWRNG = texto + "" //var global
     
 
