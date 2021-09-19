@@ -320,11 +320,13 @@ function GetWebContentSigmet(url, primeiraVez) {
 
 function getSigmet(primeiraVez = false) {
     mostraLoading("Sigmet");
-    dini = "2020101800"
+/*    dini = "2020101800"
     dfim = "2020101815"
     var interval = ""
-    //var interval = `&data_ini=${dini}&data_fim=${dfim}`
-    var url = "https://www.redemet.intraer/api/consulta_automatica/index.php?local=SBAZ,SBBS,SBRE,SBAO,SBCW&msg=sigmet" + interval;
+    var interval = `&data_ini=${dini}&data_fim=${dfim}`*/
+    //var url = "https://www.redemet.intraer/api/consulta_automatica/index.php?local=SBAZ,SBBS,SBRE,SBAO,SBCW&msg=sigmet" + interval;
+    var url = "https://api-redemet.decea.mil.br/mensagens/sigmet/?api_key=U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei"; 
+    
     //  var url = "https://www.redemet.aer.mil.br/api/consulta_automatica/index.php?local=SBAZ,SBBS,SBRE,SBCW&msg=sigmet&data_ini="+dataIni+"&data_fim="+dataFim;
 
     GetWebContentSigmet(url, primeiraVez);
@@ -405,6 +407,9 @@ function getTipoSigmet(sigmet) {
 
 
 function trataSigmetRedemet(texto) {
+
+    if (texto.includes("mens"))
+      texto = opener.convertToRedemet(texto,"SIGMET")
     lastSigmet = texto + "" //var global
     //var classe = "table-warning table-sigmet";
 
