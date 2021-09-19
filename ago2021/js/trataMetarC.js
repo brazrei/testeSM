@@ -183,7 +183,7 @@ function updateArrayStatus(localidade, status) { // retorna true se o status mud
     */
 }
 
-function convertToRedemet(txt) {
+function convertToRedemet(txt, opt = false) {
     str = "";
     txt = txt.split('"mens":"');
 
@@ -200,6 +200,11 @@ function convertToRedemet(txt) {
             str = str + "0123456789 - " + metar.split("\\").join("") + "=";
         }
         if (s.indexOf("GAMET") == 5) {
+            metar = s.split("=")[0];
+
+            str = str + "0123456789 - " + metar.split("\\").join("") + "=";
+        }
+        if (opt && s.indexOf(opt) > -1) { 
             metar = s.split("=")[0];
 
             str = str + "0123456789 - " + metar.split("\\").join("") + "=";
