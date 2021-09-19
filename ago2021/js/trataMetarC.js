@@ -154,9 +154,11 @@ function getMetar(localidades, Legenda, idxFIR, onLine) {
     var url, url1, url2;
 
     if (redemet) {
-        url1 = "https://www.redemet.intraer//api/consulta_automatica/index.php?local=";
-//        url1 = "https://redemet.decea.gov.br//api/consulta_automatica/index.php?local=";
-        url2 = "&msg=metar";
+        //url1 = "https://www.redemet.intraer//api/consulta_automatica/index.php?local=";
+        url1 = "https://api-redemet.decea.mil.br/mensagens/metar/"
+        //        url1 = "https://redemet.decea.gov.br//api/consulta_automatica/index.php?local=";
+        //        url2 = "&msg=metar";
+        url2 = "?api_key=U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei";
     } else {//decea 
         url1 = "https://api-redemet.decea.gov.br/api/mensagens/metar/";
         url2 = "?api_key=U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei";
@@ -193,6 +195,11 @@ function convertToRedemet(txt) {
             str = str + "0123456789 - " + metar.split("\\").join("") + "=";
         }
         if (s.indexOf("SPECI") == 0) {
+            metar = s.split("=")[0];
+
+            str = str + "0123456789 - " + metar.split("\\").join("") + "=";
+        }
+        if (s.indexOf("GAMET") == 5) {
             metar = s.split("=")[0];
 
             str = str + "0123456789 - " + metar.split("\\").join("") + "=";
@@ -245,6 +252,16 @@ function limpaArrayStatusGamet(idxFIR) {
     });
 }
 
+function getMensagensAPINova(response) {
+    a = JSON.parse(response)
+    r = ""
+    a.data.data.forEach(a => {
+        r = r + "00000000000 - " + a.mens;
+
+    });
+    return r
+}
+
 function trataMetarRedemet(response, idxFIR) {
 
     function isMostRecent(arr, loc, i) {
@@ -252,7 +269,6 @@ function trataMetarRedemet(response, idxFIR) {
     }
     //  if (idxFIR ==0)
     //    response = "2021032216 - METAR SBEG 221600Z 03006KT 1500 BR BKN002 31/22 Q1012="
-
     var erroDeAcesso = response.includes("ErroSM=");
     if (!erroDeAcesso)
         globalStrMetaresOffLine[idxFIR] = response;
@@ -263,7 +279,7 @@ function trataMetarRedemet(response, idxFIR) {
     }
 
     limpaMetarFIR(idxFIR);
-    if (!redemet) {
+    if (response.includes("mens")) {
         response = convertToRedemet(response);
     }
     dataHora = getDataHoraMetares(response);
@@ -434,16 +450,16 @@ function trataMetarRedemet(response, idxFIR) {
     return cont; //retorna o total de metares lidos +1
 }
 
-function spanColor(txt, palavra, title="", color, bold) {
-    if (title!=="")
+function spanColor(txt, palavra, title = "", color, bold) {
+    if (title !== "")
         title = ' title="' + title + '"'
-    bi=bf=""
+    bi = bf = ""
     if (bold) {
         bi = "<b>"
         bf = "</b>"
     }
-      
-    return txt.replace(palavra, ' ' + bi+ '<span style="color:' + color + '"' + title + '>' + palavra + "</span>" + bf + " ")
+
+    return txt.replace(palavra, ' ' + bi + '<span style="color:' + color + '"' + title + '>' + palavra + "</span>" + bf + " ")
     //return txt.replace(palavra, ' <font color="' + color + '"' + tit + '>' + palavra + "</font> ")
 
 }
@@ -454,7 +470,7 @@ function spanRed(txt, palavra, title) {
 }
 
 function spanRedBold(txt, palavra, title) {
-    return `${spanColor(txt, palavra, title, "red",true)}` 
+    return `${spanColor(txt, palavra, title, "red", true)}`
 
 }
 
@@ -662,7 +678,7 @@ function getStatusAdWRNG(loc) {
     let textoFull = ""
     let texto = ""
     arrAdWRNGGeral.forEach(aviso => {
-        if ((!aviso.cancelado) && (aviso.locs.indexOf(loc) > -1) && (aviso.tipo !=="C")) {
+        if ((!aviso.cancelado) && (aviso.locs.indexOf(loc) > -1) && (aviso.tipo !== "C")) {
             min = aviso.vento[0]
             max = aviso.vento[1]
             cancelado = aviso.cancelado
@@ -843,7 +859,7 @@ function strToCell(arr, idxFIR, novo, naoAdiciona) {//nãoadiciona significa sub
     let classStatusAirmet = ""
     if (!smartPlot || smartPlot.closed) {
         //if (smartPlot)
-            //smartplot.close();
+        //smartplot.close();
         regAirmet.status = "SMARTPLOT OFFLINE"
         classStatusAirmet = " class='errorPulse' style='color: red; font-weight: bold;'"
         smartPlotOnline = false
@@ -862,10 +878,10 @@ function strToCell(arr, idxFIR, novo, naoAdiciona) {//nãoadiciona significa sub
 
     if ((statusAdWRNG.min > 0) && (!statusAdWRNG.cancelado)) {
         txtAdWRNG = statusAdWRNG.texto
-        
-        let arrADTmp = ["TC ", "TS ", "GR ", "SN ", "FZRA ", "FZDZ ","RIME ", "SS ", "DS ", "SA ", "DU ", "SQ ", "FROST ", "VA ", "TSUNAMI ", "TOX CHEM "]
-        arrADTmp.forEach(t => { 
-          txtAdWRNG = spanRedBold(txtAdWRNG, t)
+
+        let arrADTmp = ["TC ", "TS ", "GR ", "SN ", "FZRA ", "FZDZ ", "RIME ", "SS ", "DS ", "SA ", "DU ", "SQ ", "FROST ", "VA ", "TSUNAMI ", "TOX CHEM "]
+        arrADTmp.forEach(t => {
+            txtAdWRNG = spanRedBold(txtAdWRNG, t)
         });
 
         txtAdWRNG = spanRedBold(txtAdWRNG, `${statusAdWRNG.min}KT MAX ${statusAdWRNG.max}`);
@@ -914,7 +930,7 @@ function strToCell(arr, idxFIR, novo, naoAdiciona) {//nãoadiciona significa sub
     if (naoAdiciona)
         $('#' + arrayTableFir[idxFIR] + ' tr:last').remove();
 
-    let line = '<tr title="' + tit.toUpperCase() + latLong + '&#10;&#10;CMA-1: ' + cma + '&#10;&#10;' + regAirmet.texto + txtTitleAdWRNG + '" ' + classe + id + '><td><b>' + arr[0] + '</b>' + descRestricao + descAlerta + infoAlerta + '</td><td>' + txtAdWRNG + '</td><td>' + statusSigmet + '</td><td '+classStatusAirmet+'>' + regAirmet.status + '</td><td>' + cma + '</td></tr>'
+    let line = '<tr title="' + tit.toUpperCase() + latLong + '&#10;&#10;CMA-1: ' + cma + '&#10;&#10;' + regAirmet.texto + txtTitleAdWRNG + '" ' + classe + id + '><td><b>' + arr[0] + '</b>' + descRestricao + descAlerta + infoAlerta + '</td><td>' + txtAdWRNG + '</td><td>' + statusSigmet + '</td><td ' + classStatusAirmet + '>' + regAirmet.status + '</td><td>' + cma + '</td></tr>'
     var row = $('#' + arrayTableFir[idxFIR] + ' tbody').append(line);
     $('.tr' + loc).click(function () {
         var loc = $(this).closest('tr').prop('class').split(" ")[1];
@@ -974,15 +990,15 @@ function getVento(metar) {
     vento = campos[posVento];
     let inicioVel = 3
     if (vento.includes('P99'))
-      inicioVel = 4
-      
+        inicioVel = 4
+
     ventoeRajada[2] = vento;
 
     //00099G00KT
     if (vento.includes("G")) {
-        let inicioVelRaj = inicioVel+3;
+        let inicioVelRaj = inicioVel + 3;
         if (vento.includes("GP"))
-          inicioVelRaj +=1;
+            inicioVelRaj += 1;
         ventoeRajada[1] = vento.substr(inicioVelRaj, 2); //'6 ate o final
         ventoeRajada[0] = vento.substr(inicioVel, 2);
     }
