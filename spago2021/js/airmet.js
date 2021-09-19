@@ -1143,8 +1143,9 @@ function getAirmet(primeiraVez = false) {
     dfim = "2020101815"
     var interval = ""
     //var interval = `&data_ini=${dini}&data_fim=${dfim}`
-    var url = "https://www.redemet.intraer/api/consulta_automatica/index.php?local=SBAZ,SBBS,SBRE,SBCW&msg=airmet" + interval;
+    //var url = "https://www.redemet.intraer/api/consulta_automatica/index.php?local=SBAZ,SBBS,SBRE,SBCW&msg=airmet" + interval;
     //  var url = "https://www.redemet.aer.mil.br/api/consulta_automatica/index.php?local=SBAZ,SBBS,SBRE,SBCW&msg=airmet&data_ini="+dataIni+"&data_fim="+dataFim;
+    var url = "https://api-redemet.decea.mil.br/mensagens/airmet/?api_key=U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei"; 
 
     GetWebContentAirmet(url, primeiraVez);
 }
@@ -1239,6 +1240,9 @@ function getTipoAirmet(airmet) {
 
 
 function trataAirmetRedemet(texto) {
+    if (texto.includes("mens"))
+      texto = opener.convertToRedemet(texto,"AIRMET")
+
     lastAirmet = texto + "" //var global
     var classe = "table-warning table-airmet";
     //limpaAirmets();
