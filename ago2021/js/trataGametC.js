@@ -62,6 +62,10 @@ function trataGametRedemet(texto) {
   let visible = true
   lastGamet = texto + ""
   var classe = "table-warning tableGametContent";
+  if (texto.includes("mens")) {
+    texto = convertToRedemet(texto);
+  }
+
   limpaGamets();
 
   texto = removeEspacosDuplos(texto);
@@ -133,15 +137,18 @@ function getGamet() {
   }
   var dataIni = agora.getFullYear().toString() + fillZero(agora.getMonth() + 1) + fillZero(agora.getDate()) + ini;
   var dataFim = agora.getFullYear().toString() + fillZero(agora.getMonth() + 1) + fillZero(agora.getDate()) + fim;
-//  if (redemet)
-    var url = "https://www.redemet.intraer/api/consulta_automatica/index.php?local=SBAZ,SBBS,SBRE,SBCW&msg=gamet&data_ini=" + dataIni + "&data_fim=" + dataFim;
-/*  else
-    url = "https://api-redemet.decea.gov.br/api/mensagens/gamet/" + "SBAZ,SBBS,SBRE,SBCW" + 
-     "?api_key=U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei";
+  //  if (redemet)
+//  var url = "https://www.redemet.intraer/api/consulta_automatica/index.php?local=SBAZ,SBBS,SBRE,SBCW&msg=gamet&data_ini=" + dataIni + "&data_fim=" + dataFim;
+  var url = "https://api-redemet.decea.mil.br/mensagens/gamet/?api_key=U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei&"+"local=SBAZ,SBBS,SBRE,SBCW";
 
-*/
+  /*  else
+      url = "https://api-redemet.decea.gov.br/api/mensagens/gamet/" + "SBAZ,SBBS,SBRE,SBCW" + 
+       "?api_key=U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei";
+  
+  */
 
 
-    GetWebContentGamet(url);
+
+  GetWebContentGamet(url);
 }
 
