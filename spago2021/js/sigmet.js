@@ -332,7 +332,7 @@ function getSigmet(primeiraVez = false) {
          url = opener.linkIntraer;
       else
          url = opener.linkInternet;      
-      url = `${url}SBAZ,SBBS,SBRE,SBCW&msg=sigmet`
+      url = `${url}SBAZ,SBBS,SBRE,SBCW,SBAO&msg=sigmet`
     }  else
       url = `https://api-redemet.decea.mil.br/mensagens/sigmet/?api_key=${opener.apiKey}` 
     
