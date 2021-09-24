@@ -334,7 +334,7 @@ function getSigmet(primeiraVez = false) {
          url = opener.linkInternet;      
       url = `${url}SBAZ,SBBS,SBRE,SBCW,SBAO&msg=sigmet`
     }  else
-      url = `https://api-redemet.decea.mil.br/mensagens/sigmet/?api_key=${opener.apiKey}` 
+      url = `${opener.linkAPINova}sigmet/?api_key=${opener.apiKey}` 
     
 
     GetWebContentSigmet(url, primeiraVez);
