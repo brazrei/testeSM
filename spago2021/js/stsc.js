@@ -264,7 +264,7 @@ function plota_stsc(obj_chk) {
             loadPHP_STSC()
         }
         else
-        url = 'https://www.redemet.intraer/api/produtos/stsc?api_key=U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei';
+          url = 'https://www.redemet.intraer/api/produtos/stsc?api_key=U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei';
 //        url = 'https://api-redemet.decea.gov.br/api/produtos/stsc?api_key=U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei';
 
         $.ajax({
