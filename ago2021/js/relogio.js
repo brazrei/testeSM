@@ -170,6 +170,14 @@ function inicializaChkAUTO() {
 
 }
 
+function inicializaChkAPI() {
+  $('#chkFonteAPINova').change(function () {
+    redemetAntiga = !$('#chkFonteAPINova').prop('checked');
+    BtnMetarGERALClick(true);
+  });
+
+}
+
 function inicializaChkFir() {
   $('#chkFIRAZ').change(checkAZChange);
   $('#chkFIRBS').change(checkBSChange);
@@ -225,6 +233,7 @@ $(document).ready(function () {
 
   inicializaChkFir();
   inicializaChkAUTO();
+  inicializaChkAPI();
 
   inicializaCookies();
 
