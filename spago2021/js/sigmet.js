@@ -325,9 +325,17 @@ function getSigmet(primeiraVez = false) {
     var interval = ""
     var interval = `&data_ini=${dini}&data_fim=${dfim}`*/
     //var url = "https://www.redemet.intraer/api/consulta_automatica/index.php?local=SBAZ,SBBS,SBRE,SBAO,SBCW&msg=sigmet" + interval;
-    var url = "https://api-redemet.decea.mil.br/mensagens/sigmet/?api_key=U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei"; 
+    let url = ""
     
-    //  var url = "https://www.redemet.aer.mil.br/api/consulta_automatica/index.php?local=SBAZ,SBBS,SBRE,SBCW&msg=sigmet&data_ini="+dataIni+"&data_fim="+dataFim;
+    if (redemetAntiga)
+      if (intraer)
+         url = linkIntraer;
+      else
+         url = linkInternet;      
+      url = `${url}SBAZ,SBBS,SBRE,SBCW&msg=sigmet&data_ini=${dataIni}+data_fim=${dataFim}`
+    else
+      url = `https://api-redemet.decea.mil.br/mensagens/sigmet/?api_key=${apiKey}` 
+    
 
     GetWebContentSigmet(url, primeiraVez);
 }
