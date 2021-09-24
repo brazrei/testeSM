@@ -159,10 +159,15 @@ function limpaAdWRNGs() {
 
 function getAdWRNG(primeiraVez = false) {
 //    https://api-redemet.decea.mil.br/mensagens/metar/
-//    var url = "https://www.redemet.intraer/api/consulta_automatica/index.php?local=SBEG,SBBR,SBRF,SBPA,SBGL,SBGR&msg=aviso_aerodromo";
-    var localidades = removeEspacos(localidadesFIR[0])+","+removeEspacos(localidadesFIR[1])+
-        ","+removeEspacos(localidadesFIR[2]) + "," +removeEspacos(localidadesFIR[3])
-    var url = `https://api-redemet.decea.mil.br/mensagens/aviso/${localidades}?api_key=U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei`;
+    let url = ""
+    let localidades = ""
+    if (redemetAntiga) {
+      url = "https://www.redemet.intraer/api/consulta_automatica/index.php?local=SBEG,SBBR,SBRF,SBPA,SBGL,SBGR&msg=aviso_aerodromo";
+    } else {
+      localidades = removeEspacos(localidadesFIR[0])+","+removeEspacos(localidadesFIR[1])+
+        ","+removeEspacos(localidadesFIR[2]) + "," +removeEspacos(localidadesFIR[3]);
+        url = `https://api-redemet.decea.mil.br/mensagens/aviso/${localidades}?api_key=${apiKey}`;
+    }
 
     GetWebContentAdWRNG(url, primeiraVez);
 }
