@@ -173,6 +173,7 @@ function inicializaChkAUTO() {
 function inicializaChkAPI() {
   $('#chkFonteAPINova').change(function () {
     redemetAntiga = !$('#chkFonteAPINova').prop('checked');
+    getGamet();
     BtnMetarGERALClick(true);
   });
 
