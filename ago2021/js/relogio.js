@@ -245,7 +245,7 @@ $(document).ready(function () {
 
   getAeroportos();
 
-  setTimeout(getAdWRNG,10000);
+  setTimeout(getAdWRNG,1000);
   setInterval(getAdWRNG, 60000);
 
   getGamet();
