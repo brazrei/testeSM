@@ -8,9 +8,15 @@ var globalStrMetaresOffLine = ["", "", "", ""]; //usado para carregar os metares
 var firVisible = [true, true, true, true];
 var metaresFiltrados = []; //usado para controlar os metares que estão em exibição 
 var arrMetaresFiltrados = []; //usado para controlar os metares que estão em exibição 
-var redemet = true; //usada alternar o acesso entre a api  da redemet e do decea
 var escondeSpeciAUTO = true;
 var primeiraVez = true; //usada para nao marcar os metares na 1 exibicao
+
+var redemetAntiga = true; 
+var intraer = true; // valido apenas para a api antiga por enquanto
+var apiKey = "U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei"
+var linkInternet = "http://redemet.decea.gov.br//api/consulta_automatica/index.php?local="
+var linkIntraer = "http://www.redemet.intraer//api/consulta_automatica/index.php?local="
+
 //var beepOn = true; //
 
 var localidadesFIR = [
@@ -153,15 +159,19 @@ function replac(str1, str2, str3) {
 function getMetar(localidades, Legenda, idxFIR, onLine) {
     var url, url1, url2;
 
-    if (redemet) {
-        //url1 = "https://www.redemet.intraer//api/consulta_automatica/index.php?local=";
-        url1 = "https://api-redemet.decea.mil.br/mensagens/metar/"
+    if (redemetAntiga) {
+        if (intraer)
+            url1 = linkIntraer;
+        else
+            url1 = linkInternet;
+            
+        url2 = "&msg=metar";
+        //url1 = "https://api-redemet.decea.mil.br/mensagens/metar/"
         //        url1 = "https://redemet.decea.gov.br//api/consulta_automatica/index.php?local=";
-        //        url2 = "&msg=metar";
-        url2 = "?api_key=U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei";
+        //url2 = `?api_key=${apiKey}`;
     } else {//decea 
         url1 = "https://api-redemet.decea.gov.br/api/mensagens/metar/";
-        url2 = "?api_key=U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei";
+        url2 = `?api_key=${apiKey}`;
     }
     localidades = localidades.replace(/ /g, ""); //retira os espaços
     url = url1 + localidades + url2;
