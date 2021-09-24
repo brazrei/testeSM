@@ -162,7 +162,11 @@ function getAdWRNG(primeiraVez = false) {
     let url = ""
     let localidades = ""
     if (redemetAntiga) {
-      url = "https://www.redemet.intraer/api/consulta_automatica/index.php?local=SBEG,SBBR,SBRF,SBPA,SBGL,SBGR&msg=aviso_aerodromo";
+        if (intraer)
+            url = linkIntraer;
+        else
+            url = linkInternet;
+      url = `${url}SBEG,SBBR,SBRF,SBPA,SBGL,SBGR&msg=aviso_aerodromo`;
     } else {
       localidades = removeEspacos(localidadesFIR[0])+","+removeEspacos(localidadesFIR[1])+
         ","+removeEspacos(localidadesFIR[2]) + "," +removeEspacos(localidadesFIR[3]);
