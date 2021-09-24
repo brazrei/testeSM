@@ -1141,11 +1141,22 @@ function getAirmet(primeiraVez = false) {
     mostraLoading("Airmet");
     dini = "2020101800"
     dfim = "2020101815"
-    var interval = ""
-    //var interval = `&data_ini=${dini}&data_fim=${dfim}`
-    //var url = "https://www.redemet.intraer/api/consulta_automatica/index.php?local=SBAZ,SBBS,SBRE,SBCW&msg=airmet" + interval;
-    //  var url = "https://www.redemet.aer.mil.br/api/consulta_automatica/index.php?local=SBAZ,SBBS,SBRE,SBCW&msg=airmet&data_ini="+dataIni+"&data_fim="+dataFim;
-    var url = "https://api-redemet.decea.mil.br/mensagens/airmet/?api_key=U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei"; 
+    let interval = ""
+    let url = ""
+ 
+    if (redemetAntiga) {
+      if (intraer)
+         url = linkIntraer;
+      else
+         url = linkInternet;
+        
+      url = `${url}SBAZ,SBBS,SBRE,SBCW&msg=airmet&data_ini=${dataIni}&data_fim=${dataFim}`;
+        
+    else 
+        //var interval = `&data_ini=${dini}&data_fim=${dfim}`
+        //var url = "https://www.redemet.intraer/api/consulta_automatica/index.php?local=SBAZ,SBBS,SBRE,SBCW&msg=airmet" + interval;
+        url = "https://api-redemet.decea.mil.br/mensagens/airmet/?api_key=${apiKey}";
+    
 
     GetWebContentAirmet(url, primeiraVez);
 }
