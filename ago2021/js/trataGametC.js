@@ -135,19 +135,15 @@ function getGamet() {
     ini = "22"
     fim = "23"
   }
-  var dataIni = agora.getFullYear().toString() + fillZero(agora.getMonth() + 1) + fillZero(agora.getDate()) + ini;
-  var dataFim = agora.getFullYear().toString() + fillZero(agora.getMonth() + 1) + fillZero(agora.getDate()) + fim;
-  //  if (redemet)
-//  var url = "https://www.redemet.intraer/api/consulta_automatica/index.php?local=SBAZ,SBBS,SBRE,SBCW&msg=gamet&data_ini=" + dataIni + "&data_fim=" + dataFim;
-  var url = "https://api-redemet.decea.mil.br/mensagens/gamet/?api_key=U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei&"+"local=SBAZ,SBBS,SBRE,SBCW";
-
-  /*  else
-      url = "https://api-redemet.decea.gov.br/api/mensagens/gamet/" + "SBAZ,SBBS,SBRE,SBCW" + 
-       "?api_key=U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei";
   
-  */
-
-
+  let dataIni = agora.getFullYear().toString() + fillZero(agora.getMonth() + 1) + fillZero(agora.getDate()) + ini;
+  let dataFim = agora.getFullYear().toString() + fillZero(agora.getMonth() + 1) + fillZero(agora.getDate()) + fim;
+  let url = ""
+  if (redemetAntiga) {
+     url = `https://www.redemet.intraer/api/consulta_automatica/index.php?local=SBAZ,SBBS,SBRE,SBCW&msg=gamet&data_ini=${dataIni}&data_fim=${dataFim}`;
+  } else {
+     url = `https://api-redemet.decea.mil.br/mensagens/gamet/?api_key=${apiKey}&"+"local=SBAZ,SBBS,SBRE,SBCW";`
+  }
 
   GetWebContentGamet(url);
 }
