@@ -140,7 +140,11 @@ function getGamet() {
   let dataFim = agora.getFullYear().toString() + fillZero(agora.getMonth() + 1) + fillZero(agora.getDate()) + fim;
   let url = ""
   if (redemetAntiga) {
-     url = `https://www.redemet.intraer/api/consulta_automatica/index.php?local=SBAZ,SBBS,SBRE,SBCW&msg=gamet&data_ini=${dataIni}&data_fim=${dataFim}`;
+     if (intraer)
+         url = linkIntraer;
+     else
+         url = linkInternet;
+     url = `${url}SBAZ,SBBS,SBRE,SBCW&msg=gamet&data_ini=${dataIni}&data_fim=${dataFim}`;
   } else {
      url = `https://api-redemet.decea.mil.br/mensagens/gamet/?api_key=${apiKey}&"+"local=SBAZ,SBBS,SBRE,SBCW";`
   }
