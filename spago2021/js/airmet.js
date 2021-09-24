@@ -1155,7 +1155,7 @@ function getAirmet(primeiraVez = false) {
     else 
         //var interval = `&data_ini=${dini}&data_fim=${dfim}`
         //var url = "https://www.redemet.intraer/api/consulta_automatica/index.php?local=SBAZ,SBBS,SBRE,SBCW&msg=airmet" + interval;
-        url = "https://api-redemet.decea.mil.br/mensagens/airmet/?api_key=${apiKey}";
+        url = `https://api-redemet.decea.mil.br/mensagens/airmet/?api_key=${apiKey}`;
     
 
     GetWebContentAirmet(url, primeiraVez);
