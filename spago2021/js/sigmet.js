@@ -327,14 +327,14 @@ function getSigmet(primeiraVez = false) {
     //var url = "https://www.redemet.intraer/api/consulta_automatica/index.php?local=SBAZ,SBBS,SBRE,SBAO,SBCW&msg=sigmet" + interval;
     let url = ""
     
-    if (redemetAntiga) {
-      if (intraer)
-         url = linkIntraer;
+    if (opener.redemetAntiga) {
+      if (opener.intraer)
+         url = opener.linkIntraer;
       else
-         url = linkInternet;      
+         url = opener.linkInternet;      
       url = `${url}SBAZ,SBBS,SBRE,SBCW&msg=sigmet&data_ini=${dataIni}+data_fim=${dataFim}`
     }  else
-      url = `https://api-redemet.decea.mil.br/mensagens/sigmet/?api_key=${apiKey}` 
+      url = `https://api-redemet.decea.mil.br/mensagens/sigmet/?api_key=${opener.apiKey}` 
     
 
     GetWebContentSigmet(url, primeiraVez);
