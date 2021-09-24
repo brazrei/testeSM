@@ -16,6 +16,7 @@ var intraer = true; // valido apenas para a api antiga por enquanto
 var apiKey = "U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei"
 var linkInternet = "http://redemet.decea.gov.br//api/consulta_automatica/index.php?local="
 var linkIntraer = "http://www.redemet.intraer//api/consulta_automatica/index.php?local="
+var linkAPINova = "https://api-redemet.decea.mil.br/mensagens/"
 
 //var beepOn = true; //
 
@@ -170,7 +171,8 @@ function getMetar(localidades, Legenda, idxFIR, onLine) {
         //        url1 = "https://redemet.decea.gov.br//api/consulta_automatica/index.php?local=";
         //url2 = `?api_key=${apiKey}`;
     } else {//decea 
-        url1 = "https://api-redemet.decea.gov.br/api/mensagens/metar/";
+        url1 = `${linkAPINova}metar/`;
+                
         url2 = `?api_key=${apiKey}`;
     }
     localidades = localidades.replace(/ /g, ""); //retira os espaços
