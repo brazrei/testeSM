@@ -1144,18 +1144,18 @@ function getAirmet(primeiraVez = false) {
     let interval = ""
     let url = ""
  
-    if (redemetAntiga) {
-      if (intraer)
-         url = linkIntraer;
+    if (opener.redemetAntiga) {
+      if (opener.intraer)
+         url = opener.linkIntraer;
       else
-         url = linkInternet;
+         url = opener.linkInternet;
         
       url = `${url}SBAZ,SBBS,SBRE,SBCW&msg=airmet&data_ini=${dataIni}&data_fim=${dataFim}`;
         
     } else 
         //var interval = `&data_ini=${dini}&data_fim=${dfim}`
         //var url = "https://www.redemet.intraer/api/consulta_automatica/index.php?local=SBAZ,SBBS,SBRE,SBCW&msg=airmet" + interval;
-        url = `https://api-redemet.decea.mil.br/mensagens/airmet/?api_key=${apiKey}`;
+        url = `https://api-redemet.decea.mil.br/mensagens/airmet/?api_key=${opener.apiKey}`;
     
 
     GetWebContentAirmet(url, primeiraVez);
