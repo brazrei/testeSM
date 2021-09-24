@@ -146,7 +146,7 @@ function getGamet() {
          url = linkInternet;
      url = `${url}SBAZ,SBBS,SBRE,SBCW&msg=gamet&data_ini=${dataIni}&data_fim=${dataFim}`
   } else {
-     url = `https://api-redemet.decea.mil.br/mensagens/gamet/?api_key=${apiKey}&local=SBAZ,SBBS,SBRE,SBCW;`
+     url = `${linkAPINova}gamet/?api_key=${apiKey}&local=SBAZ,SBBS,SBRE,SBCW;`
   }
 
   GetWebContentGamet(url);
