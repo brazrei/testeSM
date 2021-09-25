@@ -539,13 +539,16 @@ function plotaMarca(lat, lng, loc) {
         if (desc[0] == "*") {
             restricao = true
             desc = desc.substr(1)
-            if (desc.toUpperCase().includes("DESCOBERTO")) {
+            let descU = desc.toUpperCase();
+            if (!descU.includes("VENTO"))
+                cssIconRed = cssIconYellow = false
+            if (descU.includes("DESCOBERTO")) {
                 icon = redIcon
                 addMarker(L.marker([lat, lng], { icon: cssIconRed }), "", restricao, true)
                 updateDescobertos(loc)
             }
             else {
-                if (desc.toUpperCase().includes("DEGRADA"))
+                if (descU.includes("DEGRADA"))
                     icon = orangeIcon
                 else
                     icon = yellowIcon
