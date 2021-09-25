@@ -2,8 +2,9 @@
   $url = $_SERVER["SCRIPT_NAME"];
   $break = Explode('/', $url);
   $file = $break[count($break) - 1];
-  $cachefile = 'cached-'.substr_replace($file ,"",-4).'.html';
-  $cachetime = 10;
+  $encrypted_Locs = hash('sha256',$_GET['local']);
+  $cachefile = 'cached-'.substr_replace($file ,"",-4).$encrypted_Locs.'.html';
+  $cachetime = 55;
 
   // Serve from the cache if it is younger than $cachetime
   if (file_exists($cachefile) && time() - $cachetime < filemtime($cachefile)) {
