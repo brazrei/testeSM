@@ -540,19 +540,20 @@ function plotaMarca(lat, lng, loc) {
             restricao = true
             desc = desc.substr(1)
             let descU = desc.toUpperCase();
-            if (!descU.includes("VENTO"))
-                cssIconRed = cssIconYellow = false
+            let vento = (descU.includes("VENTO"))
+                
             if (descU.includes("DESCOBERTO")) {
                 icon = redIcon
-                addMarker(L.marker([lat, lng], { icon: cssIconRed }), "", restricao, true)
+                if (vento)
+                  addMarker(L.marker([lat, lng], { icon: cssIconRed }), "", restricao, true)
                 updateDescobertos(loc)
-            }
-            else {
+            } else {
                 if (descU.includes("DEGRADA"))
                     icon = orangeIcon
                 else
                     icon = yellowIcon
-                addMarker(L.marker([lat, lng], { icon: cssIconYellow }), "", restricao, true)
+                if (vento)
+                  addMarker(L.marker([lat, lng], { icon: cssIconYellow }), "", restricao, true)
             }
         } else
             icon = greenIcon
