@@ -540,7 +540,7 @@ function plotaMarca(lat, lng, loc) {
             restricao = true
             desc = desc.substr(1)
             let descU = desc.toUpperCase();
-            let vento = (descU.includes("VENTO"))
+            let vento = (descU.includes("VENTO") || descU.includes("RAJADA"))
                 
             if (descU.includes("DESCOBERTO")) {
                 icon = redIcon
