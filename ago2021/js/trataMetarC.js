@@ -281,7 +281,7 @@ function getMensagensAPINova(response) {
 }
 
 function updateRestricaoLoc(loc, restricao) {
-   if (arrRestricaoLoc.indexOf(loc) < 0)
+   if (!arrRestricaoLoc[loc])
        arrRestricaoLoc[loc] = restricao
     else
        arrRestricaoLoc[loc] = arrRestricaoLoc[loc] + restricao
