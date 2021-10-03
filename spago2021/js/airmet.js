@@ -475,6 +475,19 @@ function plotaMarca(lat, lng, loc) {
         return (descMetar.includes("VENTO") || descMetar.includes("RAJADA") || descMetar.includes("KT</SPAN>"))
     }
 
+    function getTipoAlerta(loc) {
+        let rota = false
+        let ad = false
+        
+        if (opener && opener.arrRestricaoLoc[loc]) {
+            let alerta = opener.arrRestricaoLoc[loc]
+            if (alerta.indexOf("TETO") > -1 || alerta.indexOf("VISIBILIDADE") > -1)
+                rota = true
+            if (alerta.indexOf("VENTO") > -1 || alerta.indexOf("RAJADA") > -1 || alerta.indexOf("TROVOADA") > -1)
+                ad = true
+        }
+        return {ad, rota}
+    }
     if (!isNaN(lat) && !isNaN(lng)) {
 
         desc = getMetar(loc)
@@ -544,11 +557,11 @@ function plotaMarca(lat, lng, loc) {
             restricao = true
             desc = desc.substr(1)
             let descU = desc.toUpperCase();
-            let vento = checaRestricaoVento(descU)
+            let alertaAD = getTipoAlerta(loc).ad;
                 
             if (descU.includes("DESCOBERTO")) {
                 icon = redIcon
-                if (vento)
+                if (alertaAD)
                   addMarker(L.marker([lat, lng], { icon: cssIconRed }), "", restricao, true)
                 updateDescobertos(loc)
             } else {
@@ -556,7 +569,7 @@ function plotaMarca(lat, lng, loc) {
                     icon = orangeIcon
                 else
                     icon = yellowIcon
-                if (vento)
+                if (alertaAD)
                   addMarker(L.marker([lat, lng], { icon: cssIconYellow }), "", restricao, true)
             }
         } else
