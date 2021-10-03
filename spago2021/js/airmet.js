@@ -470,6 +470,10 @@ function plotaMarca(lat, lng, loc) {
         else
             return desc
     }
+    
+    function checaRestricaoVento(descMetar) {
+        return (descMetar.includes("VENTO") || descMetar.includes("RAJADA") || descMetar.includes("KT</SPAN>"))
+    }
 
     if (!isNaN(lat) && !isNaN(lng)) {
 
@@ -540,7 +544,7 @@ function plotaMarca(lat, lng, loc) {
             restricao = true
             desc = desc.substr(1)
             let descU = desc.toUpperCase();
-            let vento = (descU.includes("VENTO") || descU.includes("RAJADA"))
+            let vento = checaRestricaoVento(descU)
                 
             if (descU.includes("DESCOBERTO")) {
                 icon = redIcon
