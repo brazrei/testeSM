@@ -446,15 +446,17 @@ function getMetar(loc) {
     return met
 
 }
-function updateDescobertos(loc,tipoAlerta) {
+function updateDescobertos(loc,tipoAlerta,legenda) {
     function trataLabelDescobertas(id, loc){ 
       let desc = $(id).html()
       let sep = ", "
       if (desc == "")
           sep = ""
+      else if (desc.includes("<br>"))
+          desc = desc.split("<br>")[1]
       if (!desc.includes(loc))
           desc = desc + sep + loc
-      $(id).html(desc)
+      $(id).html(legenda + "<br>" + desc)
     }
     
     if (!loc) {
@@ -464,10 +466,10 @@ function updateDescobertos(loc,tipoAlerta) {
     }
     
     if (tipoAlerta.ad) {
-        trataLabelDescobertas('#h6descobertasAD', loc)
+        trataLabelDescobertas('#h6descobertasAD', loc, 'Alerta AD:')
     }
     if (tipoAlerta.rota) {
-        trataLabelDescobertas('#h6descobertasRota', loc)
+        trataLabelDescobertas('#h6descobertasRota', loc, 'Alerta ROTA:')
     }
 }
 
