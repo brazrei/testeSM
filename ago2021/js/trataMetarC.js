@@ -336,7 +336,7 @@ function trataMetarRedemet(response, idxFIR) {
         visibilidade = getVisibilidade(metar);
         if (metar !== "") {
             localidade = getLocalidade(metar);
-            clearRestricaoLoc(loc);
+            clearRestricaoLoc(localidade);
             arrayTeto = getTeto(metar);
             tetoBaixo = (arrayTeto[1] == "T") && (checkTetoOn());
 
