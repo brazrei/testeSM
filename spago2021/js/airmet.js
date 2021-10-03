@@ -446,8 +446,8 @@ function getMetar(loc) {
     return met
 
 }
-function updateDescobertos(loc,tipoAlerta,legenda) {
-    function trataLabelDescobertas(id, loc){ 
+function updateDescobertos(loc,tipoAlerta) {
+    function trataLabelDescobertas(id, loc ,legenda){ 
       let desc = $(id).html()
       let sep = ", "
       if (desc == "")
