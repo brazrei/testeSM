@@ -288,6 +288,11 @@ function updateRestricaoLoc(loc, restricao) {
        
 }
 
+function clearRestricaoLoc(loc) {
+  if (arrRestricaoLoc[loc])
+    arrRestricaoLoc[loc] = false
+}
+
 function trataMetarRedemet(response, idxFIR) {
 
     function isMostRecent(arr, loc, i) {
@@ -331,6 +336,7 @@ function trataMetarRedemet(response, idxFIR) {
         visibilidade = getVisibilidade(metar);
         if (metar !== "") {
             localidade = getLocalidade(metar);
+            clearRestricaoLoc(loc);
             arrayTeto = getTeto(metar);
             tetoBaixo = (arrayTeto[1] == "T") && (checkTetoOn());
 
