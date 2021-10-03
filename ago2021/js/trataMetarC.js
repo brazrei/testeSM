@@ -451,17 +451,17 @@ function trataMetarRedemet(response, idxFIR) {
                     metar = spanRed(metar, " -TSGR ");
                     metar = spanRed(metar, " -TSGRRA ");
                     metar = spanRed(metar, " -TSRAGR ");
-                    updateRestricaoLoc(localidade,"TROVOADA");
+                    updateRestricaoLoc(localidade,"*TROVOADA");
                 }
                 if (ventoAlto) {
                     metar = spanRed(metar, vento[2]);
-                    updateRestricaoLoc(localidade,"VENTO");
+                    updateRestricaoLoc(localidade,"*VENTO");
                 }
 
                 if (ventoRaj) {
                     metar = spanRed(metar, "G" + vento[1] + "KT");
                     metar = metar.replace(' <span style="color:red">G' + vento[1] + "KT", '<span style="color:red">G' + vento[1] + "KT");
-                    updateRestricaoLoc(localidade,"RAJADA");
+                    updateRestricaoLoc(localidade,"*RAJADA");
                 }
 
                 // return metar.includes(" TS ") || metar.includes("TSRA ") || metar.includes("TSGR ");
