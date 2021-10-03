@@ -458,16 +458,16 @@ function updateDescobertos(loc,tipoAlerta) {
     }
     
     if (!loc) {
-        $('#h5descobertasAD').html("")
-        $('#h5descobertasRota').html("")
+        $('#h4descobertasAD').html("")
+        $('#h4descobertasRota').html("")
         return
     }
     
     if (tipoAlerta.ad) {
-        trataLabelDescobertas('#h5descobertasAD', loc)
+        trataLabelDescobertas('#h4descobertasAD', loc)
     }
     if (tipoAlerta.rota) {
-        trataLabelDescobertas('#h5descobertasRota', loc)
+        trataLabelDescobertas('#h4descobertasRota', loc)
     }
 }
 
