@@ -60,7 +60,7 @@ function GetWebContent(url, idxFIR) {
     };
 
     const params = {
-            urlConsulta: "https://www.google.com",
+            urlConsulta: "com",
             testeParam: "Reinaldo"
         }
     const urlCache = "php/consulta_metar.php"
