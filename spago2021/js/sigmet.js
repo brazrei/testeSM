@@ -293,7 +293,7 @@ function GetWebContentSigmet(url, primeiraVez) {
         var erro = "ErroSM=";
         if (this.status > 0) {
             if ((this.readyState == 4 && this.status == 200) && (this.responseText !== "")) {
-                let resposta = removeCacheMessage(this.responseText);
+                let resposta = opener.removeCacheMessage(this.responseText);
 
                 clearLayersSigmets()
                 iniciaSigmetGlobalVars();
