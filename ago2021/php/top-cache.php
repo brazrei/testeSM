@@ -3,7 +3,12 @@
   $break = Explode('/', $url);
   $file = $break[count($break) - 1];
   $encrypted_Locs = hash('sha256',$_POST['url']);
-  $cachefile = 'cached-'.substr_replace($file ,"",-4).$encrypted_Locs.'.html';
+
+  $dirName = "cache";
+  if (!file_exists($dirName)) {
+     mkdir($dirName, 0777);
+  }
+  $cachefile = $dirName . "/" . 'cached-'.substr_replace($file ,"",-4).$encrypted_Locs.'.html';
   $cachetime = 55;
 
   // Serve from the cache if it is younger than $cachetime
