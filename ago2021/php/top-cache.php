@@ -8,7 +8,7 @@
   //$urlF = $teste;
   $urlF = $_GET['url'];
   $msg = $_GET['msg'];
-  $urlF = $urlF . "&msg=" . $msg
+  $urlF = $urlF . "&msg=" . $msg;
   $encrypted_url = hash('sha256',$urlF);
 
   $dirName = "cache";
