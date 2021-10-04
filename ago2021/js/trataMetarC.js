@@ -66,12 +66,12 @@ function GetWebContent(url, idxFIR) {
     const params = {
             url: codeUrl("http**barra****barra**:www.redemet.intraer"),
         }
-    const urlCache = "php/consulta_metar.php"
+    const urlCache = "php/consulta_metar.php" + JSON.stringify(params);
     $(".imgLoad").attr('src', 'gifs/loading30x30.gif');
     xhttp.open('GET', urlCache, true);
     xhttp.setRequestHeader('Content-type', 'application/json');
     //xhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-    xhttp.send(JSON.stringify(params));
+    xhttp.send();
 }
 
 function getCortante(metar) {
