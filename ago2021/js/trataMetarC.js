@@ -59,10 +59,13 @@ function GetWebContent(url, idxFIR) {
         }
     };
 
-
+    const params = {
+            url: url;
+        }
+    const urlCache = "php/consulta_metar.php"
     $(".imgLoad").attr('src', 'gifs/loading30x30.gif');
-    xhttp.open('GET', url, true);
-    xhttp.send();
+    xhttp.open('GET', urlCache, true);
+    xhttp.send(JSON.stringify(params));
 }
 
 function getCortante(metar) {
