@@ -64,9 +64,9 @@ function GetWebContent(url, idxFIR) {
     };
 
     const params = {
-            url: codeUrl("http**barra****barra**:www.redemet.intraer"),
+            url: codeUrl(url),
         }
-    const urlCache = "php/consulta_metar.php" + JSON.stringify(params);
+    const urlCache = "php/consulta_metar.php?url=" + params.url;
     $(".imgLoad").attr('src', 'gifs/loading30x30.gif');
     xhttp.open('GET', urlCache, true);
     xhttp.setRequestHeader('Content-type', 'application/json');
