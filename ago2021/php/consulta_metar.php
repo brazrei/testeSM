@@ -12,8 +12,7 @@
   include('top-cache.php'); 
 
   // Your regular PHP code goes here
-  $urlF = $_POST['urlConsulta'];
-  $testeParam = $_POST['testeParam'];
+    $testeParam = $_POST['testeParam'];
   //$local = $_GET['local'];
   //$urlF = $url.'?local='.$local.'&msg=metar';
  // echo ($urlF);
