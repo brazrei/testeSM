@@ -66,6 +66,8 @@ function GetWebContent(url, idxFIR) {
     const urlCache = "php/consulta_metar.php"
     $(".imgLoad").attr('src', 'gifs/loading30x30.gif');
     xhttp.open('POST', urlCache, true);
+    xhttp.setRequestHeader('Content-type', 'application/json');
+    //xhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
     xhttp.send(JSON.stringify(params));
 }
 
