@@ -11,6 +11,7 @@ var arrMetaresFiltrados = []; //usado para controlar os metares que estão em ex
 var arrRestricaoLoc = []
 var escondeSpeciAUTO = true;
 var primeiraVez = true; //usada para nao marcar os metares na 1 exibicao
+const toleranciaRajada = 20; // percenual de tolerancia para alerta de rajada
 
 var redemetAntiga = true; 
 var intraer = true; // valido apenas para a api antiga por enquanto
@@ -848,7 +849,7 @@ function verificaStatusMetar(statusMetar, statusAdWRNG, statusAirmet, statusSigm
 
     //if (parseInt(statusMetar.vento[1]) > globalVentoMax) {
     if (parseInt(statusMetar.vento[1]) > 21) {
-        if (isBigger(statusMetar.vento[1], statusAdWRNG.max))
+        if (isBigger(statusMetar.vento[1], statusAdWRNG.max * (1 + (toleranciaRajada/100))))
             arrayRest.push("Rajada")
     }
 
