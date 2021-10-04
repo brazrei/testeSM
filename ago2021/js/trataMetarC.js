@@ -307,8 +307,16 @@ function trataMetarRedemet(response, idxFIR) {
     function isMostRecent(arr, loc, i) {
         return (i == (arr.length - 1) || !arr[i + 1].includes(loc))
     }
+    function removeCacheMessage(txt) { 
+        if (txt.includes("-->"))
+            return txt.split("-->\n")[1]    
+        else
+            return txt
+    }
     //  if (idxFIR ==0)
     //    response = "2021032216 - METAR SBEG 221600Z 03006KT 1500 BR BKN002 31/22 Q1012="
+    
+    response = removeCacheMessage(response);
     var erroDeAcesso = response.includes("ErroSM=");
     if (!erroDeAcesso)
         globalStrMetaresOffLine[idxFIR] = response;
