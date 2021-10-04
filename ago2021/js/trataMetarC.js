@@ -60,7 +60,8 @@ function GetWebContent(url, idxFIR) {
     };
 
     const params = {
-            urlConsulta: url
+            urlConsulta: url,
+            testeParam: "Reinaldo"
         }
     const urlCache = "php/consulta_metar.php"
     $(".imgLoad").attr('src', 'gifs/loading30x30.gif');
