@@ -2,7 +2,7 @@
   $url = $_SERVER["SCRIPT_NAME"];
   $break = Explode('/', $url);
   $file = $break[count($break) - 1];
-  $encrypted_Locs = hash('sha256',$_GET['local']);
+  $encrypted_Locs = hash('sha256',$_POST['url']);
   $cachefile = 'cached-'.substr_replace($file ,"",-4).$encrypted_Locs.'.html';
   $cachetime = 55;
 
