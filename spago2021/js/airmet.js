@@ -446,19 +446,31 @@ function getMetar(loc) {
     return met
 
 }
-function updateDescobertos(loc) {
+function updateDescobertos(loc,tipoAlerta) {
+    function trataLabelDescobertas(id, loc ,legenda){ 
+      let desc = $(id).html()
+      let sep = ", "
+      if (desc == "")
+          sep = ""
+      else if (desc.includes("<br>"))
+          desc = desc.split("<br>")[1]
+      if (!desc.includes(loc))
+          desc = desc + sep + loc
+      $(id).html(legenda + "<br>" + desc)
+    }
+    
     if (!loc) {
-        $('#h5descobertas').html("")
+        $('#h6descobertasAD').html("")
+        $('#h6descobertasRota').html("")
         return
     }
-    let desc = $('#h5descobertas').html()
-    let sep = ", "
-    if (desc == "")
-        sep = ""
-    if (!desc.includes(loc))
-        desc = desc + sep + loc
-    $('#h5descobertas').html(desc)
-
+    
+    if (tipoAlerta.ad) {
+        trataLabelDescobertas('#h6descobertasAD', loc, 'Alerta AD:')
+    }
+    if (tipoAlerta.rota) {
+        trataLabelDescobertas('#h6descobertasRota', loc, 'Alerta ROTA:')
+    }
 }
 
 function plotaMarca(lat, lng, loc) {
@@ -557,19 +569,19 @@ function plotaMarca(lat, lng, loc) {
             restricao = true
             desc = desc.substr(1)
             let descU = desc.toUpperCase();
-            let alertaAD = getTipoAlerta(loc).ad;
+            let alerta = getTipoAlerta(loc);
                 
             if (descU.includes("DESCOBERTO")) {
                 icon = redIcon
-                if (alertaAD)
+                if (alerta.ad)
                   addMarker(L.marker([lat, lng], { icon: cssIconRed }), "", restricao, true)
-                updateDescobertos(loc)
+                updateDescobertos(loc,alerta)
             } else {
                 if (descU.includes("DEGRADA"))
                     icon = orangeIcon
                 else
                     icon = yellowIcon
-                if (alertaAD)
+                if (alerta.ad)
                   addMarker(L.marker([lat, lng], { icon: cssIconYellow }), "", restricao, true)
             }
         } else

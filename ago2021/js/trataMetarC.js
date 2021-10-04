@@ -8,6 +8,7 @@ var globalStrMetaresOffLine = ["", "", "", ""]; //usado para carregar os metares
 var firVisible = [true, true, true, true];
 var metaresFiltrados = []; //usado para controlar os metares que estão em exibição 
 var arrMetaresFiltrados = []; //usado para controlar os metares que estão em exibição 
+var arrRestricaoLoc = []
 var escondeSpeciAUTO = true;
 var primeiraVez = true; //usada para nao marcar os metares na 1 exibicao
 
@@ -279,6 +280,19 @@ function getMensagensAPINova(response) {
     return r
 }
 
+function updateRestricaoLoc(loc, restricao) {
+   if (!arrRestricaoLoc[loc])
+       arrRestricaoLoc[loc] = restricao
+    else
+       arrRestricaoLoc[loc] = arrRestricaoLoc[loc] + restricao
+       
+}
+
+function clearRestricaoLoc(loc) {
+  if (arrRestricaoLoc[loc])
+    arrRestricaoLoc[loc] = false
+}
+
 function trataMetarRedemet(response, idxFIR) {
 
     function isMostRecent(arr, loc, i) {
@@ -322,6 +336,7 @@ function trataMetarRedemet(response, idxFIR) {
         visibilidade = getVisibilidade(metar);
         if (metar !== "") {
             localidade = getLocalidade(metar);
+            clearRestricaoLoc(localidade);
             arrayTeto = getTeto(metar);
             tetoBaixo = (arrayTeto[1] == "T") && (checkTetoOn());
 
@@ -411,16 +426,20 @@ function trataMetarRedemet(response, idxFIR) {
                 if (tetoBaixo) {
                     tetoStr = " | TETO = " + arrayTeto[2] + "00FT |";
                     metar = spanRed(metar, " " + arrayTeto[3] + " ");
+                    updateRestricaoLoc(localidade,"*TETO");
                 }
 
                 var visStr = "";
                 if (VisibBaixa) {
                     visStr = " | VIS = " + parseInt(visibilidade) + "M |";
                     metar = spanRed(metar, " " + visibilidade + " ");
+                    updateRestricaoLoc(localidade,"*VISIBILIDADE");
                 }
 
-                if (cortante)
+                if (cortante) {
                     metar = spanRed(metar, " WS ");
+                    updateRestricaoLoc(localidade,"*WS");
+                }
 
                 if (trovoada) {
                     metar = spanRed(metar, " TS ");
@@ -438,13 +457,17 @@ function trataMetarRedemet(response, idxFIR) {
                     metar = spanRed(metar, " -TSGR ");
                     metar = spanRed(metar, " -TSGRRA ");
                     metar = spanRed(metar, " -TSRAGR ");
+                    updateRestricaoLoc(localidade,"*TROVOADA");
                 }
-                if (ventoAlto)
+                if (ventoAlto) {
                     metar = spanRed(metar, vento[2]);
+                    updateRestricaoLoc(localidade,"*VENTO");
+                }
 
                 if (ventoRaj) {
                     metar = spanRed(metar, "G" + vento[1] + "KT");
                     metar = metar.replace(' <span style="color:red">G' + vento[1] + "KT", '<span style="color:red">G' + vento[1] + "KT");
+                    updateRestricaoLoc(localidade,"*RAJADA");
                 }
 
                 // return metar.includes(" TS ") || metar.includes("TSRA ") || metar.includes("TSGR ");
