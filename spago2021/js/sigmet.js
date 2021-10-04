@@ -293,7 +293,7 @@ function GetWebContentSigmet(url, primeiraVez) {
         var erro = "ErroSM=";
         if (this.status > 0) {
             if ((this.readyState == 4 && this.status == 200) && (this.responseText !== "")) {
-                var resposta = this.responseText;
+                let resposta = removeCacheMessage(this.responseText);
 
                 clearLayersSigmets()
                 iniciaSigmetGlobalVars();
@@ -314,7 +314,14 @@ function GetWebContentSigmet(url, primeiraVez) {
 
         }
     };
-    xhttp.open('GET', url, true);
+    
+    const params = {
+            url: url,
+        }
+    const urlCache = "php/consulta_metar.php?url=" + params.url;    
+    xhttp.open('GET', urlCache, true);
+    xhttp.setRequestHeader('Content-type', 'application/json');
+    
     xhttp.send();
 }
 
