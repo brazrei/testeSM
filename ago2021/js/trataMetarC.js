@@ -64,7 +64,7 @@ function GetWebContent(url, idxFIR) {
         }
     const urlCache = "php/consulta_metar.php"
     $(".imgLoad").attr('src', 'gifs/loading30x30.gif');
-    xhttp.open('GET', urlCache, true);
+    xhttp.open('POST', urlCache, true);
     xhttp.send(JSON.stringify(params));
 }
 
