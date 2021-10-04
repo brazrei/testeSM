@@ -16,7 +16,7 @@
   //$local = $_GET['local'];
   //$urlF = $url.'?local='.$local.'&msg=metar';
  // echo ($urlF);
-  echo $urlF;
+  //echo $urlF;
   echo file_get_contents($urlF);
   include('bottom-cache.php');
 ?>
