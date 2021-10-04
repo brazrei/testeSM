@@ -2,7 +2,7 @@
   $url = $_SERVER["SCRIPT_NAME"];
   $break = Explode('/', $url);
   $file = $break[count($break) - 1];
-  $encrypted_url = hash('sha256',$_POST['url']);
+  $encrypted_url = hash('sha256',$_POST['urlConsulta']);
 
   $dirName = "cache";
   if (!file_exists($dirName)) {
