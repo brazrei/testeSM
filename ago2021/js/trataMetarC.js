@@ -40,6 +40,10 @@ var arrayCMA = [
 
 
 function GetWebContent(url, idxFIR) {
+    function codeUrl(url) {
+        return url;
+    }
+    
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         var erro = "ErroSM=";
@@ -60,12 +64,11 @@ function GetWebContent(url, idxFIR) {
     };
 
     const params = {
-            urlConsulta: "com",
-            testeParam: "Reinaldo"
+            url: codeUrl("http**barra****barra**:www.redemet.intraer"),
         }
     const urlCache = "php/consulta_metar.php"
     $(".imgLoad").attr('src', 'gifs/loading30x30.gif');
-    xhttp.open('POST', urlCache, true);
+    xhttp.open('GET', urlCache, true);
     xhttp.setRequestHeader('Content-type', 'application/json');
     //xhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
     xhttp.send(JSON.stringify(params));
