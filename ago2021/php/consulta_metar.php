@@ -13,10 +13,12 @@
 
   // Your regular PHP code goes here
   $urlF = $_POST['urlConsulta'];
+  $testeParam = $_POST['testeParam'];
   //$local = $_GET['local'];
   //$urlF = $url.'?local='.$local.'&msg=metar';
  // echo ($urlF);
   echo ($urlF);
+  echo ($testeParam);
   echo (file_get_contents($urlF));
   include('bottom-cache.php');
 ?>
