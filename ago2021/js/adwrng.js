@@ -119,7 +119,7 @@ function GetWebContentAdWRNG(url, primeiraVez) {
 
 
                 //$("#imgLoad"+idxCMA).attr('src', 'pngs/green-button30.png');
-                var resposta = this.responseText;
+                let resposta = removeCacheMessage(this.responseText);
 
                 //clearLayersAdWRNGs()
                 //iniciaAdWRNGGlobalVars();
