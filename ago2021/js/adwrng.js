@@ -141,7 +141,13 @@ function GetWebContentAdWRNG(url, primeiraVez) {
 
         }
     };
-    xhttp.open('GET', url, true);
+    
+    const params = {
+            url: url,
+        }
+    const urlCache = "php/consulta_metar.php?url=" + params.url;    
+    xhttp.open('GET', urlCache, true);
+    xhttp.setRequestHeader('Content-type', 'application/json');
     xhttp.send();
 }
 
