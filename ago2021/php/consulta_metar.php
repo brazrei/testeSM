@@ -12,12 +12,12 @@
   include('top-cache.php'); 
 
   // Your regular PHP code goes here
-  $url = $_POST['url'];
+  $urlF = $_POST['url'];
   //$local = $_GET['local'];
   //$urlF = $url.'?local='.$local.'&msg=metar';
  // echo ($urlF);
-  $urlF = $url;
-  echo (file_get_contents($url));
+  echo ($urlF);
+  echo (file_get_contents($urlF));
   include('bottom-cache.php');
 ?>
 
