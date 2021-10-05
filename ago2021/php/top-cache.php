@@ -20,7 +20,7 @@
 
   $args = makeArgs();
   $urlF = $_GET['url'] . "&" . $args;
-  echo $urlF;
+  
 
   $encrypted_url = hash('sha256',$urlF);
 
