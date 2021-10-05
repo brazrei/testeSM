@@ -1,4 +1,5 @@
 <?php
+  
   function getCurl($url) {
    $curl = curl_init();
 
