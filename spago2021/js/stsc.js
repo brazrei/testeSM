@@ -279,7 +279,7 @@ function plota_stsc(obj_chk) {
         clearOldSTSC();
         let url;
         if (opener.intraer)
-          url = `https://api-redemet.decea.intraer/api/produtos/stsc?api_key=${opener.apiKey}`
+          url = `https://api-redemet.decea.mil.br/produtos/stsc?api_key=${opener.apiKey}`
         else
           url = `https://api-redemet.decea.mil.br/produtos/stsc?api_key=${opener.apiKey}`
             
