@@ -1,4 +1,5 @@
 var intervalSigmet = false
+var urlCache = "../ago2021/php/consulta_msg.php?url="
 
 function iniciaSigmetGlobalVars() {
     regSigmet = { codigo: "", FIR: 0, tipo: "", base: 0, visibilidade: 0, valIni: 0, valFin: 0, area: 0, cancelado: false, texto: "", coord: "", locs: "" }
@@ -318,8 +319,8 @@ function GetWebContentSigmet(url, primeiraVez) {
     const params = {
             url: url,
         }
-    const urlCache = "../ago2021/php/consulta_msg.php?url=" + params.url;    
-    xhttp.open('GET', urlCache, true);
+
+    xhttp.open('GET', urlCache + params.url, true);
     xhttp.setRequestHeader('Content-type', 'application/json');
     
     xhttp.send();
