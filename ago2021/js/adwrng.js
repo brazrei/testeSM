@@ -145,7 +145,7 @@ function GetWebContentAdWRNG(url, primeiraVez) {
     const params = {
             url: url,
         }
-    const urlCache = "php/consulta_metar.php?url=" + params.url;    
+    const urlCache = "php/consulta_msg.php?url=" + params.url;    
     xhttp.open('GET', urlCache, true);
     xhttp.setRequestHeader('Content-type', 'application/json');
     xhttp.send();
