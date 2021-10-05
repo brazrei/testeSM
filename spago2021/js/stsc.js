@@ -261,7 +261,7 @@ function plota_stsc(obj_chk) {
 
         if (heat && heat.length>0) {
             let i = 0
-            while ( i < heat.length-1) {
+            while ( i <= heat.length-1) {
                 if (heat[i] && (heat[i].dataHora < vencido)) {
                     map.removeLayer(heat[i].layer)
                     heat.splice(i,1)
@@ -278,13 +278,18 @@ function plota_stsc(obj_chk) {
         mostraLoading("stsc");
         clearOldSTSC();
         let url;
+        if (opener.intraer)
+          url = `https://api-redemet.decea.intraer/api/produtos/stsc?api_key=${opener.apiKey}`
+        else
+          url = `https://api-redemet.decea.mil.br/produtos/stsc?api_key=${opener.apiKey}`
+            
         if (horaSTSCAnterior == "") {
 //            url = 'https://api-redemet.decea.intraer/api/produtos/stsc?api_key=U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei&anima=5'
-            url = 'https://api-redemet.decea.mil.br/produtos/stsc?api_key=U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei&anima=5'
+            //url = 'https://api-redemet.decea.mil.br/produtos/stsc?api_key=U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei&anima=5'
             loadPHP_STSC()
         }
         else
-          url = 'https://api-redemet.decea.mil.br/produtos/stsc?api_key=U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei';
+          //url = 'https://api-redemet.decea.mil.br/produtos/stsc?api_key=U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei';
 //        url = 'https://api-redemet.decea.gov.br/api/produtos/stsc?api_key=U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei';
 
         $.ajax({
