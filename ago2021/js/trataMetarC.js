@@ -40,6 +40,9 @@ var arrayCMA = [
 
 //Global ciclos, MaxCiclos As integer  ' É 1 CICLO POR SEGUNDO
 
+function getUrlCache() {
+    return urlCache;
+}
 
 function GetWebContent(url, idxFIR) {
     function codeUrl(url) {
