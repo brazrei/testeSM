@@ -87,6 +87,17 @@ $(document).ready(function () {
     });
 });
 
+function addHours(data, horas) {
+    if (!Date.prototype.addHours)
+        Date.prototype.addHours = function (h) {
+            this.setHours(this.getHours() + h);
+            return this;
+        }
+
+    return data.addHours(horas)
+
+}
+
 function playSTSC(){
     animaSTSC()
 }
