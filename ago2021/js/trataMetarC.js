@@ -66,7 +66,7 @@ function GetWebContent(url, idxFIR) {
     const params = {
             url: codeUrl(url),
         }
-    const urlCache = "php/consulta_metar.php?url=" + params.url;
+    const urlCache = "php/consulta_msg.php?url=" + params.url;
     $(".imgLoad").attr('src', 'gifs/loading30x30.gif');
     xhttp.open('GET', urlCache, true);
     xhttp.setRequestHeader('Content-type', 'application/json');
