@@ -283,13 +283,11 @@ function plota_stsc(obj_chk) {
         else
           url = `https://api-redemet.decea.mil.br/produtos/stsc?api_key=${opener.apiKey}`
             
-        if (horaSTSCAnterior == "") {
-//            url = 'https://api-redemet.decea.intraer/api/produtos/stsc?api_key=U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei&anima=5'
+        if (horaSTSCAnterior == "") { //primeira bisca pegar a animacao
             //url = 'https://api-redemet.decea.mil.br/produtos/stsc?api_key=U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei&anima=5'
             loadPHP_STSC()
         }
-        else
-          //url = 'https://api-redemet.decea.mil.br/produtos/stsc?api_key=U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei';
+//        else
 //        url = 'https://api-redemet.decea.gov.br/api/produtos/stsc?api_key=U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei';
 
         $.ajax({
