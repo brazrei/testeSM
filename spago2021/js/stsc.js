@@ -254,9 +254,25 @@ function loadPHP_STSC() {
 }
 
 function plota_stsc(obj_chk) {
+
+    function clearOldSTSC(){
+        let agora = new Date();
+        let vencido = agora.addHours(-1);
+
+        if (heat && heat.length>0) {
+            let i = 0
+            while ( i <= heat.length-1) {
+                if (heat[i].dataHora < vencido)
+                  heat.splice(i,1)
+            }
+
+        }
+          
+    }
     //if (!obj_chk || obj_chk.checked) {
     if (true) {
         mostraLoading("stsc");
+        clearOldSTSC();
         let url;
         if (horaSTSCAnterior == "") {
 //            url = 'https://api-redemet.decea.intraer/api/produtos/stsc?api_key=U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei&anima=5'
@@ -287,6 +303,7 @@ function plota_stsc(obj_chk) {
                 if (hoje_mes < 10) {
                     hoje_mes = '0' + hoje_mes;
                 }
+
 
                 let horaAnima = data.data.anima[data.data.anima.length - 1]
 
