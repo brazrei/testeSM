@@ -264,6 +264,8 @@ function plota_stsc(obj_chk) {
             while ( i <= heat.length-1) {
                 if (heat[i].dataHora < vencido)
                   heat.splice(i,1)
+                else
+                  i++;
             }
 
         }
