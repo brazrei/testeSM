@@ -19,6 +19,8 @@ var linkInternet = "http://redemet.decea.gov.br//api/consulta_automatica/index.p
 var linkIntraer = "http://www.redemet.intraer//api/consulta_automatica/index.php?local="
 var linkAPINova = "https://api-redemet.decea.mil.br/mensagens/"
 
+const urlCache = "php/consulta_msg.php?url="
+
 //var beepOn = true; //
 
 var localidadesFIR = [
@@ -66,9 +68,9 @@ function GetWebContent(url, idxFIR) {
     const params = {
             url: codeUrl(url),
         }
-    const urlCache = "php/consulta_msg.php?url=" + params.url;
+     
     $(".imgLoad").attr('src', 'gifs/loading30x30.gif');
-    xhttp.open('GET', urlCache, true);
+    xhttp.open('GET', urlCache + params.url, true);
     xhttp.setRequestHeader('Content-type', 'application/json');
     //xhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
     xhttp.send();
