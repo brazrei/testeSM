@@ -261,9 +261,11 @@ function plota_stsc(obj_chk) {
 
         if (heat && heat.length>0) {
             let i = 0
-            while ( i <= heat.length-1) {
-                if (heat[i].dataHora < vencido)
-                  heat.splice(i,1)
+            while ( i < heat.length-1) {
+                if (heat[i].dataHora < vencido) {
+                    map.removeLayer(heat[i].layer)
+                    heat.splice(i,1)
+                }
                 else
                   i++;
             }
