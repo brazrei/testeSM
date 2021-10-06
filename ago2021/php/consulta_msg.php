@@ -18,7 +18,7 @@
   //$urlF = $url.'?local='.$local.'&msg=metar';
  // echo ($urlF);
   //echo $urlF;
-  $response = file_get_contents($urlF);
+  $response = getCurl($urlF);
   echo $response;
   if ($response =="")
     echo "Erro na consulta! Resposta vazia do servidor!";
