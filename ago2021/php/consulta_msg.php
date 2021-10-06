@@ -4,6 +4,7 @@
    $curl = curl_init();
 
    error_reporting(E_ALL);
+   curl_setopt($curl, CURLOPT_URL, $url);
    $response = curl_exec($curl);
    $err = curl_error($curl);
 
