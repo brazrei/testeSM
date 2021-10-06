@@ -2,6 +2,8 @@
   function makeArgs() {
     $args = "";
     $sep = "";
+    if (sizeof($_GET) < 2)
+      return "";
     foreach ($_GET as $key => $value) {
       if ($key !== "url") {
         $args = $sep . $key . "=" . $value;
@@ -19,7 +21,9 @@
   //$urlF = $teste;
 
   $args = makeArgs();
-  $urlF = $_GET['url'] . "&" . $args;
+  $urlF = $_GET['url'];
+  if ($args !== "")
+    $urlF = $urlF . "&" . $args;
   
 
   $encrypted_url = hash('sha256',$urlF);
