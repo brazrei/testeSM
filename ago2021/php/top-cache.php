@@ -2,6 +2,7 @@
   function makeArgs() {
     $args = "";
     $sep = "";
+    echo sizeof($_GET);
     if (sizeof($_GET) < 2)
       return "";
     foreach ($_GET as $key => $value) {
