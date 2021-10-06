@@ -1,15 +1,17 @@
 <?php
   
   function getCurl($url) {
-   $curl = curl_init();
+    $ch=curl_init();
+    $timeout=45;
 
-   error_reporting(E_ALL);
-   curl_setopt($curl, CURLOPT_URL, $url);
-   $response = curl_exec($curl);
-   $err = curl_error($curl);
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
 
-   curl_close($curl);
-   return $response;
+    $result=curl_exec($ch);
+    curl_close($ch);
+    return $result;
   }
   include('top-cache.php'); 
 
