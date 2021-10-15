@@ -878,7 +878,7 @@ function start() {
 
     plota_stsc();
 
-    intervalSTSC = setInterval("atualizaSTSC()", 90000);
+    intervalSTSC = setInterval("atualizaSTSC()", 120000);
 
     //checaPonto("S1637 W04911");
     //map.setView([-18.0,-45.0], 13);
