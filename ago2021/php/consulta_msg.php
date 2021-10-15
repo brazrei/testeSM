@@ -1,5 +1,19 @@
 <?php
   
+  function deleteOldFiles() {
+    $folderName = "cache";
+    if (file_exists($folderName)) {
+      foreach (new DirectoryIterator($folderName) as $fileInfo) {
+        if ($fileInfo->isDot()) {
+          continue;
+        }
+        if ($fileInfo->isFile() && time() - $fileInfo->getCTime() >= 2 * 24 * 60 * 60) {
+          unlink($fileInfo->getRealPath());
+        }
+      }
+    }
+  }
+  
   function setProxy() {
     $PROXY_HOST = "proxy.decea.intraer"; // Proxy server address
     $PROXY_PORT = "8080";    // Proxy server port
@@ -35,6 +49,7 @@
     return $result;
   }
   setProxy();
+  deleteOldFiles();
   include('top-cache.php'); 
 
   // Your regular PHP code goes here
