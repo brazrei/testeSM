@@ -26,7 +26,7 @@
   if ($args !== "")
     $urlF = $urlF . "&" . $args;
 
-  //echo $urlF;
+  echo $urlF;
 
   $encrypted_url = hash('sha256',$urlF);
 
