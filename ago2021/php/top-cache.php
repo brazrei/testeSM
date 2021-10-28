@@ -34,7 +34,11 @@
 
   $dirName = "cache";
   if (!file_exists($dirName)) {
-     mkdir($dirName, 0777);
+     //mkdir($dirName, 0777);
+     if (!@mkdir($dirName, 0777)) {
+      $error = error_get_last();
+      echo $error['message'];
+  }
   }
   $cachefile = $dirName . "/" . 'cached-'.substr_replace($file ,"",-4).$encrypted_url.'.html';
   $cachetime = 65;
