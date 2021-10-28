@@ -334,13 +334,14 @@ function getSigmet(primeiraVez = false) {
     var interval = `&data_ini=${dini}&data_fim=${dfim}`*/
     //var url = "https://www.redemet.intraer/api/consulta_automatica/index.php?local=SBAZ,SBBS,SBRE,SBAO,SBCW&msg=sigmet" + interval;
     let url = ""
-    
+    let interval = getInterval(4)
+
     if (opener.redemetAntiga) {
       if (opener.intraer)
          url = opener.linkIntraer;
       else
          url = opener.linkInternet;      
-      url = `${url}SBAZ,SBBS,SBRE,SBCW,SBAO&msg=sigmet`
+      url = `${url}SBAZ,SBBS,SBRE,SBCW,SBAO&msg=sigmet${interval}`
     }  else
       url = `${opener.linkAPINova}sigmet/?api_key=${opener.apiKey}` 
     
