@@ -349,17 +349,6 @@ function limpaAireps() {
     $(".table-airep").remove();
 }
 
-function getFormatedDate(data, zeraMinutos = true) {
-    let ano = data.getUTCFullYear();
-    let mes = addZeros(parseInt(data.getUTCMonth()) + 1);
-    let dia = addZeros(data.getUTCDate());
-    let hora = addZeros(data.getUTCHours());
-    let minutos = addZeros(data.getUTCMinutes());
-    if (zeraMinutos)
-        minutos = '00';
-    return `${ano}${mes}${dia}${hora}${minutos}`;
-}
-
 function getAirep(primeiraVez = false) {
     mostraLoading("Airep");
     var interval = getInterval(1)
