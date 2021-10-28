@@ -1188,8 +1188,8 @@ function getFormatedDate(data) {
 }
 
 function getInterval (horas = 1) {
-    let dini = getFormatedDate( addHours(new Date(),-horas ));
-    let dfim = getFormatedDate( new Date(), false );
+    let dini = getFormatedDate( addHours(new Date(), -horas ));
+    let dfim = getFormatedDate( new Date());
     return `&data_ini=${dini}&data_fim=${dfim}`
 }
 
