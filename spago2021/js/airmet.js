@@ -1187,7 +1187,7 @@ function getAirmet(primeiraVez = false) {
     dfim = "2020101815"
     let interval = ""
     let url = ""
-    var interval = getInterval(4)
+    interval = getInterval(4)
     
  
     if (opener.redemetAntiga) {
