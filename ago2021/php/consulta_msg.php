@@ -48,8 +48,8 @@
     
     return $result;
   }
-  if (isset($GET['proxy']))
-    if ($GET['proxy'] == "true")
+  if (isset($_GET['proxy']))
+    if ($_GET['proxy'] == "true")
         setProxy();
   deleteOldFiles();
   include('top-cache.php'); 
