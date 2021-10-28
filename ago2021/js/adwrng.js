@@ -179,7 +179,7 @@ function getAdWRNG(primeiraVez = false) {
         url = `https://api-redemet.decea.mil.br/mensagens/aviso/${localidades}?api_key=${apiKey}`;
     }
 
-    GetWebContentAdWRNG(url, primeiraVez);
+    GetWebContentAdWRNG(url+proxy, primeiraVez);
 }
 
 
