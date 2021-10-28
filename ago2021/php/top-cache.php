@@ -25,10 +25,10 @@
 
   $args = makeArgs();
   $urlF = $_GET['url'];
+  echo "urlF = $urlF\n";
   if ($args !== "")
     $urlF = $urlF . "&" . $args;
 
-  echo "urlF = $urlF\n";
   echo "args = $args\n";
 
   $encrypted_url = hash('sha256',$urlF);
