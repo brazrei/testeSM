@@ -362,9 +362,8 @@ function getFormatedDate(data, zeraMinutos = true) {
 
 function getAirep(primeiraVez = false) {
     mostraLoading("Airep");
-    dini = getFormatedDate( (new Date()).addHour(-1), true );
-    dfim = getFormatedDate( new Date(), false );
-    var interval = `&data_ini=${dini}&data_fim=${dfim}`
+    var interval = getInterval(1)
+
     var locs = arrayLocalidadeFIRAirep.join(",")
     
     const urlCache = "../ago2021/php/consulta_msg.php?url=";    

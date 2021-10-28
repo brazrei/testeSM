@@ -12,7 +12,7 @@ var arrRestricaoLoc = []
 var escondeSpeciAUTO = true;
 var primeiraVez = true; //usada para nao marcar os metares na 1 exibicao
 
-var redemetAntiga = true; 
+var redemetAntiga = true;
 var intraer = false; // valido apenas para a api antiga por enquanto
 var apiKey = "U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei"
 var linkInternet = "http://redemet.decea.gov.br//api/consulta_automatica/index.php?local="
@@ -53,7 +53,7 @@ function GetWebContent(url, idxFIR) {
     function codeUrl(url) {
         return url;
     }
-    
+
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         var erro = "ErroSM=";
@@ -74,9 +74,9 @@ function GetWebContent(url, idxFIR) {
     };
 
     const params = {
-            url: codeUrl(url),
-        }
-     
+        url: codeUrl(url),
+    }
+
     $(".imgLoad").attr('src', 'gifs/loading30x30.gif');
     xhttp.open('GET', urlCache + params.url + proxy, true);
     xhttp.setRequestHeader('Content-type', 'application/json');
@@ -185,14 +185,14 @@ function getMetar(localidades, Legenda, idxFIR, onLine) {
             url1 = linkIntraer;
         else
             url1 = linkInternet;
-            
+
         url2 = "&msg=metar";
         //url1 = "https://api-redemet.decea.mil.br/mensagens/metar/"
         //        url1 = "https://redemet.decea.gov.br//api/consulta_automatica/index.php?local=";
         //url2 = `?api_key=${apiKey}`;
     } else {//decea 
         url1 = `${linkAPINova}metar/`;
-                
+
         url2 = `?api_key=${apiKey}`;
     }
     localidades = localidades.replace(/ /g, ""); //retira os espaços
@@ -236,7 +236,7 @@ function convertToRedemet(txt, opt = false) {
 
             str = str + "0123456789 - " + metar.split("\\").join("") + "=";
         }
-        if (opt && s.indexOf(opt) > -1) { 
+        if (opt && s.indexOf(opt) > -1) {
             metar = s.split("=")[0];
 
             str = str + "0123456789 - " + metar.split("\\").join("") + "=";
@@ -300,23 +300,23 @@ function getMensagensAPINova(response) {
 }
 
 function updateRestricaoLoc(loc, restricao) {
-   if (!arrRestricaoLoc[loc])
-       arrRestricaoLoc[loc] = restricao
+    if (!arrRestricaoLoc[loc])
+        arrRestricaoLoc[loc] = restricao
     else
-       arrRestricaoLoc[loc] = arrRestricaoLoc[loc] + restricao
-       
+        arrRestricaoLoc[loc] = arrRestricaoLoc[loc] + restricao
+
 }
 
 function clearRestricaoLoc(loc) {
-  if (arrRestricaoLoc[loc])
-    arrRestricaoLoc[loc] = false
+    if (arrRestricaoLoc[loc])
+        arrRestricaoLoc[loc] = false
 }
 
-function removeCacheMessage(txt) { 
+function removeCacheMessage(txt) {
     if (txt.includes("-->"))
-       return txt.split("-->\n")[1]    
+        return txt.split("-->\n")[1]
     else
-       return txt
+        return txt
 }
 function trataMetarRedemet(response, idxFIR) {
 
@@ -325,7 +325,7 @@ function trataMetarRedemet(response, idxFIR) {
     }
     //  if (idxFIR ==0)
     //    response = "2021032216 - METAR SBEG 221600Z 03006KT 1500 BR BKN002 31/22 Q1012="
-    
+
     response = removeCacheMessage(response);
     var erroDeAcesso = response.includes("ErroSM=");
     if (!erroDeAcesso)
@@ -453,19 +453,19 @@ function trataMetarRedemet(response, idxFIR) {
                 if (tetoBaixo) {
                     tetoStr = " | TETO = " + arrayTeto[2] + "00FT |";
                     metar = spanRed(metar, " " + arrayTeto[3] + " ");
-                    updateRestricaoLoc(localidade,"*TETO");
+                    updateRestricaoLoc(localidade, "*TETO");
                 }
 
                 var visStr = "";
                 if (VisibBaixa) {
                     visStr = " | VIS = " + parseInt(visibilidade) + "M |";
                     metar = spanRed(metar, " " + visibilidade + " ");
-                    updateRestricaoLoc(localidade,"*VISIBILIDADE");
+                    updateRestricaoLoc(localidade, "*VISIBILIDADE");
                 }
 
                 if (cortante) {
                     metar = spanRed(metar, " WS ");
-                    updateRestricaoLoc(localidade,"*WS");
+                    updateRestricaoLoc(localidade, "*WS");
                 }
 
                 if (trovoada) {
@@ -484,17 +484,17 @@ function trataMetarRedemet(response, idxFIR) {
                     metar = spanRed(metar, " -TSGR ");
                     metar = spanRed(metar, " -TSGRRA ");
                     metar = spanRed(metar, " -TSRAGR ");
-                    updateRestricaoLoc(localidade,"*TROVOADA");
+                    updateRestricaoLoc(localidade, "*TROVOADA");
                 }
                 if (ventoAlto) {
                     metar = spanRed(metar, vento[2]);
-                    updateRestricaoLoc(localidade,"*VENTO");
+                    updateRestricaoLoc(localidade, "*VENTO");
                 }
 
                 if (ventoRaj) {
                     metar = spanRed(metar, "G" + vento[1] + "KT");
                     metar = metar.replace(' <span style="color:red">G' + vento[1] + "KT", '<span style="color:red">G' + vento[1] + "KT");
-                    updateRestricaoLoc(localidade,"*RAJADA");
+                    updateRestricaoLoc(localidade, "*RAJADA");
                 }
 
                 // return metar.includes(" TS ") || metar.includes("TSRA ") || metar.includes("TSGR ");
@@ -738,7 +738,7 @@ function getStatusAirmet(loc) {
     //  return { achou: false }
 }
 
-function getStatusAdWRNG(loc) {
+function getStatusAdWRNG(loc) {//sempre irá retornar o adwrng válido com maior vento max previsto.
     let min = -1
     let max = -1
     let cancelado = false
@@ -746,11 +746,14 @@ function getStatusAdWRNG(loc) {
     let texto = ""
     arrAdWRNGGeral.forEach(aviso => {
         if ((!aviso.cancelado) && (aviso.locs.indexOf(loc) > -1) && (aviso.tipo !== "C")) {
-            min = aviso.vento[0]
-            max = aviso.vento[1]
-            cancelado = aviso.cancelado
-            textoFull = aviso.textoFull
-            texto = aviso.texto
+            if (aviso.vento[1] > max) {
+
+                min = aviso.vento[0]
+                max = aviso.vento[1]
+                cancelado = aviso.cancelado
+                textoFull = aviso.textoFull
+                texto = aviso.texto
+            }
         }
 
     })
