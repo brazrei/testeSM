@@ -48,7 +48,9 @@
     
     return $result;
   }
-  //setProxy();
+  if (isset($GET['proxy']))
+    if ($GET['proxy'] == "true")
+        setProxy();
   deleteOldFiles();
   include('top-cache.php'); 
 
