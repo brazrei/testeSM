@@ -5,11 +5,11 @@
     $args = "";
     $sep = "";
     //echo sizeof($_GET);
-    if (sizeof($_GET) < 2)
-      return "";
+    //if (sizeof($_GET) < 2)
+    //  return "";
     foreach ($_GET as $key => $value) {
       if ($key !== "url" && $key !== "proxy" && $key !== "_") {
-        $args = $sep . $key . "=" . $value;
+        $args = $args . $sep . $key . "=" . $value;
         $sep = "&";
       }
     }
