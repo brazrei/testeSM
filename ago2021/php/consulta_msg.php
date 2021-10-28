@@ -48,7 +48,7 @@
     
     return $result;
   }
-  setProxy();
+  //setProxy();
   deleteOldFiles();
   include('top-cache.php'); 
 
