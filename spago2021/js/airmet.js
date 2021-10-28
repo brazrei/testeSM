@@ -1177,9 +1177,9 @@ S0520 W06051 - S0527 W06137 STNR NC= 202ArrayLID 111020/111310 SBAZ - SBAZ AMAZO
 
 function getFormatedDate(data) {
     let ano = data.getUTCFullYear();
-    let mes = addZeros(parseInt(data.getUTCMonth()) + 1);
-    let dia = addZeros(data.getUTCDate());
-    let hora = addZeros(data.getUTCHours());
+    let mes = fillZero(parseInt(data.getUTCMonth()) + 1);
+    let dia = fillZero(data.getUTCDate());
+    let hora = fillZero(data.getUTCHours());
 //    let minutos = addZeros(data.getUTCMinutes());
     let minutos = "";
 //    if (zeraMinutos)
