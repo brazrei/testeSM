@@ -45,6 +45,10 @@ function getUrlCache() {
     return urlCache;
 }
 
+function getProxy() {
+    return proxy;
+}
+
 function GetWebContent(url, idxFIR) {
     function codeUrl(url) {
         return url;

@@ -320,7 +320,7 @@ function GetWebContentSigmet(url, primeiraVez) {
             url: url,
         }
 
-    xhttp.open('GET', urlCache + params.url + opener.proxy, true);
+    xhttp.open('GET', urlCache + params.url + opener.getProxy(), true);
     xhttp.setRequestHeader('Content-type', 'application/json');
     
     xhttp.send();

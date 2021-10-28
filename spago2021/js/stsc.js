@@ -291,7 +291,7 @@ function plota_stsc(obj_chk) {
 //        url = 'https://api-redemet.decea.gov.br/api/produtos/stsc?api_key=U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei';
 
         $.ajax({
-            url: urlCache + url + opener.proxy,
+            url: urlCache + url + opener.getProxy(),
             contentType: 'application/json',
             crossDomain: true,
             cache: false,

@@ -370,7 +370,7 @@ function getAirep(primeiraVez = false) {
     const urlCache = "../ago2021/php/consulta_msg.php?url=";    
 
     var url = `https://www.redemet.aer.mil.br/api/consulta_automatica/index.php?local=${locs}&msg=airep${interval}`;
-    GetWebContentAirep(urlCache + url + opener.proxy, primeiraVez);
+    GetWebContentAirep(urlCache + url + opener.getProxy(), primeiraVez);
 }
 
 function makeIdxAirep(airep) {
