@@ -1208,7 +1208,7 @@ function getAirmet(primeiraVez = false) {
          url = opener.linkInternet;
         
       //url = `${url}SBAZ,SBBS,SBRE,SBCW&msg=airmet&data_ini=${dataIni}&data_fim=${dataFim}`;
-      url = `${url}SBAZ,SBBS,SBRE,SBCW&msg=airmet`;
+      url = `${url}SBAZ,SBBS,SBRE,SBCW&msg=airmet${interval}`;
         
     } else 
         //var interval = `&data_ini=${dini}&data_fim=${dfim}`

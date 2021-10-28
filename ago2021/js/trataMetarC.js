@@ -15,7 +15,9 @@ var primeiraVez = true; //usada para nao marcar os metares na 1 exibicao
 var redemetAntiga = true;
 var intraer = false; // valido apenas para a api antiga por enquanto
 var apiKey = "U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei"
-var linkInternet = "http://redemet.decea.gov.br//api/consulta_automatica/index.php?local="
+//var linkInternet = "http://redemet.decea.gov.br//api/consulta_automatica/index.php?local="
+var linkInternet = "http://localhost/WebServiceOPMET/getMetarOPMET.php?local="
+
 var linkIntraer = "http://www.redemet.intraer//api/consulta_automatica/index.php?local="
 var linkAPINova = "https://api-redemet.decea.mil.br/mensagens/"
 
