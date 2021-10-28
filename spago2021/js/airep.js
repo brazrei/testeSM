@@ -351,7 +351,7 @@ function limpaAireps() {
 
 function getAirep(primeiraVez = false) {
     mostraLoading("Airep");
-    var interval = getInterval(1)
+    var interval = opener.getInterval(1)
 
     var locs = arrayLocalidadeFIRAirep.join(",")
     

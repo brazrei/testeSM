@@ -43,6 +43,35 @@ var arrayCMA = [
 
 //Global ciclos, MaxCiclos As integer  ' É 1 CICLO POR SEGUNDO
 
+function addHours(data, horas) {
+    if (!Date.prototype.addHours)
+        Date.prototype.addHours = function (h) {
+            this.setHours(this.getHours() + h);
+            return this;
+        }
+
+    return data.addHours(horas)
+
+}
+
+function getFormatedDate(data) {
+    let ano = data.getUTCFullYear();
+    let mes = fillZero(parseInt(data.getUTCMonth()) + 1);
+    let dia = fillZero(data.getUTCDate());
+    let hora = fillZero(data.getUTCHours());
+//    let minutos = addZeros(data.getUTCMinutes());
+    let minutos = "";
+//    if (zeraMinutos)
+//        minutos = '00';
+    return `${ano}${mes}${dia}${hora}${minutos}`;
+}
+
+function getInterval (horas = 1) {
+    let dini = getFormatedDate( addHours(new Date(), -horas ));
+    let dfim = getFormatedDate( addHours(new Date(), 1 ));
+    return `&data_ini=${dini}&data_fim=${dfim}`
+}
+
 function getUrlCache() {
     return urlCache;
 }
