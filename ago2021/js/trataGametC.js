@@ -123,16 +123,16 @@ function trataGametRedemet(texto) {
 function getGamet() {
   var agora = new Date();
   if (agora.getHours() < 6) {
-    ini = "04"
+    ini = "00"
     fim = "05"
   } else if (agora.getHours() < 12) {
-    ini = "10"
+    ini = "06"
     fim = "11"
   } else if (agora.getHours() < 18) {
-    ini = "16"
+    ini = "12"
     fim = "17"
   } else {
-    ini = "22"
+    ini = "18"
     fim = "23"
   }
   
