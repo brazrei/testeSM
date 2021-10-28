@@ -366,8 +366,11 @@ function getAirep(primeiraVez = false) {
     dfim = getFormatedDate( new Date(), false );
     var interval = `&data_ini=${dini}&data_fim=${dfim}`
     var locs = arrayLocalidadeFIRAirep.join(",")
+    
+    const urlCache = "../ago2021/php/consulta_msg.php?url=";    
+
     var url = `https://www.redemet.aer.mil.br/api/consulta_automatica/index.php?local=${locs}&msg=airep${interval}`;
-    GetWebContentAirep(url, primeiraVez);
+    GetWebContentAirep(urlCache + url + opener.proxy, primeiraVez);
 }
 
 function makeIdxAirep(airep) {

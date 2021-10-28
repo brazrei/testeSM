@@ -1146,7 +1146,7 @@ function GetWebContentAirmet(url, primeiraVez) {
             url: url,
         }
     const urlCache = "../ago2021/php/consulta_msg.php?url=" + params.url;    
-    xhttp.open('GET', urlCache, true);
+    xhttp.open('GET', urlCache + opener.proxy, true);
     xhttp.setRequestHeader('Content-type', 'application/json');
 
     xhttp.send();
