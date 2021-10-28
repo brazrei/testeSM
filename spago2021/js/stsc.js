@@ -257,7 +257,7 @@ function plota_stsc(obj_chk) {
 
     function clearOldSTSC(){
         let agora = new Date();
-        let vencido = addHours(agora, -1);
+        let vencido = opener.addHours(agora, -1);
 
         if (heat && heat.length>0) {
             let i = 0
