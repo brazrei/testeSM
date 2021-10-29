@@ -214,8 +214,12 @@ function getTipoAdWRNG(adWRNG) {
 }
 
 function getLocsAdWRNG(aviso) {
-    locs = aviso.split(" ")[1]
-    return locs.split("/")
+
+    locs = aviso.split(" ")
+    if (locs[1].length < 4) //ajuste feito porque o BANCO OPMET retorna o aviso sem o CMA
+      return locs[0].split("/")
+    else
+        return locs[1].split("/") 
 }
 
 function getIdxCMA(aviso) {
