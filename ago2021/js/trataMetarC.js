@@ -780,7 +780,7 @@ function getStatusAdWRNG(loc) {//sempre irá retornar o adwrng válido com maior
         if ((!aviso.cancelado) && (aviso.locs.indexOf(loc) > -1) && (aviso.tipo !== "C")) {
             if (aviso.vento[1] > max) {
 
-                min = aviso.vento[0]
+                min = aviso.vento[0] + ""
                 max = aviso.vento[1]
                 cancelado = aviso.cancelado
                 textoFull = aviso.textoFull
@@ -789,6 +789,8 @@ function getStatusAdWRNG(loc) {//sempre irá retornar o adwrng válido com maior
         }
 
     })
+    if (min.length >= 5)
+       min = min.substr(3)
     return { min, max, cancelado, textoFull, texto }
 }
 
