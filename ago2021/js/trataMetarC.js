@@ -59,16 +59,16 @@ function getFormatedDate(data) {
     let mes = fillZero(parseInt(data.getUTCMonth()) + 1);
     let dia = fillZero(data.getUTCDate());
     let hora = fillZero(data.getUTCHours());
-//    let minutos = addZeros(data.getUTCMinutes());
+    //    let minutos = addZeros(data.getUTCMinutes());
     let minutos = "";
-//    if (zeraMinutos)
-//        minutos = '00';
+    //    if (zeraMinutos)
+    //        minutos = '00';
     return `${ano}${mes}${dia}${hora}${minutos}`;
 }
 
-function getInterval (horas = 1) {
-    let dini = getFormatedDate( addHours(new Date(), -horas ));
-    let dfim = getFormatedDate( addHours(new Date(), 1 ));
+function getInterval(horas = 1) {
+    let dini = getFormatedDate(addHours(new Date(), -horas));
+    let dfim = getFormatedDate(addHours(new Date(), 1));
     return `&data_ini=${dini}&data_fim=${dfim}`
 }
 
@@ -372,9 +372,9 @@ function trataMetarRedemet(response, idxFIR) {
     if (response.includes("mens")) {
         response = convertToRedemet(response);
     }
-    dataHora = getDataHoraMetares(response);
+    //dataHora = getDataHoraMetares(response);
 
-    arrayMetares = SplitMetares(response, dataHora);
+    arrayMetares = SplitMetares(response);
 
     c = arraySize(arrayMetares);
 
@@ -1059,11 +1059,25 @@ function insertRowGamet(tableStr, str, idx) {
     }
 }
 
-function SplitMetares(strMetar, dataHora) {
-    if (strMetar)
-        return strMetar.split(dataHora);
-    else
-        return "";
+function SplitMetares(strMetar) {
+    function getDataHora(str) {
+        var patt2 = /\d{10} - /g; 
+        var t1 = str.match(patt2)
+        if (t1 && t1.length > 0)
+            return t1[0]
+        else
+            return str
+
+    }
+    var t = strMetar.replace(/  /g, " ")
+    
+    t = t.split('=')
+    for (var i in t) {
+        var dataHora = getDataHora(t[i])
+        //console.log(dataHora)
+        t[i] = t[i].split(dataHora)[1]+"="
+    }
+    return t;
 }
 
 function arraySize(array) {
