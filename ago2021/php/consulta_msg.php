@@ -1,13 +1,13 @@
 <?php
   
-  function deleteOldFiles() {
+  function deleteOldFiles($idade = 5) { //idade em minutos
     $folderName = "cache";
     if (file_exists($folderName)) {
       foreach (new DirectoryIterator($folderName) as $fileInfo) {
         if ($fileInfo->isDot()) {
           continue;
         }
-        if ($fileInfo->isFile() && time() - $fileInfo->getCTime() >= 2 * 24 * 60 * 60) {
+        if ($fileInfo -> isFile() && time() - $fileInfo -> getCTime() >= $idade * 60) {
           unlink($fileInfo->getRealPath());
         }
       }
@@ -51,7 +51,8 @@
   if (isset($_GET['proxy']))
     if ($_GET['proxy'] == "true")
         setProxy();
-  deleteOldFiles();
+
+  deleteOldFiles(5); //tempo em minutos
   include('top-cache.php'); 
 
   // Your regular PHP code goes here
