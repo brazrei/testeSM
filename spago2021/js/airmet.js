@@ -12,6 +12,17 @@ var groupMarkers = false
 var intervalAirmet = false
 var arrayMetaresGeral = []
 
+function addHours(data, horas) {
+    if (!Date.prototype.addHours)
+        Date.prototype.addHours = function (h) {
+            this.setHours(this.getHours() + h);
+            return this;
+        }
+
+    return data.addHours(horas)
+
+}
+
 function mostraAirmet() {
     if ($('#chkAirmet').prop('checked')) {
         getAirmet();
@@ -130,8 +141,8 @@ function isCloseToValidOff(ini, fim, timer = 10) {
     let restante = getUTCDate(new Date(fim - agora))
 
     if (isLinux()) {
-        opener.addHours(restante, 3)
-        //restante.opener.addHours(3)
+        addHours(restante, 3)
+        //restante.addHours(3)
     }
     if (restante.getHours() == 0) { // não sei porque, mas estava começando da hora 01 no Linux
         if (restante.getMinutes() <= timer)
