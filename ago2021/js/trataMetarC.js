@@ -1009,7 +1009,7 @@ function strToCell(arr, idxFIR, novo, naoAdiciona) {//nãoadiciona significa sub
                 descRestricao += sep + i
                 sep = ', '
             })
-            if (firVisible[idxFIR] && beepLigado())
+            if (novo && firVisible[idxFIR] && beepLigado())
                 $("#divDoubleBeep").click();
 
             descRestricao = '<b>' + spanRed(descRestricao, descRestricao) + '<b>'
