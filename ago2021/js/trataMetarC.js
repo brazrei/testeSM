@@ -211,6 +211,7 @@ function replac(str1, str2, str3) {
 function getMetar(localidades, Legenda, idxFIR, onLine) {
     var url, url1, url2;
 
+    let interval = getInterval(0)
     if (redemetAntiga) {
         if (intraer)
             url1 = linkIntraer;
@@ -227,7 +228,7 @@ function getMetar(localidades, Legenda, idxFIR, onLine) {
         url2 = `?api_key=${apiKey}`;
     }
     localidades = localidades.replace(/ /g, ""); //retira os espaços
-    url = url1 + localidades + url2;
+    url = url1 + localidades + url2 + interval;
 
     response = "";
     erro = "";
