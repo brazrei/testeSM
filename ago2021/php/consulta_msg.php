@@ -52,7 +52,7 @@
     if ($_GET['proxy'] == "true")
         setProxy();
 
-  deleteOldFiles(5); //tempo em minutos
+  deleteOldFiles(10); //tempo em minutos
   include('top-cache.php'); 
 
   // Your regular PHP code goes here
