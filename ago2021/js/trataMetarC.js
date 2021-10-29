@@ -470,8 +470,6 @@ function trataMetarRedemet(response, idxFIR) {
                         metaresFiltrados.push("2" + metar);
                     else {
                         metaresFiltrados.push("1" + metar);
-                        if (firVisible[idxFIR] && beepLigado())
-                            $("#divDoubleBeep").click();
                     }
                 }
                 novo = ((indNovo01 > -1) || novo);
@@ -790,7 +788,7 @@ function getStatusAdWRNG(loc) {//sempre irá retornar o adwrng válido com maior
 
     })
     if (min.length >= 5)
-       min = min.substr(3)
+        min = min.substr(3)
     return { min, max, cancelado, textoFull, texto }
 }
 
@@ -1003,7 +1001,7 @@ function strToCell(arr, idxFIR, novo, naoAdiciona) {//nãoadiciona significa sub
             teto = spanRedBold(teto, teto)
         statusSigmet = vis + " / " + teto
         let arrStatusMetar = verificaStatusMetar(arr[2], statusAdWRNG, regAirmet, regSigmet)
-        if (!arrStatusMetar.coberto && arr[2].maisRecente) {
+        if (!arrStatusMetar.coberto && arr[2].maisRecente) { //Localidade descoberta
             classe = classe + " table-danger"
             descRestricao = '<br>' + 'Parâmetros descobertos: '
             let sep = ''
@@ -1011,6 +1009,8 @@ function strToCell(arr, idxFIR, novo, naoAdiciona) {//nãoadiciona significa sub
                 descRestricao += sep + i
                 sep = ', '
             })
+            if (firVisible[idxFIR] && beepLigado())
+                $("#divDoubleBeep").click();
 
             descRestricao = '<b>' + spanRed(descRestricao, descRestricao) + '<b>'
         }
@@ -1063,7 +1063,7 @@ function insertRowGamet(tableStr, str, idx) {
 
 function SplitMetares(strMetar) {
     function getDataHora(str) {
-        var patt2 = /\d{10} - /g; 
+        var patt2 = /\d{10} - /g;
         var t1 = str.match(patt2)
         if (t1 && t1.length > 0)
             return t1[0]
@@ -1076,15 +1076,15 @@ function SplitMetares(strMetar) {
     t = t.split('=')
 
     if (t.length < 1)
-      return strMetar
+        return strMetar
 
 
     for (var i in t) {
         var dataHora = getDataHora(t[i])
         //console.log(dataHora)
-        t[i] = t[i].split(dataHora)[1]+"="
+        t[i] = t[i].split(dataHora)[1] + "="
     }
-    return t.splice(0,t.length-1);
+    return t.splice(0, t.length - 1);
 }
 
 function arraySize(array) {
