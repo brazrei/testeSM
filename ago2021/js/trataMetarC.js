@@ -387,7 +387,7 @@ function trataMetarRedemet(response, idxFIR) {
     locAnterior = "";
 
     var i;
-    for (i = 1; i < c; i++) { //a primeira linha está em brancosaveToFile
+    for (i = 0; i < c; i++) { //a primeira linha está em brancosaveToFile
         metar = arrayMetares[i];
         if (metar.includes("Mensagem ")) {
             metar = "";
@@ -1070,14 +1070,19 @@ function SplitMetares(strMetar) {
 
     }
     var t = strMetar.replace(/  /g, " ")
-    
+
     t = t.split('=')
+
+    if (t.length < 1)
+      return strMetar
+
+
     for (var i in t) {
         var dataHora = getDataHora(t[i])
         //console.log(dataHora)
         t[i] = t[i].split(dataHora)[1]+"="
     }
-    return t;
+    return t.splice(0,t.length-1);
 }
 
 function arraySize(array) {
