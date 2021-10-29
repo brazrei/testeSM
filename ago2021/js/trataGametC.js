@@ -23,7 +23,7 @@ function GetWebContentGamet(url) {
     }
   };
   //$(".imgLoad").attr('src', 'gifs/loading30x30.gif');
-  xhttp.open('GET', url, true);
+  xhttp.open('GET', urlCache + url + proxy, true);
   xhttp.send();
 }
 
