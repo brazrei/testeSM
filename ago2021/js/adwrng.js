@@ -145,8 +145,8 @@ function GetWebContentAdWRNG(url, primeiraVez) {
     const params = {
             url: url,
         }
-    const urlCache = "php/consulta_msg.php?url=" + params.url;    
-    xhttp.open('GET', urlCache, true);
+    //const urlCache = "php/consulta_msg.php?url=" + params.url;    
+    xhttp.open('GET', urlCache + url + proxy, true);
     xhttp.setRequestHeader('Content-type', 'application/json');
     xhttp.send();
 }
@@ -181,7 +181,7 @@ function getAdWRNG(primeiraVez = false) {
         url = `https://api-redemet.decea.mil.br/mensagens/aviso/${localidades}?api_key=${apiKey}`;
     }
 
-    GetWebContentAdWRNG(urlCache + url + proxy, primeiraVez);
+    GetWebContentAdWRNG(url, primeiraVez);
 }
 
 
