@@ -960,8 +960,12 @@ function strToCell(arr, idxFIR, novo, naoAdiciona, onLine = true) {//nãoadicion
         // if (cma == "ESTRANGEIRA") 
     }
 
-    if (!arr[2].maisRecente)
-        classe += " linhaInativa"
+    try {
+        if (arr && !arr[2].maisRecente)
+            classe += " linhaInativa"
+    } catch (e) {
+        console.log("Erro ao tentar verificar se o Metar é o Mais Recente!");
+    }
 
     if (!tit || (tit == 'undefined') || (tit.length == 0)) {
         tit = "";
@@ -1021,7 +1025,7 @@ function strToCell(arr, idxFIR, novo, naoAdiciona, onLine = true) {//nãoadicion
                 descRestricao += sep + i
                 sep = ', '
             })
-            if (novo && firVisible[idxFIR] && beepLigado() && onLine)
+            if (novo && firVisible[idxFIR] && beepLigado() && onLine) //falta olhar o casa da mensagem nao ser nova
                 $("#divDoubleBeep").click();
 
             descRestricao = '<b>' + spanRed(descRestricao, descRestricao) + '<b>'
