@@ -55,6 +55,9 @@
    /*display:flex;*/
 }
 
+.linhaInativa{
+  opacity: 0.3;
+}
 #imgSom:hover {
     cursor: pointer;
 }

@@ -960,6 +960,9 @@ function strToCell(arr, idxFIR, novo, naoAdiciona) {//nãoadiciona significa sub
         // if (cma == "ESTRANGEIRA") 
     }
 
+    if (!arr[2].maisRecente)
+        classe += " linhaInativa"
+
     if (!tit || (tit == 'undefined') || (tit.length == 0)) {
         tit = "";
         latLong = "";
