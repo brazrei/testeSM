@@ -91,7 +91,7 @@ function GetWebContent(url, idxFIR) {
         if (this.status > 0) {
             if (this.readyState == 4 && this.status == 200) {
                 $("#imgLoad" + idxFIR).attr('src', 'pngs/green-button30.png');
-                if (this.responseText == "")
+                if (!this.responseText.includes == "METAR")
                     trataMetarRedemet(erro + " Resposta vazia so Servidor!", idxFIR);
                 else
                     trataMetarRedemet(this.responseText, idxFIR);
