@@ -90,9 +90,11 @@ function GetWebContent(url, idxFIR) {
         var erro = "ErroSM=";
         if (this.status > 0) {
             if (this.readyState == 4 && this.status == 200) {
-                if (!this.responseText.includes("METAR"))
+                if (!this.responseText.includes("METAR")) {
+                    $("#imgLoad" + idxFIR).attr('src', 'pngs/red-button30.png');
                     trataMetarRedemet(erro + " Resposta vazia so Servidor!", idxFIR);
-                else{
+                }
+                else {
                     $("#imgLoad" + idxFIR).attr('src', 'pngs/green-button30.png');
                     trataMetarRedemet(this.responseText, idxFIR);
                 }
@@ -368,8 +370,6 @@ function trataMetarRedemet(response, idxFIR) {
     var erroDeAcesso = response.includes("ErroSM=");
     if (!erroDeAcesso)
         globalStrMetaresOffLine[idxFIR] = response;
-    else  if (!globalStrMetaresOffLine[idxFIR].includes("ErroSM="))
-        globalStrMetaresOffLine[idxFIR] += response;
 
     if (response.includes("getaddrinfo failed") || erroDeAcesso) {
         var strErroDeAcesso = limpaMsgErro(response);
