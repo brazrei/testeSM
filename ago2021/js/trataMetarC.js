@@ -244,7 +244,7 @@ function getMetar(localidades, Legenda, idxFIR, onLine) {
     if (onLine) {
         return GetWebContent(url, idxFIR);
     } else
-        trataMetarRedemet(globalStrMetaresOffLine[idxFIR], idxFIR);
+        trataMetarRedemet(globalStrMetaresOffLine[idxFIR], idxFIR, onLine);
 }
 
 function updateArrayStatus(localidade, status) { // retorna true se o status mudou
@@ -358,7 +358,7 @@ function removeCacheMessage(txt) {
     else
         return txt
 }
-function trataMetarRedemet(response, idxFIR) {
+function trataMetarRedemet(response, idxFIR, onLine = true) {
 
     function isMostRecent(arr, loc, i) {
         return (i == (arr.length - 1) || !arr[i + 1].includes(loc))
@@ -546,7 +546,7 @@ function trataMetarRedemet(response, idxFIR) {
         }
     }
     if (cont == 1) {
-        strToCell(["NENHUMA LOCALIDADE COM RESTRIÇÃO", ""], idxFIR, false, false);
+        strToCell(["NENHUMA LOCALIDADE COM RESTRIÇÃO", ""], idxFIR, false, false, onLine);
         cont = cont + 1;
     }
     limpaArrayStatusGamet(idxFIR)
@@ -932,7 +932,7 @@ function verificaStatusMetar(statusMetar, statusAdWRNG, statusAirmet, statusSigm
     return { coberto: (arrayRest.length == 0), tipo: arrayRest, alerta: arrayAlerta.length > 0, tipoAlerta: arrayAlerta }
 }
 
-function strToCell(arr, idxFIR, novo, naoAdiciona) {//nãoadiciona significa substituir(apagar o anterior)
+function strToCell(arr, idxFIR, novo, naoAdiciona, onLine = true) {//nãoadiciona significa substituir(apagar o anterior)
     var table;
     var classe = 'class = "table-striped comum';
     if (primeiraVez)
@@ -1021,7 +1021,7 @@ function strToCell(arr, idxFIR, novo, naoAdiciona) {//nãoadiciona significa sub
                 descRestricao += sep + i
                 sep = ', '
             })
-            if (novo && firVisible[idxFIR] && beepLigado())
+            if (novo && firVisible[idxFIR] && beepLigado() && onLine)
                 $("#divDoubleBeep").click();
 
             descRestricao = '<b>' + spanRed(descRestricao, descRestricao) + '<b>'
