@@ -91,14 +91,18 @@ function GetWebContent(url, idxFIR) {
         if (this.status > 0) {
             if (this.readyState == 4 && this.status == 200) {
                 $("#imgLoad" + idxFIR).attr('src', 'pngs/green-button30.png');
-                trataMetarRedemet(this.responseText, idxFIR);
-                return this.responseText;
+                if (this.responseText == "")
+                    trataMetarRedemet(erro + " Resposta vazia so Servidor!", idxFIR);
+                else
+                    trataMetarRedemet(this.responseText, idxFIR);
+
+                //return this.responseText;
             } else if (this.readyState > 2 && this.status !== 200) {
                 erro = erro + this.responseText;
                 $("#imgLoad" + idxFIR).attr('src', 'pngs/red-button30.png');
 
                 trataMetarRedemet(erro, idxFIR);
-                return erro;
+                //return erro;
             }
 
         }
@@ -364,7 +368,7 @@ function trataMetarRedemet(response, idxFIR) {
         globalStrMetaresOffLine[idxFIR] = response;
     if (response.includes("getaddrinfo failed") || erroDeAcesso) {
         var strErroDeAcesso = limpaMsgErro(response);
-        strToCell(["Erro ao tentar obter metares da Redemet! " + strErroDeAcesso, ""], idxFIR, false, false);
+        strToCell(["Erro ao tentar obter metares! " + strErroDeAcesso, ""], idxFIR, false, false);
         return;
     }
 
