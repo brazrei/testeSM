@@ -90,11 +90,12 @@ function GetWebContent(url, idxFIR) {
         var erro = "ErroSM=";
         if (this.status > 0) {
             if (this.readyState == 4 && this.status == 200) {
-                $("#imgLoad" + idxFIR).attr('src', 'pngs/green-button30.png');
                 if (!this.responseText.includes("METAR"))
                     trataMetarRedemet(erro + " Resposta vazia so Servidor!", idxFIR);
-                else
+                else{
+                    $("#imgLoad" + idxFIR).attr('src', 'pngs/green-button30.png');
                     trataMetarRedemet(this.responseText, idxFIR);
+                }
 
                 //return this.responseText;
             } else if (this.readyState > 2 && this.status !== 200) {
@@ -113,6 +114,7 @@ function GetWebContent(url, idxFIR) {
     }
 
     $(".imgLoad").attr('src', 'gifs/loading30x30.gif');
+    $("#imgLoad" + idxFIR).attr('src', 'pngs/red-button30.png');
     xhttp.open('GET', urlCache + params.url + proxy, true);
     xhttp.setRequestHeader('Content-type', 'application/json');
     //xhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
@@ -366,6 +368,9 @@ function trataMetarRedemet(response, idxFIR) {
     var erroDeAcesso = response.includes("ErroSM=");
     if (!erroDeAcesso)
         globalStrMetaresOffLine[idxFIR] = response;
+    else  if (!globalStrMetaresOffLine[idxFIR].includes("ErroSM="))
+        globalStrMetaresOffLine[idxFIR] += response;
+
     if (response.includes("getaddrinfo failed") || erroDeAcesso) {
         var strErroDeAcesso = limpaMsgErro(response);
         strToCell(["Erro ao tentar obter metares! " + strErroDeAcesso, ""], idxFIR, false, false);
