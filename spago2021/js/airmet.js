@@ -620,8 +620,8 @@ function plotaMarca(lat, lng, loc) {
             let alerta = getTipoAlerta(loc);
                 
             if (descU.includes("DESCOBERTO")) {
-                //icon = redIcon
-                icon = svgIcon //vento trovoada teto visib
+                icon = redIcon
+                //icon = svgIcon //vento trovoada teto visib
 
                 if (alerta.ad)
                   addMarker(L.marker([lat, lng], { icon: cssIconRed }), "", restricao, true)
@@ -630,7 +630,8 @@ function plotaMarca(lat, lng, loc) {
                 if (descU.includes("DEGRADA"))
                     icon = orangeIcon
                 else
-                    icon = yellowIcon
+                    //icon = yellowIcon
+                    icon = svgIcon //vento trovoada teto visib
                 if (alerta.ad)
                   addMarker(L.marker([lat, lng], { icon: cssIconYellow }), "", restricao, true)
             }
