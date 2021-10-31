@@ -572,7 +572,7 @@ function plotaMarca(lat, lng, loc) {
             <defs>
             </defs>
             <rect x="0" y="0" width="100%" height="100%" fill="rgba(255, 0, 0, 1)" fill-opacity="0.8";></rect>
-            <g transform="matrix(0.67 0 0 0.67 72.6 64.6)"  >
+            <g transform="matrix(0.67 0 0 0.67 238.6 68.6)"  >
             <g style=""   >
             <g transform="matrix(1 0 0 1 -36.32 -61.62)" id="Capa_1"  >
             <path style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(200,200,200); fill-rule: nonzero; opacity: 1;"  transform=" translate(-72.4, -47.09)" d="M 144.797 47.095 c 0 -4.142 -3.358 -7.5 -7.5 -7.5 H 7.5 c -4.142 0 -7.5 3.358 -7.5 7.5 c 0 4.142 3.358 7.5 7.5 7.5 h 129.797 C 141.439 54.595 144.797 51.237 144.797 47.095 z" stroke-linecap="round" />
