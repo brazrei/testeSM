@@ -632,7 +632,7 @@ function plotaMarca(lat, lng, loc) {
                 else{ 
                     //icon = yellowIcon
                     icon = svgIcon //vento trovoada teto visib
-                    icon._icon.classList.add("svgRedIcon");
+                    //icon._icon.classList.add("svgRedIcon");
                 }
                 if (alerta.ad)
                   addMarker(L.marker([lat, lng], { icon: cssIconYellow }), "", restricao, true)
