@@ -562,11 +562,11 @@ function plotaMarca(lat, lng, loc) {
         var svgIcon = new L.divIcon({//vento trovoada teto visib
             // Specify a class name we can refer to in CSS.
             className: 'css-icon',
-            html: `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="100" height="50" viewBox="0 0 ${tamIconeX} 140" xml:space="preserve">
+            html: `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="100" height="50" viewBox="0 0 599 140" xml:space="preserve">
             <desc>Created with Fabric.js 3.6.3</desc>
             <defs>
             </defs>
-            <rect x="0" y="0"  rx="30" ry ="30" width="${tamRect}%" height="100%" fill="rgba(0, 0, 0, 1)" fill-opacity="0.1";></rect>
+            <rect x="0" y="0"  rx="30" ry ="30" width="${tamRect}%" height="100%" fill="rgba(0, 0, 0, 1)" fill-opacity="0.3";></rect>
 
             ${svgVisibilidade}
 
