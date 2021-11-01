@@ -479,7 +479,6 @@ function updateDescobertos(loc, tipoAlerta) {
 function plotaMarca(lat, lng, loc) {
     function getSvgIcon(loc, strAlerta, descoberto = false) {
         //inicio x = 78
-        let iconColor = color
         let inicioX = 78;
         let offSetX = 0;
         let svgTeto = ""
@@ -495,6 +494,8 @@ function plotaMarca(lat, lng, loc) {
             alt = 1000;
             boxOpacity = "0.9" ;
         }
+        let iconColor = color
+
         if (strAlerta.includes("TETO")) {
             svgTeto = `<g transform="matrix(0.35 0 0 0.35 ${inicioX}.02 67.61)"  >
         <g style=""   >
@@ -715,7 +716,7 @@ function plotaMarca(lat, lng, loc) {
                 // icon = orangeIcon
                 //else {
                 //icon = yellowIcon
-                icon = getSvgIcon(loc, alerta.strAlerta, "yellow", false) //vento trovoada teto visib
+                icon = getSvgIcon(loc, alerta.strAlerta, false) //vento trovoada teto visib
 
                 //}
                 //if (alerta.ad)
