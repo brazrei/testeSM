@@ -98,13 +98,13 @@ function getFullDateValid(dataI, dataF) { // retorna data inteira de AIRMET e SI
     let agora = getUTCAgora()
     let decMonth = 0
     if (diaI > agora.getUTCDay())
-      decMonth = -1;
+        decMonth = -1;
 
     let dataInicial = new Date(agora.getUTCFullYear(), agora.getUTCMonth() + decMonth, diaI, horaI, minI)
     let dataFinal = new Date(agora.getUTCFullYear(), agora.getUTCMonth(), diaF, horaF, minF)
 
-   // if (parseInt(diaF) < parseInt(diaI))
-   //     dataFinal.setMonth(dataFinal.getMonth() + 1);
+    // if (parseInt(diaF) < parseInt(diaI))
+    //     dataFinal.setMonth(dataFinal.getMonth() + 1);
     //console.log(agora.toISOString())
     //console.log(dataInicial.toISOString())
     //console.log(dataFinal.toISOString())
@@ -479,7 +479,7 @@ function updateDescobertos(loc, tipoAlerta) {
 function plotaMarca(lat, lng, loc) {
     function getSvgIcon(loc, strAlerta, color = "red") {
         //inicio x = 78
-        let iconColor = color 
+        let iconColor = color
         let inicioX = 78;
         let offSetX = 0;
         let svgTeto = ""
@@ -560,8 +560,8 @@ function plotaMarca(lat, lng, loc) {
         }
 
         //let tamIconeX = offSetX - 
-        let widthX = contRestricoes*25;
-        let viewBoxX = (contRestricoes*150) - 1;
+        let widthX = contRestricoes * 25;
+        let viewBoxX = (contRestricoes * 150) - 1;
 
         var svgIcon = new L.divIcon({//vento trovoada teto visib
             // Specify a class name we can refer to in CSS.
@@ -570,7 +570,7 @@ function plotaMarca(lat, lng, loc) {
             <desc>Created with Fabric.js 3.6.3</desc>
             <defs>
             </defs>
-            <rect x="0" y="0"  rx="30" ry ="30" width="100%" height="100%" fill="rgba(0, 0, 0, 1)" fill-opacity="0.3";></rect>
+            <rect x="0" y="0"  rx="30" ry ="30" width="100%" height="100%" fill="rgba(0, 0, 0, 1)" fill-opacity="0.4";></rect>
 
             ${svgVisibilidade}
 
@@ -689,21 +689,21 @@ function plotaMarca(lat, lng, loc) {
 
             if (descU.includes("DESCOBERTO")) {
                 icon = redIcon
-                icon = getSvgIcon(loc, alerta.strAlerta) //vento trovoada teto visib
+                icon = getSvgIcon(loc, descU.split("DESCOBERTO")[1].split("<")[0]) //vento trovoada teto visib
 
-                if (alerta.ad)
-                    addMarker(L.marker([lat, lng], { icon: cssIconRed }), "", restricao, true)
+                //if (alerta.ad)
+                addMarker(L.marker([lat, lng], { icon: cssIconRed }), "", restricao, true)
                 updateDescobertos(loc, alerta)
             } else {
                 if (descU.includes("DEGRADA"))
                     icon = orangeIcon
                 else {
                     //icon = yellowIcon
-                icon = getSvgIcon(loc, alerta.strAlerta,"yellow") //vento trovoada teto visib
+                    icon = getSvgIcon(loc, alerta.strAlerta, "yellow") //vento trovoada teto visib
 
                 }
-                if (alerta.ad)
-                    addMarker(L.marker([lat, lng], { icon: cssIconYellow }), "", restricao, true)
+                //if (alerta.ad)
+                //    addMarker(L.marker([lat, lng], { icon: cssIconYellow }), "", restricao, true)
             }
         } else
             icon = greenIcon
