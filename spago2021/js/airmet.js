@@ -489,10 +489,12 @@ function plotaMarca(lat, lng, loc) {
         let alt = 0
         let color = "yellow"
         let boxOpacity = "0.4" ;
+        let backGroundColor = "black";
         if (descoberto) {
             color = "red"
             alt = 1000;
             boxOpacity = "0.9" ;
+            backGroundColor = "red"
         }
         let iconColor = color
 
@@ -542,7 +544,7 @@ function plotaMarca(lat, lng, loc) {
 
         }
 
-        if (strAlerta.includes("VENTO")) {
+        if (strAlerta.includes("VENTO") || strAlerta.includes("RAJADA")) {
 
             //inicio x =83    
             inicioX = 83 + offSetX;
@@ -579,7 +581,7 @@ function plotaMarca(lat, lng, loc) {
             <desc>Created with Fabric.js 3.6.3</desc>
             <defs>
             </defs>
-            <rect x="0" y="0"  rx="30" ry ="30" width="100%" height="100%" fill="rgba(0, 0, 0, 1)" fill-opacity="${boxOpacity}";></rect>
+            <rect x="0" y="0"  rx="30" ry ="30" width="100%" height="100%" fill="${backGroundColor}" fill-opacity="${boxOpacity}";></rect>
 
             ${svgVisibilidade}
 
