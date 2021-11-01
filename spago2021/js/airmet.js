@@ -477,7 +477,7 @@ function updateDescobertos(loc, tipoAlerta) {
 }
 
 function plotaMarca(lat, lng, loc) {
-    function getSvgIcon(loc, strAlerta, color = "red") {
+    function getSvgIcon(loc, strAlerta, descoberto = false) {
         //inicio x = 78
         let iconColor = color
         let inicioX = 78;
@@ -487,7 +487,14 @@ function plotaMarca(lat, lng, loc) {
         let svgTrovoada = ""
         let svgVento = ""
         let contRestricoes = 0
-
+        let alt = 0
+        let color = "yellow"
+        let boxOpacity = 0.4;
+        if (descoberto) {
+            color = "red"
+            alt = 1000;
+            boxOpacity = 0.9;
+        }
         if (strAlerta.includes("TETO")) {
             svgTeto = `<g transform="matrix(0.35 0 0 0.35 ${inicioX}.02 67.61)"  >
         <g style=""   >
@@ -548,7 +555,7 @@ function plotaMarca(lat, lng, loc) {
         }
 
         if (strAlerta.includes("TROVOADA")) {
-            inicioX = 60 + offSetX;
+            inicioX = 68 + offSetX;
 
             //inicio x=60
             svgTrovoada = `<g transform="matrix(0.27 0 0 0.24 ${inicioX}.3 71.1)" id="Capa_1"  >
@@ -571,7 +578,7 @@ function plotaMarca(lat, lng, loc) {
             <desc>Created with Fabric.js 3.6.3</desc>
             <defs>
             </defs>
-            <rect x="0" y="0"  rx="30" ry ="30" width="100%" height="100%" fill="rgba(0, 0, 0, 1)" fill-opacity="0.4";></rect>
+            <rect x="0" y="0"  rx="30" ry ="30" width="100%" height="100%" fill="rgba(0, 0, 0, 1)" fill-opacity="${boxOpacity}";></rect>
 
             ${svgVisibilidade}
 
@@ -584,6 +591,8 @@ function plotaMarca(lat, lng, loc) {
             // Set marker width and height
             , iconSize: [25, 35] //tamanho minimo. O restante eh ajustado pelo tamanho do SVG
             , iconAnchor: [6, 6]
+            , alt: parseInt(`${alt}`)
+
         });
         return svgIcon;
     }
@@ -695,7 +704,7 @@ function plotaMarca(lat, lng, loc) {
                 let strDescoberto = descU.split("DESCOBERTO")[1].split("<")[0]
                 let alerta = getTipoAlerta(loc, strDescoberto);
                 icon = redIcon
-                icon = getSvgIcon(loc, strDescoberto) //vento trovoada teto visib
+                icon = getSvgIcon(loc, strDescoberto, true) //vento trovoada teto visib
 
                 //if (alerta.ad)
                 addMarker(L.marker([lat, lng], { icon: cssIconRed }), "", restricao, true)
@@ -706,7 +715,7 @@ function plotaMarca(lat, lng, loc) {
                 // icon = orangeIcon
                 //else {
                 //icon = yellowIcon
-                icon = getSvgIcon(loc, alerta.strAlerta, "yellow") //vento trovoada teto visib
+                icon = getSvgIcon(loc, alerta.strAlerta, "yellow", false) //vento trovoada teto visib
 
                 //}
                 //if (alerta.ad)
