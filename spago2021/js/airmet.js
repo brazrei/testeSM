@@ -477,9 +477,9 @@ function updateDescobertos(loc, tipoAlerta) {
 }
 
 function plotaMarca(lat, lng, loc) {
-    function getSvgIcon(loc, strAlerta) {
+    function getSvgIcon(loc, strAlerta, color = "red") {
         //inicio x = 78
-        let iconColor = "red" 
+        let iconColor = color 
         let inicioX = 78;
         let offSetX = 0;
         let svgTeto = ""
@@ -581,7 +581,7 @@ function plotaMarca(lat, lng, loc) {
             ${svgTeto}
             </svg>`
             // Set marker width and height
-            , iconSize: [80, 35]
+            , iconSize: [25, 35] //tamanho minimo. O restante eh ajustado pelo tamanho do SVG
             , iconAnchor: [6, 6]
         });
         return svgIcon;
@@ -698,8 +698,8 @@ function plotaMarca(lat, lng, loc) {
                 if (descU.includes("DEGRADA"))
                     icon = orangeIcon
                 else {
-                    icon = yellowIcon
-                    //icon = svgIcon //vento trovoada teto visib
+                    //icon = yellowIcon
+                icon = getSvgIcon(loc, alerta.strAlerta,"yellow") //vento trovoada teto visib
 
                 }
                 if (alerta.ad)
