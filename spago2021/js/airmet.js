@@ -695,34 +695,34 @@ function plotaMarca(lat, lng, loc) {
                 addMarker(L.marker([lat, lng], { icon: cssIconRed }), "", restricao, true)
                 updateDescobertos(loc, alerta)
             } else {
-                if (descU.includes("DEGRADA"))
-                    icon = orangeIcon
-                else {
-                    //icon = yellowIcon
-                    icon = getSvgIcon(loc, alerta.strAlerta, "yellow") //vento trovoada teto visib
+                //if (descU.includes("DEGRADA"))
+                // icon = orangeIcon
+                //else {
+                //icon = yellowIcon
+                icon = getSvgIcon(loc, alerta.strAlerta, "yellow") //vento trovoada teto visib
 
-                }
-                //if (alerta.ad)
-                //    addMarker(L.marker([lat, lng], { icon: cssIconYellow }), "", restricao, true)
             }
-        } else
-            icon = greenIcon
+            //if (alerta.ad)
+            //    addMarker(L.marker([lat, lng], { icon: cssIconYellow }), "", restricao, true)
+        }
+    } else
+        icon = greenIcon
 
 
-        var m = addMarker(L.marker([lat, lng], { icon: icon }), loc, restricao)
-        //m._icon.classList.add("svgRedIcon");
+    var m = addMarker(L.marker([lat, lng], { icon: icon }), loc, restricao)
+    //m._icon.classList.add("svgRedIcon");
 
 
-        m.on('contextmenu', function (event) {
-            let d
-            d = removeEspacos(event.target.getTooltip()._content)
-            selectedMarker = d.replace("METARCOR", "").replace("SPECICOR", "").replace("METAR", "").replace("SPECI", "").substr(0, 4)
-            openContextMenuMarker(event, event.target);
-        }, this);
-        desc = removeInfo(desc)
-        m.bindTooltip(desc, { closeButton: false, offset: L.point(0, -20) })
-        //console.log(m)
-    } //else
+    m.on('contextmenu', function (event) {
+        let d
+        d = removeEspacos(event.target.getTooltip()._content)
+        selectedMarker = d.replace("METARCOR", "").replace("SPECICOR", "").replace("METAR", "").replace("SPECI", "").substr(0, 4)
+        openContextMenuMarker(event, event.target);
+    }, this);
+    desc = removeInfo(desc)
+    m.bindTooltip(desc, { closeButton: false, offset: L.point(0, -20) })
+    //console.log(m)
+} //else
     //console.log("Erro na plotagem de ", loc);
 }
 
