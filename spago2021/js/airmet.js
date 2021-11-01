@@ -483,6 +483,7 @@ function plotaMarca(lat, lng, loc) {
         let svgVisibilidade = ""
         let svgTrovoada = ""
         let svgVento = ""
+        let contRestricoes = 0
 
         if (strAlerta.includes("TETO")) {
             svgTeto = `<g transform="matrix(0.35 0 0 0.35 ${inicioX}.02 67.61)"  >
@@ -496,6 +497,7 @@ function plotaMarca(lat, lng, loc) {
         </g>
         </g>`;
             offSetX += 150;
+            contRestricoes += 1
         }
 
         if (strAlerta.includes("VISIBILIDADE")) {
@@ -525,6 +527,7 @@ function plotaMarca(lat, lng, loc) {
         </g>
         </g>`
             offSetX += 150;
+            contRestricoes += 1
 
         }
 
@@ -538,6 +541,7 @@ function plotaMarca(lat, lng, loc) {
         </g>`;
             offSetX += 150;
 
+            contRestricoes += 1
         }
 
         if (strAlerta.includes("TROVOADA")) {
@@ -548,10 +552,12 @@ function plotaMarca(lat, lng, loc) {
         <path style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: ${iconColor}; fill-rule: nonzero; opacity: 1;"  transform=" translate(-256, -256)" d="M 412.324 209.102 C 406.777 198.586 395.886 192 383.996 192 h -60.219 l 72.844 -145.688 c 4.953 -9.922 4.422 -21.703 -1.406 -31.133 C 389.386 5.742 379.09 0 367.996 0 h -160 c -13.781 0 -26 8.813 -30.359 21.883 l -80 240 c -3.25 9.758 -1.609 20.484 4.406 28.828 c 6.016 8.344 15.672 13.289 25.953 13.289 h 74.703 l -26.328 171.133 c -2.266 14.75 5.953 29.117 19.828 34.617 c 3.844 1.523 7.844 2.25 11.781 2.25 c 10.297 0 20.266 -4.977 26.391 -13.867 l 176 -256 C 417.105 232.336 417.855 219.617 412.324 209.102 z" stroke-linecap="round" />
         </g>`;
             offSetX += 150;
+            contRestricoes += 1
 
         }
 
         let tamIconeX = offSetX - 1
+        let tamRect = contRestricoes*25;
 
         var svgIcon = new L.divIcon({//vento trovoada teto visib
             // Specify a class name we can refer to in CSS.
@@ -560,7 +566,7 @@ function plotaMarca(lat, lng, loc) {
             <desc>Created with Fabric.js 3.6.3</desc>
             <defs>
             </defs>
-            <rect x="0" y="0" width="100%" height="100%" fill="rgba(0, 0, 0, 1)" fill-opacity="0.1";></rect>
+            <rect x="0" y="0"  rx="30" ry ="30" width="${tamRect}%" height="100%" fill="rgba(0, 0, 0, 1)" fill-opacity="0.1";></rect>
 
             ${svgVisibilidade}
 
