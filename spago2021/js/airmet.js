@@ -561,7 +561,8 @@ function plotaMarca(lat, lng, loc) {
 
         //let tamIconeX = offSetX - 
         let widthX = contRestricoes * 25;
-        let viewBoxX = (contRestricoes * 150) - 1;
+        let viewBoxX = (contRestricoes < 1) ? 0 : (contRestricoes * 150) - 1;
+        //viewBoxX = viewBoxX<0?0:viewBoxX;
 
         var svgIcon = new L.divIcon({//vento trovoada teto visib
             // Specify a class name we can refer to in CSS.
@@ -601,13 +602,16 @@ function plotaMarca(lat, lng, loc) {
         return (descMetar.includes("VENTO") || descMetar.includes("RAJADA") || descMetar.includes("KT</SPAN>"))
     }
 
-    function getTipoAlerta(loc) {
+    function getTipoAlerta(loc, descoberto = false) {
         let rota = false
         let ad = false
         let strAlerta = ""
 
         if (opener && opener.arrRestricaoLoc[loc]) {
-            strAlerta = opener.arrRestricaoLoc[loc]
+            if (descoberto)
+                strAlerta = descoberto;
+            else
+                strAlerta = opener.arrRestricaoLoc[loc]
             if (strAlerta.indexOf("TETO") > -1 || strAlerta.indexOf("VISIBILIDADE") > -1)
                 rota = true
             if (strAlerta.indexOf("VENTO") > -1 || strAlerta.indexOf("RAJADA") > -1 || strAlerta.indexOf("TROVOADA") > -1)
@@ -684,17 +688,20 @@ function plotaMarca(lat, lng, loc) {
             restricao = true
             desc = desc.substr(1)
             let descU = desc.toUpperCase();
-            let alerta = getTipoAlerta(loc);
+            let alerta;
 
 
             if (descU.includes("DESCOBERTO")) {
+                let strDescoberto = descU.split("DESCOBERTO")[1].split("<")[0]
+                let alerta = getTipoAlerta(loc, strDescoberto);
                 icon = redIcon
-                icon = getSvgIcon(loc, descU.split("DESCOBERTO")[1].split("<")[0]) //vento trovoada teto visib
+                icon = getSvgIcon(loc, strDescoberto) //vento trovoada teto visib
 
                 //if (alerta.ad)
                 addMarker(L.marker([lat, lng], { icon: cssIconRed }), "", restricao, true)
                 updateDescobertos(loc, alerta)
             } else {
+                let alerta = getTipoAlerta(loc);
                 //if (descU.includes("DEGRADA"))
                 // icon = orangeIcon
                 //else {
