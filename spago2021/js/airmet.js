@@ -489,11 +489,11 @@ function plotaMarca(lat, lng, loc) {
         let contRestricoes = 0
         let alt = 0
         let color = "yellow"
-        let boxOpacity = 0.4;
+        let boxOpacity = "0.4" ;
         if (descoberto) {
             color = "red"
             alt = 1000;
-            boxOpacity = 0.9;
+            boxOpacity = "0.9" ;
         }
         if (strAlerta.includes("TETO")) {
             svgTeto = `<g transform="matrix(0.35 0 0 0.35 ${inicioX}.02 67.61)"  >
