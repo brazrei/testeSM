@@ -446,25 +446,25 @@ function getMetar(loc) {
     return met
 
 }
-function updateDescobertos(loc,tipoAlerta) {
-    function trataLabelDescobertas(id, loc ,legenda){ 
-      let desc = $(id).html()
-      let sep = ", "
-      if (desc == "")
-          sep = ""
-      else if (desc.includes("<br>"))
-          desc = desc.split("<br>")[1]
-      if (!desc.includes(loc))
-          desc = desc + sep + loc
-      $(id).html(legenda + "<br>" + desc)
+function updateDescobertos(loc, tipoAlerta) {
+    function trataLabelDescobertas(id, loc, legenda) {
+        let desc = $(id).html()
+        let sep = ", "
+        if (desc == "")
+            sep = ""
+        else if (desc.includes("<br>"))
+            desc = desc.split("<br>")[1]
+        if (!desc.includes(loc))
+            desc = desc + sep + loc
+        $(id).html(legenda + "<br>" + desc)
     }
-    
+
     if (!loc) {
         $('#h6descobertasAD').html("")
         $('#h6descobertasRota').html("")
         return
     }
-    
+
     if (tipoAlerta.ad) {
         trataLabelDescobertas('#h6descobertasAD', loc, 'Alerta AD:')
     }
@@ -474,6 +474,104 @@ function updateDescobertos(loc,tipoAlerta) {
 }
 
 function plotaMarca(lat, lng, loc) {
+    function getSvgIcon(loc, strAlerta) {
+        //inicio x = 78
+        let inicioX = 78;
+        let offSetX = 0;
+        let svgTeto = ""
+        let svgVisibilidade = ""
+        let svgTrovoada = ""
+        let svgVento = ""
+        
+        if (strAlerta.includes("TETO")) {
+            svgTeto = `<g transform="matrix(0.35 0 0 0.35 ${inicioX}.02 67.61)"  >
+        <g style=""   >
+                <g transform="matrix(1 0 0 1 43.46 21.75)" id="Capa_1"  >
+        <path style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(200,200,200); fill-rule: nonzero; opacity: 1;"  transform=" translate(-231.57, -209.86)" d="M 338.103 201.978 c 1.733 -6.085 2.61 -12.372 2.61 -18.756 c 0 -37.746 -30.708 -68.455 -68.454 -68.455 c -15.702 0 -31.042 5.453 -43.193 15.354 c -10.807 8.805 -18.705 20.773 -22.558 34.057 c -25.26 -2.36 -48.097 13.667 -55.234 37.059 c -3.824 -0.87 -7.731 -1.309 -11.671 -1.309 c -29.051 0 -52.686 23.464 -52.686 52.514 c 0 29.051 23.635 52.515 52.686 52.515 h 183.931 c 29.051 0 52.685 -23.464 52.685 -52.515 C 376.22 228.676 360.49 208.367 338.103 201.978 z" stroke-linecap="round" />
+        </g>
+                <g transform="matrix(1 0 0 1 -90.95 -34)" id="Capa_1"  >
+        <path style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(200,200,200); fill-rule: nonzero; opacity: 1;"  transform=" translate(-97.16, -154.11)" d="M 130.402 177.248 l 2.936 0.016 l 1.444 -2.556 c 10.411 -18.427 29.165 -30.778 50.168 -33.04 l 2.788 -0.3 l 1.197 -2.535 c 0.995 -2.106 2.117 -4.23 3.334 -6.313 l 2.045 -3.498 l -2.998 -2.725 c -8.986 -8.17 -20.753 -12.669 -33.131 -12.669 c -1.311 0 -2.637 0.054 -3.968 0.162 c -7.85 -24.892 -32.261 -42.525 -59.755 -42.525 c -34.414 0 -62.412 26.82 -62.412 59.787 c 0 5.289 0.718 10.5 2.141 15.555 C 14.072 152.409 0 170.187 0 190.789 c 0 25.457 21.612 46.167 48.178 46.167 h 16.221 l 0.648 -4.244 c 4.906 -32.088 32.06 -55.398 64.612 -55.512 C 129.907 177.229 130.155 177.247 130.402 177.248 z" stroke-linecap="round" />
+        </g>
+        </g>
+        </g>`;
+            offSetX += 150;
+        }
+
+        if (strAlerta.includes("VISIBILIDADE")) {
+            //inicio x= 84
+
+            inicioX = 84 + offSetX;
+
+            svgVisibilidade = `<g transform="matrix(0.67 0 0 0.67 ${inicioX}.6 68.6)"  >
+        <g style=""   >
+        <g transform="matrix(1 0 0 1 -36.32 -61.62)" id="Capa_1"  >
+        
+        <path style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(200,200,200); fill-rule: nonzero; opacity: 1;"  transform=" translate(-72.4, -47.09)" d="M 144.797 47.095 c 0 -4.142 -3.358 -7.5 -7.5 -7.5 H 7.5 c -4.142 0 -7.5 3.358 -7.5 7.5 c 0 4.142 3.358 7.5 7.5 7.5 h 129.797 C 141.439 54.595 144.797 51.237 144.797 47.095 z" stroke-linecap="round" />
+        </g>
+                <g transform="matrix(1 0 0 1 25.57 -30.81)" id="Capa_1"  >
+        <path style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(200,200,200); fill-rule: nonzero; opacity: 1;"  transform=" translate(-134.28, -77.91)" d="M 209.93 70.405 H 58.632 c -4.142 0 -7.5 3.358 -7.5 7.5 s 3.358 7.5 7.5 7.5 H 209.93 c 4.142 0 7.5 -3.358 7.5 -7.5 S 214.072 70.405 209.93 70.405 z" stroke-linecap="round" />
+        </g>
+                <g transform="matrix(1 0 0 1 -10.23 0)" id="Capa_1"  >
+        <path style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(200,200,200); fill-rule: nonzero; opacity: 1;"  transform=" translate(-98.49, -108.71)" d="M 174.53 116.214 c 4.142 0 7.5 -3.358 7.5 -7.5 c 0 -4.142 -3.358 -7.5 -7.5 -7.5 H 22.446 c -4.142 0 -7.5 3.358 -7.5 7.5 c 0 4.142 3.358 7.5 7.5 7.5 H 174.53 z" stroke-linecap="round" />
+        </g>
+        
+                <g transform="matrix(1 0 0 1 14.81 30.81)" id="Capa_1"  >
+        <path style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(200,200,200); fill-rule: nonzero; opacity: 1;"  transform=" translate(-123.53, -139.52)" d="M 199.441 132.024 H 47.619 c -4.142 0 -7.5 3.358 -7.5 7.5 s 3.358 7.5 7.5 7.5 h 151.822 c 4.142 0 7.5 -3.358 7.5 -7.5 S 203.583 132.024 199.441 132.024 z" stroke-linecap="round" />
+        </g>
+                <g transform="matrix(1 0 0 1 -33.3 61.62)" id="Capa_1"  >
+        <path style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(200,200,200); fill-rule: nonzero; opacity: 1;"  transform=" translate(-75.41, -170.34)" d="M 125.759 162.835 H 25.068 c -4.142 0 -7.5 3.358 -7.5 7.5 c 0 4.142 3.358 7.5 7.5 7.5 h 100.69 c 4.142 0 7.5 -3.358 7.5 -7.5 C 133.259 166.193 129.901 162.835 125.759 162.835 z" stroke-linecap="round" />
+        </g>
+        </g>
+        </g>`
+            offSetX += 150;
+
+        }
+
+        if (strAlerta.includes("VENTO")) {
+
+            //inicio x =83    
+            inicioX = 83 + offSetX;
+
+            svgVento = `<g transform="matrix(8.81 0 0 8.81 ${inicioX}.23 70.15)"  >
+        <path style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(200,200,200); fill-rule: nonzero; opacity: 1;"  transform=" translate(-8, -8)" d="M 12.5 2 A 2.5 2.5 0 0 0 10 4.5 a 0.5 0.5 0 0 1 -1 0 A 3.5 3.5 0 1 1 12.5 8 H 0.5 a 0.5 0.5 0 0 1 0 -1 h 12 a 2.5 2.5 0 0 0 0 -5 z m -7 1 a 1 1 0 0 0 -1 1 a 0.5 0.5 0 0 1 -1 0 a 2 2 0 1 1 2 2 h -5 a 0.5 0.5 0 0 1 0 -1 h 5 a 1 1 0 0 0 0 -2 z M 0 9.5 A 0.5 0.5 0 0 1 0.5 9 h 10.042 a 3 3 0 1 1 -3 3 a 0.5 0.5 0 0 1 1 0 a 2 2 0 1 0 2 -2 H 0.5 a 0.5 0.5 0 0 1 -0.5 -0.5 z" stroke-linecap="round" />
+        </g>`;
+        }
+        if (strAlerta.includes("TROVOADA")) {
+            inicioX = 60 + offSetX;
+
+            //inicio x=60
+            svgTrovoada = `<g transform="matrix(0.27 0 0 0.24 ${inicioX}.3 71.1)" id="Capa_1"  >
+        <path style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(200,200,200); fill-rule: nonzero; opacity: 1;"  transform=" translate(-256, -256)" d="M 412.324 209.102 C 406.777 198.586 395.886 192 383.996 192 h -60.219 l 72.844 -145.688 c 4.953 -9.922 4.422 -21.703 -1.406 -31.133 C 389.386 5.742 379.09 0 367.996 0 h -160 c -13.781 0 -26 8.813 -30.359 21.883 l -80 240 c -3.25 9.758 -1.609 20.484 4.406 28.828 c 6.016 8.344 15.672 13.289 25.953 13.289 h 74.703 l -26.328 171.133 c -2.266 14.75 5.953 29.117 19.828 34.617 c 3.844 1.523 7.844 2.25 11.781 2.25 c 10.297 0 20.266 -4.977 26.391 -13.867 l 176 -256 C 417.105 232.336 417.855 219.617 412.324 209.102 z" stroke-linecap="round" />
+        </g>`;
+        }
+
+
+
+        var svgIcon = new L.divIcon({//vento trovoada teto visib
+            // Specify a class name we can refer to in CSS.
+            className: 'css-icon',
+            html: `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="100" height="50" viewBox="0 0 599 140" xml:space="preserve">
+            <desc>Created with Fabric.js 3.6.3</desc>
+            <defs>
+            </defs>
+            <rect x="0" y="0" width="100%" height="100%" fill="rgba(255, 0, 0, 1)" fill-opacity="0.8";></rect>
+
+            ${svgVisibilidade}
+
+            ${svgVento}
+
+            ${svgTrovoada}
+
+            ${svgTeto}
+            </svg>`
+            // Set marker width and height
+            , iconSize: [50, 25]
+            , iconAnchor: [6, 6]
+        });
+        return svgIcon;
+    }
+
+
     function removeInfo(desc) {
         if (desc.includes("</b><b>")) {
             desc = desc.split("<b><img src=")[0]
@@ -482,7 +580,7 @@ function plotaMarca(lat, lng, loc) {
         else
             return desc
     }
-    
+
     function checaRestricaoVento(descMetar) {
         return (descMetar.includes("VENTO") || descMetar.includes("RAJADA") || descMetar.includes("KT</SPAN>"))
     }
@@ -490,15 +588,16 @@ function plotaMarca(lat, lng, loc) {
     function getTipoAlerta(loc) {
         let rota = false
         let ad = false
-        
+        let strAlerta = ""
+
         if (opener && opener.arrRestricaoLoc[loc]) {
-            let alerta = opener.arrRestricaoLoc[loc]
-            if (alerta.indexOf("TETO") > -1 || alerta.indexOf("VISIBILIDADE") > -1)
+            strAlerta = opener.arrRestricaoLoc[loc]
+            if (strAlerta.indexOf("TETO") > -1 || strAlerta.indexOf("VISIBILIDADE") > -1)
                 rota = true
-            if (alerta.indexOf("VENTO") > -1 || alerta.indexOf("RAJADA") > -1 || alerta.indexOf("TROVOADA") > -1)
+            if (strAlerta.indexOf("VENTO") > -1 || strAlerta.indexOf("RAJADA") > -1 || strAlerta.indexOf("TROVOADA") > -1)
                 ad = true
         }
-        return {ad, rota}
+        return { ad, rota, strAlerta }
     }
     if (!isNaN(lat) && !isNaN(lng)) {
 
@@ -564,79 +663,31 @@ function plotaMarca(lat, lng, loc) {
             , iconAnchor: [6, 6]
         });
 
-        var svgIcon = new L.divIcon({//vento trovoada teto visib
-            // Specify a class name we can refer to in CSS.
-            className: 'css-icon',
-            html: `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="100" height="50" viewBox="0 0 599 140" xml:space="preserve">
-            <desc>Created with Fabric.js 3.6.3</desc>
-            <defs>
-            </defs>
-            <rect x="0" y="0" width="100%" height="100%" fill="rgba(255, 0, 0, 1)" fill-opacity="0.8";></rect>
-            <g transform="matrix(0.67 0 0 0.67 238.6 68.6)"  >
-            <g style=""   >
-            <g transform="matrix(1 0 0 1 -36.32 -61.62)" id="Capa_1"  >
-            <path style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(200,200,200); fill-rule: nonzero; opacity: 1;"  transform=" translate(-72.4, -47.09)" d="M 144.797 47.095 c 0 -4.142 -3.358 -7.5 -7.5 -7.5 H 7.5 c -4.142 0 -7.5 3.358 -7.5 7.5 c 0 4.142 3.358 7.5 7.5 7.5 h 129.797 C 141.439 54.595 144.797 51.237 144.797 47.095 z" stroke-linecap="round" />
-            </g>
-                    <g transform="matrix(1 0 0 1 25.57 -30.81)" id="Capa_1"  >
-            <path style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(200,200,200); fill-rule: nonzero; opacity: 1;"  transform=" translate(-134.28, -77.91)" d="M 209.93 70.405 H 58.632 c -4.142 0 -7.5 3.358 -7.5 7.5 s 3.358 7.5 7.5 7.5 H 209.93 c 4.142 0 7.5 -3.358 7.5 -7.5 S 214.072 70.405 209.93 70.405 z" stroke-linecap="round" />
-            </g>
-                    <g transform="matrix(1 0 0 1 -10.23 0)" id="Capa_1"  >
-            <path style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(200,200,200); fill-rule: nonzero; opacity: 1;"  transform=" translate(-98.49, -108.71)" d="M 174.53 116.214 c 4.142 0 7.5 -3.358 7.5 -7.5 c 0 -4.142 -3.358 -7.5 -7.5 -7.5 H 22.446 c -4.142 0 -7.5 3.358 -7.5 7.5 c 0 4.142 3.358 7.5 7.5 7.5 H 174.53 z" stroke-linecap="round" />
-            </g>
-                    <g transform="matrix(1 0 0 1 14.81 30.81)" id="Capa_1"  >
-            <path style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(200,200,200); fill-rule: nonzero; opacity: 1;"  transform=" translate(-123.53, -139.52)" d="M 199.441 132.024 H 47.619 c -4.142 0 -7.5 3.358 -7.5 7.5 s 3.358 7.5 7.5 7.5 h 151.822 c 4.142 0 7.5 -3.358 7.5 -7.5 S 203.583 132.024 199.441 132.024 z" stroke-linecap="round" />
-            </g>
-                    <g transform="matrix(1 0 0 1 -33.3 61.62)" id="Capa_1"  >
-            <path style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(200,200,200); fill-rule: nonzero; opacity: 1;"  transform=" translate(-75.41, -170.34)" d="M 125.759 162.835 H 25.068 c -4.142 0 -7.5 3.358 -7.5 7.5 c 0 4.142 3.358 7.5 7.5 7.5 h 100.69 c 4.142 0 7.5 -3.358 7.5 -7.5 C 133.259 166.193 129.901 162.835 125.759 162.835 z" stroke-linecap="round" />
-            </g>
-            </g>
-            </g>
-            <g transform="matrix(8.81 0 0 8.81 407.23 70.15)"  >
-            <path style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(200,200,200); fill-rule: nonzero; opacity: 1;"  transform=" translate(-8, -8)" d="M 12.5 2 A 2.5 2.5 0 0 0 10 4.5 a 0.5 0.5 0 0 1 -1 0 A 3.5 3.5 0 1 1 12.5 8 H 0.5 a 0.5 0.5 0 0 1 0 -1 h 12 a 2.5 2.5 0 0 0 0 -5 z m -7 1 a 1 1 0 0 0 -1 1 a 0.5 0.5 0 0 1 -1 0 a 2 2 0 1 1 2 2 h -5 a 0.5 0.5 0 0 1 0 -1 h 5 a 1 1 0 0 0 0 -2 z M 0 9.5 A 0.5 0.5 0 0 1 0.5 9 h 10.042 a 3 3 0 1 1 -3 3 a 0.5 0.5 0 0 1 1 0 a 2 2 0 1 0 2 -2 H 0.5 a 0.5 0.5 0 0 1 -0.5 -0.5 z" stroke-linecap="round" />
-            </g>
-            <g transform="matrix(0.27 0 0 0.24 536.3 71.1)" id="Capa_1"  >
-            <path style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(200,200,200); fill-rule: nonzero; opacity: 1;"  transform=" translate(-256, -256)" d="M 412.324 209.102 C 406.777 198.586 395.886 192 383.996 192 h -60.219 l 72.844 -145.688 c 4.953 -9.922 4.422 -21.703 -1.406 -31.133 C 389.386 5.742 379.09 0 367.996 0 h -160 c -13.781 0 -26 8.813 -30.359 21.883 l -80 240 c -3.25 9.758 -1.609 20.484 4.406 28.828 c 6.016 8.344 15.672 13.289 25.953 13.289 h 74.703 l -26.328 171.133 c -2.266 14.75 5.953 29.117 19.828 34.617 c 3.844 1.523 7.844 2.25 11.781 2.25 c 10.297 0 20.266 -4.977 26.391 -13.867 l 176 -256 C 417.105 232.336 417.855 219.617 412.324 209.102 z" stroke-linecap="round" />
-            </g>
-            <g transform="matrix(0.35 0 0 0.35 78.02 67.61)"  >
-            <g style=""   >
-                    <g transform="matrix(1 0 0 1 43.46 21.75)" id="Capa_1"  >
-            <path style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(200,200,200); fill-rule: nonzero; opacity: 1;"  transform=" translate(-231.57, -209.86)" d="M 338.103 201.978 c 1.733 -6.085 2.61 -12.372 2.61 -18.756 c 0 -37.746 -30.708 -68.455 -68.454 -68.455 c -15.702 0 -31.042 5.453 -43.193 15.354 c -10.807 8.805 -18.705 20.773 -22.558 34.057 c -25.26 -2.36 -48.097 13.667 -55.234 37.059 c -3.824 -0.87 -7.731 -1.309 -11.671 -1.309 c -29.051 0 -52.686 23.464 -52.686 52.514 c 0 29.051 23.635 52.515 52.686 52.515 h 183.931 c 29.051 0 52.685 -23.464 52.685 -52.515 C 376.22 228.676 360.49 208.367 338.103 201.978 z" stroke-linecap="round" />
-            </g>
-                    <g transform="matrix(1 0 0 1 -90.95 -34)" id="Capa_1"  >
-            <path style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(200,200,200); fill-rule: nonzero; opacity: 1;"  transform=" translate(-97.16, -154.11)" d="M 130.402 177.248 l 2.936 0.016 l 1.444 -2.556 c 10.411 -18.427 29.165 -30.778 50.168 -33.04 l 2.788 -0.3 l 1.197 -2.535 c 0.995 -2.106 2.117 -4.23 3.334 -6.313 l 2.045 -3.498 l -2.998 -2.725 c -8.986 -8.17 -20.753 -12.669 -33.131 -12.669 c -1.311 0 -2.637 0.054 -3.968 0.162 c -7.85 -24.892 -32.261 -42.525 -59.755 -42.525 c -34.414 0 -62.412 26.82 -62.412 59.787 c 0 5.289 0.718 10.5 2.141 15.555 C 14.072 152.409 0 170.187 0 190.789 c 0 25.457 21.612 46.167 48.178 46.167 h 16.221 l 0.648 -4.244 c 4.906 -32.088 32.06 -55.398 64.612 -55.512 C 129.907 177.229 130.155 177.247 130.402 177.248 z" stroke-linecap="round" />
-            </g>
-            </g>
-            </g>
-            </svg>`
-            // Set marker width and height
-            , iconSize: [50, 25]
-            , iconAnchor: [6, 6]
-        });
-
         let restricao = false
         if (desc[0] == "*") {
             restricao = true
             desc = desc.substr(1)
             let descU = desc.toUpperCase();
             let alerta = getTipoAlerta(loc);
-                
+
+
             if (descU.includes("DESCOBERTO")) {
                 icon = redIcon
-                //icon = svgIcon //vento trovoada teto visib
+                icon = getSvgIcon(loc, alerta.strAlerta) //vento trovoada teto visib
 
                 if (alerta.ad)
-                  addMarker(L.marker([lat, lng], { icon: cssIconRed }), "", restricao, true)
-                updateDescobertos(loc,alerta)
+                    addMarker(L.marker([lat, lng], { icon: cssIconRed }), "", restricao, true)
+                updateDescobertos(loc, alerta)
             } else {
                 if (descU.includes("DEGRADA"))
                     icon = orangeIcon
-                else{ 
-                    //icon = yellowIcon
-                    icon = svgIcon //vento trovoada teto visib
-                    
+                else {
+                    icon = yellowIcon
+                    //icon = svgIcon //vento trovoada teto visib
+
                 }
                 if (alerta.ad)
-                  addMarker(L.marker([lat, lng], { icon: cssIconYellow }), "", restricao, true)
+                    addMarker(L.marker([lat, lng], { icon: cssIconYellow }), "", restricao, true)
             }
         } else
             icon = greenIcon
@@ -1020,8 +1071,8 @@ function plotaAirmets(arr, primeiraVez) {
     for (var i in arr) {
         a = arr[i]
         if (a.tipo !== "C") {//o airmet de cancelamento nao eh plotado
-            if (a.cancelado)            
-              continue;
+            if (a.cancelado)
+                continue;
             var poly = invertLatLong(a.coordDeg)
             //console.log("poly ==>", poly)
 
@@ -1046,7 +1097,7 @@ function plotaAirmets(arr, primeiraVez) {
             if (isCloseToValidOff(a.codigo))
                 opt.className = "pulse";
 
-            
+
             var p = L.polygon(poly, opt).addTo(map)
 
             p.bindTooltip(getAirmetDescription(a), { closeButton: false, sticky: true });
@@ -1197,9 +1248,9 @@ function GetWebContentAirmet(url, primeiraVez) {
         }
     };
     const params = {
-            url: url,
-        }
-    const urlCache = "../ago2021/php/consulta_msg.php?url=" + params.url;    
+        url: url,
+    }
+    const urlCache = "../ago2021/php/consulta_msg.php?url=" + params.url;
     xhttp.open('GET', urlCache + opener.getProxy(), true);
     xhttp.setRequestHeader('Content-type', 'application/json');
 
@@ -1235,22 +1286,22 @@ function getAirmet(primeiraVez = false) {
     dfim = "2020101815"
     let url = ""
     let interval = opener.getInterval(4)
-    
- 
+
+
     if (opener.redemetAntiga) {
-      if (opener.intraer)
-         url = opener.linkIntraer;
-      else
-         url = opener.linkInternet;
-        
-      //url = `${url}SBAZ,SBBS,SBRE,SBCW&msg=airmet&data_ini=${dataIni}&data_fim=${dataFim}`;
-      url = `${url}SBAZ,SBBS,SBRE,SBCW&msg=airmet${interval}`;
-        
-    } else 
+        if (opener.intraer)
+            url = opener.linkIntraer;
+        else
+            url = opener.linkInternet;
+
+        //url = `${url}SBAZ,SBBS,SBRE,SBCW&msg=airmet&data_ini=${dataIni}&data_fim=${dataFim}`;
+        url = `${url}SBAZ,SBBS,SBRE,SBCW&msg=airmet${interval}`;
+
+    } else
         //var interval = `&data_ini=${dini}&data_fim=${dfim}`
         //var url = "https://www.redemet.intraer/api/consulta_automatica/index.php?local=SBAZ,SBBS,SBRE,SBCW&msg=airmet" + interval;
         url = `${opener.linkAPINova}airmet/?api_key=${opener.apiKey}${interval}`;
-    
+
 
     GetWebContentAirmet(url, primeiraVez);
 }
@@ -1296,14 +1347,14 @@ function latLngToDegree(latlng) {
         latSign = -1
     var longSign = 1
     if (latlng.includes("W"))
-      longSign = -1
-      
+        longSign = -1
+
     lat = parseFloat((parseInt(latlng.substr(1, 2)) + (latlng.substr(3, 2) / 60))) * latSign
 
     if (longSign == -1)
-      latlng = latlng.split("W")[1]
+        latlng = latlng.split("W")[1]
     else
-      latlng = latlng.split("E")[1]
+        latlng = latlng.split("E")[1]
 
     long = parseFloat((parseInt(latlng.substr(0, 3)) + (latlng.substr(3, 2) / 60))) * longSign
     return [long, lat] // obje)to d3 requer long, lat
@@ -1346,7 +1397,7 @@ function getTipoAirmet(airmet) {
 
 function trataAirmetRedemet(texto) {
     if (texto.includes("mens"))
-      texto = opener.convertToRedemet(texto,"AIRMET")
+        texto = opener.convertToRedemet(texto, "AIRMET")
 
     lastAirmet = texto + "" //var global
     var classe = "table-warning table-airmet";
