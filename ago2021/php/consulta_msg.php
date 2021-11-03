@@ -49,9 +49,11 @@
     return $result;
   }
   if (isset($_GET['proxy']))
-    if ($_GET['proxy'] == "true")
-        setProxy();
-
+    if ($_GET['proxy'] == "true"){
+//        setProxy();
+        //echo "proxy ligado!";
+        $urlF = $urlF . "&proxy=true"; 
+    }
   deleteOldFiles(10); //tempo em minutos
   include('top-cache.php'); 
 
@@ -65,7 +67,7 @@
   $response = file_get_contents($urlF);
   echo $response;
   if ($response =="")
-    echo "Erro na consulta! Resposta vazia do servidor!";
+    echo "Erro na consulta em consulta_msg.php! Resposta vazia do servidor!";
 
   include('bottom-cache.php');
 ?>

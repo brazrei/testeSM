@@ -8,7 +8,7 @@
     //if (sizeof($_GET) < 2)
     //  return "";
     foreach ($_GET as $key => $value) {
-      if ($key !== "url" && $key !== "proxy" && $key !== "_") {
+      if ($key !== "url" && $key && $key !== "_") {
         $args = $args . $sep . $key . "=" . $value;
         $sep = "&";
       }
