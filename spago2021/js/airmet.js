@@ -491,7 +491,7 @@ function plotaMarca(lat, lng, loc) {
         let boxOpacity = "0.4" ;
         let backGroundColor = "black";
         if (descoberto) {
-            color = "red"
+            color = "black"
             alt = 1000;
             boxOpacity = "0.9" ;
             backGroundColor = "red"
