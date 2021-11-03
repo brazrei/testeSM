@@ -961,7 +961,7 @@ function strToCell(arr, idxFIR, novo, naoAdiciona, onLine = true) {//nãoadicion
     }
 
     try {
-        if (arr && !arr[2].maisRecente)
+        if (arr && !arr[2].maisRecente || (cma == "ESTRANGEIRA"))
             classe += " linhaInativa"
     } catch (e) {
         console.log("Erro ao tentar verificar se o Metar é o Mais Recente!");
