@@ -490,11 +490,13 @@ function plotaMarca(lat, lng, loc) {
         let color = "yellow"
         let boxOpacity = "0.8" ;
         let backGroundColor = "#444";
+        let classSvgIcon
         if (descoberto) {
             color = "white"
             alt = 1000;
             boxOpacity = "0.9" ;
             backGroundColor = "red"
+            classSvgIcon = "pulseZoom"
         }
         let iconColor = color
 
@@ -577,7 +579,7 @@ function plotaMarca(lat, lng, loc) {
         var svgIcon = new L.divIcon({//vento trovoada teto visib
             // Specify a class name we can refer to in CSS.
             className: 'css-icon',
-            html: `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="${widthX}" height="50" viewBox="0 0 ${viewBoxX} 140" xml:space="preserve">
+            html: `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class = "${classSvgIcon}" width="${widthX}" height="50" viewBox="0 0 ${viewBoxX} 140" xml:space="preserve">
             <desc>Created with Fabric.js 3.6.3</desc>
             <defs>
             </defs>
