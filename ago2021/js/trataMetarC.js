@@ -128,6 +128,7 @@ function getCortante(metar) {
 }
 
 function getTrovoada(metar) {
+    metar = metar.replace(/RETS/g,"");
     return metar.includes(" TS ") || metar.includes("TSRA ") || metar.includes("TSGR ") || metar.includes("TSGRRA ") || metar.includes("TSRAGR ");
 }
 
