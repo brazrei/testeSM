@@ -932,6 +932,14 @@ function verificaStatusMetar(statusMetar, statusAdWRNG, statusAirmet, statusSigm
 
     return { coberto: (arrayRest.length == 0), tipo: arrayRest, alerta: arrayAlerta.length > 0, tipoAlerta: arrayAlerta }
 }
+function adWRNGPertoDoFim(texto) { 
+    try {
+        return smartPlot.airmetPertoDoFim(texto);
+    } catch (e) {
+        console.log("Erro de acesso ao SmartPlot!");
+    }
+    return false
+}
 
 function strToCell(arr, idxFIR, novo, naoAdiciona, onLine = true) {//nãoadiciona significa substituir(apagar o anterior)
     var table;
@@ -992,6 +1000,8 @@ function strToCell(arr, idxFIR, novo, naoAdiciona, onLine = true) {//nãoadicion
     let descRestricao = ""
     let descAlerta = ""
     let infoAlerta = ""
+    let adWRNGVencendo = adWRNGPertoDoFim(statusAdWRNG.textoFull);
+    if 
     let titleDegrada = "São utilizados nos AIRMETS, por analogia, os parâmetros para confecção de emendas TAF (segundo o item 8.2.9, da ICA 105-17/2020), para TETO E VISIBILIDADE:&#10;&#10;&#10;Parâmetros de visibilidade = 150M, 350M, 600M, 800M, 1500M, 3000M, 5000M &#10;&#10;Parâmetros de teto = 100FT, 200FT, 500FT, 1000FT, 1500FT"
     let xInfoAlerta = '<img src="pngs/info-26.png" title="' + titleDegrada + '" style="cursor: pointer;">'
 
@@ -1044,6 +1054,10 @@ function strToCell(arr, idxFIR, novo, naoAdiciona, onLine = true) {//nãoadicion
         }
         if ((descAlerta + descRestricao).length > 0)
             infoAlerta = xInfoAlerta
+        
+        if (adWRNGVencendo && arr[2].maisRecente)
+            classe += " pulseValid"
+            
 
     }
     classe = classe + '"'
