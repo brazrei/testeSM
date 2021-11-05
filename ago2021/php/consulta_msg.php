@@ -73,7 +73,7 @@
   //$response = getCurl($urlF);
   $response = file_get_contents($urlF);
   echo $response;
-  if ( $response == "" ) {
+  if ( preg_replace('/\s+/', '', $response) == "" ) {
     echo "Erro na consulta em consulta_msg.php! Resposta vazia do servidor!";
     exit;
   } else if (strpos(strtoupper($response),"FORBIDDEN")) {
