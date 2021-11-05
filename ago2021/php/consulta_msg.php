@@ -57,7 +57,7 @@
   }
 
   function limpaToken() {
-    include("/WebServiceOPMET/getAuthToken.php?update=true" . getProxy());
+    include("http://localhost/WebServiceOPMET/getAuthToken.php?update=true&proxy=true" . getProxy());
   }
 
   $urlF = $urlF . getProxy(); 
@@ -72,8 +72,12 @@
   //echo $urlF;
   //$response = getCurl($urlF);
   $response = file_get_contents($urlF);
+
+  if ( preg_replace('/\s+/', '', $response) == "") //remove todos os caracteres especiais se a msg for vazia
+    $response = "";
+
   echo $response;
-  if ( preg_replace('/\s+/', '', $response) == "" ) {
+  if ( $response == "" ) {
     echo "Erro na consulta em consulta_msg.php! Resposta vazia do servidor!";
     exit;
   } else if (strpos(strtoupper($response),"FORBIDDEN")) {
