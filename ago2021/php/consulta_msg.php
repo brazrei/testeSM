@@ -48,12 +48,19 @@
     
     return $result;
   }
-  if (isset($_GET['proxy']))
-    if ($_GET['proxy'] == "true"){
-//        setProxy();
-        //echo "proxy ligado!";
-        $urlF = $urlF . "&proxy=true"; 
-    }
+
+  function getProxy() {
+    $proxy = "&proxy=false"; 
+    if ( isset($_GET['proxy']) && ($_GET['proxy'] == "true") )
+      $proxy = "&proxy=true"; 
+    return $proxy;
+  }
+
+  function limpaToken() {
+    include("/WebServiceOPMET/getAuthToken.php?update=true" . getProxy());
+  }
+
+  $urlF = $urlF . getProxy(); 
   deleteOldFiles(10); //tempo em minutos
   include('top-cache.php'); 
 
@@ -66,9 +73,14 @@
   //$response = getCurl($urlF);
   $response = file_get_contents($urlF);
   echo $response;
-  if ($response =="")
+  if ( $response == "" ) {
     echo "Erro na consulta em consulta_msg.php! Resposta vazia do servidor!";
-
+    exit;
+  } else if (strpos(strtoupper($response),"FORBIDDEN")) {
+    echo "Erro na consulta em consulta_msg.php! Acesso negado! Token pode estar expirado!";
+    limpaToken();
+    exit;
+  }
   include('bottom-cache.php');
 ?>
 
