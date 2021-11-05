@@ -11,6 +11,7 @@ var arrMetaresFiltrados = []; //usado para controlar os metares que estão em ex
 var arrRestricaoLoc = []
 var escondeSpeciAUTO = true;
 var primeiraVez = true; //usada para nao marcar os metares na 1 exibicao
+const toleranciaRajada = 20; // percenual de tolerancia para alerta de rajada
 
 var redemetAntiga = true;
 var intraer = false; // valido apenas para a api antiga por enquanto
