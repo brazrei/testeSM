@@ -984,6 +984,7 @@ function strToCell(arr, idxFIR, novo, naoAdiciona, onLine = true) {//nãoadicion
 
     let regAirmet = getStatusAirmet(loc);
     let classStatusAirmet = ""
+    let classeAdWRNG = ""
     if (!smartPlot || smartPlot.closed) {
         //if (smartPlot)
         //smartplot.close();
@@ -1056,7 +1057,7 @@ function strToCell(arr, idxFIR, novo, naoAdiciona, onLine = true) {//nãoadicion
             infoAlerta = xInfoAlerta
         
         if (adWRNGVencendo && arr[2].maisRecente)
-            classe += " pulseValid"
+            classeAdWRNG += " pulseValid"
             
 
     }
@@ -1065,7 +1066,7 @@ function strToCell(arr, idxFIR, novo, naoAdiciona, onLine = true) {//nãoadicion
     if (naoAdiciona)
         $('#' + arrayTableFir[idxFIR] + ' tr:last').remove();
 
-    let line = '<tr title="' + tit.toUpperCase() + latLong + '&#10;&#10;CMA-1: ' + cma + '&#10;&#10;' + regAirmet.texto + txtTitleAdWRNG + '" ' + classe + id + '><td><b>' + arr[0] + '</b>' + descRestricao + descAlerta + infoAlerta + '</td><td>' + txtAdWRNG + '</td><td>' + statusSigmet + '</td><td ' + classStatusAirmet + '>' + regAirmet.status + '</td><td>' + cma + '</td></tr>'
+    let line = '<tr title="' + tit.toUpperCase() + latLong + '&#10;&#10;CMA-1: ' + cma + '&#10;&#10;' + regAirmet.texto + txtTitleAdWRNG + '" ' + classe + id + '><td><b>' + arr[0] + '</b>' + descRestricao + descAlerta + infoAlerta + `</td><td class = "${classeAdWRNG}">` + txtAdWRNG + '</td><td>' + statusSigmet + '</td><td ' + classStatusAirmet + '>' + regAirmet.status + '</td><td>' + cma + '</td></tr>'
     var row = $('#' + arrayTableFir[idxFIR] + ' tbody').append(line);
     $('.tr' + loc).click(function () {
         var loc = $(this).closest('tr').prop('class').split(" ")[1];
