@@ -78,10 +78,10 @@
 
   echo $response;
   if ( $response == "" ) {
-    echo "Erro na consulta em consulta_msg.php! Resposta vazia do servidor!";
+    //echo "Erro na consulta em consulta_msg.php! Resposta vazia do servidor!";
     exit;
   } else if (strpos(strtoupper($response),"FORBIDDEN")) {
-    echo "Erro na consulta em consulta_msg.php! Acesso negado! Token pode estar expirado!";
+    //echo "Erro na consulta em consulta_msg.php! Acesso negado! Token pode estar expirado!";
     limpaToken();
     exit;
   }
