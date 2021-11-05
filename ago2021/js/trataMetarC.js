@@ -933,6 +933,8 @@ function verificaStatusMetar(statusMetar, statusAdWRNG, statusAirmet, statusSigm
     return { coberto: (arrayRest.length == 0), tipo: arrayRest, alerta: arrayAlerta.length > 0, tipoAlerta: arrayAlerta }
 }
 function adWRNGPertoDoFim(texto) { 
+    if (texto == "")
+        return false
     try {
         return smartPlot.airmetPertoDoFim(texto);
     } catch (e) {
