@@ -42,7 +42,7 @@
   }
   }
   $cachefile = $dirName . "/" . 'cached-'.substr_replace($file ,"",-4).$encrypted_url.'.html';
-  $cachetime = 65;
+  $cachetime = 50;
 
   // Serve from the cache if it is younger than $cachetime
   if (file_exists($cachefile) && time() - $cachetime < filemtime($cachefile)) {
