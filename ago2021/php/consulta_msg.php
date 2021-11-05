@@ -57,7 +57,7 @@
   }
 
   function limpaToken() {
-    include("http://localhost/WebServiceOPMET/getAuthToken.php?update=true&proxy=true" . getProxy());
+    file_get_contents("http://localhost/WebServiceOPMET/getAuthToken.php?update=true&proxy=true" . getProxy());
   }
 
   $urlF = $urlF . getProxy(); 
