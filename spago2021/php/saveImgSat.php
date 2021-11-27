@@ -1,6 +1,6 @@
 <?php
     ini_set('display_errors', 1);
-    header('Access-Control-Allow-Origin: *');
+    //header('Access-Control-Allow-Origin: *');
     
     $PROXY_HOST = "proxy.decea.intraer"; // Proxy server address
     $PROXY_PORT = "8080";    // Proxy server port
@@ -22,14 +22,27 @@
     );
 
     //echo file_get_contents($url);    
+    function makeDir($dirName) {
+        
+        if (!file_exists($dirName)) {
+           //mkdir($dirName, 0777);
+           if (!@mkdir($dirName, 0777)) {
+            $error = error_get_last();
+            echo $error['message'];
+           }
+        }        
+    }
     
     $url = $_POST['url'];
     $filename = "imgsat/".$_POST['filename'];
+
+    makeDir("imgsat");
     
     echo $filename." - ".$url;
     file_put_contents($filename."z", $url); 
-    if (!file_exists ($filename))
-    { 
+    if (!file_exists ($filename) || filesize($filename)==0 ) { 
+        //gambiarra para funcionar no proxy do decea:
+        $url = str_replace(".mil.",".gov.",$url);
         $datafile = file_get_contents($url);
         echo "Resposta => ".file_put_contents($filename, $datafile); 
     }
