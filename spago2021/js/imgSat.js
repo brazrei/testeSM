@@ -127,7 +127,8 @@ function plota_ImgSat(obj_chk) {
 	let url = 'https://api-redemet.decea.mil.br/produtos/satelite/realcada?api_key=U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei'
 	    
         $.ajax({
-            url: urlCache + url + opener.getProxy(),
+            url: url,
+            //url: urlCache + url + opener.getProxy(),
             contentType: 'application/json',
             crossDomain: true,
             cache: false,
