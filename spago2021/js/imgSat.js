@@ -124,8 +124,10 @@ function plota_ImgSat(obj_chk) {
         mostraLoading("ImgSat");
         //if (LayerImg_sat)
         //  map.addLayer(LayerImg_sat)
+	let url = 'https://api-redemet.decea.mil.br/produtos/satelite/realcada?api_key=U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei'
+	    
         $.ajax({
-            url: 'https://api-redemet.decea.mil.br/produtos/satelite/realcada?api_key=U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei',
+            url: urlCache + url + opener.getProxy(),
             contentType: 'application/json',
             crossDomain: true,
             cache: false,
