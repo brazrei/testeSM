@@ -292,7 +292,7 @@ function plota_stsc(obj_chk) {
 
         $.ajax({
             //url: urlCache + url + opener.getProxy(),
-            url: url,
+            url: urlCache + url + opener.getProxy(),
             contentType: 'application/json',
             crossDomain: true,
             cache: false,
