@@ -921,13 +921,13 @@ function verificaStatusMetar(statusMetar, statusAdWRNG, statusAirmet, statusSigm
 
     //if (parseInt(statusMetar.vento[1]) > globalVentoMax) {
     if (parseInt(statusMetar.vento[1]) > 21) {
-        if (isBigger(statusMetar.vento[1], statusAdWRNG.max))
+        if (isBigger(statusMetar.vento[1], statusAdWRNG.max * (1 + (toleranciaRajada/100))))
             arrayRest.push("Rajada")
     }
 
     //  if (parseInt(statusMetar.vento[0]) > globalVentoMax) {
     if (parseInt(statusMetar.vento[0]) > 21) {
-        if (isBigger(statusMetar.vento[0], statusAdWRNG.max * (1 + (toleranciaRajada/100))))
+        if (isBigger(statusMetar.vento[0], statusAdWRNG.max))
             arrayRest.push("Vento");
     }
 
