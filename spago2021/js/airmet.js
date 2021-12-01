@@ -1478,6 +1478,9 @@ function trataAirmetRedemet(texto) {
                 tipo = getTipoAirmet(airmet[i])
                 coord = getCoordAirmet(airmet[i])
 
+                if (coord == "")
+                  continue;
+
                 coordDeg = getCoordDegAirmet(coord)
 
                 if (tipo == "N") {
