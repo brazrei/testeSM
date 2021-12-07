@@ -66,7 +66,7 @@ function carrega_img_sat(id, srcImage, TopLat, TopLon, ButtonLat, ButtonLon) {
             $("#img_sat_progresso").css("width", percentComplete + "%");
         }
     }
-    xhr.onreadystatechange = function () {
+    xhr.onload = function () {
         if ((xhr.readyState == 4) && (xhr.status == 200)) {
 
             $("#img_sat_progresso").attr("aria-valuenow", "0");
@@ -86,12 +86,12 @@ function carrega_img_sat(id, srcImage, TopLat, TopLon, ButtonLat, ButtonLon) {
             //img_sat.setOptions({pane:"imagebg"})
             if (isImgSatOn()) {
                 map.addLayer(LayerImg_sat);
-                if (isSTSCOn() && heat && (heat.length > 0) && heat[0].layer)
-                    heat[0].layer.setOptions(optImgSat)
+                if (isSTSCOn())
+                	changeHeatColor(optImgSat)
 
             }
-
-            LayerImg_sat.setOpacity(0.5);
+	    let opacity = slider?slider.value/100:0.5;
+            LayerImg_sat.setOpacity(opacity);
             LayerImg_sat.bringToBack();
 
         }
@@ -124,8 +124,11 @@ function plota_ImgSat(obj_chk) {
         mostraLoading("ImgSat");
         //if (LayerImg_sat)
         //  map.addLayer(LayerImg_sat)
+	let url = 'https://api-redemet.decea.mil.br/produtos/satelite/realcada?api_key=U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei'
+	    
         $.ajax({
-            url: 'https://api-redemet.decea.gov.br/api/produtos/satelite/realcada?api_key=U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei',
+            url: url,
+            //url: urlCache + url + opener.getProxy(),
             contentType: 'application/json',
             crossDomain: true,
             cache: false,
@@ -147,7 +150,7 @@ function plota_ImgSat(obj_chk) {
                 }
 
                 let data_prod = hoje_dia + '/' + hoje_mes + '/' + hoje_ano + ' ' + data.data.anima[0]
-                $('#clockImgSat').text(data_prod.split(" ")[1] + " UTC");
+                $('#clockImgSat').text(data_prod.split(" ")[1] + ":00 UTC");
                 data_prod = hoje_mes + " " + hoje_dia + ' ' + hoje_ano + ' ' + data.data.anima[0]
                 data_prod = new Date(data_prod)
 
@@ -193,12 +196,24 @@ function saveImageToFile(url, filename) {
     });
 }
 
+function changeHeatColor(opt) {
+	if (heat && (heat.length > 0)) 
+		for (var i in heat) {
+			if (heat[i].layer)
+				try{
+		    			heat[i].layer.setOptions(opt)				
+		    		} catch (e) {
+		    			
+		    		}
+		}
+	
+}
 
 function removeImgSat() {
     if (map && LayerImg_sat)
         map.removeLayer(LayerImg_sat);
 
-    if (isSTSCOn() && heat && (heat.length > 0) && heat[0].layer) {
-        heat[0].layer.setOptions(optDefault)
+    if (isSTSCOn()) {
+    	changeHeatColor(optDefault);
     }
 }

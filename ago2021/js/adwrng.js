@@ -119,7 +119,7 @@ function GetWebContentAdWRNG(url, primeiraVez) {
 
 
                 //$("#imgLoad"+idxCMA).attr('src', 'pngs/green-button30.png');
-                var resposta = this.responseText;
+                let resposta = removeCacheMessage(this.responseText);
 
                 //clearLayersAdWRNGs()
                 //iniciaAdWRNGGlobalVars();
@@ -141,7 +141,13 @@ function GetWebContentAdWRNG(url, primeiraVez) {
 
         }
     };
-    xhttp.open('GET', url, true);
+    
+    const params = {
+            url: url,
+        }
+    //const urlCache = "php/consulta_msg.php?url=" + params.url;    
+    xhttp.open('GET', urlCache + url + proxy, true);
+    xhttp.setRequestHeader('Content-type', 'application/json');
     xhttp.send();
 }
 
@@ -161,12 +167,14 @@ function getAdWRNG(primeiraVez = false) {
 //    https://api-redemet.decea.mil.br/mensagens/metar/
     let url = ""
     let localidades = ""
+    let interval = getInterval(4)
+
     if (redemetAntiga) {
         if (intraer)
             url = linkIntraer;
         else
             url = linkInternet;
-      url = `${url}SBEG,SBBR,SBRF,SBPA,SBGL,SBGR&msg=aviso_aerodromo`;
+      url = `${url}SBEG,SBBR,SBRF,SBPA,SBGL,SBGR&msg=aviso_aerodromo${interval}`;
     } else {
       localidades = removeEspacos(localidadesFIR[0])+","+removeEspacos(localidadesFIR[1])+
         ","+removeEspacos(localidadesFIR[2]) + "," +removeEspacos(localidadesFIR[3]);
@@ -206,8 +214,12 @@ function getTipoAdWRNG(adWRNG) {
 }
 
 function getLocsAdWRNG(aviso) {
-    locs = aviso.split(" ")[1]
-    return locs.split("/")
+
+    locs = aviso.split(" ")
+    if (locs[1].length < 4) //ajuste feito porque o BANCO OPMET retorna o aviso sem o CMA
+      return locs[0].split("/")
+    else
+        return locs[1].split("/") 
 }
 
 function getIdxCMA(aviso) {

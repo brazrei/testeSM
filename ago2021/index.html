@@ -74,6 +74,19 @@
         opacity: 0.3;
       }
     }
+      .pulseValid {
+        animation: pulsateValid 1s ease-out;
+        -webkit-animation: pulsateValid 1s ease-out;
+        -webkit-animation-iteration-count: infinite; 
+        opacity: 0.0
+       }
+
+       @keyframes pulsateValid {
+          0% {-webkit-transform: scale(1, 1); opacity: 0.0;}
+          50% {opacity: 1.0;}
+          100% {-webkit-transform: scale(1, 1); opacity: 0.0;}
+      }
+    
 
   </style>
 </head>

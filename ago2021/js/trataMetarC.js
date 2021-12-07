@@ -13,12 +13,17 @@ var escondeSpeciAUTO = true;
 var primeiraVez = true; //usada para nao marcar os metares na 1 exibicao
 const toleranciaRajada = 20; // percenual de tolerancia para alerta de rajada
 
-var redemetAntiga = true; 
-var intraer = true; // valido apenas para a api antiga por enquanto
+var redemetAntiga = true;
+var intraer = false; // valido apenas para a api antiga por enquanto
 var apiKey = "U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei"
-var linkInternet = "http://redemet.decea.gov.br//api/consulta_automatica/index.php?local="
+//var linkInternet = "http://redemet.decea.gov.br//api/consulta_automatica/index.php?local="
+var linkInternet = "http://localhost/WebServiceOPMET/getMetarOPMET.php?local="
+
 var linkIntraer = "http://www.redemet.intraer//api/consulta_automatica/index.php?local="
 var linkAPINova = "https://api-redemet.decea.mil.br/mensagens/"
+
+const urlCache = "php/consulta_msg.php?url="
+const proxy = "&proxy=true"
 
 //var beepOn = true; //
 
@@ -34,35 +39,88 @@ var arrayCMA = [
     "SBBR = SBAN SBBH SBBR SBBW SBCF SBCN SBGO SBIP SBIT SBLS SBMK SBNV SBPJ SBPR SBYS SWLC",
     "SBRF = SBAC SBAR SBFN SBFZ SBGV SBIL SBJE SBJP SBJU SBKG SBLE SBLP SBMO SBMS SBNT SBPB SBPL SBPS SBQV SBRF SBSG SBSV SBTC SBTE SBTV SBVC SBVT SDIY SNBR SNTF SNVB",
     "SBPA = SBAE SBAF SBAU SBBG SBBI SBBU SBCA SBCD SBCG SBCH SBCO SBCR SBCT SBCX SBDB SBDN SBDO SBFI SBFL SBGU SBGW SBJA SBJV SBLJ SBLO SBMG SBML SBNF SBNM SBPA SBPF SBPG SBPK SBPO SBPP SBSC SBSM SBTD SDCO SBTG SBUG SSGG",
-    "SBGL = SBBQ SBCB SBCP SBEC SBES SBFS SBGL SBJF SBJR SBLB SBME SBMI SBMM SBRJ SBSJ SBST SBTA SBZM",
+    "SBGL = SBBQ SBCB SBCP SBEC SBES SBFS SBGL SBJF SBJR SBLB SBME SBMI SBMM SBRJ SBSJ SBST SBTA SBZM SBEN",
     "SBGR = SBAQ SBAX SBBP SBGP SBGR SBJD SBKP SBMT SBPC SBRP SBSP SBSR SBUL SBUR SBVG SBJH SDAM"]
 
 //Global ciclos, MaxCiclos As integer  ' É 1 CICLO POR SEGUNDO
 
+function addHours(data, horas) {
+    if (!Date.prototype.addHours)
+        Date.prototype.addHours = function (h) {
+            this.setHours(this.getHours() + h);
+            return this;
+        }
+
+    return data.addHours(horas)
+
+}
+
+function getFormatedDate(data) {
+    let ano = data.getUTCFullYear();
+    let mes = fillZero(parseInt(data.getUTCMonth()) + 1);
+    let dia = fillZero(data.getUTCDate());
+    let hora = fillZero(data.getUTCHours());
+    //    let minutos = addZeros(data.getUTCMinutes());
+    let minutos = "";
+    //    if (zeraMinutos)
+    //        minutos = '00';
+    return `${ano}${mes}${dia}${hora}${minutos}`;
+}
+
+function getInterval(horas = 1) {
+    let dini = getFormatedDate(addHours(new Date(), -horas));
+    let dfim = getFormatedDate(addHours(new Date(), 1));
+    return `&data_ini=${dini}&data_fim=${dfim}`
+}
+
+function getUrlCache() {
+    return urlCache;
+}
+
+function getProxy() {
+    return proxy;
+}
 
 function GetWebContent(url, idxFIR) {
+    function codeUrl(url) {
+        return url;
+    }
+
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         var erro = "ErroSM=";
         if (this.status > 0) {
             if (this.readyState == 4 && this.status == 200) {
-                $("#imgLoad" + idxFIR).attr('src', 'pngs/green-button30.png');
-                trataMetarRedemet(this.responseText, idxFIR);
-                return this.responseText;
+                if (!this.responseText.includes("METAR")) {
+                    $("#imgLoad" + idxFIR).attr('src', 'pngs/red-button30.png');
+                    trataMetarRedemet(erro + " Resposta vazia so Servidor!", idxFIR);
+                }
+                else {
+                    $("#imgLoad" + idxFIR).attr('src', 'pngs/green-button30.png');
+                    trataMetarRedemet(this.responseText, idxFIR);
+                }
+
+                //return this.responseText;
             } else if (this.readyState > 2 && this.status !== 200) {
                 erro = erro + this.responseText;
                 $("#imgLoad" + idxFIR).attr('src', 'pngs/red-button30.png');
 
                 trataMetarRedemet(erro, idxFIR);
-                return erro;
+                //return erro;
             }
 
         }
     };
 
+    const params = {
+        url: codeUrl(url),
+    }
 
     $(".imgLoad").attr('src', 'gifs/loading30x30.gif');
-    xhttp.open('GET', url, true);
+    $("#imgLoad" + idxFIR).attr('src', 'pngs/red-button30.png');
+    xhttp.open('GET', urlCache + params.url + proxy, true);
+    xhttp.setRequestHeader('Content-type', 'application/json');
+    //xhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
     xhttp.send();
 }
 
@@ -71,6 +129,7 @@ function getCortante(metar) {
 }
 
 function getTrovoada(metar) {
+    metar = metar.replace(/RETS/g,"");
     return metar.includes(" TS ") || metar.includes("TSRA ") || metar.includes("TSGR ") || metar.includes("TSGRRA ") || metar.includes("TSRAGR ");
 }
 
@@ -162,23 +221,24 @@ function replac(str1, str2, str3) {
 function getMetar(localidades, Legenda, idxFIR, onLine) {
     var url, url1, url2;
 
+    let interval = getInterval(0)
     if (redemetAntiga) {
         if (intraer)
             url1 = linkIntraer;
         else
             url1 = linkInternet;
-            
+
         url2 = "&msg=metar";
         //url1 = "https://api-redemet.decea.mil.br/mensagens/metar/"
         //        url1 = "https://redemet.decea.gov.br//api/consulta_automatica/index.php?local=";
         //url2 = `?api_key=${apiKey}`;
     } else {//decea 
         url1 = `${linkAPINova}metar/`;
-                
+
         url2 = `?api_key=${apiKey}`;
     }
     localidades = localidades.replace(/ /g, ""); //retira os espaços
-    url = url1 + localidades + url2;
+    url = url1 + localidades + url2 + interval;
 
     response = "";
     erro = "";
@@ -186,7 +246,7 @@ function getMetar(localidades, Legenda, idxFIR, onLine) {
     if (onLine) {
         return GetWebContent(url, idxFIR);
     } else
-        trataMetarRedemet(globalStrMetaresOffLine[idxFIR], idxFIR);
+        trataMetarRedemet(globalStrMetaresOffLine[idxFIR], idxFIR, onLine);
 }
 
 function updateArrayStatus(localidade, status) { // retorna true se o status mudou
@@ -218,7 +278,7 @@ function convertToRedemet(txt, opt = false) {
 
             str = str + "0123456789 - " + metar.split("\\").join("") + "=";
         }
-        if (opt && s.indexOf(opt) > -1) { 
+        if (opt && s.indexOf(opt) > -1) {
             metar = s.split("=")[0];
 
             str = str + "0123456789 - " + metar.split("\\").join("") + "=";
@@ -282,31 +342,40 @@ function getMensagensAPINova(response) {
 }
 
 function updateRestricaoLoc(loc, restricao) {
-   if (!arrRestricaoLoc[loc])
-       arrRestricaoLoc[loc] = restricao
+    if (!arrRestricaoLoc[loc])
+        arrRestricaoLoc[loc] = restricao
     else
-       arrRestricaoLoc[loc] = arrRestricaoLoc[loc] + restricao
-       
+        arrRestricaoLoc[loc] = arrRestricaoLoc[loc] + restricao
+
 }
 
 function clearRestricaoLoc(loc) {
-  if (arrRestricaoLoc[loc])
-    arrRestricaoLoc[loc] = false
+    if (arrRestricaoLoc[loc])
+        arrRestricaoLoc[loc] = false
 }
 
-function trataMetarRedemet(response, idxFIR) {
+function removeCacheMessage(txt) {
+    if (txt.includes("-->"))
+        return txt.split("-->\n")[1]
+    else
+        return txt
+}
+function trataMetarRedemet(response, idxFIR, onLine = true) {
 
     function isMostRecent(arr, loc, i) {
         return (i == (arr.length - 1) || !arr[i + 1].includes(loc))
     }
     //  if (idxFIR ==0)
     //    response = "2021032216 - METAR SBEG 221600Z 03006KT 1500 BR BKN002 31/22 Q1012="
+
+    response = removeCacheMessage(response);
     var erroDeAcesso = response.includes("ErroSM=");
     if (!erroDeAcesso)
         globalStrMetaresOffLine[idxFIR] = response;
+
     if (response.includes("getaddrinfo failed") || erroDeAcesso) {
         var strErroDeAcesso = limpaMsgErro(response);
-        strToCell(["Erro ao tentar obter metares da Redemet! " + strErroDeAcesso, ""], idxFIR, false, false);
+        strToCell(["Erro ao tentar obter metares! " + strErroDeAcesso, ""], idxFIR, false, false);
         return;
     }
 
@@ -314,9 +383,9 @@ function trataMetarRedemet(response, idxFIR) {
     if (response.includes("mens")) {
         response = convertToRedemet(response);
     }
-    dataHora = getDataHoraMetares(response);
+    //dataHora = getDataHoraMetares(response);
 
-    arrayMetares = SplitMetares(response, dataHora);
+    arrayMetares = SplitMetares(response);
 
     c = arraySize(arrayMetares);
 
@@ -329,7 +398,7 @@ function trataMetarRedemet(response, idxFIR) {
     locAnterior = "";
 
     var i;
-    for (i = 1; i < c; i++) { //a primeira linha está em brancosaveToFile
+    for (i = 0; i < c; i++) { //a primeira linha está em brancosaveToFile
         metar = arrayMetares[i];
         if (metar.includes("Mensagem ")) {
             metar = "";
@@ -412,8 +481,6 @@ function trataMetarRedemet(response, idxFIR) {
                         metaresFiltrados.push("2" + metar);
                     else {
                         metaresFiltrados.push("1" + metar);
-                        if (firVisible[idxFIR] && beepLigado())
-                            $("#divDoubleBeep").click();
                     }
                 }
                 novo = ((indNovo01 > -1) || novo);
@@ -427,19 +494,19 @@ function trataMetarRedemet(response, idxFIR) {
                 if (tetoBaixo) {
                     tetoStr = " | TETO = " + arrayTeto[2] + "00FT |";
                     metar = spanRed(metar, " " + arrayTeto[3] + " ");
-                    updateRestricaoLoc(localidade,"*TETO");
+                    updateRestricaoLoc(localidade, "*TETO");
                 }
 
                 var visStr = "";
                 if (VisibBaixa) {
                     visStr = " | VIS = " + parseInt(visibilidade) + "M |";
                     metar = spanRed(metar, " " + visibilidade + " ");
-                    updateRestricaoLoc(localidade,"*VISIBILIDADE");
+                    updateRestricaoLoc(localidade, "*VISIBILIDADE");
                 }
 
                 if (cortante) {
                     metar = spanRed(metar, " WS ");
-                    updateRestricaoLoc(localidade,"*WS");
+                    updateRestricaoLoc(localidade, "*WS");
                 }
 
                 if (trovoada) {
@@ -458,17 +525,17 @@ function trataMetarRedemet(response, idxFIR) {
                     metar = spanRed(metar, " -TSGR ");
                     metar = spanRed(metar, " -TSGRRA ");
                     metar = spanRed(metar, " -TSRAGR ");
-                    updateRestricaoLoc(localidade,"*TROVOADA");
+                    updateRestricaoLoc(localidade, "*TROVOADA");
                 }
                 if (ventoAlto) {
                     metar = spanRed(metar, vento[2]);
-                    updateRestricaoLoc(localidade,"*VENTO");
+                    updateRestricaoLoc(localidade, "*VENTO");
                 }
 
                 if (ventoRaj) {
                     metar = spanRed(metar, "G" + vento[1] + "KT");
                     metar = metar.replace(' <span style="color:red">G' + vento[1] + "KT", '<span style="color:red">G' + vento[1] + "KT");
-                    updateRestricaoLoc(localidade,"*RAJADA");
+                    updateRestricaoLoc(localidade, "*RAJADA");
                 }
 
                 // return metar.includes(" TS ") || metar.includes("TSRA ") || metar.includes("TSGR ");
@@ -481,7 +548,7 @@ function trataMetarRedemet(response, idxFIR) {
         }
     }
     if (cont == 1) {
-        strToCell(["NENHUMA LOCALIDADE COM RESTRIÇÃO", ""], idxFIR, false, false);
+        strToCell(["NENHUMA LOCALIDADE COM RESTRIÇÃO", ""], idxFIR, false, false, onLine);
         cont = cont + 1;
     }
     limpaArrayStatusGamet(idxFIR)
@@ -712,7 +779,7 @@ function getStatusAirmet(loc) {
     //  return { achou: false }
 }
 
-function getStatusAdWRNG(loc) {
+function getStatusAdWRNG(loc) {//sempre irá retornar o adwrng válido com maior vento max previsto.
     let min = -1
     let max = -1
     let cancelado = false
@@ -720,14 +787,19 @@ function getStatusAdWRNG(loc) {
     let texto = ""
     arrAdWRNGGeral.forEach(aviso => {
         if ((!aviso.cancelado) && (aviso.locs.indexOf(loc) > -1) && (aviso.tipo !== "C")) {
-            min = aviso.vento[0]
-            max = aviso.vento[1]
-            cancelado = aviso.cancelado
-            textoFull = aviso.textoFull
-            texto = aviso.texto
+            if (aviso.vento[1] > max) {
+
+                min = aviso.vento[0] + ""
+                max = aviso.vento[1]
+                cancelado = aviso.cancelado
+                textoFull = aviso.textoFull
+                texto = aviso.texto
+            }
         }
 
     })
+    if (min.length >= 5)
+        min = min.substr(3)
     return { min, max, cancelado, textoFull, texto }
 }
 
@@ -861,8 +933,18 @@ function verificaStatusMetar(statusMetar, statusAdWRNG, statusAirmet, statusSigm
 
     return { coberto: (arrayRest.length == 0), tipo: arrayRest, alerta: arrayAlerta.length > 0, tipoAlerta: arrayAlerta }
 }
+function adWRNGPertoDoFim(texto) { 
+    if (texto == "")
+        return false
+    try {
+        return smartPlot.airmetPertoDoFim(texto);
+    } catch (e) {
+        console.log("Erro de acesso ao SmartPlot!");
+    }
+    return false
+}
 
-function strToCell(arr, idxFIR, novo, naoAdiciona) {//nãoadiciona significa substituir(apagar o anterior)
+function strToCell(arr, idxFIR, novo, naoAdiciona, onLine = true) {//nãoadiciona significa substituir(apagar o anterior)
     var table;
     var classe = 'class = "table-striped comum';
     if (primeiraVez)
@@ -890,6 +972,13 @@ function strToCell(arr, idxFIR, novo, naoAdiciona) {//nãoadiciona significa sub
         // if (cma == "ESTRANGEIRA") 
     }
 
+    try {
+        if (arr && !arr[2].maisRecente || (cma == "ESTRANGEIRA"))
+            classe += " linhaInativa"
+    } catch (e) {
+        console.log("Erro ao tentar verificar se o Metar é o Mais Recente!");
+    }
+
     if (!tit || (tit == 'undefined') || (tit.length == 0)) {
         tit = "";
         latLong = "";
@@ -898,6 +987,7 @@ function strToCell(arr, idxFIR, novo, naoAdiciona) {//nãoadiciona significa sub
 
     let regAirmet = getStatusAirmet(loc);
     let classStatusAirmet = ""
+    let classeAdWRNG = ""
     if (!smartPlot || smartPlot.closed) {
         //if (smartPlot)
         //smartplot.close();
@@ -914,6 +1004,8 @@ function strToCell(arr, idxFIR, novo, naoAdiciona) {//nãoadiciona significa sub
     let descRestricao = ""
     let descAlerta = ""
     let infoAlerta = ""
+    let adWRNGVencendo = adWRNGPertoDoFim(statusAdWRNG.textoFull);
+    
     let titleDegrada = "São utilizados nos AIRMETS, por analogia, os parâmetros para confecção de emendas TAF (segundo o item 8.2.9, da ICA 105-17/2020), para TETO E VISIBILIDADE:&#10;&#10;&#10;Parâmetros de visibilidade = 150M, 350M, 600M, 800M, 1500M, 3000M, 5000M &#10;&#10;Parâmetros de teto = 100FT, 200FT, 500FT, 1000FT, 1500FT"
     let xInfoAlerta = '<img src="pngs/info-26.png" title="' + titleDegrada + '" style="cursor: pointer;">'
 
@@ -940,7 +1032,7 @@ function strToCell(arr, idxFIR, novo, naoAdiciona) {//nãoadiciona significa sub
             teto = spanRedBold(teto, teto)
         statusSigmet = vis + " / " + teto
         let arrStatusMetar = verificaStatusMetar(arr[2], statusAdWRNG, regAirmet, regSigmet)
-        if (!arrStatusMetar.coberto && arr[2].maisRecente) {
+        if (!arrStatusMetar.coberto && arr[2].maisRecente) { //Localidade descoberta
             classe = classe + " table-danger"
             descRestricao = '<br>' + 'Parâmetros descobertos: '
             let sep = ''
@@ -948,6 +1040,8 @@ function strToCell(arr, idxFIR, novo, naoAdiciona) {//nãoadiciona significa sub
                 descRestricao += sep + i
                 sep = ', '
             })
+            if (novo && firVisible[idxFIR] && beepLigado() && onLine) //falta olhar o casa da mensagem nao ser nova
+                $("#divDoubleBeep").click();
 
             descRestricao = '<b>' + spanRed(descRestricao, descRestricao) + '<b>'
         }
@@ -964,6 +1058,10 @@ function strToCell(arr, idxFIR, novo, naoAdiciona) {//nãoadiciona significa sub
         }
         if ((descAlerta + descRestricao).length > 0)
             infoAlerta = xInfoAlerta
+        
+        if (adWRNGVencendo && arr[2].maisRecente)
+            classeAdWRNG += " pulseValid"
+            
 
     }
     classe = classe + '"'
@@ -971,7 +1069,7 @@ function strToCell(arr, idxFIR, novo, naoAdiciona) {//nãoadiciona significa sub
     if (naoAdiciona)
         $('#' + arrayTableFir[idxFIR] + ' tr:last').remove();
 
-    let line = '<tr title="' + tit.toUpperCase() + latLong + '&#10;&#10;CMA-1: ' + cma + '&#10;&#10;' + regAirmet.texto + txtTitleAdWRNG + '" ' + classe + id + '><td><b>' + arr[0] + '</b>' + descRestricao + descAlerta + infoAlerta + '</td><td>' + txtAdWRNG + '</td><td>' + statusSigmet + '</td><td ' + classStatusAirmet + '>' + regAirmet.status + '</td><td>' + cma + '</td></tr>'
+    let line = '<tr title="' + tit.toUpperCase() + latLong + '&#10;&#10;CMA-1: ' + cma + '&#10;&#10;' + regAirmet.texto + txtTitleAdWRNG + '" ' + classe + id + '><td><b>' + arr[0] + '</b>' + descRestricao + descAlerta + infoAlerta + `</td><td class = "${classeAdWRNG}">` + txtAdWRNG + '</td><td>' + statusSigmet + '</td><td ' + classStatusAirmet + '>' + regAirmet.status + '</td><td>' + cma + '</td></tr>'
     var row = $('#' + arrayTableFir[idxFIR] + ' tbody').append(line);
     $('.tr' + loc).click(function () {
         var loc = $(this).closest('tr').prop('class').split(" ")[1];
@@ -998,11 +1096,30 @@ function insertRowGamet(tableStr, str, idx) {
     }
 }
 
-function SplitMetares(strMetar, dataHora) {
-    if (strMetar)
-        return strMetar.split(dataHora);
-    else
-        return "";
+function SplitMetares(strMetar) {
+    function getDataHora(str) {
+        var patt2 = /\d{10} - /g;
+        var t1 = str.match(patt2)
+        if (t1 && t1.length > 0)
+            return t1[0]
+        else
+            return str
+
+    }
+    var t = strMetar.replace(/  /g, " ")
+
+    t = t.split('=')
+
+    if (t.length < 1)
+        return strMetar
+
+
+    for (var i in t) {
+        var dataHora = getDataHora(t[i])
+        //console.log(dataHora)
+        t[i] = t[i].split(dataHora)[1] + "="
+    }
+    return t.splice(0, t.length - 1);
 }
 
 function arraySize(array) {

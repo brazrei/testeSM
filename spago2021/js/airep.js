@@ -349,25 +349,16 @@ function limpaAireps() {
     $(".table-airep").remove();
 }
 
-function getFormatedDate(data, zeraMinutos = true) {
-    let ano = data.getUTCFullYear();
-    let mes = addZeros(parseInt(data.getUTCMonth()) + 1);
-    let dia = addZeros(data.getUTCDate());
-    let hora = addZeros(data.getUTCHours());
-    let minutos = addZeros(data.getUTCMinutes());
-    if (zeraMinutos)
-        minutos = '00';
-    return `${ano}${mes}${dia}${hora}${minutos}`;
-}
-
 function getAirep(primeiraVez = false) {
     mostraLoading("Airep");
-    dini = getFormatedDate( (new Date()).addHour(-1), true );
-    dfim = getFormatedDate( new Date(), false );
-    var interval = `&data_ini=${dini}&data_fim=${dfim}`
+    var interval = opener.getInterval(1)
+
     var locs = arrayLocalidadeFIRAirep.join(",")
+    
+    const urlCache = "../ago2021/php/consulta_msg.php?url=";    
+
     var url = `https://www.redemet.aer.mil.br/api/consulta_automatica/index.php?local=${locs}&msg=airep${interval}`;
-    GetWebContentAirep(url, primeiraVez);
+    GetWebContentAirep(urlCache + url + opener.getProxy(), primeiraVez);
 }
 
 function makeIdxAirep(airep) {

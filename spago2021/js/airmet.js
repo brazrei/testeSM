@@ -12,6 +12,17 @@ var groupMarkers = false
 var intervalAirmet = false
 var arrayMetaresGeral = []
 
+function addHours(data, horas) {
+    if (!Date.prototype.addHours)
+        Date.prototype.addHours = function (h) {
+            this.setHours(this.getHours() + h);
+            return this;
+        }
+
+    return data.addHours(horas)
+
+}
+
 function mostraAirmet() {
     if ($('#chkAirmet').prop('checked')) {
         getAirmet();
@@ -85,12 +96,15 @@ function getFullDateValid(dataI, dataF) { // retorna data inteira de AIRMET e SI
 
     //  let diaA = 
     let agora = getUTCAgora()
+    let decMonth = 0
+    if (diaI > agora.getUTCDay())
+        decMonth = -1;
 
-    let dataInicial = new Date(agora.getUTCFullYear(), agora.getUTCMonth(), diaI, horaI, minI)
+    let dataInicial = new Date(agora.getUTCFullYear(), agora.getUTCMonth() + decMonth, diaI, horaI, minI)
     let dataFinal = new Date(agora.getUTCFullYear(), agora.getUTCMonth(), diaF, horaF, minF)
 
-    if (parseInt(diaF) < parseInt(diaI))
-        dataFinal.setMonth(dataFinal.getMonth() + 1);
+    // if (parseInt(diaF) < parseInt(diaI))
+    //     dataFinal.setMonth(dataFinal.getMonth() + 1);
     //console.log(agora.toISOString())
     //console.log(dataInicial.toISOString())
     //console.log(dataFinal.toISOString())
@@ -116,17 +130,6 @@ function isValidAirmet(ini, fim) {
 }
 function isLinux() {
     return navigator.platform.indexOf("Linux") > -1
-}
-
-function addHours(data, horas) {
-    if (!Date.prototype.addHours)
-        Date.prototype.addHours = function (h) {
-            this.setHours(this.getHours() + h);
-            return this;
-        }
-
-    return data.addHours(horas)
-
 }
 
 function isCloseToValidOff(ini, fim, timer = 10) {
@@ -446,25 +449,25 @@ function getMetar(loc) {
     return met
 
 }
-function updateDescobertos(loc,tipoAlerta) {
-    function trataLabelDescobertas(id, loc ,legenda){ 
-      let desc = $(id).html()
-      let sep = ", "
-      if (desc == "")
-          sep = ""
-      else if (desc.includes("<br>"))
-          desc = desc.split("<br>")[1]
-      if (!desc.includes(loc))
-          desc = desc + sep + loc
-      $(id).html(legenda + "<br>" + desc)
+function updateDescobertos(loc, tipoAlerta) {
+    function trataLabelDescobertas(id, loc, legenda) {
+        let desc = $(id).html()
+        let sep = ", "
+        if (desc == "")
+            sep = ""
+        else if (desc.includes("<br>"))
+            desc = desc.split("<br>")[1]
+        if (!desc.includes(loc))
+            desc = desc + sep + loc
+        $(id).html(legenda + "<br>" + desc)
     }
-    
+
     if (!loc) {
         $('#h6descobertasAD').html("")
         $('#h6descobertasRota').html("")
         return
     }
-    
+
     if (tipoAlerta.ad) {
         trataLabelDescobertas('#h6descobertasAD', loc, 'Alerta AD:')
     }
@@ -474,6 +477,132 @@ function updateDescobertos(loc,tipoAlerta) {
 }
 
 function plotaMarca(lat, lng, loc) {
+    function getSvgIcon(loc, strAlerta, descoberto = false) {
+        //inicio x = 78
+        let inicioX = 78;
+        let offSetX = 0;
+        let svgTeto = ""
+        let svgVisibilidade = ""
+        let svgTrovoada = ""
+        let svgVento = ""
+        let contRestricoes = 0
+        let alt = 0
+        let color = "yellow"
+        let boxOpacity = "0.8" ;
+        let backGroundColor = "#444";
+        let classSvgIcon
+        if (descoberto) {
+            color = "white"
+            alt = 1000;
+            boxOpacity = "0.9" ;
+            backGroundColor = "red"
+            classSvgIcon = "pulseZoom"
+        }
+        let iconColor = color
+
+        if (strAlerta.includes("TETO")) {
+            svgTeto = `<g transform="matrix(0.35 0 0 0.35 ${inicioX}.02 67.61)"  >
+        <g style=""   >
+                <g transform="matrix(1 0 0 1 43.46 21.75)" id="Capa_1"  >
+        <path style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: ${iconColor}; fill-rule: nonzero; opacity: 1;"  transform=" translate(-231.57, -209.86)" d="M 338.103 201.978 c 1.733 -6.085 2.61 -12.372 2.61 -18.756 c 0 -37.746 -30.708 -68.455 -68.454 -68.455 c -15.702 0 -31.042 5.453 -43.193 15.354 c -10.807 8.805 -18.705 20.773 -22.558 34.057 c -25.26 -2.36 -48.097 13.667 -55.234 37.059 c -3.824 -0.87 -7.731 -1.309 -11.671 -1.309 c -29.051 0 -52.686 23.464 -52.686 52.514 c 0 29.051 23.635 52.515 52.686 52.515 h 183.931 c 29.051 0 52.685 -23.464 52.685 -52.515 C 376.22 228.676 360.49 208.367 338.103 201.978 z" stroke-linecap="round" />
+        </g>
+                <g transform="matrix(1 0 0 1 -90.95 -34)" id="Capa_1"  >
+        <path style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: ${iconColor}; fill-rule: nonzero; opacity: 1;"  transform=" translate(-97.16, -154.11)" d="M 130.402 177.248 l 2.936 0.016 l 1.444 -2.556 c 10.411 -18.427 29.165 -30.778 50.168 -33.04 l 2.788 -0.3 l 1.197 -2.535 c 0.995 -2.106 2.117 -4.23 3.334 -6.313 l 2.045 -3.498 l -2.998 -2.725 c -8.986 -8.17 -20.753 -12.669 -33.131 -12.669 c -1.311 0 -2.637 0.054 -3.968 0.162 c -7.85 -24.892 -32.261 -42.525 -59.755 -42.525 c -34.414 0 -62.412 26.82 -62.412 59.787 c 0 5.289 0.718 10.5 2.141 15.555 C 14.072 152.409 0 170.187 0 190.789 c 0 25.457 21.612 46.167 48.178 46.167 h 16.221 l 0.648 -4.244 c 4.906 -32.088 32.06 -55.398 64.612 -55.512 C 129.907 177.229 130.155 177.247 130.402 177.248 z" stroke-linecap="round" />
+        </g>
+        </g>
+        </g>`;
+            offSetX += 150;
+            contRestricoes += 1
+        }
+
+        if (strAlerta.includes("VISIBILIDADE")) {
+            //inicio x= 84
+
+            inicioX = 84 + offSetX;
+
+            svgVisibilidade = `<g transform="matrix(0.67 0 0 0.67 ${inicioX}.6 68.6)"  >
+        <g style=""   >
+        <g transform="matrix(1 0 0 1 -36.32 -61.62)" id="Capa_1"  >
+        
+        <path style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: ${iconColor}; fill-rule: nonzero; opacity: 1;"  transform=" translate(-72.4, -47.09)" d="M 144.797 47.095 c 0 -4.142 -3.358 -7.5 -7.5 -7.5 H 7.5 c -4.142 0 -7.5 3.358 -7.5 7.5 c 0 4.142 3.358 7.5 7.5 7.5 h 129.797 C 141.439 54.595 144.797 51.237 144.797 47.095 z" stroke-linecap="round" />
+        </g>
+                <g transform="matrix(1 0 0 1 25.57 -30.81)" id="Capa_1"  >
+        <path style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: ${iconColor}; fill-rule: nonzero; opacity: 1;"  transform=" translate(-134.28, -77.91)" d="M 209.93 70.405 H 58.632 c -4.142 0 -7.5 3.358 -7.5 7.5 s 3.358 7.5 7.5 7.5 H 209.93 c 4.142 0 7.5 -3.358 7.5 -7.5 S 214.072 70.405 209.93 70.405 z" stroke-linecap="round" />
+        </g>
+                <g transform="matrix(1 0 0 1 -10.23 0)" id="Capa_1"  >
+        <path style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: ${iconColor}; fill-rule: nonzero; opacity: 1;"  transform=" translate(-98.49, -108.71)" d="M 174.53 116.214 c 4.142 0 7.5 -3.358 7.5 -7.5 c 0 -4.142 -3.358 -7.5 -7.5 -7.5 H 22.446 c -4.142 0 -7.5 3.358 -7.5 7.5 c 0 4.142 3.358 7.5 7.5 7.5 H 174.53 z" stroke-linecap="round" />
+        </g>
+        
+                <g transform="matrix(1 0 0 1 14.81 30.81)" id="Capa_1"  >
+        <path style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: ${iconColor}; fill-rule: nonzero; opacity: 1;"  transform=" translate(-123.53, -139.52)" d="M 199.441 132.024 H 47.619 c -4.142 0 -7.5 3.358 -7.5 7.5 s 3.358 7.5 7.5 7.5 h 151.822 c 4.142 0 7.5 -3.358 7.5 -7.5 S 203.583 132.024 199.441 132.024 z" stroke-linecap="round" />
+        </g>
+                <g transform="matrix(1 0 0 1 -33.3 61.62)" id="Capa_1"  >
+        <path style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: ${iconColor}; fill-rule: nonzero; opacity: 1;"  transform=" translate(-75.41, -170.34)" d="M 125.759 162.835 H 25.068 c -4.142 0 -7.5 3.358 -7.5 7.5 c 0 4.142 3.358 7.5 7.5 7.5 h 100.69 c 4.142 0 7.5 -3.358 7.5 -7.5 C 133.259 166.193 129.901 162.835 125.759 162.835 z" stroke-linecap="round" />
+        </g>
+        </g>
+        </g>`
+            offSetX += 150;
+            contRestricoes += 1
+
+        }
+
+        if (strAlerta.includes("VENTO") || strAlerta.includes("RAJADA")) {
+
+            //inicio x =83    
+            inicioX = 83 + offSetX;
+
+            svgVento = `<g transform="matrix(8.81 0 0 8.81 ${inicioX}.23 70.15)"  >
+        <path style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: ${iconColor}; fill-rule: nonzero; opacity: 1;"  transform=" translate(-8, -8)" d="M 12.5 2 A 2.5 2.5 0 0 0 10 4.5 a 0.5 0.5 0 0 1 -1 0 A 3.5 3.5 0 1 1 12.5 8 H 0.5 a 0.5 0.5 0 0 1 0 -1 h 12 a 2.5 2.5 0 0 0 0 -5 z m -7 1 a 1 1 0 0 0 -1 1 a 0.5 0.5 0 0 1 -1 0 a 2 2 0 1 1 2 2 h -5 a 0.5 0.5 0 0 1 0 -1 h 5 a 1 1 0 0 0 0 -2 z M 0 9.5 A 0.5 0.5 0 0 1 0.5 9 h 10.042 a 3 3 0 1 1 -3 3 a 0.5 0.5 0 0 1 1 0 a 2 2 0 1 0 2 -2 H 0.5 a 0.5 0.5 0 0 1 -0.5 -0.5 z" stroke-linecap="round" />
+        </g>`;
+            offSetX += 150;
+
+            contRestricoes += 1
+        }
+
+        if (strAlerta.includes("TROVOADA")) {
+            inicioX = 68 + offSetX;
+
+            //inicio x=60
+            svgTrovoada = `<g transform="matrix(0.27 0 0 0.24 ${inicioX}.3 71.1)" id="Capa_1"  >
+        <path style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: ${iconColor}; fill-rule: nonzero; opacity: 1;"  transform=" translate(-256, -256)" d="M 412.324 209.102 C 406.777 198.586 395.886 192 383.996 192 h -60.219 l 72.844 -145.688 c 4.953 -9.922 4.422 -21.703 -1.406 -31.133 C 389.386 5.742 379.09 0 367.996 0 h -160 c -13.781 0 -26 8.813 -30.359 21.883 l -80 240 c -3.25 9.758 -1.609 20.484 4.406 28.828 c 6.016 8.344 15.672 13.289 25.953 13.289 h 74.703 l -26.328 171.133 c -2.266 14.75 5.953 29.117 19.828 34.617 c 3.844 1.523 7.844 2.25 11.781 2.25 c 10.297 0 20.266 -4.977 26.391 -13.867 l 176 -256 C 417.105 232.336 417.855 219.617 412.324 209.102 z" stroke-linecap="round" />
+        </g>`;
+            offSetX += 150;
+            contRestricoes += 1
+
+        }
+
+        //let tamIconeX = offSetX - 
+        let widthX = contRestricoes * 25;
+        let viewBoxX = (contRestricoes < 1) ? 0 : (contRestricoes * 150) - 1;
+        //viewBoxX = viewBoxX<0?0:viewBoxX;
+
+        var svgIcon = new L.divIcon({//vento trovoada teto visib
+            // Specify a class name we can refer to in CSS.
+            className: 'css-icon',
+            html: `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class = "${classSvgIcon}" width="${widthX}" height="50" viewBox="0 0 ${viewBoxX} 140" xml:space="preserve">
+            <desc>Created with Fabric.js 3.6.3</desc>
+            <defs>
+            </defs>
+            <rect x="0" y="0"  rx="30" ry ="30" width="100%" height="100%" fill="${backGroundColor}" fill-opacity="${boxOpacity}";></rect>
+
+            ${svgVisibilidade}
+
+            ${svgVento}
+
+            ${svgTrovoada}
+
+            ${svgTeto}
+            </svg>`
+            // Set marker width and height
+            , iconSize: [25, 35] //tamanho minimo. O restante eh ajustado pelo tamanho do SVG
+            , iconAnchor: [6, 6]
+            , alt: parseInt(`${alt}`)
+
+        });
+        return svgIcon;
+    }
+
+
     function removeInfo(desc) {
         if (desc.includes("</b><b>")) {
             desc = desc.split("<b><img src=")[0]
@@ -482,23 +611,27 @@ function plotaMarca(lat, lng, loc) {
         else
             return desc
     }
-    
+
     function checaRestricaoVento(descMetar) {
         return (descMetar.includes("VENTO") || descMetar.includes("RAJADA") || descMetar.includes("KT</SPAN>"))
     }
 
-    function getTipoAlerta(loc) {
+    function getTipoAlerta(loc, descoberto = false) {
         let rota = false
         let ad = false
-        
+        let strAlerta = ""
+
         if (opener && opener.arrRestricaoLoc[loc]) {
-            let alerta = opener.arrRestricaoLoc[loc]
-            if (alerta.indexOf("TETO") > -1 || alerta.indexOf("VISIBILIDADE") > -1)
+            if (descoberto)
+                strAlerta = descoberto;
+            else
+                strAlerta = opener.arrRestricaoLoc[loc]
+            if (strAlerta.indexOf("TETO") > -1 || strAlerta.indexOf("VISIBILIDADE") > -1)
                 rota = true
-            if (alerta.indexOf("VENTO") > -1 || alerta.indexOf("RAJADA") > -1 || alerta.indexOf("TROVOADA") > -1)
+            if (strAlerta.indexOf("VENTO") > -1 || strAlerta.indexOf("RAJADA") > -1 || strAlerta.indexOf("TROVOADA") > -1)
                 ad = true
         }
-        return {ad, rota}
+        return { ad, rota, strAlerta }
     }
     if (!isNaN(lat) && !isNaN(lng)) {
 
@@ -569,27 +702,36 @@ function plotaMarca(lat, lng, loc) {
             restricao = true
             desc = desc.substr(1)
             let descU = desc.toUpperCase();
-            let alerta = getTipoAlerta(loc);
-                
+            let alerta;
+
+
             if (descU.includes("DESCOBERTO")) {
+                let strDescoberto = descU.split("DESCOBERTO")[1].split("<")[0]
+                let alerta = getTipoAlerta(loc, strDescoberto);
                 icon = redIcon
-                if (alerta.ad)
-                  addMarker(L.marker([lat, lng], { icon: cssIconRed }), "", restricao, true)
-                updateDescobertos(loc,alerta)
+                icon = getSvgIcon(loc, strDescoberto, true) //vento trovoada teto visib
+
+                //if (alerta.ad)
+                addMarker(L.marker([lat, lng], { icon: cssIconRed }), "", restricao, true)
+                updateDescobertos(loc, alerta)
             } else {
-                if (descU.includes("DEGRADA"))
-                    icon = orangeIcon
-                else
-                    icon = yellowIcon
-                if (alerta.ad)
-                  addMarker(L.marker([lat, lng], { icon: cssIconYellow }), "", restricao, true)
+                let alerta = getTipoAlerta(loc);
+                //if (descU.includes("DEGRADA"))
+                // icon = orangeIcon
+                //else {
+                //icon = yellowIcon
+                icon = getSvgIcon(loc, alerta.strAlerta, false) //vento trovoada teto visib
+
+                //}
+                //if (alerta.ad)
+                //    addMarker(L.marker([lat, lng], { icon: cssIconYellow }), "", restricao, true)
             }
         } else
             icon = greenIcon
 
 
         var m = addMarker(L.marker([lat, lng], { icon: icon }), loc, restricao)
-
+        //m._icon.classList.add("svgRedIcon");
 
 
         m.on('contextmenu', function (event) {
@@ -878,7 +1020,7 @@ function start() {
 
     plota_stsc();
 
-    intervalSTSC = setInterval("atualizaSTSC()", 90000);
+    intervalSTSC = setInterval("atualizaSTSC()", 120000);
 
     //checaPonto("S1637 W04911");
     //map.setView([-18.0,-45.0], 13);
@@ -966,8 +1108,8 @@ function plotaAirmets(arr, primeiraVez) {
     for (var i in arr) {
         a = arr[i]
         if (a.tipo !== "C") {//o airmet de cancelamento nao eh plotado
-            if (a.cancelado)            
-              continue;
+            if (a.cancelado)
+                continue;
             var poly = invertLatLong(a.coordDeg)
             //console.log("poly ==>", poly)
 
@@ -992,7 +1134,7 @@ function plotaAirmets(arr, primeiraVez) {
             if (isCloseToValidOff(a.codigo))
                 opt.className = "pulse";
 
-            
+
             var p = L.polygon(poly, opt).addTo(map)
 
             p.bindTooltip(getAirmetDescription(a), { closeButton: false, sticky: true });
@@ -1101,7 +1243,7 @@ function GetWebContentAirmet(url, primeiraVez) {
 
 
                 //$("#imgLoad"+idxFIR).attr('src', 'pngs/green-button30.png');
-                var resposta = this.responseText;
+                let resposta = opener.removeCacheMessage(this.responseText);
 
                 //var resposta = "2020102011 - SBAZ AIRMET 8 VALID 201030/201425 SBAZ - SBAZ AMAZONICA FIR SFC VIS 0500M BR FCST WI S0835 W07044 - S0740 W07206 - S0645 W07033 - S0814 W06856 - S0835 W07044 STNR NC= 2020102011 - SBAZ AIRMET 7 VALID 201030/201425 SBAZ - SBAZ AMAZONICA FIR BKN CLD 100/1000FT FCST WI S0835 W07044 - S0740 W07206 - S0645 W07033 - S0814 W06856 - S0835 W07044 STNR NC= 2020102011 - SBAZ AIRMET 6 VALID 201030/201425 SBAZ - SBAZ AMAZONICA FIR BKN CLD 500/1000FT FCST WI S0228 W04830 - S0032 W04936 - S0013 W04809 - S0159 W04718 - S0228 W04830 STNR NC= 2020102011 - SBAZ AIRMET 5 VALID 201030/201425 SBAZ - SBAZ AMAZONICA FIR SFC VIS 1000M BR FCST WI S0228 W04830 - S0032 W04936 - S0013 W04809 - S0159 W04718 - S0228 W04830 STNR NC= 2020102011 - SBAZ AIRMET 4 VALID 200917/201117 SBAZ - SBAZ AMAZONICA FIR BKN CLD 500/1000FT FCST WI S0217 W06040 - S0231 W05919 - S0354 W05935 - S0333 W06100 - S0217 W06040 STNR NC= 2020102011 - SBAZ AIRMET 9 VALID 201130/201425 SBAZ - SBAZ AMAZONICA FIR BKN CLD 500/1000FT FCST WI S1037 W06353 - S1023 W07016 - S0733 W07330 - S0304 W06923 - S0136 W05822 - S1037 W06353 STNR WKN= 2020102011 - SBBS AIRMET 6 VALID 201025/201425 SBBS - SBBS BRASILIA FIR BKN CLD 500/1000FT FCST WI S1605 W04654 - S1448 W04715 - S1556 W05012 - S1709 W04847 - S1605 W04654 STNR NC= 2020102011 - SBRE AIRMET 1 VALID 200810/201210 SBRE - SBRE RECIFE FIR BKN CLD 400/1000FT FCST WI S1452 W04057 - S1452 W04052 - S1456 W04053 - S1455 W04058 - S1452 W04057 STNR NC= 2020102011 - Mensagem AIRMET de 'SBCW' para 20/10/2020 as 11(UTC) não localizada na base de dados da REDEMET"
                 /*+                 escondeLoading();
@@ -1142,7 +1284,13 @@ function GetWebContentAirmet(url, primeiraVez) {
 
         }
     };
-    xhttp.open('GET', url, true);
+    const params = {
+        url: url,
+    }
+    const urlCache = "../ago2021/php/consulta_msg.php?url=" + params.url;
+    xhttp.open('GET', urlCache + opener.getProxy(), true);
+    xhttp.setRequestHeader('Content-type', 'application/json');
+
     xhttp.send();
 }
 
@@ -1169,28 +1317,28 @@ S0520 W06051 - S0527 W06137 STNR NC= 202ArrayLID 111020/111310 SBAZ - SBAZ AMAZO
  2020091112 - SBAZ AIRMET 6 VALID 111220/111510 SBAZ - SBAZ AMAZONICA FIR OVC CLD 300/0900FT FCST WI N0040 W06647 - S0437 W06359 - S1201 W06455 - S1052 W06555 - S0941 W06541 - N0013 W06834 - N0040 W06647 STNR NC= 2020091112 - SBAZ AIRMET 5 VALID 111220/111510 SBAZ - SBAZ AMAZONICA FIR SFC VIS 0500M FG FCST WI N0015 W06628 - S0058 W06606 - S0059 W06727 - N0013 W06736 - N0015 W06628 STNR NC= 2020091114 - SBAZ AIRMET 9 VALID 111405/111805 SBAZ - SBAZ AMAZONICA FIR OVC CLD 300/0900FT FCST WI N0111 W06653 - S1110 W05328 - S1408 W06033 - S1141 W06528 - S0945 W06528 - S0423 W07037 - N0111 W06653 STNR NC= 2020091114 - SBAZ AIRMET 8 VALID 111405/111805 SBAZ - SBAZ AMAZONICA FIR SFC VIS 0900M FU FCST WI N0111 W06653 - S1110 W05328 - S1408 W06033 - S1141 W06528 - S0945 W06528 - S0423 W07037 - N0111 W06653 STNR NC= 2020091118 - SBAZ AIRMET 10 VALID 111805/112105 SBAZ - SBAZ AMAZONICA FIR SFC VIS 2000M FU FCST WI S1013 W06527 - S1110 W05845 - S1347 W05923 - S1127 W06527 - S1013 W06527 STNR NC= 2020091120 - SBAZ AIRMET 11 VALID 112010/112105 SBAZ - SBAZ AMAZONICA FIR SFC VIS 2000M RA OBS AT 2000Z WI N0005 W05017 - S0235 W04315 - S0427 W04505 - S0312 W04746 - S0431 W04948 - S0305 W05118 - N0005 W05017 STNR NC= 2020091121 - SBAZ AIRMET 12 VALID 112105/120010 SBAZ - SBAZ AMAZONICA FIR SFC VIS 2000M HZ FCST WI S1009 W06532 - S1025 W06144 - S1248 W05924 - S1345 W06042 - S1131 W06543 - S1015 W06536 - S1009 W06532 STNR NC= 2020091100 - SBCW AIRMET 13 VALID 102140/110040 SBCW - SBCW CURITIBA FIR SFC VIS 2500M BR OBS AT 2130Z WI S2355 W04617 - S2356 W04618 - S2356 W04616 - S2355 W04615 - S2354 W04616 - S2355 W04617 STNR NC= 2020091103 - SBCW AIRMET 1 VALID 110305/110705 SBCW - SBCW CURITIBA FIR BKN CLD 0500/1000FT FCST WI S2328 W04642 - S2328 W04633 - S2339 W04637 - S2338 W04644 - S2328 W04642 STNR NC= 2020091110 - SBCW AIRMET 5 VALID 111028/111225 SBCW - SBCW CURITIBA FIR SFC VIS 2500M BR OBS AT 1000Z WI S2314 W04709 - S2250 W04617 - S2324 W04542 - S2357 W04644 - S2314 W04709 STNR NC= 2020091110 - SBCW AIRMET 4 VALID 111028/111225 SBCW - SBCW CURITIBA FIR SFC VIS 4000M BR OBS AT 1000Z WI S2240 W04454 - S2221 W04303 - S2312 W04250 - S2324 W04433 - S2240 W04454 STNR NC= 2020091110 - SBCW AIRMET 3 VALID 111028/111225 SBCW - SBCW CURITIBA FIR BKN CLD 400/1000FT OBS AT 1000Z WI S2752 W05240 - S2745 W05156 - S2834 W05158 - S2836 W05248 - S2752 W05240 STNR NC= 2020091110 - SBCW AIRMET 2 VALID 111028/111225 SBCW - SBCW CURITIBA FIR OVC CLD 400/1000FT OBS AT 1000Z WI S2930 W05135 - S2928 W05037 - S3018 W05040 - S3016 W05141 - S2930 W05135 STNR NC= 2020091112 - SBCW AIRMET 7 VALID 111225/111425 SBCW - SBCW CURITIBA FIR OVC CLD 400/1000FT OBS AT 1200Z WI S2930 W05135 - S2928 W05037 - S3018 W05040 - S3016 W05141 - S2930 W05135 STNR NC= 2020091112 - SBCW AIRMET 6 VALID 111225/111425 SBCW - SBCW CURITIBA FIR BKN CLD 600/1000FT OBS AT 1200Z WI S2932 W05349 - S2934 W05318 - S3001 W05324 - S2957 W05352 - S2932 W05349 STNR NC= 2020091116 - SBCW AIRMET 8 VALID 111615/111910 SBCW - SBCW CURITIBA FIR SFC VIS 3000M FU OBS AT 1600Z WI S1828 W05803 - S1825 W05711 - S1925 W05726 - S1918 W05822 - S1828 W05803 STNR NC= 2020091119 - SBCW AIRMET 9 VALID 111910/112310 SBCW - SBCW CURITIBA FIR SFC VIS 2500M FU OBS AT 1900Z WI S1828 W05803 - S1825 W05711 - S1925 W05726 - S1918 W05822 - S1828 W05803 STNR NC=
 */
 
-
 function getAirmet(primeiraVez = false) {
     mostraLoading("Airmet");
     dini = "2020101800"
     dfim = "2020101815"
-    let interval = ""
     let url = ""
- 
+    let interval = opener.getInterval(4)
+
+
     if (opener.redemetAntiga) {
-      if (opener.intraer)
-         url = opener.linkIntraer;
-      else
-         url = opener.linkInternet;
-        
-      //url = `${url}SBAZ,SBBS,SBRE,SBCW&msg=airmet&data_ini=${dataIni}&data_fim=${dataFim}`;
-      url = `${url}SBAZ,SBBS,SBRE,SBCW&msg=airmet`;
-        
-    } else 
+        if (opener.intraer)
+            url = opener.linkIntraer;
+        else
+            url = opener.linkInternet;
+
+        //url = `${url}SBAZ,SBBS,SBRE,SBCW&msg=airmet&data_ini=${dataIni}&data_fim=${dataFim}`;
+        url = `${url}SBAZ,SBBS,SBRE,SBCW&msg=airmet${interval}`;
+
+    } else
         //var interval = `&data_ini=${dini}&data_fim=${dfim}`
         //var url = "https://www.redemet.intraer/api/consulta_automatica/index.php?local=SBAZ,SBBS,SBRE,SBCW&msg=airmet" + interval;
-        url = `${opener.linkAPINova}airmet/?api_key=${opener.apiKey}`;
-    
+        url = `${opener.linkAPINova}airmet/?api_key=${opener.apiKey}${interval}`;
+
 
     GetWebContentAirmet(url, primeiraVez);
 }
@@ -1236,14 +1384,14 @@ function latLngToDegree(latlng) {
         latSign = -1
     var longSign = 1
     if (latlng.includes("W"))
-      longSign = -1
-      
+        longSign = -1
+
     lat = parseFloat((parseInt(latlng.substr(1, 2)) + (latlng.substr(3, 2) / 60))) * latSign
 
     if (longSign == -1)
-      latlng = latlng.split("W")[1]
+        latlng = latlng.split("W")[1]
     else
-      latlng = latlng.split("E")[1]
+        latlng = latlng.split("E")[1]
 
     long = parseFloat((parseInt(latlng.substr(0, 3)) + (latlng.substr(3, 2) / 60))) * longSign
     return [long, lat] // obje)to d3 requer long, lat
@@ -1286,7 +1434,7 @@ function getTipoAirmet(airmet) {
 
 function trataAirmetRedemet(texto) {
     if (texto.includes("mens"))
-      texto = opener.convertToRedemet(texto,"AIRMET")
+        texto = opener.convertToRedemet(texto, "AIRMET")
 
     lastAirmet = texto + "" //var global
     var classe = "table-warning table-airmet";
@@ -1329,6 +1477,9 @@ function trataAirmetRedemet(texto) {
             } else {
                 tipo = getTipoAirmet(airmet[i])
                 coord = getCoordAirmet(airmet[i])
+
+                if (coord == "")
+                  continue;
 
                 coordDeg = getCoordDegAirmet(coord)
 

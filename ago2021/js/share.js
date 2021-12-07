@@ -13,6 +13,7 @@ function exportaMetares(FIR) {
 
 function saveToFile(data, FIR) {
   //jsonString = JSON.stringify(data);
+  return false;
   $.ajax({
     url: 'php/saveMetar.php',
     data: { 'metares': data, 'ip': myIp, 'FIR': FIR },

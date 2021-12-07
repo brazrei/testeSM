@@ -23,7 +23,7 @@ function GetWebContentGamet(url) {
     }
   };
   //$(".imgLoad").attr('src', 'gifs/loading30x30.gif');
-  xhttp.open('GET', url, true);
+  xhttp.open('GET', urlCache + url + proxy, true);
   xhttp.send();
 }
 
@@ -102,7 +102,7 @@ function trataGametRedemet(texto) {
         strStyle = 'style="display:none"'
 
       str = erro + "GAMET VALID " + val + " " + arrayLocalidadeFIR[idx].toUpperCase() + " - " + vis + " - " + teto;
-      $("#" + arrayTableFir[idx] + " thead").append('<tr class="' + classe + '" ' + strStyle + '><td><b>' + str + '</td><td></b></td><td></td><td></td><td></td></tr>');
+      $("#" + arrayTableFir[idx] + " thead").append('<tr class="' + classe + '" ' + strStyle + '><td colspan = "5"><b>' + str + '</b></td></tr>');
       $("#" + arrayTableFir[idx] + " thead").append('<tr class="cabecalho"><td><b>Mensagem</b></td><td><b>Status AD WRNG</b></td><td><b>Status GAMET</b></td><td><b>Status AIRMET</b></td><td><b>CMA-1</b></td></tr>');
 
       if ((gamet.indexOf("VIS") == -1) && (part1[idx] == 0)) {
@@ -123,16 +123,16 @@ function trataGametRedemet(texto) {
 function getGamet() {
   var agora = new Date();
   if (agora.getHours() < 6) {
-    ini = "04"
+    ini = "00"
     fim = "05"
   } else if (agora.getHours() < 12) {
-    ini = "10"
+    ini = "06"
     fim = "11"
   } else if (agora.getHours() < 18) {
-    ini = "16"
+    ini = "12"
     fim = "17"
   } else {
-    ini = "22"
+    ini = "18"
     fim = "23"
   }
   

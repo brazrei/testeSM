@@ -254,20 +254,44 @@ function loadPHP_STSC() {
 }
 
 function plota_stsc(obj_chk) {
+
+    function clearOldSTSC(){
+        let agora = new Date();
+        let vencido = addHours(agora, -1);
+
+        if (heat && heat.length>0) {
+            let i = 0
+            while ( i <= heat.length-1) {
+                if (heat[i] && (heat[i].dataHora < vencido)) {
+                    map.removeLayer(heat[i].layer)
+                    heat.splice(i,1)
+                }
+                else
+                  i++;
+            }
+
+        }
+          
+    }
     //if (!obj_chk || obj_chk.checked) {
     if (true) {
         mostraLoading("stsc");
+        clearOldSTSC();
         let url;
-        if (horaSTSCAnterior == "") {
-//            url = 'https://api-redemet.decea.intraer/api/produtos/stsc?api_key=U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei&anima=5'
-            url = 'https://api-redemet.decea.mil.br/produtos/stsc?api_key=U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei&anima=5'
+        if (opener.intraer)
+          url = `https://api-redemet.decea.mil.br/produtos/stsc?api_key=${opener.apiKey}`
+        else
+          url = `https://api-redemet.decea.mil.br/produtos/stsc?api_key=${opener.apiKey}`
+            
+        if (horaSTSCAnterior == "") { //primeira bisca pegar a animacao
+            //url = 'https://api-redemet.decea.mil.br/produtos/stsc?api_key=U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei&anima=5'
             loadPHP_STSC()
         }
-        else
-          url = 'https://api-redemet.decea.mil.br/produtos/stsc?api_key=U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei';
+//        else
 //        url = 'https://api-redemet.decea.gov.br/api/produtos/stsc?api_key=U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei';
 
         $.ajax({
+            //url: urlCache + url + opener.getProxy(),
             url: url,
             contentType: 'application/json',
             crossDomain: true,
@@ -287,6 +311,7 @@ function plota_stsc(obj_chk) {
                 if (hoje_mes < 10) {
                     hoje_mes = '0' + hoje_mes;
                 }
+
 
                 let horaAnima = data.data.anima[data.data.anima.length - 1]
 

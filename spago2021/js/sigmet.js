@@ -1,4 +1,5 @@
 var intervalSigmet = false
+var urlCache = "../ago2021/php/consulta_msg.php?url="
 
 function iniciaSigmetGlobalVars() {
     regSigmet = { codigo: "", FIR: 0, tipo: "", base: 0, visibilidade: 0, valIni: 0, valFin: 0, area: 0, cancelado: false, texto: "", coord: "", locs: "" }
@@ -293,7 +294,7 @@ function GetWebContentSigmet(url, primeiraVez) {
         var erro = "ErroSM=";
         if (this.status > 0) {
             if ((this.readyState == 4 && this.status == 200) && (this.responseText !== "")) {
-                var resposta = this.responseText;
+                let resposta = opener.removeCacheMessage(this.responseText);
 
                 clearLayersSigmets()
                 iniciaSigmetGlobalVars();
@@ -314,7 +315,14 @@ function GetWebContentSigmet(url, primeiraVez) {
 
         }
     };
-    xhttp.open('GET', url, true);
+    
+    const params = {
+            url: url,
+        }
+
+    xhttp.open('GET', urlCache + params.url + opener.getProxy(), true);
+    xhttp.setRequestHeader('Content-type', 'application/json');
+    
     xhttp.send();
 }
 
@@ -326,13 +334,14 @@ function getSigmet(primeiraVez = false) {
     var interval = `&data_ini=${dini}&data_fim=${dfim}`*/
     //var url = "https://www.redemet.intraer/api/consulta_automatica/index.php?local=SBAZ,SBBS,SBRE,SBAO,SBCW&msg=sigmet" + interval;
     let url = ""
-    
+    let interval = opener.getInterval(4)
+
     if (opener.redemetAntiga) {
       if (opener.intraer)
          url = opener.linkIntraer;
       else
          url = opener.linkInternet;      
-      url = `${url}SBAZ,SBBS,SBRE,SBCW,SBAO&msg=sigmet`
+      url = `${url}SBAZ,SBBS,SBRE,SBCW,SBAO&msg=sigmet${interval}`
     }  else
       url = `${opener.linkAPINova}sigmet/?api_key=${opener.apiKey}` 
     
