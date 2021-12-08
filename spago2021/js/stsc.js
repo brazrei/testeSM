@@ -13,6 +13,7 @@ var centroAvisoSTSCTMASP = [["-23.50", "-046.63"], // SBMT
 ["-23.00", "-047.13"] //SBKP
 ]
 
+/*
 optImgSat = {
     opacity: 1,
     minOpacity: 1,
@@ -27,7 +28,8 @@ optImgSat = {
     },
     radius: 2
 }
-optDefault = {
+*/
+optImgSat = optDefault = {
     radius: 5,
     blur: 1,
     maxZoom: 8,
