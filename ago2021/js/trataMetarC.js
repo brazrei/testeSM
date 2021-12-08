@@ -794,6 +794,11 @@ function getStatusAdWRNG(loc) {//sempre irá retornar o adwrng válido com maior
                 cancelado = aviso.cancelado
                 textoFull = aviso.textoFull
                 texto = aviso.texto
+             } else if (!aviso.vento && max < 0) {
+                cancelado = aviso.cancelado
+                textoFull = aviso.textoFull
+                texto = aviso.texto
+                
             }
         }
 
