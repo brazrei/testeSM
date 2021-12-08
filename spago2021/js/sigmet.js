@@ -357,6 +357,11 @@ function getValidadeSigmet(text) {
 function makeIdxSigmet(sigmet) {
     var aux = removeEspacos(sigmet)
     var num = aux.split("VALID")[0]
+    try {
+        num = parseInt(num) //elimina os zeros a esquerda
+    } catch (e) {
+        console.log('Erro ao tentar criar índice do sigmet '+sigmet)
+    }
 
     var val = getValidadeSigmet(sigmet)
     return num + "-" + val
