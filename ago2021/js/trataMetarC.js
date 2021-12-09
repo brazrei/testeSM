@@ -779,35 +779,6 @@ function getStatusAirmet(loc) {
     //  return { achou: false }
 }
 
-function getStatusAdWRNG(loc) {//sempre irá retornar o adwrng válido com maior vento max previsto.
-    let min = -1
-    let max = -1
-    let cancelado = false
-    let textoFull = ""
-    let texto = ""
-    arrAdWRNGGeral.forEach(aviso => {
-        if ((!aviso.cancelado) && (aviso.locs.indexOf(loc) > -1) && (aviso.tipo !== "C")) {
-            if (aviso.vento[1] > max) {
-
-                min = aviso.vento[0] + ""
-                max = aviso.vento[1]
-                cancelado = aviso.cancelado
-                textoFull = aviso.textoFull
-                texto = aviso.texto
-             } else if (!aviso.vento && max < 0) {
-                cancelado = aviso.cancelado
-                textoFull = aviso.textoFull
-                texto = aviso.texto
-                
-            }
-        }
-
-    })
-    if (min.length >= 5)
-        min = min.substr(3)
-    return { min, max, cancelado, textoFull, texto }
-}
-
 function verificaStatusMetar(statusMetar, statusAdWRNG, statusAirmet, statusSigmet) {
     function isBigger(dado1, dado2) {
         dado1 = parseInt(dado1)
@@ -937,16 +908,6 @@ function verificaStatusMetar(statusMetar, statusAdWRNG, statusAirmet, statusSigm
     }
 
     return { coberto: (arrayRest.length == 0), tipo: arrayRest, alerta: arrayAlerta.length > 0, tipoAlerta: arrayAlerta }
-}
-function adWRNGPertoDoFim(texto) { 
-    if (texto == "")
-        return false
-    try {
-        return smartPlot.airmetPertoDoFim(texto);
-    } catch (e) {
-        console.log("Erro de acesso ao SmartPlot!");
-    }
-    return false
 }
 
 function strToCell(arr, idxFIR, novo, naoAdiciona, onLine = true) {//nãoadiciona significa substituir(apagar o anterior)
