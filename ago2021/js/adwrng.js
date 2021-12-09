@@ -69,6 +69,17 @@ function getValidadeAdWRNG(text) {
     return getValidadeAirmet(text)
 }
 
+function adWRNGPertoDoFim(texto) { 
+    if (texto == "")
+        return false
+    try {
+        return smartPlot.airmetPertoDoFim(texto);
+    } catch (e) {
+        console.log("Erro de acesso ao SmartPlot!");
+    }
+    return false
+}
+
 /*
 function AdWRNGPertoDoFim(adWRNG) {
     let val = getValidadeAdWRNG(adWRNG);
