@@ -494,6 +494,9 @@ function plotaMarca(lat, lng, loc) {
         let boxOpacity = "0.8" ;
         let backGroundColor = "#444";
         let classSvgIcon
+        
+        if (adWRNGPertoDoFim)
+            
         if (descoberto) {
             color = "white"
             alt = 1000;
@@ -501,6 +504,10 @@ function plotaMarca(lat, lng, loc) {
             backGroundColor = "red"
             classSvgIcon = "pulseZoom"
         }
+
+        if (adWRNGPertoDoFim)
+            classSvgIcon += " pulse"
+        
         let iconColor = color
 
         if (strAlerta.includes("TETO")) {
