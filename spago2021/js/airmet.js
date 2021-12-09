@@ -1362,19 +1362,33 @@ function getAirmetCNL(airmet) {
     }
     return ""
 }
+function trataCNL(xArray, xArrayIdx) {
+    function trataIdx(idx){
+      idx = idx.split('-')   
+      try {
+          idx[1] = parseInt(idx[1]) //elimina os zeros a esquerda
+      } catch (e) {
+          console.log('Erro ao tratar índice do sigmet')
+      }
+      return idx.join('-')
 
-function trataAirmetsCNL() {
-    for (var i in arrAirmetGeral) {
-        var airm = arrAirmetGeral[i]
-        if (airm.tipo == "C") { //airmet de cancelamento
-            if (airm.texto.includes(" "))
-                airm.texto = airm.texto.split(" ")[0]
-            var cancelado = removeEspacos(airm.FIR + airm.texto)
-            var idxCNL = arrIdxAirmetGeral.indexOf(cancelado)
+    }
+    
+    for (let i in xArray) {
+        let msg = xArray[i]
+        if (msg.tipo == "C") { //sigmet de cancelamento
+            if (msg.texto.includes(" "))
+                msg.texto = msg.texto.split(" ")[0]
+            let cancelado = removeEspacos(msg.FIR + msg.texto)
+            let idxCNL = xArray.indexOf(trataIdx(cancelado))
             if (idxCNL > -1)
-                arrAirmetGeral[idxCNL].cancelado = true
+                xArray[idxCNL].cancelado = true
         }
     }
+}
+
+function trataAirmetsCNL(xArray, xArrayIdx) {
+    trataCNL(xArray, xArrayIdx)
 }
 
 function latLngToDegree(latlng) {
@@ -1500,7 +1514,7 @@ function trataAirmetRedemet(texto) {
         }
         idx++;
     }
-    trataAirmetsCNL()
+    trataAirmetsCNL(arrAirmetGeral, arrIdxAirmetGeral)
 
 }
 
