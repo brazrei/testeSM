@@ -69,6 +69,7 @@ function getValidadeAdWRNG(text) {
     return getValidadeAirmet(text)
 }
 
+/*
 function AdWRNGPertoDoFim(adWRNG) {
     let val = getValidadeAdWRNG(adWRNG);
     let ini = val.split("/")[0]
@@ -76,6 +77,7 @@ function AdWRNGPertoDoFim(adWRNG) {
 
     return isCloseToValidOff(ini, fim)
 }
+*/
 
 function checaValidadeAdWRNG(adWRNG) {
 
