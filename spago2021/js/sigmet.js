@@ -381,29 +381,8 @@ function getSigmetCNL(sigmet) {
     return ""
 }
 
-function trataSigmetsCNL() {
-    function trataIdx(idx){
-      idx = idx.split('-')   
-      try {
-          idx[1] = parseInt(idx[1]) //elimina os zeros a esquerda
-      } catch (e) {
-          console.log('Erro ao tratar índice do sigmet')
-      }
-      return idx.join('-')
-
-    }
-    
-    for (let i in arrSigmetGeral) {
-        let sigm = arrSigmetGeral[i]
-        if (sigm.tipo == "C") { //sigmet de cancelamento
-            if (sigm.texto.includes(" "))
-                sigm.texto = sigm.texto.split(" ")[0]
-            let cancelado = removeEspacos(sigm.FIR + sigm.texto)
-            let idxCNL = arrIdxSigmetGeral.indexOf(trataIdx(cancelado))
-            if (idxCNL > -1)
-                arrSigmetGeral[idxCNL].cancelado = true
-        }
-    }
+function trataSigmetsCNL(xArray, xArrayIdx) {
+     trataCNL(xArray, xArrayIdx) //funcao no arquivo airmet.js
 }
 
 function getCoordSigmet(sigmet) {
@@ -508,7 +487,7 @@ function trataSigmetRedemet(texto) {
          }
         idx++;
     }
-    trataSigmetsCNL()
+    trataSigmetsCNL(arrSigmetGeral, arrIdxSigmetGeral)
 
 }
 
