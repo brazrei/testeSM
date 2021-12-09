@@ -714,9 +714,9 @@ function plotaMarca(lat, lng, loc) {
             desc = desc.substr(1)
             let descU = desc.toUpperCase();
             let alerta;
-            adWRNG = opener.getStatusAdWRNG(loc).textoFull
+            adWRNG = opener.getStatusAdWRNG(loc)
 
-            let adWRNGpertoDoFim = isCloseToValidOff(adWRNG)
+            let adWRNGpertoDoFim = isCloseToValidOff(adWRNG.textoFull)
             
             if (descU.includes("DESCOBERTO")) {
                 let strDescoberto = descU.split("DESCOBERTO")[1].split("<")[0]
@@ -753,10 +753,12 @@ function plotaMarca(lat, lng, loc) {
             selectedMarker = d.replace("METARCOR", "").replace("SPECICOR", "").replace("METAR", "").replace("SPECI", "").substr(0, 4)
             openContextMenuMarker(event, event.target);
         }, this);
-        if (adWRNG !=="")
-          adWRNG = "<br><br>"+adWRNG
+        if (adWRNG && adWRNG.textoFull.length>0)
+          adWRNG = "<br><br>"+opener.spanRed(adWRNG.textoFull, getValidadeAirmet(adWRNG.textoFull))
+        else 
+          adWRNG = ""
         desc = removeInfo(desc) + adWRNG
-        m.bindTooltip(desc, { closeButton: false, offset: L.point(0, -20) })
+        m.bindTooltip(desc, { closeButton: false, offset: L.point(0, -20) }) 
         //console.log(m)
     } //else
     //console.log("Erro na plotagem de ", loc);
