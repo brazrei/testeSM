@@ -3,6 +3,34 @@ var arrayLocalidadeCMA = ["SBEG", "SBBR", "SBRF", "SBPA", "SBGL", "SBGR"]
 var arrAdWRNGGeral = []
 var arrIdxAdWRNGGeral = []
 
+function getStatusAdWRNG(loc) {//sempre irá retornar o adwrng válido com maior vento max previsto.
+    let min = -1
+    let max = -1
+    let cancelado = false
+    let textoFull = ""
+    let texto = ""
+    arrAdWRNGGeral.forEach(aviso => {
+        if ((!aviso.cancelado) && (aviso.locs.indexOf(loc) > -1) && (aviso.tipo !== "C")) {
+            if (aviso.vento[1] > max) {
+
+                min = aviso.vento[0] + ""
+                max = aviso.vento[1]
+                cancelado = aviso.cancelado
+                textoFull = aviso.textoFull
+                texto = aviso.texto
+             } else if (!aviso.vento && max < 0) {
+                cancelado = aviso.cancelado
+                textoFull = aviso.textoFull
+                texto = aviso.texto
+                
+            }
+        }
+
+    })
+    if (min.length >= 5)
+        min = min.substr(3)
+    return { min, max, cancelado, textoFull, texto }
+}
 
 function isValidAdWRNG(ini, fim) {
     return isValidAirmet(ini, fim)
