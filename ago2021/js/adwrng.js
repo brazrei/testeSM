@@ -190,7 +190,7 @@ function trataAdWRNGsCNL() {
     function trataIdx(idx){
       idx = idx.split('-')   
       try {
-          idx[1] = parseInt(idx[2]) //elimina os zeros a esquerda
+          idx[2] = parseInt(idx[2]) //elimina os zeros a esquerda
       } catch (e) {
           console.log('Erro ao tratar índice do sigmet')
       }
