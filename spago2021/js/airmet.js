@@ -495,8 +495,6 @@ function plotaMarca(lat, lng, loc) {
         let backGroundColor = "#444";
         let classSvgIcon
         
-        if (adWRNGPertoDoFim)
-            
         if (descoberto) {
             color = "white"
             alt = 1000;
