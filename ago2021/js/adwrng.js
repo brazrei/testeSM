@@ -187,13 +187,24 @@ function getAdWRNG(primeiraVez = false) {
 
 
 function trataAdWRNGsCNL() {
+    function trataIdx(idx){
+      idx = idx.split('-')   
+      try {
+          idx[1] = parseInt(idx[1]) //elimina os zeros a esquerda
+      } catch (e) {
+          console.log('Erro ao tratar índice do sigmet')
+      }
+      return idx.join('-')
+
+    }    
+    
     for (var i in arrAdWRNGGeral) {
         var adWRNG = arrAdWRNGGeral[i]
         if (adWRNG.tipo == "C") { //adWRNG de cancelamento
             if (adWRNG.texto.includes(" "))
                 adWRNG.texto = adWRNG.texto.split(" ")[0]
             var cancelado = removeEspacos(adWRNG.CMA + adWRNG.texto)
-            var idxCNL = arrIdxAdWRNGGeral.indexOf(cancelado)
+            var idxCNL = arrIdxAdWRNGGeral.indexOf(trataIdx(cancelado))
             if (idxCNL > -1)
                 arrAdWRNGGeral[idxCNL].cancelado = true
         }
