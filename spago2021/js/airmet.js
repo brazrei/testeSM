@@ -133,6 +133,9 @@ function isLinux() {
 }
 
 function isCloseToValidOff(ini, fim, timer = 10) {
+    if (ini=="")
+      return false
+
     if (!fim) {
         let valid = getValidadeAirmet(ini)
         ini = valid.split("/")[0]
@@ -477,7 +480,7 @@ function updateDescobertos(loc, tipoAlerta) {
 }
 
 function plotaMarca(lat, lng, loc) {
-    function getSvgIcon(loc, strAlerta, descoberto = false) {
+    function getSvgIcon(loc, strAlerta, adWRNGPertoDoFim, descoberto = false) {
         //inicio x = 78
         let inicioX = 78;
         let offSetX = 0;
@@ -704,12 +707,13 @@ function plotaMarca(lat, lng, loc) {
             let descU = desc.toUpperCase();
             let alerta;
 
-
+            let adWRNGpertoDoFim = isCloseToValidOff(opener.getStatusAdWRNG(loc).textoFull)
+            
             if (descU.includes("DESCOBERTO")) {
                 let strDescoberto = descU.split("DESCOBERTO")[1].split("<")[0]
                 let alerta = getTipoAlerta(loc, strDescoberto);
                 icon = redIcon
-                icon = getSvgIcon(loc, strDescoberto, true) //vento trovoada teto visib
+                icon = getSvgIcon(loc, strDescoberto, adWRNGpertoDoFim, true) //vento trovoada teto visib
 
                 //if (alerta.ad)
                 addMarker(L.marker([lat, lng], { icon: cssIconRed }), "", restricao, true)
@@ -720,7 +724,7 @@ function plotaMarca(lat, lng, loc) {
                 // icon = orangeIcon
                 //else {
                 //icon = yellowIcon
-                icon = getSvgIcon(loc, alerta.strAlerta, false) //vento trovoada teto visib
+                icon = getSvgIcon(loc, alerta.strAlerta, adWRNGpertoDoFim, false) //vento trovoada teto visib
 
                 //}
                 //if (alerta.ad)
