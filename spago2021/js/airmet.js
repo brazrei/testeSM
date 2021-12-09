@@ -1380,7 +1380,7 @@ function trataCNL(xArray, xArrayIdx) {
             if (msg.texto.includes(" "))
                 msg.texto = msg.texto.split(" ")[0]
             let cancelado = removeEspacos(msg.FIR + msg.texto)
-            let idxCNL = xArray.indexOf(trataIdx(cancelado))
+            let idxCNL = xArrayIdx.indexOf(trataIdx(cancelado))
             if (idxCNL > -1)
                 xArray[idxCNL].cancelado = true
         }
