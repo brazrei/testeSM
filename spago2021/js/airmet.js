@@ -495,6 +495,8 @@ function plotaMarca(lat, lng, loc) {
         let backGroundColor = "#444";
         let classSvgIcon
         
+        //if (adWRNGPertoDoFim)
+            
         if (descoberto) {
             color = "white"
             alt = 1000;
@@ -641,6 +643,7 @@ function plotaMarca(lat, lng, loc) {
         }
         return { ad, rota, strAlerta }
     }
+    let adWRNG = ''
     if (!isNaN(lat) && !isNaN(lng)) {
 
         desc = getMetar(loc)
@@ -711,8 +714,9 @@ function plotaMarca(lat, lng, loc) {
             desc = desc.substr(1)
             let descU = desc.toUpperCase();
             let alerta;
+            adWRNG = opener.getStatusAdWRNG(loc).textoFull
 
-            let adWRNGpertoDoFim = isCloseToValidOff(opener.getStatusAdWRNG(loc).textoFull)
+            let adWRNGpertoDoFim = isCloseToValidOff(adWRNG)
             
             if (descU.includes("DESCOBERTO")) {
                 let strDescoberto = descU.split("DESCOBERTO")[1].split("<")[0]
@@ -749,7 +753,9 @@ function plotaMarca(lat, lng, loc) {
             selectedMarker = d.replace("METARCOR", "").replace("SPECICOR", "").replace("METAR", "").replace("SPECI", "").substr(0, 4)
             openContextMenuMarker(event, event.target);
         }, this);
-        desc = removeInfo(desc)
+        if (adWRNG !=="")
+          adWRNG = "<br><br>"+adWRNG
+        desc = removeInfo(desc) + adWRNG
         m.bindTooltip(desc, { closeButton: false, offset: L.point(0, -20) })
         //console.log(m)
     } //else
