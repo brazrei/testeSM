@@ -347,7 +347,7 @@ function getSigmet(primeiraVez = false) {
     var interval = `&data_ini=${dini}&data_fim=${dfim}`*/
     //var url = "https://www.redemet.intraer/api/consulta_automatica/index.php?local=SBAZ,SBBS,SBRE,SBAO,SBCW&msg=sigmet" + interval;
     let url = ""
-    let interval = opener.getInterval(4)
+    let interval = opener.getInterval(6)
 
     if (opener.redemetAntiga) {
       if (opener.intraer)
