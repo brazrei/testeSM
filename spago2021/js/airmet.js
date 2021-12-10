@@ -754,9 +754,10 @@ function plotaMarca(lat, lng, loc) {
             openContextMenuMarker(event, event.target);
         }, this);
         if (adWRNG && adWRNG.textoFull.length > 0) {
-            adWRNG = "<br><br>" + opener.spanRed(adWRNG.textoFull, getValidadeAirmet(adWRNG.textoFull))
+            adWRNG = "<br><br>Aviso de Aeródromo:<br>" + opener.spanRed(adWRNG.textoFull, getValidadeAirmet(adWRNG.textoFull))
             if (adWRNGPertoDoFim)
                 adWRNG += "<br>" + spanBold(spanRed("* Este Aviso de Aeródromo está Próximo do Fim de Sua Validade!"))
+            adWRNG = spanBold(adWRNG)
         }
         else
             adWRNG = ""
