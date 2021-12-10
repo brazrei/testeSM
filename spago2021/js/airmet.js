@@ -753,8 +753,11 @@ function plotaMarca(lat, lng, loc) {
             selectedMarker = d.replace("METARCOR", "").replace("SPECICOR", "").replace("METAR", "").replace("SPECI", "").substr(0, 4)
             openContextMenuMarker(event, event.target);
         }, this);
-        if (adWRNG && adWRNG.textoFull.length>0)
+        if (adWRNG && adWRNG.textoFull.length>0) {
           adWRNG = "<br><br>"+opener.spanRed(adWRNG.textoFull, getValidadeAirmet(adWRNG.textoFull))
+          if (adWRNGpertoDoFim)
+              adWRNG += "<br>"+spanRed("* Este Aviso de Aeródromo está Próximo do Fim de Sua Validade!")
+        }
         else 
           adWRNG = ""
         desc = removeInfo(desc) + adWRNG
