@@ -51,7 +51,7 @@ function getTxtFimSigmet(texto, coord) {
     return txt;
 }
 
-function getTxtSigmet(texto) {
+function getTxtSigmet(texto, tipo="") {
     txt = removeEspacosDuplos(texto);
     txts = removeEspacos(texto);
 
@@ -63,8 +63,10 @@ function getTxtSigmet(texto) {
         strEnd = "FCST";
     } else
         strEnd = "WI"
-
-    txt = texto.split(" FIR ")[1].split(strEnd)[0];
+    if (tipo == "TC")
+        txt = texto.split(" FIR ")[1]
+    else
+        txt = texto.split(" FIR ")[1].split(strEnd)[0];
     
     return txt
 
@@ -223,21 +225,28 @@ function plotaSigmets(arr, primeiraVez) {
                 fillColor: color,
                 radius: raio
             }
+            let optTC = {
+                className: "",
+                color: color,
+                fillColor: color,
+                fillOpacity: 0,
+                radius: raio
+            }
             if (isCloseToValidOff(a.codigo))
                 opt.className = "pulse";
 
             let p;
             if (a.tipo ==  "TC") { 
-              arrSigmetsPlot.push(L.circle(L.latLng(poly[1]), opt).addTo(map));  //ponto futuro
               arrIdxSigmetsPlot.push(a.codigo)
+              arrSigmetsPlot.push(L.circle(L.latLng(poly[1]), optTC).addTo(map));  //ponto futuro
                 //
               p = L.circle(L.latLng(poly[0]), opt).addTo(map);
             }
-            else
+            else{ 
               p = L.polygon(poly, opt).addTo(map);
-            p.bringToBack();
-
-            p.bindTooltip(getSigmetDescription(a), { closeButton: false, sticky: true });
+              p.bringToBack();
+            } 
+            p.bindTooltip(getSigmetDescription(a).replace("FCST","<br>FCST"), { closeButton: false, sticky: true });
             if (a.cancelado)
                 p.setStyle({
                     color: 'red',
@@ -470,13 +479,16 @@ function trataSigmetRedemet(texto) {
 
                 try {
                     tipo = getTipoSigmet(sigmet[i])
-                    if (tipo == "TC")
-                        raio = getRaioTC(sigmet[i])
+                    if (tipo == "TC"){ 
+                       textoSigmet = getTxtSigmet(sigmet[i],'TC')
+                       raio = getRaioTC(sigmet[i])
+                    }
+                    else
+                      textoSigmet = getTxtSigmet(sigmet[i])
                         
                     coord = getCoordSigmet(sigmet[i])
 
                     coordDeg = getCoordDegSigmet(coord)
-                    textoSigmet = getTxtSigmet(sigmet[i])
                     textoFimSigmet = getTxtFimSigmet(sigmet[i], coord);
                 } catch (e) {
                     console.log(e)
