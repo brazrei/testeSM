@@ -293,7 +293,7 @@ function GetWebContentSigmet(url, primeiraVez) {
     xhttp.onreadystatechange = function () {
         var erro = "ErroSM=";
         if (this.status > 0) {
-            if ((this.readyState == 4 && this.status == 200) && (this.responseText !== "")) {
+            if ((this.readyState == 4 && this.status == 200) && (this.responseText !== "") && (!this.responseText.includes("Forbidden")) {
                 let resposta = opener.removeCacheMessage(this.responseText);
 
                 clearLayersSigmets()
