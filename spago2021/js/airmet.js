@@ -133,8 +133,8 @@ function isLinux() {
 }
 
 function isCloseToValidOff(ini, fim, timer = 10) {
-    if (ini=="")
-      return false
+    if (ini == "")
+        return false
 
     if (!fim) {
         let valid = getValidadeAirmet(ini)
@@ -491,23 +491,23 @@ function plotaMarca(lat, lng, loc) {
         let contRestricoes = 0
         let alt = 0
         let color = "yellow"
-        let boxOpacity = "0.8" ;
+        let boxOpacity = "0.8";
         let backGroundColor = "#444";
         let classSvgIcon
-        
+
         //if (adWRNGPertoDoFim)
-            
+
         if (descoberto) {
             color = "white"
             alt = 1000;
-            boxOpacity = "0.9" ;
+            boxOpacity = "0.9";
             backGroundColor = "red"
             classSvgIcon = "pulseZoom"
         }
 
         if (adWRNGPertoDoFim)
             classSvgIcon += " pulse"
-        
+
         let iconColor = color
 
         if (strAlerta.includes("TETO")) {
@@ -643,7 +643,6 @@ function plotaMarca(lat, lng, loc) {
         }
         return { ad, rota, strAlerta }
     }
-    let adWRNG = ''
     if (!isNaN(lat) && !isNaN(lng)) {
 
         desc = getMetar(loc)
@@ -709,20 +708,21 @@ function plotaMarca(lat, lng, loc) {
         });
 
         let restricao = false
+        let adWRNG = opener.getStatusAdWRNG(loc)
+
+        let adWRNGPertoDoFim = isCloseToValidOff(adWRNG.textoFull)
+
         if (desc[0] == "*") {
             restricao = true
             desc = desc.substr(1)
             let descU = desc.toUpperCase();
             let alerta;
-            adWRNG = opener.getStatusAdWRNG(loc)
 
-            let adWRNGpertoDoFim = isCloseToValidOff(adWRNG.textoFull)
-            
             if (descU.includes("DESCOBERTO")) {
                 let strDescoberto = descU.split("DESCOBERTO")[1].split("<")[0]
                 let alerta = getTipoAlerta(loc, strDescoberto);
                 icon = redIcon
-                icon = getSvgIcon(loc, strDescoberto, adWRNGpertoDoFim, true) //vento trovoada teto visib
+                icon = getSvgIcon(loc, strDescoberto, adWRNGPertoDoFim, true) //vento trovoada teto visib
 
                 //if (alerta.ad)
                 addMarker(L.marker([lat, lng], { icon: cssIconRed }), "", restricao, true)
@@ -733,7 +733,7 @@ function plotaMarca(lat, lng, loc) {
                 // icon = orangeIcon
                 //else {
                 //icon = yellowIcon
-                icon = getSvgIcon(loc, alerta.strAlerta, adWRNGpertoDoFim, false) //vento trovoada teto visib
+                icon = getSvgIcon(loc, alerta.strAlerta, adWRNGPertoDoFim, false) //vento trovoada teto visib
 
                 //}
                 //if (alerta.ad)
@@ -753,15 +753,15 @@ function plotaMarca(lat, lng, loc) {
             selectedMarker = d.replace("METARCOR", "").replace("SPECICOR", "").replace("METAR", "").replace("SPECI", "").substr(0, 4)
             openContextMenuMarker(event, event.target);
         }, this);
-        if (adWRNG && adWRNG.textoFull.length>0) {
-          adWRNG = "<br><br>"+opener.spanRed(adWRNG.textoFull, getValidadeAirmet(adWRNG.textoFull))
-          if (adWRNGpertoDoFim)
-              adWRNG += "<br>"+spanRed("* Este Aviso de Aeródromo está Próximo do Fim de Sua Validade!")
+        if (adWRNG && adWRNG.textoFull.length > 0) {
+            adWRNG = "<br><br>" + opener.spanRed(adWRNG.textoFull, getValidadeAirmet(adWRNG.textoFull))
+            if (adWRNGPertoDoFim)
+                adWRNG += "<br>" + spanBold(spanRed("* Este Aviso de Aeródromo está Próximo do Fim de Sua Validade!"))
         }
-        else 
-          adWRNG = ""
+        else
+            adWRNG = ""
         desc = removeInfo(desc) + adWRNG
-        m.bindTooltip(desc, { closeButton: false, offset: L.point(0, -20) }) 
+        m.bindTooltip(desc, { closeButton: false, offset: L.point(0, -20) })
         //console.log(m)
     } //else
     //console.log("Erro na plotagem de ", loc);
@@ -1383,17 +1383,17 @@ function getAirmetCNL(airmet) {
     return ""
 }
 function trataCNL(xArray, xArrayIdx) {
-    function trataIdx(idx){
-      idx = idx.split('-')   
-      try {
-          idx[1] = parseInt(idx[1]) //elimina os zeros a esquerda
-      } catch (e) {
-          console.log('Erro ao tratar índice do sigmet')
-      }
-      return idx.join('-')
+    function trataIdx(idx) {
+        idx = idx.split('-')
+        try {
+            idx[1] = parseInt(idx[1]) //elimina os zeros a esquerda
+        } catch (e) {
+            console.log('Erro ao tratar índice do sigmet')
+        }
+        return idx.join('-')
 
     }
-    
+
     for (let i in xArray) {
         let msg = xArray[i]
         if (msg.tipo == "C") { //sigmet de cancelamento
@@ -1513,7 +1513,7 @@ function trataAirmetRedemet(texto) {
                 coord = getCoordAirmet(airmet[i])
 
                 if (coord == "")
-                  continue;
+                    continue;
 
                 coordDeg = getCoordDegAirmet(coord)
 
