@@ -227,8 +227,12 @@ function plotaSigmets(arr, primeiraVez) {
                 opt.className = "pulse";
 
             let p;
-            if (a.tipo ==  "TC")
-              p = L.circle(L.latLng(poly[0], poly[1]), opt).addTo(map);
+            if (a.tipo ==  "TC") { 
+              arrSigmetsPlot.push(L.circle(L.latLng(poly[1]), opt).addTo(map));  //ponto futuro
+              arrIdxSigmetsPlot.push(a.codigo)
+                //
+              p = L.circle(L.latLng(poly[0]), opt).addTo(map);
+            }
             else
               p = L.polygon(poly, opt).addTo(map);
             p.bringToBack();
