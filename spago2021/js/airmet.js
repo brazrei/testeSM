@@ -1256,7 +1256,7 @@ function GetWebContentAirmet(url, primeiraVez) {
     xhttp.onreadystatechange = function () {
         var erro = "ErroSM=";
         if (this.status > 0) {
-            if ((this.readyState == 4 && this.status == 200) && (this.responseText !== "")) {
+            if ((this.readyState == 4 && this.status == 200) && (this.responseText !== "") && (!this.responseText.includes("Forbidden")) {
 
 
                 //$("#imgLoad"+idxFIR).attr('src', 'pngs/green-button30.png');
