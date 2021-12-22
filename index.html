@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        .container {
+          position: relative;
+          width: 100%;
+          overflow: hidden;
+          
+        }
+        
+        .responsive-iframe {
+          position: absolute;
+          top: -150px;
+          bottom: 0;
+          right: 0;
+          width: 100%;
+          height: 2200px;
+          border: none;
+/*
+          -ms-zoom: 0.6;
+          -moz-transform: scale(0.6);
+          -moz-transform-origin: 0 0;
+          -o-transform: scale(0.6);
+          -o-transform-origin: 0 0;
+          -webkit-transform: scale(0.6);
+          -webkit-transform-origin: 0 0;
+          */
+        }
+        
+        ::-webkit-scrollbar {
+           display: none;
+        }
+
+        </style>
+        <script>
+        	
+        </script>
+</head>
+<body>
+    <div id="divXRay" style="width:50%">
+        <iframe class = "responsive-iframe" src="http://www2.inpe.br/climaespacial/portal/pt/" frameborder="0" style="top: -205px;left:-480px;clip: rect(105px,1500px,300px,380px);">
+
+        </iframe>
+    </div>
+
+    <div id="divKPI" style="width:50%">
+        <iframe class = "responsive-iframe" src="http://www2.inpe.br/climaespacial/portal/pt/" frameborder="0" style="left:-350px;top: -560px;clip: rect(650px,1260px,1650px,430px);">
+
+        </iframe>
+    </div>
+<!--    <div id="divKPI" style="width:50%">
+        <iframe class="responsive-iframe" src="http://www2.inpe.br/climaespacial/portal/pt/" frameborder="0" style="left: -300px;top: -585px;clip: rect(1150px,1220px,1570px,390px);">
+
+        </iframe>
+    </div>
+-->
+    <div id="divKPI" style="width: 55%;left: 1023px;top: 0px;height: 100%;position:absolute;background-color: black;padding-top: 30px;" >
+       <video id="video" width="1000" height="1000" controls loop autoplay muted preload="auto">
+       
+       <source src="https://sdo.gsfc.nasa.gov/assets/img/latest/mpeg/latest_1024_0171.mp4" type="video/mp4">
+       <source src="https://sdo.gsfc.nasa.gov/assets/img/latest/mpeg/latest_1024_0171.ogv" type="video/ogg">
+<!--         <source src="video1.mp4" type="video/mp4">
+
+-->
+       </video>
+    </div>
+
+
+
+</body>
+</html>
