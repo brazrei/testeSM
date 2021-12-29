@@ -405,17 +405,21 @@ function updateArrayMetaresGeral(loc, met) {
     let achou = false
     let i = 0
     arrayMetaresGeral.forEach(itemG => {
-        if (itemG.includes(loc)) {
+        if (itemG.METAR.texto.includes(loc)) {
             achou = true
-            arrayMetaresGeral[i] = met
+            arrayMetaresGeral[i].METAR.texto = met
+            arrayMetaresGeral[i].METAR.visibilidade = opener.getVisibilidade(met)
+            arrayMetaresGeral[i].METAR.teto = opener.getTeto(met)
+            
 
             return true
         }
         i++
 
     })
-    if (!achou)
-        arrayMetaresGeral.push(met)
+    if (!achou){
+        arrayMetaresGeral.push({ METAR:{texto:met, visibilidade: opener.getVisibilidade(met), teto: opener.getTeto(met)},TAF:{texto:getTAF(met)} })
+    }
     return false
 }
 
