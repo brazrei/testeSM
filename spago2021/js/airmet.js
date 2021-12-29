@@ -418,7 +418,7 @@ function updateArrayMetaresGeral(loc, met) {
 
     })
     if (!achou){
-        arrayMetaresGeral.push({ METAR:{texto:met, visibilidade: opener.getVisibilidade(met), teto: opener.getTeto(met)},TAF:{texto:getTAF(met)} })
+        arrayMetaresGeral.push({ METAR:{texto:met, visibilidade: opener.getVisibilidade(met), teto: opener.getTeto(met)},TAF:{texto:getTAFFromMetar(met)} })
     }
     return false
 }
