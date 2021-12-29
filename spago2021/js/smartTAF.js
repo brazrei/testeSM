@@ -6,6 +6,8 @@ taf = JSON.parse(taf)
 function getTAF(metar){
     let loc = opener.getLocalidade(metar)
     let dh = getMetarFullDateTime(metar)
+    if (arrayTAFS[loc])
+        return arrayTAFS[loc].
     return ""
 }
 
@@ -274,7 +276,7 @@ function atualizaArrayTAFs(texto) {
    for (let i in TAFs) {
        TAFs[i] = JSON.parse(TAFs[i]);
        let loc = getICAOIndicator(TAFs[i])
-       arrayTAFs[loc] = {localidade: loc, inicio: getBeginTime, getVisPredHora: getVisPredHora, getTetoHora: getTetoHora}
+       arrayTAFs[loc] = {TAF: TAFs[i], localidade: loc, inicio: getBeginTime, getVisPredHora: getVisPredHora, getTetoHora: getTetoHora}
        
    }
 }
