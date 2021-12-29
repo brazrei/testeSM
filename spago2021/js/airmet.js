@@ -432,7 +432,7 @@ function getMetar(loc) {
         
         for (let i in array) {
             let msg
-           if (typeof array === 'string' || array instanceof String)
+           if (typeof array[i] === 'string' || array[i] instanceof String)
               msg = array[i]
             else
               msg = array[i].METAR.texto
