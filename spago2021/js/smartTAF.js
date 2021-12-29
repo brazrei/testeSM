@@ -6,8 +6,8 @@ var arrayTAFs = []
 function getTAFFromMetar(metar){
     let loc = opener.getLocalidade(metar)
     let dh = getMetarFullDateTime(metar)
-    if (arrayTAFS[loc])
-        return {localidade: loc, TAF: arrayTAFS[loc].TAF, visibilidade: getVisPredHora(arrayTAFS[loc].TAF, dh), teto: getTetoHora(arrayTAFS[loc].TAF, dh) }
+    if (arrayTAFs[loc])
+        return {localidade: loc, TAF: arrayTAFs[loc].TAF, visibilidade: getVisPredHora(arrayTAFs[loc].TAF, dh), teto: getTetoHora(arrayTAFs[loc].TAF, dh) }
     else
      return {localidade: loc, TAF: false, visibilidade: false, teto: false};
 }
@@ -277,7 +277,7 @@ function atualizaArrayTAFs(texto) {
    for (let i in TAFs) {
        TAFs[i] = JSON.parse(TAFs[i]);
        let loc = getICAOIndicator(TAFs[i])
-       arrayTAFs[loc] = {TAF: TAFs[i], localidade: loc, inicio: getBeginTime, getVisPredHora: getVisPredHora, getTetoHora: getTetoHora}
+       arrayTAFs[loc] = {TAF: TAFs[i], localidade: loc, inicio: getBeginTAF(TAFs[i]), getVisPredHora: getVisPredHora, getTetoHora: getTetoHora}
        
    }
 }
