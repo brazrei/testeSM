@@ -411,6 +411,9 @@ function updateArrayMetaresGeral(loc, met) {
             arrayMetaresGeral[i].METAR.visibilidade = opener.getVisibilidade(met)
             arrayMetaresGeral[i].METAR.teto = opener.getTeto(met)
             
+            arrayMetaresGeral[i].TAF.texto = ""
+            arrayMetaresGeral[i].TAF.visibilidade = taf.visibilidade
+            arrayMetaresGeral[i].TAF.teto = taf.teto
 
             return true
         }
