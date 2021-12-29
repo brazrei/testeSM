@@ -418,7 +418,10 @@ function updateArrayMetaresGeral(loc, met) {
 
     })
     if (!achou){
-        arrayMetaresGeral.push({ METAR:{texto:met, visibilidade: opener.getVisibilidade(met), teto: opener.getTeto(met)},TAF:{texto:getTAFFromMetar(met)} })
+        let taf = getTAFFromMetar(met)
+        
+        
+        arrayMetaresGeral.push({ METAR:{texto:met, visibilidade: opener.getVisibilidade(met), teto: opener.getTeto(met)},TAF:{texto:"", visibilidade: taf.visibilidade, teto: taf.teto} })
     }
     return false
 }
