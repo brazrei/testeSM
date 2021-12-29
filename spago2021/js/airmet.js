@@ -429,11 +429,17 @@ function updateArrayMetaresGeral(loc, met) {
 function getMetar(loc) {
     function buscaMetar(array, loc) {
         let xitem = loc
-
-        for (i in array) {
-            if (array[i].includes(loc)) {
-                xitem = array[i];
-                break;
+        
+        for (let i in array) {
+            let msg
+           if (typeof array === 'string' || array instanceof String)
+              msg = array[i]
+            else
+              msg = array[i].METAR.texto
+            
+            if (msg.includes(loc)) {
+                xitem = msg
+                break
             }
         }
         return xitem
@@ -459,6 +465,7 @@ function getMetar(loc) {
     return met
 
 }
+
 function updateDescobertos(loc, tipoAlerta) {
     function trataLabelDescobertas(id, loc, legenda) {
         let desc = $(id).html()
