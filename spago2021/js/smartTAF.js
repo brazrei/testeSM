@@ -9,7 +9,7 @@ function getTAFFromMetar(metar){
     if (arrayTAFS[loc])
         return {localidade: loc, TAF: arrayTAFS[loc].TAF, visibilidade: getVisPredHora(arrayTAFS[loc].TAF, dh), teto: getTetoHora(arrayTAFS[loc].TAF, dh) }
     else
-     return false;
+     return {localidade: loc, TAF: false, visibilidade: false, teto: false};
 }
 
 function updateArrayMetarTAF() {
