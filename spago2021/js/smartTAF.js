@@ -97,8 +97,10 @@ function getMainCAVOK(taf) {
 }
 
 function getVisPred(taf) {
-    return taf.TAF.baseForecast.MeteorologicalAerodromeForecast.prevailingVisibility.content
-
+    if (taf.TAF.baseForecast.MeteorologicalAerodromeForecast.cloudAndVisibilityOK)
+      return 9999
+    else
+      return taf.TAF.baseForecast.MeteorologicalAerodromeForecast.prevailingVisibility.content
 }
 
 function getVisPredMudanca(tafMAF) {
