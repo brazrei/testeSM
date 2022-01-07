@@ -61,7 +61,7 @@ function getEndChange(tafMAF) {
 }
 
 function getIntervalChangeForecast(tafMAF) {
-    return { inicio: getBeginChange(tafMAF), fim: getEndChange(tafMAF), get }
+    return { inicio: getBeginChange(tafMAF), fim: getEndChange(tafMAF) }
 }
 
 function getICAOIndicator(taf) {
@@ -122,14 +122,22 @@ function getVnt(taf) {
 }
 
 function getChangeCount(taf) {
-    if (taf.TAF.changeForecast)
+    if (taf.TAF.changeForecast) { 
+      if (Array.isArray(taf.TAF.changeForecast))
         return taf.TAF.changeForecast.length
+      else
+        return 1
+    }
     else
         return 0
 }
 
 function getChangeForecastArray(taf) {
-    return taf.TAF.changeForecast
+    if (Array.isArray(taf.TAF.changeForecast))
+      return taf.TAF.changeForecast
+    else
+        return [taf.TAF.changeForecast]
+
 }
 
 function getVisPredHora(taf, hora) {
