@@ -404,7 +404,7 @@ function addMarker(m, loc, restricao, pulse = false) {
 function updateArrayMetaresGeral(loc, met) {
     let achou = false
     for (let i in arrayMetaresGeral) {
-        if (itemG.METAR.texto.includes(loc)) {
+        if (arrayMetaresGeral[i].METAR.texto.includes(loc)) {
             achou = true
             arrayMetaresGeral[i].METAR.texto = met
             arrayMetaresGeral[i].METAR.visibilidade = opener.getVisibilidade(met)
