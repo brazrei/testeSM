@@ -404,6 +404,7 @@ function addMarker(m, loc, restricao, pulse = false) {
 function updateArrayMetaresGeral(loc, met) {
     let achou = false
     let taf = getTAFFromMetar(met)
+    let achouTAF = taf.TAF?true:false
     for (let i in arrayMetaresGeral) {
         if (arrayMetaresGeral[i].METAR.texto.includes(loc)) {
             achou = true
@@ -411,6 +412,7 @@ function updateArrayMetaresGeral(loc, met) {
             arrayMetaresGeral[i].METAR.visibilidade = opener.getVisibilidade(met)
             arrayMetaresGeral[i].METAR.teto = opener.getTeto(met)
             
+            arrayMetaresGeral[i].TAF.achou = achouTAF
             arrayMetaresGeral[i].TAF.texto = ""
             arrayMetaresGeral[i].TAF.visibilidade = taf.visibilidade
             arrayMetaresGeral[i].TAF.teto = taf.teto
@@ -421,8 +423,9 @@ function updateArrayMetaresGeral(loc, met) {
         }
     }
     
-    arrayMetaresGeral.push({ METAR:{texto:met, visibilidade: opener.getVisibilidade(met), teto: opener.getTeto(met)},TAF:{texto:"", visibilidade: taf.visibilidade, teto: taf.teto} })
+    arrayMetaresGeral.push({ METAR:{texto:met, visibilidade: opener.getVisibilidade(met), teto: opener.getTeto(met)},TAF:{achou: achouTAF, texto:"", visibilidade: taf.visibilidade, teto: taf.teto} })
     return false
+
 }
 
 function getMetar(loc) {
