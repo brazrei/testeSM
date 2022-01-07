@@ -263,7 +263,7 @@ function getTAFs(localidades) {
 
     url = `${url}${tafsGrupoConsulta}&msg=taf${interval}`;
 
-    GetWebContentTAF(url, primeiraVez);
+    GetWebContentTAF(url, false);
 }
 
 function updateArrayStatus(localidade, status) { // retorna true se o status mudou
