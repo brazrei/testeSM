@@ -403,8 +403,7 @@ function addMarker(m, loc, restricao, pulse = false) {
 
 function updateArrayMetaresGeral(loc, met) {
     let achou = false
-    let i = 0
-    for (var i in arrayMetaresGeral) {
+    for (let i in arrayMetaresGeral) {
         if (itemG.METAR.texto.includes(loc)) {
             achou = true
             arrayMetaresGeral[i].METAR.texto = met
