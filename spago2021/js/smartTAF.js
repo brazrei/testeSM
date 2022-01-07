@@ -206,11 +206,11 @@ function getTetoHora(taf, hora) {
 
 function clearMsgIWXXM(txt) {
     let separator = "**,**"
-    txt =  txt.replace(/iwxxm:/g, "").replace(/gml:/g, "").replace(/aixm:/g, "").replace(/xlink:/g, "").replace(/} {/g, "}"+separator+"{")
+    txt =  txt.replace(/iwxxm:/g, "").replace(/gml:/g, "").replace(/aixm:/g, "").replace(/xlink:/g, "").replace(/{"TAF/g, separator+'{"TAF')
     //if (!txt.includes(separator))
     //    txt = [txt]
 
-    return  txt.split(separator)
+    return  txt.split(separator).splice(1)
 }
 
 
