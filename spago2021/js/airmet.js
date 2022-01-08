@@ -418,8 +418,7 @@ function updateArrayMetaresGeral(loc, met) {
             arrayMetaresGeral[i].TAF.teto = taf.teto
             
             return achou
-
-            
+          
         }
     }
     
@@ -448,21 +447,18 @@ function getMetar(loc) {
     }
 
     let met = buscaMetar(arrayMetares, loc) //busca os que tem restrição
-    if (met == loc) {//se  não encontrou busca no geral
+    if (met == loc) {//se não, encontrou busca no geral
         try {
             met = buscaMetar(opener.arrayMetares, loc) //pega apenas os metares de uma determinada FIR
-            if (met !== loc) //atualiza a lista geral se achou
-                updateArrayMetaresGeral(loc, met)
-            else
+            if (met == loc) //se achou, atualiza a lista geral 
                 met = buscaMetar(arrayMetaresGeral, loc)
-
-
         } catch (e) {
             console.log(e)
         }
 
     } else //metar com restricao
         met = "*" + met
+    updateArrayMetaresGeral(loc, met)
 
     return met
 
