@@ -452,7 +452,8 @@ function getMetar(loc) {
             met = buscaMetar(opener.arrayMetares, loc) //pega apenas os metares de uma determinada FIR
             if (met == loc) {//se achou, atualiza a lista geral 
                 met = buscaMetar(arrayMetaresGeral, loc)
-                updateArrayMetaresGeral(loc, met)
+                if (met !== loc)
+                  updateArrayMetaresGeral(loc, met)
             }
         } catch (e) {
             console.log(e)
