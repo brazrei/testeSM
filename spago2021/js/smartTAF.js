@@ -278,7 +278,7 @@ function getTeto(tafMAF) {
 function getTAFs(localidades=false) {
     //mostraLoading("TAFs");
     let url = ""
-    let interval = opener.getInterval(6)
+    let interval = opener.getInterval(5)
     url = opener.linkInternetIWXXM;
 
     localidades = localidades==false?localidades:","+localidades
