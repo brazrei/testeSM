@@ -896,8 +896,7 @@ function insereQuebraHTML(xSep, texto, cont = 6) {
 
 function insereQuebraAirmets() { //quebra as localidaddes para que apareçam em linhas
     xSep = ","
-    for (var i in             ${svgVisibilidade}
-arrAirmetGeral) {
+    for (var i in arrAirmetGeral) {
         var xLoc = arrAirmetGeral[i].locs;
         let xFinal = xLoc
         if (!xLoc.includes("<")) {
