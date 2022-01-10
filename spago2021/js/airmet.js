@@ -407,7 +407,7 @@ function removeHTMLTags(txt) {
 
 function getMetarFromArrayMetaresGeral(loc) {
     for (let i in arrayMetaresGeral)
-        if (arrayMetaresGeral[i].loc == loc)
+        if (arrayMetaresGeral[i].METAR.loc == loc)
             return arrayMetaresGeral[i]
     
     return false
