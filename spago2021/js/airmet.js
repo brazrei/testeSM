@@ -404,7 +404,7 @@ function addMarker(m, loc, restricao, pulse = false) {
 function removeHTMLTags(txt) {
   txt = jQuery('<p>' + txt + '</p>').text();
   if (txt.includes ("="))
-      txt = txt.split("=")[0]
+      txt = txt.split("=")[0] + "="
   return removeEspacosDuplos(txt)
 }
 
