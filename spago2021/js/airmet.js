@@ -405,7 +405,7 @@ function removeHTMLTags(txt) {
   txt = jQuery('<p>' + txt + '</p>').text();
   if (txt.includes ("="))
       txt = txt.split("=")[0]
-  return removeEspacos(txt)
+  return removeEspacosDuplos(txt)
 }
 
 function getMetarFromArrayMetaresGeral(loc) {
