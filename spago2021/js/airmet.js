@@ -52,7 +52,7 @@ function getLocalidadesFIRSmartMetar() {
 }
 
 function getAeroInternacional(){
-    return aeroIntern.replace(/\*/g,'')
+    return removeEspacosDuplos(aeroIntern.replace(/\*/g,'')).replace(/ /g,',');
 }
 
 function iniciaAirmetGlobalVars() {
