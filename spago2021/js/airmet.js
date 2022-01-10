@@ -765,7 +765,10 @@ function plotaMarca(lat, lng, loc) {
 
         let adWRNGPertoDoFim = isCloseToValidOff(adWRNG.textoFull)
         
-        let alertaVisTAF = chkVisMetarTAF(loc)
+        let alertaVisTAF = !chkVisMetarTAF(loc)
+        let strAlertaTAF = ""
+        if (alertaVisTAF)
+            strAlertaTAF = "*VISIBILIDADETAF"
 
         if (desc[0] == "*" || alertaVisTAF) {
             restricao = true
@@ -777,7 +780,7 @@ function plotaMarca(lat, lng, loc) {
                 let strDescoberto = descU.split("DESCOBERTO")[1].split("<")[0]
                 let alerta = getTipoAlerta(loc, strDescoberto);
                 icon = redIcon
-                icon = getSvgIcon(loc, strDescoberto, adWRNGPertoDoFim, true) //vento trovoada teto visib
+                icon = getSvgIcon(loc, strDescoberto+strAlertaTAF, adWRNGPertoDoFim, true) //vento trovoada teto visib
 
                 //if (alerta.ad)
                 addMarker(L.marker([lat, lng], { icon: cssIconRed }), "", restricao, true)
@@ -788,13 +791,15 @@ function plotaMarca(lat, lng, loc) {
                 // icon = orangeIcon
                 //else {
                 //icon = yellowIcon
-                icon = getSvgIcon(loc, alerta.strAlerta, adWRNGPertoDoFim, false) //vento trovoada teto visib
+                icon = getSvgIcon(loc, alerta.strAlerta+strAlertaTAF, adWRNGPertoDoFim, false) //vento trovoada teto visib
 
                 //}
                 //if (alerta.ad)
                 //    addMarker(L.marker([lat, lng], { icon: cssIconYellow }), "", restricao, true)
             }
-        } else
+        } else if (alertaVisTAF)
+            icon = getSvgIcon(loc, strAlertaTAF, adWRNGPertoDoFim, true) //vento trovoada teto visib
+        else
             icon = greenIcon
 
 
@@ -891,7 +896,8 @@ function insereQuebraHTML(xSep, texto, cont = 6) {
 
 function insereQuebraAirmets() { //quebra as localidaddes para que apareçam em linhas
     xSep = ","
-    for (var i in arrAirmetGeral) {
+    for (var i in             ${svgVisibilidade}
+arrAirmetGeral) {
         var xLoc = arrAirmetGeral[i].locs;
         let xFinal = xLoc
         if (!xLoc.includes("<")) {
