@@ -401,8 +401,13 @@ function addMarker(m, loc, restricao, pulse = false) {
     return m
 }
 
+function removeHTMLTags(txt) {
+  return jQuery('<p>' + txt + '</p>').text();
+}
+
 function updateArrayMetaresGeral(loc, met) {
     let achou = false
+    met = removeHTMLTags(met)
     let taf = getTAFFromMetar(met)
     let achouTAF = taf.TAF?true:false
     for (let i in arrayMetaresGeral) {
@@ -450,7 +455,7 @@ function getMetar(loc) {
     if (met == loc) {//se não, encontrou busca no geral
         try {
             met = buscaMetar(opener.arrayMetares, loc) //pega apenas os metares de uma determinada FIR
-            if (met == loc) {//se nao achou atualiza a lista geral 
+            if (met == loc) {//se nao achou, atualiza a lista geral 
                 met = buscaMetar(arrayMetaresGeral, loc)
                 if (met !==loc)
                   updateArrayMetaresGeral(loc, met)
