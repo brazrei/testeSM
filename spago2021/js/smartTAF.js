@@ -5,8 +5,10 @@ var arrayTAFs = []
 
 function chkVisMetarTAF(loc){
     let msg = getMetarFromArrayMetaresGeral(loc)
+    if (!msg || !msg.METAR)
+      return true
     if (msg.METAR.visibilidade){
-        if (msg.TAF.achou && msg.TAF.visibilidade)
+        if (msg.TAF && msg.TAF.achou && msg.TAF.visibilidade)
             return  parseInt( msg.METAR.visibilidade) >= parseInt (msg.TAF.visibilidade)
     }
     
