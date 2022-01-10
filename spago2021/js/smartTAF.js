@@ -263,13 +263,14 @@ function getTeto(tafMAF) {
     return { qtd: camada.qtd, altura: parseInt(camada.altura) }
 }
 
-function getTAFs(localidades) {
+function getTAFs(localidades=false) {
     //mostraLoading("TAFs");
     let url = ""
     let interval = opener.getInterval(6)
     url = opener.linkInternetIWXXM;
 
-    url = `${url}${tafsGrupoConsulta}&msg=taf${interval}`;
+    localidades = localidades==false?localidades:","+localidades
+    url = `${url}${tafsGrupoConsulta}${localidades}&msg=taf${interval}`;
 
     GetWebContentTAF(url, false);
 }
