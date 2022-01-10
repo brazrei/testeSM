@@ -749,8 +749,10 @@ function plotaMarca(lat, lng, loc) {
         let adWRNG = opener.getStatusAdWRNG(loc)
 
         let adWRNGPertoDoFim = isCloseToValidOff(adWRNG.textoFull)
+        
+        let alertaVisTAF = chkVisMetarTAF(loc)
 
-        if (desc[0] == "*") {
+        if (desc[0] == "*" || alertaVisTAF) {
             restricao = true
             desc = desc.substr(1)
             let descU = desc.toUpperCase();
