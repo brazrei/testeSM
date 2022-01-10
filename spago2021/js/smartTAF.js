@@ -7,7 +7,7 @@ function chkVisMetarTAF(loc){
     let msg = getMetarFromArrayMetaresGeral(loc)
     if (!msg || !msg.METAR)
       return true
-    if (msg.METAR.visibilidade){
+    if (msg.METAR.visibilidade && msg.METAR.visibilidade < 5000){
         if (msg.TAF && msg.TAF.achou && msg.TAF.visibilidade)
             return  parseInt( msg.METAR.visibilidade) >= parseInt (msg.TAF.visibilidade)
     }
