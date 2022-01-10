@@ -803,7 +803,7 @@ function plotaMarca(lat, lng, loc) {
             icon = greenIcon
 
 
-        var m = addMarker(L.marker([lat, lng], { icon: icon }), loc, restricao)
+        var m = addMarker(L.marker([lat, lng], { icon: icon }), loc, restricao || alertaVisTAF)
         //m._icon.classList.add("svgRedIcon");
 
 
