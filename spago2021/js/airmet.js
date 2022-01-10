@@ -569,8 +569,7 @@ function plotaMarca(lat, lng, loc) {
             inicioX = 84 + offSetX;
             svgVisibilidadeTaf = `<g transform="matrix(1 0 0 1 ${inicioX}.5 25.5)" id="Capa_1"  >
         <path style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,0,0); fill-rule: nonzero; opacity: 1;"  transform=" translate(-13, -13)" d="M 19.32 26 H 6.679 v -1.076 c 0.556 -0.199 1.117 -0.372 1.686 -0.52 c 0.568 -0.15 1.18 -0.272 1.837 -0.373 v -22.1 H 5.408 L 3.401 7.244 H 2.455 c -0.076 -0.495 -0.139 -1.06 -0.19 -1.691 C 2.214 4.924 2.171 4.28 2.132 3.621 c -0.039 -0.652 -0.069 -1.3 -0.093 -1.929 C 2.013 1.063 2 0.496 2 0 h 22 c 0 0.496 -0.014 1.055 -0.039 1.672 c -0.026 0.619 -0.058 1.257 -0.097 1.913 s -0.075 1.3 -0.114 1.932 c -0.038 0.631 -0.095 1.209 -0.172 1.728 h -0.996 l -1.99 -5.313 h -4.756 v 22.101 c 0.656 0.125 1.27 0.248 1.836 0.373 c 0.569 0.123 1.117 0.295 1.648 0.52 V 26 z" stroke-linecap="round" />
-            </g>
-        </svg>`
+            </g>`
             offSetX += 150;
             contRestricoes += 1
             
@@ -582,7 +581,8 @@ function plotaMarca(lat, lng, loc) {
             inicioX = 84 + offSetX;
 
             svgVisibilidade = `<g transform="matrix(0.67 0 0 0.67 ${inicioX}.6 68.6)"  >
-        <g style=""   >
+        <g 
+        </svg>style=""   >
         <g transform="matrix(1 0 0 1 -36.32 -61.62)" id="Capa_1"  >
         
         <path style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: ${iconColor}; fill-rule: nonzero; opacity: 1;"  transform=" translate(-72.4, -47.09)" d="M 144.797 47.095 c 0 -4.142 -3.358 -7.5 -7.5 -7.5 H 7.5 c -4.142 0 -7.5 3.358 -7.5 7.5 c 0 4.142 3.358 7.5 7.5 7.5 h 129.797 C 141.439 54.595 144.797 51.237 144.797 47.095 z" stroke-linecap="round" />
