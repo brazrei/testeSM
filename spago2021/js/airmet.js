@@ -405,6 +405,14 @@ function removeHTMLTags(txt) {
   return jQuery('<p>' + txt + '</p>').text();
 }
 
+function getMetarFromArrayMetaresGeral(loc) {
+    for (let i in arrayMetaresGeral)
+        if (arrayMetaresGeral[i].loc == loc)
+            return arrayMetaresGeral[i]
+    
+    return false
+}
+
 function updateArrayMetaresGeral(loc, met) {
     let achou = false
     met = removeHTMLTags(met)
@@ -413,6 +421,7 @@ function updateArrayMetaresGeral(loc, met) {
     for (let i in arrayMetaresGeral) {
         if (arrayMetaresGeral[i].METAR.texto.includes(loc)) {
             achou = true
+            arrayMetaresGeral[i].METAR.loc = loc
             arrayMetaresGeral[i].METAR.texto = met
             arrayMetaresGeral[i].METAR.visibilidade = opener.getVisibilidade(met)
             arrayMetaresGeral[i].METAR.teto = opener.getTeto(met)
@@ -427,7 +436,7 @@ function updateArrayMetaresGeral(loc, met) {
         }
     }
     
-    arrayMetaresGeral.push({ METAR:{texto:met, visibilidade: opener.getVisibilidade(met), teto: opener.getTeto(met)},TAF:{achou: achouTAF, texto:"", visibilidade: taf.visibilidade, teto: taf.teto} })
+    arrayMetaresGeral.push({ METAR:{loc, texto:met, visibilidade: opener.getVisibilidade(met), teto: opener.getTeto(met)},TAF:{achou: achouTAF, texto:"", visibilidade: taf.visibilidade, teto: taf.teto} })
     return false
 
 }
