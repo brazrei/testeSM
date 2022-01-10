@@ -402,7 +402,10 @@ function addMarker(m, loc, restricao, pulse = false) {
 }
 
 function removeHTMLTags(txt) {
-  return jQuery('<p>' + txt + '</p>').text();
+  txt = jQuery('<p>' + txt + '</p>').text();
+  if (txt.includes ("="))
+      txt = txt.split("=")[0]
+  return txt
 }
 
 function getMetarFromArrayMetaresGeral(loc) {
