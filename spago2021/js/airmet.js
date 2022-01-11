@@ -506,7 +506,7 @@ function plotaMarca(lat, lng, loc) {
         }
 
         if (adWRNGPertoDoFim)
-            classSvgIcon += " pulse"
+            classSvgIcon = "pulse"
 
         let iconColor = color
 
