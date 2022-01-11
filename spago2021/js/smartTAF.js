@@ -250,7 +250,7 @@ function getTeto(tafMAF) {
         return { qtd: arrTetoN[arrTeto.indexOf(qtd)], altura: camada.CloudLayer.base.content + 'FT' }
     }
 
-    if (!tafMAF || !tafMAF.cloud || tafMAF.cloud.AerodromeCloudForecast)  
+    if (!tafMAF || !tafMAF.cloud || !tafMAF.cloud.AerodromeCloudForecast)  
       return false;
     
     if (!Array.isArray(tafMAF.cloud.AerodromeCloudForecast.layer))
