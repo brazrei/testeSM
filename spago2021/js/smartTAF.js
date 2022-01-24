@@ -19,7 +19,7 @@ function chkTetoMetarTAF(loc){
     let msg = getMetarFromArrayMetaresGeral(loc)
     if (!msg || !msg.METAR)
       return true
-    if (msg.METAR.teto && Array.isArray(msg.METAR.teto) && (getNum(msg.METAR.teto[3])*100) < 1500){
+    if (msg.METAR.teto && Array.isArray(msg.METAR.teto) && (msg.METAR.teto[1] == "T") && (getNum(msg.METAR.teto[3])*100) < 1500){
         if (msg.TAF && msg.TAF.achou && msg.TAF.teto && msg.TAF.teto.altura)
             return  parseInt(getNum(msg.METAR.teto[3])*100) >= parseInt (msg.TAF.teto.altura)
     }
