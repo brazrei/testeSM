@@ -439,13 +439,14 @@ function updateArrayMetaresGeral(loc, met) {
             arrayMetaresGeral[i].TAF.teto = taf.teto
             arrayMetaresGeral[i].TAF.permiteAMD = taf.permiteAMD
             arrayMetaresGeral[i].TAF.inicioValid = taf.inicioValid
+            arrayMetaresGeral[i].TAF.fimValid = taf.fimValid
             
             return achou
           
         }
     }
     
-    arrayMetaresGeral.push({ METAR:{loc, texto:met, visibilidade: opener.getVisibilidade(met), teto: opener.getTeto(met)},TAF:{achou: achouTAF, texto:"", visibilidade: taf.visibilidade, teto: taf.teto} })
+    arrayMetaresGeral.push({ METAR:{loc, texto:met, visibilidade: opener.getVisibilidade(met), teto: opener.getTeto(met)},TAF:{achou: achouTAF, texto:"", visibilidade: taf.visibilidade, teto: taf.teto, inicioValid: taf.inicioValid, fimValid: taf.fimValid, permiteAMD = taf.permiteAMD} })
     return false
 
 }
