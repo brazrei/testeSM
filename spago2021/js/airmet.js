@@ -473,7 +473,7 @@ function getMetar(loc) {
     let met = buscaMetar(arrayMetares, loc) //busca os que tem restrição
     if (met == loc) {//se não, encontrou busca no geral
         try {
-            met = buscaMetar(opener.arrayMetares.slice().reverse(), loc) //pega apenas os metares de uma determinada FIR
+            met = buscaMetar(opener.arrayMetares.slice().reverse(), loc) // pega apenas os metares de uma determinada FIR
             if (met == loc) {//se nao achou, atualiza a lista geral 
                 met = buscaMetar(arrayMetaresGeral, loc)
                 if (met !==loc)
