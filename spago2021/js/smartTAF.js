@@ -17,7 +17,7 @@ function getAMDStatus(TAF) {
         horasValid = new Date(horasValid).addHours(3)
     }
     
-    let prazoFinal = inicio.addHours(horasValid.getHours()/6)
+    let prazoFinal = new Date(inicio).addHours(horasValid.getHours()/6)
     
     return horaAtual <= prazoFinal
     
