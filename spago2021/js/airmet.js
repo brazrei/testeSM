@@ -560,6 +560,17 @@ function plotaMarca(lat, lng, loc) {
             
         }
         
+        if (strAlerta.includes("TETOTAF")){
+            svgVisibilidadeTaf = `<g transform="matrix(1 0 0 1 ${inicioX}.5 25.5)" id="Capa_1"  >
+              <g transform="matrix(1 0 0 1 48 38.17)" style=""  >
+		      <text xml:space="preserve" font-family="'Open Sans', sans-serif" font-size="100" font-style="normal" font-weight="bold" style="stroke: rgb(0,0,255); stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,255,255); fill-rule: nonzero; opacity: 1; white-space: pre;" ><tspan x="-80" y="35.65" >T</tspan></text>
+              </g>
+            </g>`
+            offSetX += 150;
+            contRestricoes += 1
+            
+        }
+        
         if (strAlerta.includes("TETO")) {
             inicioX = 84 + offSetX;
             svgTeto = `<g transform="matrix(0.35 0 0 0.35 ${inicioX}.02 67.61)"  >
@@ -769,7 +780,12 @@ function plotaMarca(lat, lng, loc) {
         let alertaVisTAF = !chkVisMetarTAF(loc)
         let strAlertaTAF = ""
         if (alertaVisTAF)
-            strAlertaTAF = "*VISIBTAF"
+            strAlertaTAF += "*VISIBTAF"
+
+        
+        let alertaTetoTAF = !chkTetoMetarTAF(loc)
+        if (alertaTetoTAF)
+            strAlertaTAF += "*TETOTAF"
 
         if (desc[0] == "*") {
             restricao = true
