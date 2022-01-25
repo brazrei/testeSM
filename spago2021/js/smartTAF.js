@@ -8,11 +8,11 @@ function getAMDStatus(TAF) {
     let fim = getEndTAF(TAF)
     let horaAtual = new Date()
     let dataZero = new Date(0)
-    let dif = horaAtual-inicio
-    let horasValid = fim-inicio
+    //let dif = horaAtual-inicio
+    let horasValid = new Date(fim-inicio)
     
     if (isLinux()) {
-        addHours(dif, 3)
+        //addHours(new Date(dif), 3)
         addHours(dataZero, 3)
         addHours(horasValid, 3)
     }
