@@ -560,7 +560,7 @@ function plotaMarca(lat, lng, loc) {
         if (strAlerta.includes("VISIBTAF")){
             svgVisibilidadeTaf = `<g transform="matrix(1 0 0 1 ${inicioX}.5 25.5)" id="Capa_1"  >
               <g transform="matrix(1 0 0 1 48 38.17)" style=""  >
-		      <text xml:space="preserve" font-family="'Open Sans', sans-serif" font-size="100" font-style="normal" font-weight="bold" style="stroke: "${fontAlertaTAFBorder}"; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: "${fontAlertaTAF}"; fill-rule: nonzero; opacity: 1; white-space: pre;" ><tspan x="-80" y="35.65" >V</tspan></text>
+		      <text xml:space="preserve" font-family="'Open Sans', sans-serif" font-size="100" font-style="normal" font-weight="bold" style="stroke: ${fontAlertaTAFBorder}; stroke-width: 5; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: ${fontAlertaTAF}; fill-rule: nonzero; opacity: 1; white-space: pre;" ><tspan x="-80" y="35.65" >V</tspan></text>
               </g>
             </g>`
             offSetX += 150;
@@ -572,7 +572,7 @@ function plotaMarca(lat, lng, loc) {
             inicioX = 84 + offSetX;
             svgTetoTaf = `<g transform="matrix(1 0 0 1 ${inicioX}.5 25.5)" id="Capa_1"  >
               <g transform="matrix(1 0 0 1 48 38.17)" style=""  >
-		      <text xml:space="preserve" font-family="'Open Sans', sans-serif" font-size="100" font-style="normal" font-weight="bold" style="stroke: "${fontAlertaTAFBorder}"; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: "${fontAlertaTAF}"; fill-rule: nonzero; opacity: 1; white-space: pre;" ><tspan x="-80" y="35.65" >T</tspan></text>
+		      <text xml:space="preserve" font-family="'Open Sans', sans-serif" font-size="100" font-style="normal" font-weight="bold" style="stroke: ${fontAlertaTAFBorder}; stroke-width: 5; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: ${fontAlertaTAF}; fill-rule: nonzero; opacity: 1; white-space: pre;" ><tspan x="-80" y="35.65" >T</tspan></text>
               </g>
             </g>`
             offSetX += 150;
