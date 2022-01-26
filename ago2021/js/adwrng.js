@@ -296,8 +296,15 @@ function trataAdWRNGRedemet(texto) {
     //var adWRNG = texto.slice(arrayLocalidadeCMA[idx]+ " adWRNG");
     var adWRNG = texto.split(" - ");
     adWRNG = adWRNG.slice(1)
+    let cma = ""
     //console.log(adWRNG.toString())
     for (var i in adWRNG) {//varre os AdWRNGs da CMA
+        if (OPMET && (i%2 ==0)) {
+            cma = adWRNG[i].split(' ')[1]+" "
+            continue;
+        }
+        if (OPMET)
+          adWRNG[i] = cma + adWRNG[i]
         let idx = getIdxCMA(adWRNG[i])
 
         //pega o codigo
