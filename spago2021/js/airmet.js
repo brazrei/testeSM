@@ -1130,10 +1130,24 @@ function start() {
     plota_stsc();
 
     intervalSTSC = setInterval("atualizaSTSC()", 120000);
+	
+    atualizaTAFS();
+	
+    intervalTAF = setInterval(atualizaTAFS, 60000); //tem que ser de minuto em minuto
 
     //checaPonto("S1637 W04911");
     //map.setView([-18.0,-45.0], 13);
 
+}
+
+function atualizaTAFS() { //atualiza os TAFs de hora em hora, na hora cheia.
+	if (arrayTAFS.length == 0)
+		getTAFs(getAeroInternacional())
+	
+	let agora = new Date()
+	
+	if (agora.getMinutes() == 0)
+		getTAFs(getAeroInternacional())
 }
 
 function invertLatLong(arr) {
