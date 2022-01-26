@@ -75,12 +75,18 @@ function trataGametRedemet(texto) {
   var erro = ""
   var part1 = [0, 0, 0, 0]
   var idx = 0;
+  var posicaoGAMET = 1
   while (idx < arrayLocalidadeFIR.length) {
     var gamet = texto.split(arrayLocalidadeFIR[idx] + " GAMET");
+    if (OPMET) { // em caso de emenda o banco OPMET returna o gamet mais recente depois
+      posicaoGAMET = 0
+      gamet = gamet.reverse()
+    }
+    
     if (gamet && gamet.length > 1) {
       //limpaArrayStatus(idx)
 
-      gamet = gamet[1].split("=")[0]
+      gamet = gamet[posicaoGAMET].split("=")[0]
 
       vis = "</br>" + getVisibHtml(gamet, idx)
       teto = "</br>" + getNuvensHtml(gamet, idx)
