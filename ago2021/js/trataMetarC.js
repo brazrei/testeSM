@@ -14,6 +14,8 @@ var primeiraVez = true; //usada para nao marcar os metares na 1 exibicao
 const toleranciaRajada = 20; // percenual de tolerancia para alerta de rajada
 
 var redemetAntiga = true;
+var OPMET = true;
+
 var intraer = false; // valido apenas para a api antiga por enquanto
 var apiKey = "U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei"
 //var linkInternet = "http://redemet.decea.gov.br//api/consulta_automatica/index.php?local="
