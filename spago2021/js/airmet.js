@@ -1141,7 +1141,7 @@ function start() {
 }
 
 function atualizaTAFS() { //atualiza os TAFs de hora em hora, na hora cheia.
-	if (arrayTAFS.length == 0)
+	if (arrayTAFs.length == 0)
 		getTAFs(getAeroInternacional())
 	
 	let agora = new Date()
