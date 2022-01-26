@@ -245,7 +245,7 @@ function trataAdWRNGsCNL() {
             if (adWRNG.texto.includes(" "))
                 adWRNG.texto = adWRNG.texto.split(" ")[0]
             var cancelado = removeEspacos(adWRNG.CMA + adWRNG.texto)
-            var idxCNL = arrIdxAdWRNGGeral.indexOf(trataIdx(cancelado))
+            var idxCNL = arrIdxAdWRNGGeral.indexOf(cancelado)
             if (idxCNL > -1)
                 arrAdWRNGGeral[idxCNL].cancelado = true
         }
