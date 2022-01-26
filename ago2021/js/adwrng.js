@@ -215,7 +215,7 @@ function getAdWRNG(primeiraVez = false) {
             url = linkIntraer;
         else
             url = linkInternet;
-      url = `${url}SBEG,SBBR,SBRF,SBPA,SBGL,SBGR&msg=aviso_aerodromo${interval}&cabecalho=true`;
+      url = `${url}SBEG,SBBR,SBRF,SBPA,SBGL,SBGR&msg=aviso_aerodromo${interval}&cabecalho=sim`;
     } else {
       localidades = removeEspacos(localidadesFIR[0])+","+removeEspacos(localidadesFIR[1])+
         ","+removeEspacos(localidadesFIR[2]) + "," +removeEspacos(localidadesFIR[3]);
