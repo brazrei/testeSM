@@ -335,7 +335,7 @@ function plota_stsc(obj_chk) {
                 let diffHora = dif.getHours()
                 let diffMin = dif.getMinutes()
 
-                if (isLinux()) {
+                if (isLinux() || (dif < new Date(1970)) ) {
                     diffHora -= 21; //decrementa 1 hora, bug do linux
                 }
 
