@@ -330,7 +330,7 @@ function plota_stsc(obj_chk) {
                 data_prod = getUTCDate(new Date(data_prod))
 
 
-                let dif = getUTCDate(hoje - data_prod)
+                let dif = getUTCDate(new Date(hoje - data_prod))
                 let diffDia = dif.getDate() - 1
                 let diffHora = dif.getHours()
                 let diffMin = dif.getMinutes()
