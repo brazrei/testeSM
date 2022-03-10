@@ -138,7 +138,7 @@ function plota_ImgSat(obj_chk) {
 
                 //removeImgSat();
                 var i = 0;
-                var hoje = new Date();
+                var hoje = new getUTCAgora();
                 var hoje_dia = hoje.getUTCDate();
                 var hoje_mes = parseInt(hoje.getUTCMonth()) + 1;
                 var hoje_ano = hoje.getUTCFullYear();
@@ -152,7 +152,7 @@ function plota_ImgSat(obj_chk) {
                 let data_prod = hoje_dia + '/' + hoje_mes + '/' + hoje_ano + ' ' + data.data.anima[0]
                 $('#clockImgSat').text(data_prod.split(" ")[1] + ":00 UTC");
                 data_prod = hoje_mes + " " + hoje_dia + ' ' + hoje_ano + ' ' + data.data.anima[0]
-                data_prod = new Date(data_prod)
+                data_prod = getUTCDate(new Date(data_prod))
 
                 let erro = isOlderThan(data_prod, hoje, 60)
 
