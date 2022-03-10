@@ -439,7 +439,7 @@ function trataSigmetRedemet(texto) {
     //var classe = "table-warning table-sigmet";
 
     texto = removeEspacosDuplos(texto);
-    var agora = new Date();
+    var agora = getUTCAgora();
     var horaAtual = agora.getHours()
     var erro = ""
 
