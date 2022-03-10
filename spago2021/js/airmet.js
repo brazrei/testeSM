@@ -137,7 +137,7 @@ function isLinux() {
 function calcDifData(ini, fim) {
     let dif = new Date(fim - ini)
     let chk = new Date(new Date() - new Date())
-    if (chk < new Date(1970,1,1))
+    if (chk < new Date(1970))
         addHours(dif,3)
     return dif
 }
@@ -156,7 +156,7 @@ function isCloseToValidOff(ini, fim, timer = 10) {
 
     let restante = calcDifData(agora,fim)
 
-    if (restante < new Date(1970,1,1)) {
+    if (restante < new Date(1970)) {
         addHours(restante, 3)
         //restante.addHours(3)
     }
