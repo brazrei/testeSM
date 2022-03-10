@@ -156,7 +156,7 @@ function isCloseToValidOff(ini, fim, timer = 10) {
 
     let restante = calcDifData(agora,fim)
 
-    if (restante < new Date(1970)) {
+    if (restante.getFullYear() < 1970) {
         addHours(restante, 3)
         //restante.addHours(3)
     }
