@@ -154,7 +154,7 @@ function isCloseToValidOff(ini, fim, timer = 10) {
     let agora = getUTCAgora()
     fim = getFullDateValid(ini, fim)[1]
 
-    let restante = getUTCDate(calcDifData(agora,fim))
+    let restante = calcDifData(agora,fim)
 
     if (restante < new Date(1970,1,1)) {
         addHours(restante, 3)
