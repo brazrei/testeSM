@@ -80,7 +80,9 @@ function iniciaAirmetGlobalVars() {
 
 function getUTCAgora() {
     let agora = new Date()
-    return new Date(agora.getUTCFullYear(), agora.getUTCMonth(), agora.getUTCDate(), agora.getUTCHours(), agora.getUTCMinutes())
+    return new Date(new Date().getTime() + new Date().getTimezoneOffset()*60000);
+    //return new Date(agora.getUTCFullYear(), agora.getUTCMonth(), agora.getUTCDate(), agora.getUTCHours(), agora.getUTCMinutes())
+    
 
 }
 
@@ -113,10 +115,10 @@ function getFullDateValid(dataI, dataF) { // retorna data inteira de AIRMET e SI
 }
 
 function getUTCDate(date) {
-    let now_utc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(),
-        date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
-
-    return new Date(now_utc);
+    //let now_utc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(),
+        // date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
+    let now_utc = new Date(date.getTime() + date.getTimezoneOffset()*60000)
+    return now_utc;
 }
 
 function isValidAirmet(ini, fim) {
@@ -1258,7 +1260,7 @@ function mostraLoading(txt = "") {
 function atualizaHora(id = false) {
     if (!id)
         id = "#clockAirmet"
-    var date = new Date();
+    var date = getUTCAgora();
     var hora = adicionaZero(date.getUTCHours()) + ":" + adicionaZero(date.getUTCMinutes()) + ":" + adicionaZero(date.getUTCSeconds());
     $(id).html(hora + " UTC");
 
@@ -1483,7 +1485,7 @@ function trataAirmetRedemet(texto) {
     var classe = "table-warning table-airmet";
     //limpaAirmets();
     texto = removeEspacosDuplos(texto);
-    var agora = new Date();
+    var agora = getUTCAgora();
     var horaAtual = agora.getHours()
     var erro = ""
 
