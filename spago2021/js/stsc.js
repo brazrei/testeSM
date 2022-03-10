@@ -303,7 +303,7 @@ function plota_stsc(obj_chk) {
             success: function (data) {
 
                 var i = 0;
-                var hoje = new Date();
+                var hoje = getUTCAgora();
                 var hoje_dia = hoje.getUTCDate();
                 var hoje_mes = parseInt(hoje.getUTCMonth()) + 1;
                 var hoje_ano = hoje.getUTCFullYear();
@@ -327,10 +327,10 @@ function plota_stsc(obj_chk) {
                 
                 setSTSCLabel(data_prod);
                 data_prod = hoje_mes + " " + hoje_dia + ' ' + hoje_ano + ' ' + horaAnima
-                data_prod = new Date(data_prod)
+                data_prod = getUTCDate(new Date(data_prod))
 
 
-                let dif = new Date(hoje - data_prod)
+                let dif = getUTCDate(hoje - data_prod)
                 let diffDia = dif.getDate() - 1
                 let diffHora = dif.getHours()
                 let diffMin = dif.getMinutes()
