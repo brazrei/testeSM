@@ -146,7 +146,7 @@ function isCloseToValidOff(ini, fim, timer = 10) {
 
     let restante = getUTCDate(new Date(fim - agora))
 
-    if (isLinux()) {
+    if (restante < new Date(1970,1,1)) {
         addHours(restante, 3)
         //restante.addHours(3)
     }
