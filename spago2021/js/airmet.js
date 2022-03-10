@@ -132,6 +132,14 @@ function isLinux() {
     return navigator.platform.indexOf("Linux") > -1
 }
 
+function calcDifData(ini, fim) {
+    let dif = new Date(fim - ini)
+    let chk = new Date(new Date() - new Date())
+    if (chk < new Date(1970,1,1))
+        addHours(dif,3)
+    return dif
+}
+
 function isCloseToValidOff(ini, fim, timer = 10) {
     if (ini == "")
         return false
@@ -144,7 +152,7 @@ function isCloseToValidOff(ini, fim, timer = 10) {
     let agora = getUTCAgora()
     fim = getFullDateValid(ini, fim)[1]
 
-    let restante = getUTCDate(new Date(fim - agora))
+    let restante = getUTCDate(calcDifData(agora,fim))
 
     if (restante < new Date(1970,1,1)) {
         addHours(restante, 3)
