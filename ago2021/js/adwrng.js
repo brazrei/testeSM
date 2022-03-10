@@ -289,7 +289,7 @@ function trataAdWRNGRedemet(texto) {
     
 
     texto = removeEspacosDuplos(texto);
-    var agora = new Date();
+    var agora = new getUTCAgora();
 
     var idx = 0;
 
