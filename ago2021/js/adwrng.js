@@ -33,7 +33,7 @@ function getStatusAdWRNG(loc) {//sempre irá retornar o adwrng válido com maior
 }
 
 function isValidAdWRNG(ini, fim) {
-    return isValidAirmet(ini, fim)
+    return isValidMsg(ini, fim)
 }
 
 function makeIdxAdWRNG(aviso) {
@@ -66,16 +66,16 @@ function getFimAdWRNG(hora) {
     return hora.substr(9, 2);
 }
 function getValidadeAdWRNG(text) {
-    return getValidadeAirmet(text)
+    return getValidadeMsg(text)
 }
 
 function adWRNGPertoDoFim(texto) { 
     if (texto == "")
         return false
     try {
-        return smartPlot.airmetPertoDoFim(texto);
+        return msgPertoDoFim(texto);
     } catch (e) {
-        console.log("Erro de acesso ao SmartPlot!");
+        console.log("Erro aa analisar a validade do Aviso de Aeródromo!");
     }
     return false
 }
