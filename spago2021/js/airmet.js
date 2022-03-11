@@ -67,14 +67,6 @@ function iniciaAirmetGlobalVars() {
 
 }*/
 
-function getUTCAgora() {
-    let agora = new Date()
-    return new Date(new Date().getTime() + new Date().getTimezoneOffset()*60000);
-    //return new Date(agora.getUTCFullYear(), agora.getUTCMonth(), agora.getUTCDate(), agora.getUTCHours(), agora.getUTCMinutes())
-    
-
-}
-
 function isValidAirmet(ini, fim) {
     return isValidMsg(ini, fim)
 }
