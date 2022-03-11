@@ -115,8 +115,8 @@ function getValidadeMsg(text) {
 
 function getUTCAgora() {
     let agora = new Date()
-    return new Date(agora.getUTCFullYear(), agora.getUTCMonth(), agora.getUTCDate(), agora.getUTCHours(), agora.getUTCMinutes())
-
+    return new Date(new Date().getTime() + new Date().getTimezoneOffset()*60000);
+    //return new Date(agora.getUTCFullYear(), agora.getUTCMonth(), agora.getUTCDate(), agora.getUTCHours(), agora.getUTCMinutes())
 }
 
 function getFullDateValid(dataI, dataF) { // retorna data inteira de AIRMET e SIGMET 
