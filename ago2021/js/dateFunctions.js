@@ -12,7 +12,7 @@ function addHours(data, horas) {
 function calcDifData(ini, fim) {
     let dif = new Date(fim - ini)
     let chk = new Date(new Date() - new Date())
-    if (chk < new Date(1970))
+    if (chk < new Date(1970,0,1))
         addHours(dif,3)
     return dif
 }
