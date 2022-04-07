@@ -33,7 +33,7 @@ function getArrayTAFsHora(diaSemana, hora) {
     for (var i in arrTAFSCimaer) {
         t = arrTAFSCimaer[i]
         indice = t.indice.toUpperCase()
-        if ( indice.includes(hora) && (indice.includes("DIARIAMENTE")) ){ 
+        if ( indice.includes(hora) && ((indice.includes("DIARIAMENTE") || indice.includes("DIARIAMENTE")) ) ){ 
           locs += separador + t.localidades
           separador = ","
         }
