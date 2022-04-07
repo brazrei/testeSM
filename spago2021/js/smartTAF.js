@@ -22,7 +22,8 @@ function getArrayTAFsHora(diaSemana, hora) {
 	function clearLocs(locs){
      let patt = /[A-Z][A-Z][A-Z][A-Z]/g
      let arr = locs.match(patt)
-     return arr.join(",");
+     
+     return [...new Set(arr)]; //remove repetidos
     }
 
     let locs = ""
@@ -33,7 +34,7 @@ function getArrayTAFsHora(diaSemana, hora) {
     for (var i in arrTAFSCimaer) {
         t = arrTAFSCimaer[i]
         indice = t.indice.toUpperCase()
-        if ( indice.includes(hora) && ((indice.includes("DIARIAMENTE") || indice.includes("DIARIAMENTE")) ) ){ 
+        if ( indice.includes(hora) && ((indice.includes("DIARIAMENTE") || indice.includes(diaSemana)) ) ){ 
           locs += separador + t.localidades
           separador = ","
         }
