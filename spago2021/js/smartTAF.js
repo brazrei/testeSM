@@ -31,6 +31,7 @@ function atualizaStatusConsultaTAF() {
 	let qtdTAFsProxHoraNaRede = getArrayLength(arrayProximosTAFs) //tafs da proxima hora de envio obtidos da rede
 	let tafsProxHora = getTAFsProximaHora();  // tafs que deveriam estar na proxima hora de envio
 	let qtdTAFsProxHora = tafsProxHora.length;
+	let agora = getUTCAgora()
 	
 	let dh = getHoraNextTAF()
 	
@@ -58,7 +59,7 @@ function atualizaStatusConsultaTAF() {
 
 function getHoraNextTAF() {
     let days = ["DOM", "SEG", "TER", "QUA", "QUI", "SEX", "SAB"]
-    let inicio = getUTCAgora().addHours(1);
+    let inicio = getUTCAgora().addHours(1).setMinutes(0).setSeconds(0);
     let hora
     while((inicio.getHours() % 6) !== 0)
     	inicio = inicio.addHours(1);
