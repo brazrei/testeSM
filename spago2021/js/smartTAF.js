@@ -28,19 +28,29 @@ function getArrayLength(array){
 }
 
 function atualizaStatusConsultaTAF() {
-	let tafsProxHoraNaRede = getArrayLength(arrayProximosTAFs)
-	let tafsProxHora = getTAFsProximaHora().length;
+	let qtdTAFsProxHoraNaRede = getArrayLength(arrayProximosTAFs) //tafs da proxima hora de envio obtidos da rede
+	let tafsProxHora = getTAFsProximaHora();  // tafs que deveriam estar na proxima hora de envio
+	let qtdTAFsProxHora = tafsProxHora.length;
+	
 	let dh = getHoraNextTAF()
-	if (tafsProxHoraNaRede < tafsProxHora) {
+	
+	let arrAusentes = tafsProxHora.filter((i) => !arrayProximosTAFs.some((i2) => i2 === i));
+	let strAusentes = ""
+	if (arrAusentes.length > 0)
+		strAusentes = arrAusentes.join(',');
+	
+	if (qtdTAFsProxHoraNaRede < qtdTAFsProxHora) {
 		$(".statusTAF").addClass("statusERRO")
 		$(".statusTAF").addClass("errorPulse")
 		$(".statusTAF").removeClass("statusOK")
 		$(".statusTAF").html(`TAF's ${dh.dia} ${dh.hora}Z AUSENTES`)
+		$( ".statusTAF" ).attr("title", `TAFs AUSENTES: ${strAusentes}` );
 	} else {
 		$(".statusTAF").addClass("statusOK")
 		$(".statusTAF").removeClass("errorPulse")
 		$(".statusTAF").removeClass("statusERRO")
 		$(".statusTAF").html(`TAF's ${dh.dia} ${dh.hora}Z OK`)
+		$( ".statusTAF" ).attr("title", '' );
 	}
 	
 	
