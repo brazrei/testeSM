@@ -34,8 +34,10 @@ function atualizaStatusConsultaTAF() {
 	let agora = getUTCAgora()
 	
 	let dh = getHoraNextTAF()
-	
-	let ignorarAusentes = agora < dh.dataIni.addHours(-3) && agora > dh.dataIni.addHours(-2) 
+	let d1 = new Date(dh.dataIni.addHours(-3))
+	let d2 = new Date(dh.dataIni.addHours(-2))
+
+	let ignorarAusentes = agora < d1 && agora > d2 //
 	
 	let arrAusentes = tafsProxHora.filter((i) => !arrayProximosTAFs.some((i2) => i2 === i));
 	let strAusentes = ""
