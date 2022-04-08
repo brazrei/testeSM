@@ -199,9 +199,13 @@
     
     .statusTAF {
       text-shadow: 1px 1px 0 #ccc;
+      border-radius: 8px;
+      background-color: #aaa;
+      padding: 5px;
+      
     }
     .statusOK {
-      color: green;
+      color: #59f35f;
     }
     .statusERRO {
       color: red;
@@ -416,8 +420,8 @@
     <div class='glass'>
       <div id='painel' class='degrade sombra'>
         <div style="width:100%; margin-top: 15px;margin-bottom: 50px;">
+          <span class="statusTAF" id="statusTAF"><b>STATUS TAF...</b></span><br>
           <div class="divStatus">
-            <span class="statusTAF" id="statusTAF"><b>STATUS TAF...</b></span><br>
             <label class="switch">
               <input type="checkbox" id="chkTeto" onchange="updateSmartMetar();" checked />
               <span class="slider round"></span>
