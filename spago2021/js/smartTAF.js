@@ -18,11 +18,29 @@ arrTAFSCimaer.push({ indice: "12 HORAS, (06Z, 12Z e 18Z) DOM", localidades: "SBL
 arrTAFSCimaer.push({ indice: "12 HORAS, (06Z, 12Z) DIARIAMENTE", localidades: "SBPG" });
 arrTAFSCimaer.push({ indice: "12 HORAS, (06Z, 12Z  e 18Z) SEX", localidades: "SBPG" });
 arrTAFSCimaer.push({ indice: "12 HORAS, (06Z e 18Z) DIARIAMENTE", localidades: "SNCP" });
+
 function getArrayLength(array){
 	let i =0
 	for (let c in array)
 		i++
 	return i
+	
+}
+
+function atualizaStatusConsultaTAF() {
+	let tafsProxHoraNaRede = getArrayLength(arrayProximosTAFs)
+	let tafsProxHora = getTAFsProximaHora().length;
+	let dh = getHoraNextTAF()
+	if (tafsProxHoraNaRede < tafsProxHora) {
+		$(".statusTAF").addClass("StatusOK")
+		$(".statusTAF").removeClass("StatusERRO")
+		$(".statusTAF").html(`TAFs ${dh.dia} ${dh.hora} OK`)
+	} else {
+		$(".statusTAF").addClass("StatusERRO")
+		$(".statusTAF").removeClass("StatusOK")
+		$(".statusTAF").html(`TAFs ${dh.dia} ${dh.hora} AUSENTES`)
+	}
+	
 	
 }
 
@@ -34,6 +52,11 @@ function getHoraNextTAF() {
     	inicio = inicio.addHours(1);
     hora = (inicio.getHours() < 10) ? "0" + inicio.getHours() : "" + inicio.getHours();
     return { dia: days[inicio.getDay()], hora, dataIni: inicio }
+}
+
+function getTAFsProximaHora() {
+	let dh = getHoraNextTAF()
+	return getArrayTAFsHora(dh.dia, dh.hora)	
 }
 
 function atualizaTAFS() { //atualiza os TAFs de hora em hora, na hora cheia.
@@ -48,7 +71,7 @@ function atualizaTAFS() { //atualiza os TAFs de hora em hora, na hora cheia.
 
 function verificaTAFS() { //atualiza os TAFs de hora em hora, na hora cheia.
 	let dh = getHoraNextTAF()
-	let locs = getArrayTAFsHora(dh.dia, dh.hora)
+	let locs = getTAFsProximaHora()
 
 	getTAFs(locs,dh.dataIni)
 }
@@ -411,6 +434,7 @@ function updateArrayStatus(localidade, status) { // retorna true se o status mud
 
 function atualizaArrayTAFs(texto) {
     let TAFs = clearMsgIWXXM(texto)
+    arrayProximosTAFs = []
     for (let i in TAFs) {
         TAFs[i] = JSON.parse(TAFs[i]);
         let loc = getICAOIndicator(TAFs[i])
@@ -418,7 +442,6 @@ function atualizaArrayTAFs(texto) {
         if ( getBeginTAF(TAFs[i]) > getUTCAgora() ){
 	  arrayProximosTAFs[loc] = dados
           continue;
-		
 	}
         arrayTAFs[loc] = dados
 
@@ -437,6 +460,7 @@ function GetWebContentTAF(url, primeiraVez) {
                 let resposta = opener.removeCacheMessage(this.responseText);
 
                 atualizaArrayTAFs(resposta);
+		atualizaStatusConsultaTAF();
 
                 let erroConexao = false
                 if (erroConexao || !opener.smartPlotOnline) {
