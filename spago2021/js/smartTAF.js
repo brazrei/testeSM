@@ -35,12 +35,19 @@ function atualizaStatusConsultaTAF() {
 	
 	let dh = getHoraNextTAF()
 	
+	let ignorarAusentes = agora < dh.inicio.addHours(-3) && agora > dh.inicio.addHours(-5) 
+	
 	let arrAusentes = tafsProxHora.filter((i) => !arrayProximosTAFs.some((i2) => i2 === i));
 	let strAusentes = ""
 	if (arrAusentes.length > 0)
 		strAusentes = arrAusentes.join(',');
 	
+	
 	if (qtdTAFsProxHoraNaRede < qtdTAFsProxHora) {
+		if (ignorarAusentes) {
+			$(".statusTAF").hide()
+			return false
+		}
 		$(".statusTAF").addClass("statusERRO")
 		$(".statusTAF").addClass("errorPulse")
 		$(".statusTAF").removeClass("statusOK")
@@ -53,6 +60,7 @@ function atualizaStatusConsultaTAF() {
 		$(".statusTAF").html(`TAF's ${dh.dia} ${dh.hora}Z OK`)
 		$( ".statusTAF" ).attr("title", '' );
 	}
+	$(".statusTAF").show()
 	
 	
 }
