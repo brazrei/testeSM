@@ -70,12 +70,6 @@ function getFormatedDate(data) {
     return `${ano}${mes}${dia}${hora}${minutos}`;
 }
 
-function getInterval(horas = 1) {
-    let dini = getFormatedDate(addHours(new Date(), -horas));
-    let dfim = getFormatedDate(addHours(new Date(), 1));
-    return `&data_ini=${dini}&data_fim=${dfim}`
-}
-
 function getUrlCache() {
     return urlCache;
 }
