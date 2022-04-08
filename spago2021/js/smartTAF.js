@@ -28,6 +28,16 @@ function getHoraNextTAF() {
     return { dia: days[agora.getDay()], hora}
 }
 
+function atualizaTAFS() { //atualiza os TAFs de hora em hora, na hora cheia.
+	if (!arrayTAFs[tafsGrupoConsulta[0]])
+		getTAFs(getAeroInternacional())
+	
+	let agora = new Date()
+	
+	if (agora.getMinutes() == 0)
+		getTAFs(getAeroInternacional())
+}
+
 function getArrayTAFsHora(diaSemana, hora) {
     function clearLocs(locs) {
         let patt = /[A-Z][A-Z][A-Z][A-Z]/g
