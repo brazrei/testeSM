@@ -392,6 +392,8 @@ function atualizaArrayTAFs(texto) {
     let TAFs = clearMsgIWXXM(texto)
     for (let i in TAFs) {
         TAFs[i] = JSON.parse(TAFs[i]);
+        if (getBeginTAF(TAFs[i]) > getUTCAgora())
+          continue;
         let loc = getICAOIndicator(TAFs[i])
         arrayTAFs[loc] = { TAF: TAFs[i], localidade: loc, inicio: getBeginTAF(TAFs[i]), getVisPredHora: getVisPredHora, getTetoHora: getTetoHora }
 
