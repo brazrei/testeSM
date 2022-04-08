@@ -34,11 +34,11 @@ function atualizaStatusConsultaTAF() {
 	if (tafsProxHoraNaRede < tafsProxHora) {
 		$(".statusTAF").addClass("statusOK")
 		$(".statusTAF").removeClass("statusERRO")
-		$(".statusTAF").html(`TAFs ${dh.dia} ${dh.hora} OK`)
+		$(".statusTAF").html(`TAF's ${dh.dia} ${dh.hora}Z OK`)
 	} else {
 		$(".statusTAF").addClass("statusERRO")
 		$(".statusTAF").removeClass("statusOK")
-		$(".statusTAF").html(`TAFs ${dh.dia} ${dh.hora} AUSENTES`)
+		$(".statusTAF").html(`TAF's ${dh.dia} ${dh.hora}Z AUSENTES`)
 	}
 	
 	
