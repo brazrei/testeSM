@@ -25,7 +25,7 @@ function getHoraNextTAF() {
     while((agora.getHours() % 6) !== 0)
     	agora = agora.addHours(1);
     hora = (agora.getHours() < 10) ? "0" + agora.getHours() : "" + agora.getHours();
-    return { dia: days[agora.getDay()], hora}
+    return { dia: days[agora.getDay()], hora, data: agora }
 }
 
 function atualizaTAFS() { //atualiza os TAFs de hora em hora, na hora cheia.
@@ -36,6 +36,14 @@ function atualizaTAFS() { //atualiza os TAFs de hora em hora, na hora cheia.
 	
 	if (agora.getMinutes() == 0)
 		getTAFs(getAeroInternacional())
+}
+
+function verificaTAFS() { //atualiza os TAFs de hora em hora, na hora cheia.
+	let dh = getHoraNextTAF()
+	let locs = getArrayTAFsHora(dh.dia, dh.hora)
+	let agora = new Date()
+	
+	getTAFs(locs)
 }
 
 function getArrayTAFsHora(diaSemana, hora) {
