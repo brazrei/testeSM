@@ -67,7 +67,7 @@ function atualizaStatusConsultaTAF() {
 
 function getHoraNextTAF() {
     let days = ["DOM", "SEG", "TER", "QUA", "QUI", "SEX", "SAB"]
-    let inicio = getUTCAgora().addHours(1).setMinutes(0).setSeconds(0);
+    let inicio = new Date(new Date(getUTCAgora().addHours(1).setMinutes(0)).setSeconds(0));
     let hora
     while((inicio.getHours() % 6) !== 0)
     	inicio = inicio.addHours(1);
