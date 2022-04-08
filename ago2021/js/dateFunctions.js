@@ -3,6 +3,17 @@ function getNum(str) {
     return str.replace(/\D/g, '')
 }
 
+function getInterval(horas = 1) {
+    let dini = getFormatedDate(addHours(new Date(), -horas));
+    let dfim = getFormatedDate(addHours(new Date(), 1));
+    return `&data_ini=${dini}&data_fim=${dfim}`
+}
+
+function getIntervalTAF(dataIni) {
+    let dini = getFormatedDate(dataIni);
+    let dfim = getFormatedDate(addHours(dataIni, 6));
+    return `&data_ini=${dini}&data_fim=${dfim}`
+}
 
 function isLinux() {
     return navigator.appVersion.indexOf("Linux") > -1
