@@ -3,42 +3,52 @@ var arrayTAFs = []
 
 var arrTAFSCimaer = []
 
-arrTAFSCimaer.push( {indice : "24 HORAS, (00Z, 06Z, 12Z e 18Z) DIARIAMENTE", localidades:"SBPA, SBCT, SBFI, SBFL e SBNF"} );
-arrTAFSCimaer.push( {indice : "24 HORAS, (06Z, 12Z e 18Z) DIARIAMENTE", localidades: "SBPK"} );
-arrTAFSCimaer.push( {indice : "12 HORAS, (00Z, 06Z, 12Z e 18Z), DIARIAMENTE", localidades: "SBCO, SBSM, SBBG, SBNM, SBJV, SBBI, SBYS, SBAF, SBSC, SBAN, SBMN e SBCH"} );
-arrTAFSCimaer.push( {indice : "12 HORAS, (06Z, 12Z e 18Z), DIARIAMENTE", localidades:"SBUG, SBPF, SBJA, SBGW e SBCC" } );
-arrTAFSCimaer.push( {indice : "12 HORAS, (06Z, 12Z) SEG, TER, QUA, QUI e SEX", localidades:"SBCX"} );
-arrTAFSCimaer.push( {indice : "12 HORAS, (00Z, 06Z) SAB", localidades: "SBCX"} );
-arrTAFSCimaer.push( {indice : "12 HORAS, (00Z, 06Z e 12Z) DOM", localidades: "SBCX" } );
-arrTAFSCimaer.push( {indice : "12 HORAS, (06Z, 12Z e 18Z) SEG, TER, QUA, QUI e SEX", localidades:"SBGP" } );
-arrTAFSCimaer.push( {indice : "12 HORAS, (12Z) SAB e DOM", localidades: "SBGP"} );
-arrTAFSCimaer.push( {indice : "12 HORAS, (12Z e 18Z) QUI, SEX e SAB", localidades: "SBLJ"} );
-arrTAFSCimaer.push( {indice : "12 HORAS, (06Z, 12Z e 18Z) DOM", localidades: "SBLJ"} );
-arrTAFSCimaer.push( {indice : "12 HORAS, (06Z, 12Z) DIARIAMENTE", localidades: "SBPG"} );
-arrTAFSCimaer.push( {indice : "12 HORAS, (06Z, 12Z  e 18Z) SEX", localidades: "SBPG"} );
-arrTAFSCimaer.push( {indice : "12 HORAS, (06Z e 18Z) DIARIAMENTE", localidades: "SNCP" } );
+arrTAFSCimaer.push({ indice: "24 HORAS, (00Z, 06Z, 12Z e 18Z) DIARIAMENTE", localidades: "SBPA, SBCT, SBFI, SBFL e SBNF" });
+arrTAFSCimaer.push({ indice: "24 HORAS, (06Z, 12Z e 18Z) DIARIAMENTE", localidades: "SBPK" });
+arrTAFSCimaer.push({ indice: "12 HORAS, (00Z, 06Z, 12Z e 18Z), DIARIAMENTE", localidades: "SBCO, SBSM, SBBG, SBNM, SBJV, SBBI, SBYS, SBAF, SBSC, SBAN, SBMN e SBCH" });
+arrTAFSCimaer.push({ indice: "12 HORAS, (06Z, 12Z e 18Z), DIARIAMENTE", localidades: "SBUG, SBPF, SBJA, SBGW e SBCC" });
+arrTAFSCimaer.push({ indice: "12 HORAS, (06Z, 12Z) SEG, TER, QUA, QUI e SEX", localidades: "SBCX" });
+arrTAFSCimaer.push({ indice: "12 HORAS, (00Z, 06Z) SAB", localidades: "SBCX" });
+arrTAFSCimaer.push({ indice: "12 HORAS, (00Z, 06Z e 12Z) DOM", localidades: "SBCX" });
+arrTAFSCimaer.push({ indice: "12 HORAS, (06Z, 12Z e 18Z) SEG, TER, QUA, QUI e SEX", localidades: "SBGP" });
+arrTAFSCimaer.push({ indice: "12 HORAS, (12Z) SAB e DOM", localidades: "SBGP" });
+arrTAFSCimaer.push({ indice: "12 HORAS, (12Z e 18Z) QUI, SEX e SAB", localidades: "SBLJ" });
+arrTAFSCimaer.push({ indice: "12 HORAS, (06Z, 12Z e 18Z) DOM", localidades: "SBLJ" });
+arrTAFSCimaer.push({ indice: "12 HORAS, (06Z, 12Z) DIARIAMENTE", localidades: "SBPG" });
+arrTAFSCimaer.push({ indice: "12 HORAS, (06Z, 12Z  e 18Z) SEX", localidades: "SBPG" });
+arrTAFSCimaer.push({ indice: "12 HORAS, (06Z e 18Z) DIARIAMENTE", localidades: "SNCP" });
+
+function getHoraNextTAF() {
+    let = days = ["SEG", "TER", "QUA", "QUI", "SEX", "SAB", "DOM"]
+    let agora = getUTCAgora().addHours(1);
+    let hora
+    While(agora.getHours() % 6 <> 0)
+    	agora = agora.addHours(1);
+    hora = (agora.getHours() < 10) ? "0" + agora.getHours() : "" + agora.getHours();
+    return [{ dia: days[agora.getDay(), hora]]
+}
 
 function getArrayTAFsHora(diaSemana, hora) {
-	function clearLocs(locs){
-     let patt = /[A-Z][A-Z][A-Z][A-Z]/g
-     let arr = locs.match(patt)
-     
-     return [...new Set(arr)]; //remove repetidos
+    function clearLocs(locs) {
+        let patt = /[A-Z][A-Z][A-Z][A-Z]/g
+        let arr = locs.match(patt)
+
+        return [...new Set(arr)]; //remove repetidos
     }
 
     let locs = ""
     let separador = ""
     hora = hora.toUpperCase()
     diaSemana = diaSemana.toUpperCase()
-    
+
     for (var i in arrTAFSCimaer) {
         t = arrTAFSCimaer[i]
         indice = t.indice.toUpperCase()
-        if ( indice.includes(hora) && ((indice.includes("DIARIAMENTE") || indice.includes(diaSemana)) ) ){ 
-          locs += separador + t.localidades
-          separador = ","
+        if (indice.includes(hora) && ((indice.includes("DIARIAMENTE") || indice.includes(diaSemana)))) {
+            locs += separador + t.localidades
+            separador = ","
         }
-          
+
     }
     return clearLocs(locs)
 }
@@ -49,52 +59,52 @@ function getAMDStatus(TAF) {
     let horaAtual = new Date()
     let dataZero = new Date(0)
     //let dif = horaAtual-inicio
-    let horasValid = new Date(fim-inicio)
-    
+    let horasValid = new Date(fim - inicio)
+
     if (isLinux()) {
         //addHours(new Date(dif), 3)
         addHours(dataZero, 3)
         addHours(horasValid, 3)
     }
-    
+
     let prazoFinal = new Date(inicio)
-    addHours(prazoFinal, (((horasValid.getDate()-1)*24) + horasValid.getHours())/6)
-    
+    addHours(prazoFinal, (((horasValid.getDate() - 1) * 24) + horasValid.getHours()) / 6)
+
     return horaAtual <= prazoFinal
-    
+
 }
 
-function chkVisMetarTAF(loc){
+function chkVisMetarTAF(loc) {
     let msg = getMetarFromArrayMetaresGeral(loc)
     if (!msg || !msg.METAR)
-      return true
-    if (msg.METAR.visibilidade && msg.METAR.visibilidade < 5000){
+        return true
+    if (msg.METAR.visibilidade && msg.METAR.visibilidade < 5000) {
         if (msg.TAF && msg.TAF.achou && msg.TAF.visibilidade)
-            return  parseInt( msg.METAR.visibilidade) >= parseInt (msg.TAF.visibilidade)
+            return parseInt(msg.METAR.visibilidade) >= parseInt(msg.TAF.visibilidade)
     }
-    
+
     return true
 }
 
-function chkTetoMetarTAF(loc){
+function chkTetoMetarTAF(loc) {
     let msg = getMetarFromArrayMetaresGeral(loc)
     if (!msg || !msg.METAR)
-      return true
-    if (msg.METAR.teto && Array.isArray(msg.METAR.teto) && (msg.METAR.teto[1] == "T") && (getNum(msg.METAR.teto[3])*100) < 1500){
+        return true
+    if (msg.METAR.teto && Array.isArray(msg.METAR.teto) && (msg.METAR.teto[1] == "T") && (getNum(msg.METAR.teto[3]) * 100) < 1500) {
         if (msg.TAF && msg.TAF.achou && msg.TAF.teto && msg.TAF.teto.altura)
-            return  parseInt(getNum(msg.METAR.teto[3])*100) >= parseInt (msg.TAF.teto.altura)
+            return parseInt(getNum(msg.METAR.teto[3]) * 100) >= parseInt(msg.TAF.teto.altura)
     }
-    
+
     return true
 }
 
-function getTAFFromMetar(metar){
+function getTAFFromMetar(metar) {
     let loc = opener.getLocalidade(metar)
     let dh = getMetarFullDateTime(metar)
     if (arrayTAFs[loc])
-        return {localidade: loc, TAF: arrayTAFs[loc].TAF, visibilidade: getVisPredHora(arrayTAFs[loc].TAF, dh), teto: getTetoHora(arrayTAFs[loc].TAF, dh), inicioValid: getBeginTAF(arrayTAFs[loc].TAF), fimValid: getEndTAF(arrayTAFs[loc].TAF), permiteAMD: getAMDStatus(arrayTAFs[loc].TAF)}
+        return { localidade: loc, TAF: arrayTAFs[loc].TAF, visibilidade: getVisPredHora(arrayTAFs[loc].TAF, dh), teto: getTetoHora(arrayTAFs[loc].TAF, dh), inicioValid: getBeginTAF(arrayTAFs[loc].TAF), fimValid: getEndTAF(arrayTAFs[loc].TAF), permiteAMD: getAMDStatus(arrayTAFs[loc].TAF) }
     else
-     return {localidade: loc, TAF: false, visibilidade: false, teto: false};
+        return { localidade: loc, TAF: false, visibilidade: false, teto: false };
 }
 
 function updateArrayMetarTAF() {
@@ -102,27 +112,27 @@ function updateArrayMetarTAF() {
         return false
 }
 
-function getMetarDataHora(metar){
-  var patt = /\d{6}Z/;
-  var t1 = metar.match(patt);
-  if (t1 && t1.length > 0)
-     return t1[0]
-  else
-    return str
-  
+function getMetarDataHora(metar) {
+    var patt = /\d{6}Z/;
+    var t1 = metar.match(patt);
+    if (t1 && t1.length > 0)
+        return t1[0]
+    else
+        return str
+
 }
 
-function metarDH2FullDateTime(dh){
-  let hora = dh.substr(2,2)
-  let agora = new Date();
-  
-  return new Date(agora.getUTCFullYear(),agora.getUTCMonth(),agora.getUTCDate(), hora)
+function metarDH2FullDateTime(dh) {
+    let hora = dh.substr(2, 2)
+    let agora = new Date();
+
+    return new Date(agora.getUTCFullYear(), agora.getUTCMonth(), agora.getUTCDate(), hora)
 }
 
-function getMetarFullDateTime(metar){
-  let dhMetar = getMetarDataHora(metar)
-  
-  return metarDH2FullDateTime(dhMetar)
+function getMetarFullDateTime(metar) {
+    let dhMetar = getMetarDataHora(metar)
+
+    return metarDH2FullDateTime(dhMetar)
 }
 
 function getBeginTAF(taf) {
@@ -183,9 +193,9 @@ function getMainCAVOK(taf) {
 
 function getVisPred(taf) {
     if (taf.TAF.baseForecast.MeteorologicalAerodromeForecast.cloudAndVisibilityOK)
-      return 9999
+        return 9999
     else
-      return taf.TAF.baseForecast.MeteorologicalAerodromeForecast.prevailingVisibility.content
+        return taf.TAF.baseForecast.MeteorologicalAerodromeForecast.prevailingVisibility.content
 }
 
 function getVisPredMudanca(tafMAF) {
@@ -207,11 +217,11 @@ function getVnt(taf) {
 }
 
 function getChangeCount(taf) {
-    if (taf.TAF.changeForecast) { 
-      if (Array.isArray(taf.TAF.changeForecast))
-        return taf.TAF.changeForecast.length
-      else
-        return 1
+    if (taf.TAF.changeForecast) {
+        if (Array.isArray(taf.TAF.changeForecast))
+            return taf.TAF.changeForecast.length
+        else
+            return 1
     }
     else
         return 0
@@ -219,7 +229,7 @@ function getChangeCount(taf) {
 
 function getChangeForecastArray(taf) {
     if (Array.isArray(taf.TAF.changeForecast))
-      return taf.TAF.changeForecast
+        return taf.TAF.changeForecast
     else
         return [taf.TAF.changeForecast]
 
@@ -279,14 +289,14 @@ function getTetoHora(taf, hora) {
                         auxTeto = getTeto(arrChange[i].MeteorologicalAerodromeForecast) ? getTeto(arrChange[i].MeteorologicalAerodromeForecast) : teto
                         // se for becoming, pega o valor mais baixo de vis
 
-                        teto = arrChange[i].MeteorologicalAerodromeForecast.changeIndicator == "BECOMING" ? ( (teto.altura <= auxTeto.altura && teto.qtd > 4) || (teto.altura>auxTeto.altura && auxTeto.qtd <5 ) ? teto : auxTeto) : auxTeto
-/*
-                        if (arrChange[i].MeteorologicalAerodromeForecast.changeIndicator == "BECOMING") {
-                            if ((teto.altura <= auxTeto.altura && teto.qtd > 4) || (teto.altura > auxTeto.altura && auxTeto.qtd < 5))
-                                teto =  auxTeto
-                        } else
-                            teto = auxTeto
-*/
+                        teto = arrChange[i].MeteorologicalAerodromeForecast.changeIndicator == "BECOMING" ? ((teto.altura <= auxTeto.altura && teto.qtd > 4) || (teto.altura > auxTeto.altura && auxTeto.qtd < 5) ? teto : auxTeto) : auxTeto
+                        /*
+                                                if (arrChange[i].MeteorologicalAerodromeForecast.changeIndicator == "BECOMING") {
+                                                    if ((teto.altura <= auxTeto.altura && teto.qtd > 4) || (teto.altura > auxTeto.altura && auxTeto.qtd < 5))
+                                                        teto =  auxTeto
+                                                } else
+                                                    teto = auxTeto
+                        */
                     }
                     // se j[a passou a hora]
                 }
@@ -299,11 +309,11 @@ function getTetoHora(taf, hora) {
 
 function clearMsgIWXXM(txt) {
     let separator = "**,**"
-    txt =  txt.replace(/iwxxm:/g, "").replace(/gml:/g, "").replace(/aixm:/g, "").replace(/xlink:/g, "").replace(/{"TAF/g, separator+'{"TAF')
+    txt = txt.replace(/iwxxm:/g, "").replace(/gml:/g, "").replace(/aixm:/g, "").replace(/xlink:/g, "").replace(/{"TAF/g, separator + '{"TAF')
     //if (!txt.includes(separator))
     //    txt = [txt]
 
-    return  txt.split(separator).splice(1)
+    return txt.split(separator).splice(1)
 }
 
 
@@ -323,9 +333,9 @@ function getTeto(tafMAF) {
         return { qtd: arrTetoN[arrTeto.indexOf(qtd)], altura: camada.CloudLayer.base.content + 'FT' }
     }
 
-    if (!tafMAF || !tafMAF.cloud || !tafMAF.cloud.AerodromeCloudForecast)  
-      return false;
-    
+    if (!tafMAF || !tafMAF.cloud || !tafMAF.cloud.AerodromeCloudForecast)
+        return false;
+
     if (!Array.isArray(tafMAF.cloud.AerodromeCloudForecast.layer))
         camada = tafMAF.cloud.AerodromeCloudForecast.layer
     else {
@@ -348,13 +358,13 @@ function getTeto(tafMAF) {
     return { qtd: camada.qtd, altura: parseInt(camada.altura) }
 }
 
-function getTAFs(localidades=false) {
+function getTAFs(localidades = false) {
     //mostraLoading("TAFs");
     let url = ""
     let interval = opener.getInterval(5)
     url = opener.linkInternetIWXXM;
 
-    localidades = localidades==false?localidades:","+localidades
+    localidades = localidades == false ? localidades : "," + localidades
     url = `${url}${tafsGrupoConsulta}${localidades}&msg=taf${interval}`;
 
     GetWebContentTAF(url, false);
@@ -369,13 +379,13 @@ function updateArrayStatus(localidade, status) { // retorna true se o status mud
 }
 
 function atualizaArrayTAFs(texto) {
-   let TAFs = clearMsgIWXXM(texto)
-   for (let i in TAFs) {
-       TAFs[i] = JSON.parse(TAFs[i]);
-       let loc = getICAOIndicator(TAFs[i])
-       arrayTAFs[loc] = {TAF: TAFs[i], localidade: loc, inicio: getBeginTAF(TAFs[i]), getVisPredHora: getVisPredHora, getTetoHora: getTetoHora}
-       
-   }
+    let TAFs = clearMsgIWXXM(texto)
+    for (let i in TAFs) {
+        TAFs[i] = JSON.parse(TAFs[i]);
+        let loc = getICAOIndicator(TAFs[i])
+        arrayTAFs[loc] = { TAF: TAFs[i], localidade: loc, inicio: getBeginTAF(TAFs[i]), getVisPredHora: getVisPredHora, getTetoHora: getTetoHora }
+
+    }
 }
 
 function GetWebContentTAF(url, primeiraVez) {
@@ -383,7 +393,7 @@ function GetWebContentTAF(url, primeiraVez) {
     xhttp.onreadystatechange = function () {
         var erro = "ErroSM=";
         if (this.status > 0) {
-            if ((this.readyState == 4 && this.status == 200) && (this.responseText !== "") && (!this.responseText.includes("Forbidden")) ) {
+            if ((this.readyState == 4 && this.status == 200) && (this.responseText !== "") && (!this.responseText.includes("Forbidden"))) {
 
 
                 //$("#imgLoad"+idxFIR).attr('src', 'pngs/green-button30.png');
@@ -398,8 +408,8 @@ function GetWebContentTAF(url, primeiraVez) {
                 } else
                     $("#h5Offline").hide();
 
-//                escondeLoading("TAF");
-//                atualizaHora();
+                //                escondeLoading("TAF");
+                //                atualizaHora();
                 return resposta;
             } else if (this.readyState > 2 && this.status !== 200) {
                 erro = erro + this.responseText;
