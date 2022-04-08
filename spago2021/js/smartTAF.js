@@ -20,7 +20,7 @@ arrTAFSCimaer.push({ indice: "12 HORAS, (06Z, 12Z  e 18Z) SEX", localidades: "SB
 arrTAFSCimaer.push({ indice: "12 HORAS, (06Z e 18Z) DIARIAMENTE", localidades: "SNCP" });
 function getArrayLength(array){
 	let i =0
-	for (lei c in array)
+	for (let c in array)
 		i++
 	return i
 	
