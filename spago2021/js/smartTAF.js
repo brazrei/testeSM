@@ -22,7 +22,7 @@ function getHoraNextTAF() {
     let days = ["DOM", "SEG", "TER", "QUA", "QUI", "SEX", "SAB"]
     let agora = getUTCAgora().addHours(1);
     let hora
-    While((agora.getHours() % 6) <> 0)
+    While((agora.getHours() % 6) !== 0)
     	agora = agora.addHours(1);
     hora = (agora.getHours() < 10) ? "0" + agora.getHours() : "" + agora.getHours();
     return { dia: days[agora.getDay()], hora}
