@@ -32,12 +32,12 @@ function atualizaStatusConsultaTAF() {
 	let tafsProxHora = getTAFsProximaHora().length;
 	let dh = getHoraNextTAF()
 	if (tafsProxHoraNaRede < tafsProxHora) {
-		$(".statusTAF").addClass("StatusOK")
-		$(".statusTAF").removeClass("StatusERRO")
+		$(".statusTAF").addClass("statusOK")
+		$(".statusTAF").removeClass("statusERRO")
 		$(".statusTAF").html(`TAFs ${dh.dia} ${dh.hora} OK`)
 	} else {
-		$(".statusTAF").addClass("StatusERRO")
-		$(".statusTAF").removeClass("StatusOK")
+		$(".statusTAF").addClass("statusERRO")
+		$(".statusTAF").removeClass("statusOK")
 		$(".statusTAF").html(`TAFs ${dh.dia} ${dh.hora} AUSENTES`)
 	}
 	
