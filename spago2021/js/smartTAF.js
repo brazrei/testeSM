@@ -19,7 +19,7 @@ arrTAFSCimaer.push({ indice: "12 HORAS, (06Z, 12Z  e 18Z) SEX", localidades: "SB
 arrTAFSCimaer.push({ indice: "12 HORAS, (06Z e 18Z) DIARIAMENTE", localidades: "SNCP" });
 
 function getHoraNextTAF() {
-    let = days = ["DOM", "SEG", "TER", "QUA", "QUI", "SEX", "SAB"]
+    let days = ["DOM", "SEG", "TER", "QUA", "QUI", "SEX", "SAB"]
     let agora = getUTCAgora().addHours(1);
     let hora
     While(agora.getHours() % 6 <> 0)
