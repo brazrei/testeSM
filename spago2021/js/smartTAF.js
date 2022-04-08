@@ -20,12 +20,12 @@ arrTAFSCimaer.push({ indice: "12 HORAS, (06Z e 18Z) DIARIAMENTE", localidades: "
 
 function getHoraNextTAF() {
     let days = ["DOM", "SEG", "TER", "QUA", "QUI", "SEX", "SAB"]
-    let agora = getUTCAgora().addHours(1);
+    let inicio = getUTCAgora().addHours(1);
     let hora
-    while((agora.getHours() % 6) !== 0)
-    	agora = agora.addHours(1);
-    hora = (agora.getHours() < 10) ? "0" + agora.getHours() : "" + agora.getHours();
-    return { dia: days[agora.getDay()], hora, data: agora }
+    while((inicio.getHours() % 6) !== 0)
+    	inicio = inicio.addHours(1);
+    hora = (inicio.getHours() < 10) ? "0" + inicio.getHours() : "" + inicio.getHours();
+    return { dia: days[inicio.getDay()], hora, dataIni: inicio }
 }
 
 function atualizaTAFS() { //atualiza os TAFs de hora em hora, na hora cheia.
@@ -41,9 +41,8 @@ function atualizaTAFS() { //atualiza os TAFs de hora em hora, na hora cheia.
 function verificaTAFS() { //atualiza os TAFs de hora em hora, na hora cheia.
 	let dh = getHoraNextTAF()
 	let locs = getArrayTAFsHora(dh.dia, dh.hora)
-	let agora = new Date()
-	
-	getTAFs(locs)
+
+	getTAFs(locs,dh.dataIni)
 }
 
 function getArrayTAFsHora(diaSemana, hora) {
@@ -376,14 +375,20 @@ function getTeto(tafMAF) {
     return { qtd: camada.qtd, altura: parseInt(camada.altura) }
 }
 
-function getTAFs(localidades = false) {
+function getTAFs(localidades = false, dataIni = false) {
     //mostraLoading("TAFs");
     let url = ""
-    let interval = opener.getInterval(5)
+    
+    let interval 
+    if (!dataIni)
+	    interval = opener.getInterval(5)
+    else
+	    interval = opener.getIntervalTAF(dataIni)
+	
     url = opener.linkInternetIWXXM;
 
-    localidades = localidades == false ? localidades : "," + localidades
-    url = `${url}${tafsGrupoConsulta}${localidades}&msg=taf${interval}`;
+    localidades = !localidades ? tafsGrupoConsulta : localidades ;
+    url = `${url}&msg=taf${interval}`;
 
     GetWebContentTAF(url, false);
 }
