@@ -42,7 +42,7 @@ function excluiTAFs(total, naRede){
 	let ausentes = []
 	for (let i in total) {
 		if (naRede.indexOf(total[i]) == -1)
-			ausentes.push(total[i]
+			ausentes.push(total[i])
 		
 	return ausentes;
 }
