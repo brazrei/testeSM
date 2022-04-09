@@ -790,13 +790,19 @@ function plotaMarca(lat, lng, loc) {
         
         let alertaVisTAF = !chkVisMetarTAF(loc)
         let strAlertaTAF = ""
-        if (alertaVisTAF)
+        let descTAF = "</b><br><br><b>VIGILÂNCIA TAF:</b>"
+        if (alertaVisTAF){
             strAlertaTAF += "*VISIBTAF"
-
+            descTAF += "<br><br>- <b> VISIBILIDADE NO METAR / SPECI</b> ESTÁ <b>ABAIXO</b> DA VISIBILIDADE PREVISTA PELO <b>TAF</b> PARA ESTE HORÁRIO! "
+        }
         
         let alertaTetoTAF = !chkTetoMetarTAF(loc)
-        if (alertaTetoTAF)
+        if (alertaTetoTAF) { 
             strAlertaTAF += "*TETOTAF"
+            descTAF += "<br><br>- <b> TETO NO METAR / SPECI</b> ESTÁ <b>ABAIXO</b> DO TETO PREVISTO PELO <b>TAF</b> PARA ESTE HORÁRIO! "
+        }
+
+        descTAF = (alertaVisTAF ||  alertaTetoTAF) ? descTAF : ""
 
         if (desc[0] == "*") {
             restricao = true
@@ -849,7 +855,7 @@ function plotaMarca(lat, lng, loc) {
         }
         else
             adWRNG = ""
-        desc = removeInfo(desc) + adWRNG
+        desc = removeInfo(desc) + adWRNG + descTAF
         m.bindTooltip(desc, { closeButton: false, offset: L.point(0, -20) })
         //console.log(m)
     } //else
