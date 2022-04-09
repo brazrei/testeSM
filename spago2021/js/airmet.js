@@ -693,8 +693,11 @@ function plotaMarca(lat, lng, loc) {
             strAlertaTAF += "*TETOTAF"
             descTAF += "<br><br>- <b> TETO NO METAR / SPECI</b> ESTÁ <b>ABAIXO</b> DO TETO PREVISTO PELO <b>TAF</b> PARA ESTE HORÁRIO! "
         }
-
-        descTAF = (alertaVisTAF ||  alertaTetoTAF) ? descTAF : ""
+	    
+	let alertaTAFCimaer = isTAFCimaer(loc) ? "" : spanRed ("<br><br>* TAF NÃO CONCECCIONADO PELO CIMAER! ","TAF NÃO CONCECCIONADO PELO CIMAER");
+	
+        descTAF = (alertaVisTAF ||  alertaTetoTAF) ? descTAF + alertaTAFCimaer : ""
+	
 
         if (desc[0] == "*") {
             restricao = true
