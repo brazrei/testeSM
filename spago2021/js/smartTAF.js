@@ -41,7 +41,7 @@ function isTAFCimaer(loc) {
 function excluiTAFs(total, naRede){
 	let ausentes = []
 	for (let i in total) {
-		if (naRede.indexOf(total[i]) == -1)
+		if (!naRede[total[i]])
 			ausentes.push(total[i])
 	}	
 	return ausentes;
