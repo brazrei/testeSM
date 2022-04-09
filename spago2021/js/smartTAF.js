@@ -477,10 +477,10 @@ function updateArrayStatus(localidade, status) { // retorna true se o status mud
     */
 }
 
-function clearTAFsAntigos(arr){
-  arr2 = []
+function excluiTAFsAntigos(arr){
+  let arr2 = []
   for (let i in arr){
-  	if (arr[i].inicio > getUTCAgora)
+  	if (arr[i].inicio > getUTCAgora())
   	    arr2[arr[i].localidade] = arr[i]
   }
   arr = arr2.slice(0) //retorna o valor como referencia
@@ -488,7 +488,7 @@ function clearTAFsAntigos(arr){
 
 function atualizaArrayTAFs(texto) {
     let TAFs = clearMsgIWXXM(texto)
-    clearTAFsAntigos(arrayProximosTAFs);
+    excluiTAFsAntigos(arrayProximosTAFs);
     for (let i in TAFs) {
         TAFs[i] = JSON.parse(TAFs[i]);
         let loc = getICAOIndicator(TAFs[i])
