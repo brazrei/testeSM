@@ -74,7 +74,7 @@ function atualizaStatusConsultaTAF() {
 		    $(".statusTAF").addClass("errorPulse")
 		$(".statusTAF").removeClass("statusOK")
 		$(".statusTAF").html(`TAF - ${dh.dia} ${dh.hora}Z - ${arrAusentes.length} AUSENTES`)
-		$( ".statusTAF" ).attr("title", `TAFs AUSENTES:<br><br> ${strAusentes}` );
+		$( ".statusTAF" ).attr("title", `TAFs AUSENTES: ${strAusentes}` );
 	} else {
 		$(".statusTAF").addClass("statusOK")
 		$(".statusTAF").removeClass("errorPulse")
