@@ -12,17 +12,6 @@ var groupMarkers = false
 var intervalAirmet = false
 var arrayMetaresGeral = []
 
-function addHours(data, horas) {
-    if (!Date.prototype.addHours)
-        Date.prototype.addHours = function (h) {
-            this.setHours(this.getHours() + h);
-            return this;
-        }
-
-    return data.addHours(horas)
-
-}
-
 function mostraAirmet() {
     if ($('#chkAirmet').prop('checked')) {
         getAirmet();
@@ -42,10 +31,10 @@ function getLocalidadesFIRSmartMetar() {
         result = opener.localidadesFIR.slice();
     } catch (e) {
         result = [
-            "SBEG,SBMN,SBBV,SBPV,SBRB,SBCY,SBSL,SBBE,SBJC,SBSN,SBMQ,SBCZ,SBTF,SBMY,SBAT,SBUA,SBCC,SBSO,SBIH,SBTT,SBTK,SBJI,SBHT,SBMA,SBVH,SBTU,SBOI,SBCJ,SBCI,SBIZ,SBTS,SBTB,SBUY,SBIC,SBEK,SBGM,SBMD,SBAA,SBSO,SBRD,SSKW",
+            "SBEG,SBMN,SBBV,SBPV,SBRB,SBCY,SBSL,SBBE,SBJC,SBSN,SBMQ,SBCZ,SBTF,SBMY,SBAT,SBUA,SBCC,SBSO,SBIH,SBTT,SBTK,SBJI,SBHT,SBMA,SBVH,SBTU,SBOI,SBCJ,SBCI,SBIZ,SBTS,SBTB,SBUY,SBIC,SBEK,SBGM,SBMD,SBAA,SBSO,SBRD,SSKW,SBSI",
             "SBAN, SBBH, SBBR, SBBW, SBCF, SBCN, SBGO, SBIP, SBIT, SBLS, SBMK, SBNV, SBPJ, SBPR, SBYS, SBAQ, SBAX, SBBP, SBGP, SBJD, SBKP,SBSJ, SBPC, SBRP, SBSR, SBUL, SBUR, SBVG, SNDV, SDAM",
             "SBFZ, SBSG, SBNT, SBJP, SBKG, SBRF, SBMO, SBAR, SBPL, SBJU, SBSV, SBIL, SBPS, SBVC, SBLP, SBVT, SBTE, SBFN, SBPB, SBGV, SBMS, SBUF, SBLE, SBTC, SBFE,SBTV,SBAC,SBJE,SNBR,SNTF,SDIY,SNVB,SNHS",
-            "SAEZ,SUMU,SGAS,SARE,SBUG,SBBG,SBPK,SBSM,SBNM,SBPF,SBPA,SBCO,SBCX,SBTR,SBCM,SBJA,SBLJ,SBCH,SBCD,SBFL,SBNF,SBJV,SBCT,SBBI,SBFI,SBPG,SSGG,SBPO,SBCA,SBTD,SBPP,SBDB,SBDO,SBCG,SBCR,SBTG,SBMG,SBLO,SBDN,SBML,SBBU,SBAE,SBAU,SBSP,SBMT,SBGR,SBST,SBTA,SBGW,SBSC,SBJR,SBAF,SBRJ,SBGL,SBBQ,SBZM,SBJF,SBES,SBBZ,SBCB,SBME,SBMM,SBEC,SBLB,SBCP,SBFS,SBEN,SDAG"
+            "SAEZ,SUMU,SGAS,SARE,SBUG,SBBG,SBPK,SBSM,SBNM,SBPF,SBPA,SBCO,SBCX,SBTR,SBCM,SBJA,SBLJ,SBCH,SBCD,SBFL,SBNF,SBJV,SBCT,SBBI,SBFI,SBPG,SSGG,SBPO,SBCA,SBTD,SBPP,SBDB,SBDO,SBCG,SBCR,SBTG,SBMG,SBLO,SBDN,SBML,SBBU,SBAE,SBAU,SBSP,SBMT,SBGR,SBST,SBTA,SBGW,SBSC,SBJR,SBAF,SBRJ,SBGL,SBBQ,SBZM,SBJF,SBES,SBBZ,SBCB,SBME,SBMM,SBEC,SBLB,SBCP,SBFS,SBEN,SDAG,SBMI,SBGU,SDCO,SBJH"
         ];
     }
     return result
@@ -82,85 +71,14 @@ function iniciaAirmetGlobalVars() {
 
 }*/
 
-function getUTCAgora() {
-    let agora = new Date()
-    return new Date(agora.getUTCFullYear(), agora.getUTCMonth(), agora.getUTCDate(), agora.getUTCHours(), agora.getUTCMinutes())
-
-}
-
-function getFullDateValid(dataI, dataF) { // retorna data inteira de AIRMET e SIGMET 
-    let diaI = dataI.substr(0, 2);
-    let horaI = dataI.substr(2, 2);
-    let minI = dataI.substr(4, 2);
-
-    let diaF = dataF.substr(0, 2);
-    let horaF = dataF.substr(2, 2);
-    let minF = dataF.substr(4, 2);
-
-
-    //  let diaA = 
-    let agora = getUTCAgora()
-    let decMonth = 0
-    if (diaI > agora.getUTCDay())
-        decMonth = -1;
-
-    let dataInicial = new Date(agora.getUTCFullYear(), agora.getUTCMonth() + decMonth, diaI, horaI, minI)
-    let dataFinal = new Date(agora.getUTCFullYear(), agora.getUTCMonth(), diaF, horaF, minF)
-
-    // if (parseInt(diaF) < parseInt(diaI))
-    //     dataFinal.setMonth(dataFinal.getMonth() + 1);
-    //console.log(agora.toISOString())
-    //console.log(dataInicial.toISOString())
-    //console.log(dataFinal.toISOString())
-    return [dataInicial, dataFinal]
-
-}
-
-function getUTCDate(date) {
-    let now_utc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(),
-        date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
-
-    return new Date(now_utc);
-}
-
 function isValidAirmet(ini, fim) {
-    let interval = getFullDateValid(ini, fim)
-    let agora = getUTCAgora()
-    if ((agora >= interval[0]) && (agora <= interval[1])) {
-        return true
-    } else if (interval[0] > agora)
-        return -1
-    return false
+    return isValidMsg(ini, fim)
 }
-function isLinux() {
+
+/*function isLinux() {
     return navigator.platform.indexOf("Linux") > -1
-}
+}*/
 
-function isCloseToValidOff(ini, fim, timer = 10) {
-    if (ini == "")
-        return false
-
-    if (!fim) {
-        let valid = getValidadeAirmet(ini)
-        ini = valid.split("/")[0]
-        fim = valid.split("/")[1]
-    }
-    let agora = getUTCAgora()
-    fim = getFullDateValid(ini, fim)[1]
-
-    let restante = getUTCDate(new Date(fim - agora))
-
-    if (isLinux()) {
-        addHours(restante, 3)
-        //restante.addHours(3)
-    }
-    if (restante.getHours() == 0) { // não sei porque, mas estava começando da hora 01 no Linux
-        if (restante.getMinutes() <= timer)
-            return true
-    }
-
-    return false
-}
 
 /*
 valid = isValidAirmet("291409", "291815")
@@ -171,50 +89,25 @@ console.log(isCloseToValidOff("291400", "291418"))
 */
 function getIniAirmet(hora) {
     //201200/201800
-    return hora.substr(2, 2); makeDataHoraAgora
+    return getIniDataHora(hora)
 }
 
 function getFimAirmet(hora) {
     //201200/201800
-    return hora.substr(9, 2);
+    return getFimDataHora(hora);
 }
-function getValidadeAirmet(text) {
-    var t = text.replace(/ /g, "")
-    //console.log("t => " + t )
 
-    nuvPatt2 = /\d{6}\/\d{6}/g; //PEGA O intervalo de validade de str sem espaços
-    var t1 = t.match(nuvPatt2)
-    if (t1 && t1.length > 0)
-        return t1[0]
-    else
-        return ""
+function getValidadeAirmet(text) {
+    return getValidadeMsg(text) 
 }
 
 function airmetPertoDoFim(airmet) {
-    let val = getValidadeAirmet(airmet);
-    let ini = val.split("/")[0]
-    let fim = val.split("/")[1]
-
-    return isCloseToValidOff(ini, fim)
+    return msgPertoDoFim(airmet)
 }
-
-/*function getValidadeAirmet(airmet) {
-    //VALID 201200/201800
-    return airmet.split(" VALID ")[1].substr(0, 13);
-}*/
 
 function checaValidadeAirmet(airmet) {
-
-    let val = getValidadeAirmet(airmet);
-
-    let ini = val.split("/")[0]
-    let fim = val.split("/")[1]
-    if ((ini !== "") && (fim !== ""))
-        return isValidAirmet(ini, fim)
-    else
-        return false
+    return checaValidadeMsg(airmet)
 }
-
 
 /*funcoes gerais */
 
@@ -473,8 +366,10 @@ function getMetar(loc) {
     let met = buscaMetar(arrayMetares, loc) //busca os que tem restrição
     if (met == loc) {//se não, encontrou busca no geral
         try {
-            met = buscaMetar(opener.arrayMetares.slice().reverse(), loc) // pega apenas os metares de uma determinada FIR
-            if (met == loc) {//se nao achou, atualiza a lista geral 
+            met = buscaMetar(opener.arrayMetares.slice().reverse(), loc) //pega apenas os metares de uma determinada FIR
+            if (met !== loc) //atualiza a lista geral se achou
+                updateArrayMetaresGeral(loc, met)
+            else
                 met = buscaMetar(arrayMetaresGeral, loc)
                 if (met !==loc)
                   updateArrayMetaresGeral(loc, met)
@@ -1354,7 +1249,7 @@ function mostraLoading(txt = "") {
 function atualizaHora(id = false) {
     if (!id)
         id = "#clockAirmet"
-    var date = new Date();
+    var date = getUTCAgora();
     var hora = adicionaZero(date.getUTCHours()) + ":" + adicionaZero(date.getUTCMinutes()) + ":" + adicionaZero(date.getUTCSeconds());
     $(id).html(hora + " UTC");
 
@@ -1579,7 +1474,7 @@ function trataAirmetRedemet(texto) {
     var classe = "table-warning table-airmet";
     //limpaAirmets();
     texto = removeEspacosDuplos(texto);
-    var agora = new Date();
+    var agora = getUTCAgora();
     var horaAtual = agora.getHours()
     var erro = ""
 
