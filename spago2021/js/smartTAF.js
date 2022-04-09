@@ -38,6 +38,15 @@ function isTAFCimaer(loc) {
 	return achou
 }
 
+function excluiTAFs(total, naRede){
+	let ausentes = []
+	for (let i in total) {
+		if (naRede.indexOf(total[i]) == -1)
+			ausentes.push(total[i]
+		
+	return ausentes;
+}
+	
 function atualizaStatusConsultaTAF() {
 	let qtdTAFsProxHoraNaRede = getArrayLength(arrayProximosTAFs) //tafs da proxima hora de envio obtidos da rede
 	let tafsProxHora = getTAFsProximaHora();  // tafs que deveriam estar na proxima hora de envio
@@ -49,7 +58,7 @@ function atualizaStatusConsultaTAF() {
 	let ligarPulse = agora > dh.dataIni.addHours(-2) //dh é alterado na funcao addHours
 	let ignorarAusentes = agora < dh.dataIni.addHours(-1)
 	
-	let arrAusentes = tafsProxHora.filter((i) => !arrayProximosTAFs.some((i2) => i2 === i));
+	let arrAusentes = excluiTAFs(tafsProxHora, arrayProximosTAFs);
 	let strAusentes = ""
 	if (arrAusentes.length > 0)
 		strAusentes = arrAusentes.join(', ');
