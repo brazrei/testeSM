@@ -35,7 +35,8 @@ function atualizaStatusConsultaTAF() {
 	
 	let dh = getHoraNextTAF()
 	
-	let ignorarAusentes = agora < dh.dataIni.addHours(-3)
+	let ligarPulse = agora > dh.dataIni.addHours(-2) //dh é alterado na funcao addHours
+	let ignorarAusentes = agora < dh.dataIni.addHours(-1)
 	
 	let arrAusentes = tafsProxHora.filter((i) => !arrayProximosTAFs.some((i2) => i2 === i));
 	let strAusentes = ""
@@ -49,7 +50,8 @@ function atualizaStatusConsultaTAF() {
 			return false
 		}
 		$(".statusTAF").addClass("statusERRO")
-		$(".statusTAF").addClass("errorPulse")
+		if (ligarPulse)
+		    $(".statusTAF").addClass("errorPulse")
 		$(".statusTAF").removeClass("statusOK")
 		$(".statusTAF").html(`TAF - ${dh.dia} ${dh.hora}Z AUSENTES`)
 		$( ".statusTAF" ).attr("title", `TAFs AUSENTES: ${strAusentes}` );
@@ -432,7 +434,7 @@ function getTAFs(localidades = false, dataIni = false) {
     let url = ""
     
     let interval 
-    if (!dataIni)
+    if (!dataIni && opener.getInterval)
 	    interval = opener.getInterval(5)
     else
 	    interval = opener.getIntervalTAF(dataIni)
