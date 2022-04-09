@@ -15,10 +15,12 @@ const toleranciaRajada = 20; // percenual de tolerancia para alerta de rajada
 
 var redemetAntiga = true;
 var OPMET = true;
+
 var intraer = false; // valido apenas para a api antiga por enquanto
 var apiKey = "U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei"
 //var linkInternet = "http://redemet.decea.gov.br//api/consulta_automatica/index.php?local="
 var linkInternet = "http://localhost/WebServiceOPMET/getMetarOPMET.php?local="
+var linkInternetIWXXM = "http://localhost/WebServiceOPMET/getMsgIWXXM.php?local="
 
 var linkIntraer = "http://www.redemet.intraer//api/consulta_automatica/index.php?local="
 var linkAPINova = "https://api-redemet.decea.mil.br/mensagens/"
@@ -66,12 +68,6 @@ function getFormatedDate(data) {
     //    if (zeraMinutos)
     //        minutos = '00';
     return `${ano}${mes}${dia}${hora}${minutos}`;
-}
-
-function getInterval(horas = 1) {
-    let dini = getFormatedDate(addHours(new Date(), -horas));
-    let dfim = getFormatedDate(addHours(new Date(), 1));
-    return `&data_ini=${dini}&data_fim=${dfim}`
 }
 
 function getUrlCache() {

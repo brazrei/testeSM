@@ -187,7 +187,7 @@
       background-image: -ms-linear-gradient(top, #FFF 0%, #CFCFCF 100%);
       background-image: -moz-linear-gradient(top, #FFF 0%, #CFCFCF 100%);
       background-image: -o-linear-gradient(top, #FFF 0%, #CFCFCF 100%);
-      background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #FFF), color-stop(1, #CFCFCF));
+      background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #FFF), color-stop(1, #CFCFCF)); 
       background-image: -webkit-linear-gradient(top, #FFF 0%, #CFCFCF 100%);
       background-image: linear-gradient(top, #FFF 0%, #CFCFCF 100%);
     }
@@ -196,6 +196,21 @@
     .loadingstsc {
       width: 20px;
       height: 20px;
+    }
+    
+    .statusTAF {
+      text-shadow: 1px 1px 3px #2f2828, 1px 1px 0px #6d1717;
+      border-radius: 8px;
+      background-color: #ccc;
+      padding: 5px;
+      cursor: pointer;   
+      color: white;
+    }
+    .statusOK {
+      color: #57ff39;
+    }
+    .statusERRO {
+      color: red;
     }
 
     /* box ------------------------------------------------------ */
@@ -353,6 +368,8 @@
 
   <script src="js/airmet.js"></script>
   <script src="js/sigmet.js"></script>
+  <script src="js/smartTAF.js"></script>
+  
   <script src="js/aeroportos20102020.js"></script>
   <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.2.0/leaflet-omnivore.min.js'></script>
   <script src="js/kmlLoad.js"></script>
@@ -405,6 +422,7 @@
     <div class='glass'>
       <div id='painel' class='degrade sombra'>
         <div style="width:100%; margin-top: 15px;margin-bottom: 50px;">
+          <b><span class="statusTAF" id="statusTAF">STATUS TAF...</span></b><br><br>
           <div class="divStatus">
             <label class="switch">
               <input type="checkbox" id="chkTeto" onchange="updateSmartMetar();" checked />
@@ -485,7 +503,6 @@
         <input type="range" min="1" max="100" value="50" id="myRange" style="display: none;">
         <br>
         <br>
-
 <!--        <label class="switch">
           <input type="checkbox" id="chkCopiaAuto" />
           <span class="slider round"></span>

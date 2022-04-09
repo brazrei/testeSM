@@ -40,9 +40,13 @@ function getLocalidadesFIRSmartMetar() {
     return result
 }
 
+function getAeroInternacional(){
+    return removeEspacosDuplos(aeroIntern.replace(/\*/g,'')).replace(/ /g,',');
+}
+
 function iniciaAirmetGlobalVars() {
     regAirmet = { codigo: "", FIR: 0, tipo: "", base: 0, visibilidade: 0, valIni: 0, valFin: 0, area: 0, cancelado: false, texto: "", coord: "", locs: "" }
-    aeroIntern = "SBBG* SBBE SBCF SBBV SBBR SBKP SBCG SBCR SBCZ SBCY SBCT SBFL SBFZ SBFI SBJP SBMQ SBEG SBNF SBPK SBPP SBPA SBPV SBRF SBRP* SBRB* SBGL SBSV SBSN SBSG SBSJ SBSP* SBVT* SBSL SBGR SBTT SBPB SBPL* SBPS* SBCB*	SBMO* SBMG*"
+    aeroIntern = "SBBG* SBBE SBCF SBBV SBBR SBKP SBCG SBCR SBCZ SBCY SBCT SBFL SBFZ SBFI SBJP SBMQ SBEG SBNF SBPK SBPP SBPA SBPV SBRF SBRP* SBRB* SBGL SBSV SBSN SBSG SBSJ SBSP* SBVT* SBSL SBGR SBTT SBPB SBPL* SBPS* SBCB* SBMO* SBMG*"
     arrAirmetGeral = []
     arrIdxAirmetGeral = []
     arrAirmetsPlot = []
@@ -294,57 +298,96 @@ function addMarker(m, loc, restricao, pulse = false) {
     return m
 }
 
+function removeHTMLTags(txt) {
+  txt = jQuery('<p>' + txt + '</p>').text();
+  if (txt.includes ("="))
+      txt = txt.split("=")[0] + "="
+  return removeEspacosDuplos(txt)
+}
+
+function getMetarFromArrayMetaresGeral(loc) {
+    for (let i in arrayMetaresGeral)
+        if (arrayMetaresGeral[i].METAR.loc == loc)
+            return arrayMetaresGeral[i]
+    
+    return false
+}
+
 function updateArrayMetaresGeral(loc, met) {
     let achou = false
-    let i = 0
-    arrayMetaresGeral.forEach(itemG => {
-        if (itemG.includes(loc)) {
+    met = removeHTMLTags(met)
+    let taf = getTAFFromMetar(met)
+    let achouTAF = taf.TAF?true:false
+    for (let i in arrayMetaresGeral) {
+        if (arrayMetaresGeral[i].METAR.texto.includes(loc)) {
             achou = true
-            arrayMetaresGeral[i] = met
-
-            return true
+            arrayMetaresGeral[i].METAR.loc = loc
+            arrayMetaresGeral[i].METAR.texto = met
+            arrayMetaresGeral[i].METAR.visibilidade = opener.getVisibilidade(met)
+            arrayMetaresGeral[i].METAR.teto = opener.getTeto(met)
+            
+            arrayMetaresGeral[i].TAF.achou = achouTAF
+            arrayMetaresGeral[i].TAF.texto = ""
+            arrayMetaresGeral[i].TAF.visibilidade = taf.visibilidade
+            arrayMetaresGeral[i].TAF.teto = taf.teto
+            arrayMetaresGeral[i].TAF.permiteAMD = taf.permiteAMD
+            arrayMetaresGeral[i].TAF.inicioValid = taf.inicioValid
+            arrayMetaresGeral[i].TAF.fimValid = taf.fimValid
+            
+            return achou
+          
         }
-        i++
-
-    })
-    if (!achou)
-        arrayMetaresGeral.push(met)
+    }
+    
+    arrayMetaresGeral.push({ METAR:{loc, texto:met, visibilidade: opener.getVisibilidade(met), teto: opener.getTeto(met)},TAF:{achou: achouTAF, texto:"", visibilidade: taf.visibilidade, teto: taf.teto, inicioValid: taf.inicioValid, fimValid: taf.fimValid, permiteAMD: taf.permiteAMD} })
     return false
+
 }
 
 function getMetar(loc) {
     function buscaMetar(array, loc) {
         let xitem = loc
-
-        for (i in array) {
-            if (array[i].includes(loc)) {
-                xitem = array[i];
-                break;
+        
+        for (let i in array) {
+            let msg
+           if (typeof array[i] === 'string' || array[i] instanceof String)
+              msg = array[i]
+            else
+              msg = array[i].METAR.texto
+            
+            if (msg.includes(loc)) {
+                xitem = msg
+                break
             }
         }
         return xitem
     }
 
     let met = buscaMetar(arrayMetares, loc) //busca os que tem restrição
-    if (met == loc) {//se  não encontrou busca no geral
+    if (met == loc) {//se não, encontrou busca no geral
         try {
             met = buscaMetar(opener.arrayMetares.slice().reverse(), loc) //pega apenas os metares de uma determinada FIR
             if (met !== loc) //atualiza a lista geral se achou
                 updateArrayMetaresGeral(loc, met)
             else
                 met = buscaMetar(arrayMetaresGeral, loc)
-
-
+                if (met !==loc)
+                  updateArrayMetaresGeral(loc, met)
+            } else
+                  updateArrayMetaresGeral(loc, met)
+            
         } catch (e) {
             console.log(e)
         }
 
-    } else //metar com restricao
+    } else {//metar com restricao
+        updateArrayMetaresGeral(loc, met)
         met = "*" + met
-
+    }
     return met
 
 }
+
 function updateDescobertos(loc, tipoAlerta) {
     function trataLabelDescobertas(id, loc, legenda) {
         let desc = $(id).html()
@@ -381,12 +424,16 @@ function plotaMarca(lat, lng, loc) {
         let svgVisibilidade = ""
         let svgTrovoada = ""
         let svgVento = ""
+        let svgVisibilidadeTaf = ""
+	let svgTetoTaf = ""
         let contRestricoes = 0
         let alt = 0
         let color = "yellow"
         let boxOpacity = "0.8";
         let backGroundColor = "#444";
         let classSvgIcon
+	let fontAlertaTAF = "red"
+	let fontAlertaTAFBorder = "white"
 
         //if (adWRNGPertoDoFim)
 
@@ -396,6 +443,8 @@ function plotaMarca(lat, lng, loc) {
             boxOpacity = "0.9";
             backGroundColor = "red"
             classSvgIcon = "pulseZoom"
+	    fontAlertaTAF = "white"
+	    fontAlertaTAFBorder = "black"
         }
 
         if (adWRNGPertoDoFim)
@@ -403,7 +452,31 @@ function plotaMarca(lat, lng, loc) {
 
         let iconColor = color
 
+        if (strAlerta.includes("VISIBTAF")){
+            svgVisibilidadeTaf = `<g transform="matrix(1 0 0 1 ${inicioX}.5 25.5)" id="Capa_1"  >
+              <g transform="matrix(1 0 0 1 48 38.17)" style=""  >
+		      <text xml:space="preserve" font-family="'Open Sans', sans-serif" font-size="100" font-style="normal" font-weight="bold" style="stroke: ${fontAlertaTAFBorder}; stroke-width: 5; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: ${fontAlertaTAF}; fill-rule: nonzero; opacity: 1; white-space: pre;" ><tspan x="-80" y="35.65" >V</tspan></text>
+              </g>
+            </g>`
+            offSetX += 150;
+            contRestricoes += 1
+            
+        }
+        
+        if (strAlerta.includes("TETOTAF")){
+            inicioX = 84 + offSetX;
+            svgTetoTaf = `<g transform="matrix(1 0 0 1 ${inicioX}.5 25.5)" id="Capa_1"  >
+              <g transform="matrix(1 0 0 1 48 38.17)" style=""  >
+		      <text xml:space="preserve" font-family="'Open Sans', sans-serif" font-size="100" font-style="normal" font-weight="bold" style="stroke: ${fontAlertaTAFBorder}; stroke-width: 5; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: ${fontAlertaTAF}; fill-rule: nonzero; opacity: 1; white-space: pre;" ><tspan x="-80" y="35.65" >T</tspan></text>
+              </g>
+            </g>`
+            offSetX += 150;
+            contRestricoes += 1
+            
+        }
+        
         if (strAlerta.includes("TETO")) {
+            inicioX = 84 + offSetX;
             svgTeto = `<g transform="matrix(0.35 0 0 0.35 ${inicioX}.02 67.61)"  >
         <g style=""   >
                 <g transform="matrix(1 0 0 1 43.46 21.75)" id="Capa_1"  >
@@ -417,14 +490,15 @@ function plotaMarca(lat, lng, loc) {
             offSetX += 150;
             contRestricoes += 1
         }
-
+          
         if (strAlerta.includes("VISIBILIDADE")) {
             //inicio x= 84
 
             inicioX = 84 + offSetX;
 
             svgVisibilidade = `<g transform="matrix(0.67 0 0 0.67 ${inicioX}.6 68.6)"  >
-        <g style=""   >
+        <g 
+        </svg>style=""   >
         <g transform="matrix(1 0 0 1 -36.32 -61.62)" id="Capa_1"  >
         
         <path style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: ${iconColor}; fill-rule: nonzero; opacity: 1;"  transform=" translate(-72.4, -47.09)" d="M 144.797 47.095 c 0 -4.142 -3.358 -7.5 -7.5 -7.5 H 7.5 c -4.142 0 -7.5 3.358 -7.5 7.5 c 0 4.142 3.358 7.5 7.5 7.5 h 129.797 C 141.439 54.595 144.797 51.237 144.797 47.095 z" stroke-linecap="round" />
@@ -487,6 +561,10 @@ function plotaMarca(lat, lng, loc) {
             <defs>
             </defs>
             <rect x="0" y="0"  rx="30" ry ="30" width="100%" height="100%" fill="${backGroundColor}" fill-opacity="${boxOpacity}";></rect>
+
+            ${svgVisibilidadeTaf}
+            
+	    ${svgTetoTaf}
 
             ${svgVisibilidade}
 
@@ -604,6 +682,22 @@ function plotaMarca(lat, lng, loc) {
         let adWRNG = opener.getStatusAdWRNG(loc)
 
         let adWRNGPertoDoFim = isCloseToValidOff(adWRNG.textoFull)
+        
+        let alertaVisTAF = !chkVisMetarTAF(loc)
+        let strAlertaTAF = ""
+        let descTAF = "</b><br><br><b>VIGILÂNCIA TAF:</b>"
+        if (alertaVisTAF){
+            strAlertaTAF += "*VISIBTAF"
+            descTAF += "<br><br>- <b> VISIBILIDADE NO METAR / SPECI</b> ESTÁ <b>ABAIXO</b> DA VISIBILIDADE PREVISTA PELO <b>TAF</b> PARA ESTE HORÁRIO! "
+        }
+        
+        let alertaTetoTAF = !chkTetoMetarTAF(loc)
+        if (alertaTetoTAF) { 
+            strAlertaTAF += "*TETOTAF"
+            descTAF += "<br><br>- <b> TETO NO METAR / SPECI</b> ESTÁ <b>ABAIXO</b> DO TETO PREVISTO PELO <b>TAF</b> PARA ESTE HORÁRIO! "
+        }
+
+        descTAF = (alertaVisTAF ||  alertaTetoTAF) ? descTAF : ""
 
         if (desc[0] == "*") {
             restricao = true
@@ -614,8 +708,8 @@ function plotaMarca(lat, lng, loc) {
             if (descU.includes("DESCOBERTO")) {
                 let strDescoberto = descU.split("DESCOBERTO")[1].split("<")[0]
                 let alerta = getTipoAlerta(loc, strDescoberto);
-                //icon = redIcon
-                icon = getSvgIcon(loc, alerta.strAlerta, adWRNGPertoDoFim, true) //vento trovoada teto visib
+                icon = redIcon
+                icon = getSvgIcon(loc, strDescoberto+strAlertaTAF, adWRNGPertoDoFim, true) //vento trovoada teto visib
 
                 //if (alerta.ad)
                 addMarker(L.marker([lat, lng], { icon: cssIconRed }), "", restricao, true)
@@ -626,17 +720,19 @@ function plotaMarca(lat, lng, loc) {
                 // icon = orangeIcon
                 //else {
                 //icon = yellowIcon
-                icon = getSvgIcon(loc, alerta.strAlerta, adWRNGPertoDoFim, false) //vento trovoada teto visib
+                icon = getSvgIcon(loc, alerta.strAlerta+strAlertaTAF, adWRNGPertoDoFim, false) //vento trovoada teto visib
 
                 //}
                 //if (alerta.ad)
                 //    addMarker(L.marker([lat, lng], { icon: cssIconYellow }), "", restricao, true)
             }
-        } else
+        } else if (alertaVisTAF)
+            icon = getSvgIcon(loc, strAlertaTAF, adWRNGPertoDoFim, true) //vento trovoada teto visib
+        else
             icon = greenIcon
 
 
-        var m = addMarker(L.marker([lat, lng], { icon: icon }), loc, restricao)
+        var m = addMarker(L.marker([lat, lng], { icon: icon }), loc, restricao || alertaVisTAF)
         //m._icon.classList.add("svgRedIcon");
 
 
@@ -654,7 +750,7 @@ function plotaMarca(lat, lng, loc) {
         }
         else
             adWRNG = ""
-        desc = removeInfo(desc) + adWRNG
+        desc = removeInfo(desc) + adWRNG + descTAF
         m.bindTooltip(desc, { closeButton: false, offset: L.point(0, -20) })
         //console.log(m)
     } //else
@@ -935,6 +1031,16 @@ function start() {
     plota_stsc();
 
     intervalSTSC = setInterval("atualizaSTSC()", 120000);
+	
+    atualizaTAFS();
+	
+    intervalTAF = setInterval(atualizaTAFS, 60000); //tem que ser de minuto em minuto
+
+    verificaTAFS();
+	
+    intervalVerificaTAF = setInterval(verificaTAFS, 60000); //tem que ser de minuto em minuto
+	
+    setTimeout(updateSmartMetar,5000) //
 
     //checaPonto("S1637 W04911");
     //map.setView([-18.0,-45.0], 13);
