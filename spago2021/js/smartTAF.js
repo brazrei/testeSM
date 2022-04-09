@@ -27,6 +27,17 @@ function getArrayLength(array){
 	
 }
 
+function isTAFCimaer(loc) {
+	let achou = false;
+	for (let i in arrTAFSCimaer){
+		achou = arrTAFSCimaer[i].localidades.includes(loc)
+		if (achou)
+			break;
+		
+	}
+	return achou
+}
+
 function atualizaStatusConsultaTAF() {
 	let qtdTAFsProxHoraNaRede = getArrayLength(arrayProximosTAFs) //tafs da proxima hora de envio obtidos da rede
 	let tafsProxHora = getTAFsProximaHora();  // tafs que deveriam estar na proxima hora de envio
