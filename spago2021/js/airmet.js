@@ -12,17 +12,6 @@ var groupMarkers = false
 var intervalAirmet = false
 var arrayMetaresGeral = []
 
-function addHours(data, horas) {
-    if (!Date.prototype.addHours)
-        Date.prototype.addHours = function (h) {
-            this.setHours(this.getHours() + h);
-            return this;
-        }
-
-    return data.addHours(horas)
-
-}
-
 function mostraAirmet() {
     if ($('#chkAirmet').prop('checked')) {
         getAirmet();
@@ -42,22 +31,18 @@ function getLocalidadesFIRSmartMetar() {
         result = opener.localidadesFIR.slice();
     } catch (e) {
         result = [
-            "SBEG,SBMN,SBBV,SBPV,SBRB,SBCY,SBSL,SBBE,SBJC,SBSN,SBMQ,SBCZ,SBTF,SBMY,SBAT,SBUA,SBCC,SBSO,SBIH,SBTT,SBTK,SBJI,SBHT,SBMA,SBVH,SBTU,SBOI,SBCJ,SBCI,SBIZ,SBTS,SBTB,SBUY,SBIC,SBEK,SBGM,SBMD,SBAA,SBSO,SBRD,SSKW",
+            "SBEG,SBMN,SBBV,SBPV,SBRB,SBCY,SBSL,SBBE,SBJC,SBSN,SBMQ,SBCZ,SBTF,SBMY,SBAT,SBUA,SBCC,SBSO,SBIH,SBTT,SBTK,SBJI,SBHT,SBMA,SBVH,SBTU,SBOI,SBCJ,SBCI,SBIZ,SBTS,SBTB,SBUY,SBIC,SBEK,SBGM,SBMD,SBAA,SBSO,SBRD,SSKW,SBSI",
             "SBAN, SBBH, SBBR, SBBW, SBCF, SBCN, SBGO, SBIP, SBIT, SBLS, SBMK, SBNV, SBPJ, SBPR, SBYS, SBAQ, SBAX, SBBP, SBGP, SBJD, SBKP,SBSJ, SBPC, SBRP, SBSR, SBUL, SBUR, SBVG, SNDV, SDAM",
             "SBFZ, SBSG, SBNT, SBJP, SBKG, SBRF, SBMO, SBAR, SBPL, SBJU, SBSV, SBIL, SBPS, SBVC, SBLP, SBVT, SBTE, SBFN, SBPB, SBGV, SBMS, SBUF, SBLE, SBTC, SBFE,SBTV,SBAC,SBJE,SNBR,SNTF,SDIY,SNVB,SNHS",
-            "SAEZ,SUMU,SGAS,SARE,SBUG,SBBG,SBPK,SBSM,SBNM,SBPF,SBPA,SBCO,SBCX,SBTR,SBCM,SBJA,SBLJ,SBCH,SBCD,SBFL,SBNF,SBJV,SBCT,SBBI,SBFI,SBPG,SSGG,SBPO,SBCA,SBTD,SBPP,SBDB,SBDO,SBCG,SBCR,SBTG,SBMG,SBLO,SBDN,SBML,SBBU,SBAE,SBAU,SBSP,SBMT,SBGR,SBST,SBTA,SBGW,SBSC,SBJR,SBAF,SBRJ,SBGL,SBBQ,SBZM,SBJF,SBES,SBBZ,SBCB,SBME,SBMM,SBEC,SBLB,SBCP,SBFS,SBEN,SDAG"
+            "SAEZ,SUMU,SGAS,SARE,SBUG,SBBG,SBPK,SBSM,SBNM,SBPF,SBPA,SBCO,SBCX,SBTR,SBCM,SBJA,SBLJ,SBCH,SBCD,SBFL,SBNF,SBJV,SBCT,SBBI,SBFI,SBPG,SSGG,SBPO,SBCA,SBTD,SBPP,SBDB,SBDO,SBCG,SBCR,SBTG,SBMG,SBLO,SBDN,SBML,SBBU,SBAE,SBAU,SBSP,SBMT,SBGR,SBST,SBTA,SBGW,SBSC,SBJR,SBAF,SBRJ,SBGL,SBBQ,SBZM,SBJF,SBES,SBBZ,SBCB,SBME,SBMM,SBEC,SBLB,SBCP,SBFS,SBEN,SDAG,SBMI,SBGU,SDCO,SBJH"
         ];
     }
     return result
 }
 
-function getAeroInternacional(){
-    return removeEspacosDuplos(aeroIntern.replace(/\*/g,'')).replace(/ /g,',');
-}
-
 function iniciaAirmetGlobalVars() {
     regAirmet = { codigo: "", FIR: 0, tipo: "", base: 0, visibilidade: 0, valIni: 0, valFin: 0, area: 0, cancelado: false, texto: "", coord: "", locs: "" }
-    aeroIntern = "SBBG* SBBE SBCF SBBV SBBR SBKP SBCG SBCR SBCZ SBCY SBCT SBFL SBFZ SBFI SBJP SBMQ SBEG SBNF SBPK SBPP SBPA SBPV SBRF SBRP* SBRB* SBGL SBSV SBSN SBSG SBSJ SBSP* SBVT* SBSL SBGR SBTT SBPB SBPL* SBPS* SBCB* SBMO* SBMG*"
+    aeroIntern = "SBBG* SBBE SBCF SBBV SBBR SBKP SBCG SBCR SBCZ SBCY SBCT SBFL SBFZ SBFI SBJP SBMQ SBEG SBNF SBPK SBPP SBPA SBPV SBRF SBRP* SBRB* SBGL SBSV SBSN SBSG SBSJ SBSP* SBVT* SBSL SBGR SBTT SBPB SBPL* SBPS* SBCB*	SBMO* SBMG*"
     arrAirmetGeral = []
     arrIdxAirmetGeral = []
     arrAirmetsPlot = []
@@ -82,85 +67,14 @@ function iniciaAirmetGlobalVars() {
 
 }*/
 
-function getUTCAgora() {
-    let agora = new Date()
-    return new Date(agora.getUTCFullYear(), agora.getUTCMonth(), agora.getUTCDate(), agora.getUTCHours(), agora.getUTCMinutes())
-
-}
-
-function getFullDateValid(dataI, dataF) { // retorna data inteira de AIRMET e SIGMET 
-    let diaI = dataI.substr(0, 2);
-    let horaI = dataI.substr(2, 2);
-    let minI = dataI.substr(4, 2);
-
-    let diaF = dataF.substr(0, 2);
-    let horaF = dataF.substr(2, 2);
-    let minF = dataF.substr(4, 2);
-
-
-    //  let diaA = 
-    let agora = getUTCAgora()
-    let decMonth = 0
-    if (diaI > agora.getUTCDay())
-        decMonth = -1;
-
-    let dataInicial = new Date(agora.getUTCFullYear(), agora.getUTCMonth() + decMonth, diaI, horaI, minI)
-    let dataFinal = new Date(agora.getUTCFullYear(), agora.getUTCMonth(), diaF, horaF, minF)
-
-    // if (parseInt(diaF) < parseInt(diaI))
-    //     dataFinal.setMonth(dataFinal.getMonth() + 1);
-    //console.log(agora.toISOString())
-    //console.log(dataInicial.toISOString())
-    //console.log(dataFinal.toISOString())
-    return [dataInicial, dataFinal]
-
-}
-
-function getUTCDate(date) {
-    let now_utc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(),
-        date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
-
-    return new Date(now_utc);
-}
-
 function isValidAirmet(ini, fim) {
-    let interval = getFullDateValid(ini, fim)
-    let agora = getUTCAgora()
-    if ((agora >= interval[0]) && (agora <= interval[1])) {
-        return true
-    } else if (interval[0] > agora)
-        return -1
-    return false
+    return isValidMsg(ini, fim)
 }
-function isLinux() {
+
+/*function isLinux() {
     return navigator.platform.indexOf("Linux") > -1
-}
+}*/
 
-function isCloseToValidOff(ini, fim, timer = 10) {
-    if (ini == "")
-        return false
-
-    if (!fim) {
-        let valid = getValidadeAirmet(ini)
-        ini = valid.split("/")[0]
-        fim = valid.split("/")[1]
-    }
-    let agora = getUTCAgora()
-    fim = getFullDateValid(ini, fim)[1]
-
-    let restante = getUTCDate(new Date(fim - agora))
-
-    if (isLinux()) {
-        addHours(restante, 3)
-        //restante.addHours(3)
-    }
-    if (restante.getHours() == 0) { // não sei porque, mas estava começando da hora 01 no Linux
-        if (restante.getMinutes() <= timer)
-            return true
-    }
-
-    return false
-}
 
 /*
 valid = isValidAirmet("291409", "291815")
@@ -171,50 +85,25 @@ console.log(isCloseToValidOff("291400", "291418"))
 */
 function getIniAirmet(hora) {
     //201200/201800
-    return hora.substr(2, 2); makeDataHoraAgora
+    return getIniDataHora(hora)
 }
 
 function getFimAirmet(hora) {
     //201200/201800
-    return hora.substr(9, 2);
+    return getFimDataHora(hora);
 }
-function getValidadeAirmet(text) {
-    var t = text.replace(/ /g, "")
-    //console.log("t => " + t )
 
-    nuvPatt2 = /\d{6}\/\d{6}/g; //PEGA O intervalo de validade de str sem espaços
-    var t1 = t.match(nuvPatt2)
-    if (t1 && t1.length > 0)
-        return t1[0]
-    else
-        return ""
+function getValidadeAirmet(text) {
+    return getValidadeMsg(text) 
 }
 
 function airmetPertoDoFim(airmet) {
-    let val = getValidadeAirmet(airmet);
-    let ini = val.split("/")[0]
-    let fim = val.split("/")[1]
-
-    return isCloseToValidOff(ini, fim)
+    return msgPertoDoFim(airmet)
 }
-
-/*function getValidadeAirmet(airmet) {
-    //VALID 201200/201800
-    return airmet.split(" VALID ")[1].substr(0, 13);
-}*/
 
 function checaValidadeAirmet(airmet) {
-
-    let val = getValidadeAirmet(airmet);
-
-    let ini = val.split("/")[0]
-    let fim = val.split("/")[1]
-    if ((ini !== "") && (fim !== ""))
-        return isValidAirmet(ini, fim)
-    else
-        return false
+    return checaValidadeMsg(airmet)
 }
-
 
 /*funcoes gerais */
 
@@ -405,94 +294,57 @@ function addMarker(m, loc, restricao, pulse = false) {
     return m
 }
 
-function removeHTMLTags(txt) {
-  txt = jQuery('<p>' + txt + '</p>').text();
-  if (txt.includes ("="))
-      txt = txt.split("=")[0] + "="
-  return removeEspacosDuplos(txt)
-}
-
-function getMetarFromArrayMetaresGeral(loc) {
-    for (let i in arrayMetaresGeral)
-        if (arrayMetaresGeral[i].METAR.loc == loc)
-            return arrayMetaresGeral[i]
-    
-    return false
-}
-
 function updateArrayMetaresGeral(loc, met) {
     let achou = false
-    met = removeHTMLTags(met)
-    let taf = getTAFFromMetar(met)
-    let achouTAF = taf.TAF?true:false
-    for (let i in arrayMetaresGeral) {
-        if (arrayMetaresGeral[i].METAR.texto.includes(loc)) {
+    let i = 0
+    arrayMetaresGeral.forEach(itemG => {
+        if (itemG.includes(loc)) {
             achou = true
-            arrayMetaresGeral[i].METAR.loc = loc
-            arrayMetaresGeral[i].METAR.texto = met
-            arrayMetaresGeral[i].METAR.visibilidade = opener.getVisibilidade(met)
-            arrayMetaresGeral[i].METAR.teto = opener.getTeto(met)
-            
-            arrayMetaresGeral[i].TAF.achou = achouTAF
-            arrayMetaresGeral[i].TAF.texto = ""
-            arrayMetaresGeral[i].TAF.visibilidade = taf.visibilidade
-            arrayMetaresGeral[i].TAF.teto = taf.teto
-            arrayMetaresGeral[i].TAF.permiteAMD = taf.permiteAMD
-            arrayMetaresGeral[i].TAF.inicioValid = taf.inicioValid
-            arrayMetaresGeral[i].TAF.fimValid = taf.fimValid
-            
-            return achou
-          
-        }
-    }
-    
-    arrayMetaresGeral.push({ METAR:{loc, texto:met, visibilidade: opener.getVisibilidade(met), teto: opener.getTeto(met)},TAF:{achou: achouTAF, texto:"", visibilidade: taf.visibilidade, teto: taf.teto, inicioValid: taf.inicioValid, fimValid: taf.fimValid, permiteAMD: taf.permiteAMD} })
-    return false
+            arrayMetaresGeral[i] = met
 
+            return true
+        }
+        i++
+
+    })
+    if (!achou)
+        arrayMetaresGeral.push(met)
+    return false
 }
 
 function getMetar(loc) {
     function buscaMetar(array, loc) {
         let xitem = loc
-        
-        for (let i in array) {
-            let msg
-           if (typeof array[i] === 'string' || array[i] instanceof String)
-              msg = array[i]
-            else
-              msg = array[i].METAR.texto
-            
-            if (msg.includes(loc)) {
-                xitem = msg
-                break
+
+        for (i in array) {
+            if (array[i].includes(loc)) {
+                xitem = array[i];
+                break;
             }
         }
         return xitem
     }
 
     let met = buscaMetar(arrayMetares, loc) //busca os que tem restrição
-    if (met == loc) {//se não, encontrou busca no geral
+    if (met == loc) {//se  não encontrou busca no geral
         try {
-            met = buscaMetar(opener.arrayMetares.slice().reverse(), loc) // pega apenas os metares de uma determinada FIR
-            if (met == loc) {//se nao achou, atualiza a lista geral 
+            met = buscaMetar(opener.arrayMetares.slice().reverse(), loc) //pega apenas os metares de uma determinada FIR
+            if (met !== loc) //atualiza a lista geral se achou
+                updateArrayMetaresGeral(loc, met)
+            else
                 met = buscaMetar(arrayMetaresGeral, loc)
-                if (met !==loc)
-                  updateArrayMetaresGeral(loc, met)
-            } else
-                  updateArrayMetaresGeral(loc, met)
-            
+
+
         } catch (e) {
             console.log(e)
         }
 
-    } else {//metar com restricao
-        updateArrayMetaresGeral(loc, met)
+    } else //metar com restricao
         met = "*" + met
-    }
+
     return met
 
 }
-
 function updateDescobertos(loc, tipoAlerta) {
     function trataLabelDescobertas(id, loc, legenda) {
         let desc = $(id).html()
@@ -529,16 +381,12 @@ function plotaMarca(lat, lng, loc) {
         let svgVisibilidade = ""
         let svgTrovoada = ""
         let svgVento = ""
-        let svgVisibilidadeTaf = ""
-	let svgTetoTaf = ""
         let contRestricoes = 0
         let alt = 0
         let color = "yellow"
         let boxOpacity = "0.8";
         let backGroundColor = "#444";
         let classSvgIcon
-	let fontAlertaTAF = "red"
-	let fontAlertaTAFBorder = "white"
 
         //if (adWRNGPertoDoFim)
 
@@ -548,8 +396,6 @@ function plotaMarca(lat, lng, loc) {
             boxOpacity = "0.9";
             backGroundColor = "red"
             classSvgIcon = "pulseZoom"
-	    fontAlertaTAF = "white"
-	    fontAlertaTAFBorder = "black"
         }
 
         if (adWRNGPertoDoFim)
@@ -557,31 +403,7 @@ function plotaMarca(lat, lng, loc) {
 
         let iconColor = color
 
-        if (strAlerta.includes("VISIBTAF")){
-            svgVisibilidadeTaf = `<g transform="matrix(1 0 0 1 ${inicioX}.5 25.5)" id="Capa_1"  >
-              <g transform="matrix(1 0 0 1 48 38.17)" style=""  >
-		      <text xml:space="preserve" font-family="'Open Sans', sans-serif" font-size="100" font-style="normal" font-weight="bold" style="stroke: ${fontAlertaTAFBorder}; stroke-width: 5; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: ${fontAlertaTAF}; fill-rule: nonzero; opacity: 1; white-space: pre;" ><tspan x="-80" y="35.65" >V</tspan></text>
-              </g>
-            </g>`
-            offSetX += 150;
-            contRestricoes += 1
-            
-        }
-        
-        if (strAlerta.includes("TETOTAF")){
-            inicioX = 84 + offSetX;
-            svgTetoTaf = `<g transform="matrix(1 0 0 1 ${inicioX}.5 25.5)" id="Capa_1"  >
-              <g transform="matrix(1 0 0 1 48 38.17)" style=""  >
-		      <text xml:space="preserve" font-family="'Open Sans', sans-serif" font-size="100" font-style="normal" font-weight="bold" style="stroke: ${fontAlertaTAFBorder}; stroke-width: 5; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: ${fontAlertaTAF}; fill-rule: nonzero; opacity: 1; white-space: pre;" ><tspan x="-80" y="35.65" >T</tspan></text>
-              </g>
-            </g>`
-            offSetX += 150;
-            contRestricoes += 1
-            
-        }
-        
         if (strAlerta.includes("TETO")) {
-            inicioX = 84 + offSetX;
             svgTeto = `<g transform="matrix(0.35 0 0 0.35 ${inicioX}.02 67.61)"  >
         <g style=""   >
                 <g transform="matrix(1 0 0 1 43.46 21.75)" id="Capa_1"  >
@@ -595,15 +417,14 @@ function plotaMarca(lat, lng, loc) {
             offSetX += 150;
             contRestricoes += 1
         }
-          
+
         if (strAlerta.includes("VISIBILIDADE")) {
             //inicio x= 84
 
             inicioX = 84 + offSetX;
 
             svgVisibilidade = `<g transform="matrix(0.67 0 0 0.67 ${inicioX}.6 68.6)"  >
-        <g 
-        </svg>style=""   >
+        <g style=""   >
         <g transform="matrix(1 0 0 1 -36.32 -61.62)" id="Capa_1"  >
         
         <path style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: ${iconColor}; fill-rule: nonzero; opacity: 1;"  transform=" translate(-72.4, -47.09)" d="M 144.797 47.095 c 0 -4.142 -3.358 -7.5 -7.5 -7.5 H 7.5 c -4.142 0 -7.5 3.358 -7.5 7.5 c 0 4.142 3.358 7.5 7.5 7.5 h 129.797 C 141.439 54.595 144.797 51.237 144.797 47.095 z" stroke-linecap="round" />
@@ -666,10 +487,6 @@ function plotaMarca(lat, lng, loc) {
             <defs>
             </defs>
             <rect x="0" y="0"  rx="30" ry ="30" width="100%" height="100%" fill="${backGroundColor}" fill-opacity="${boxOpacity}";></rect>
-
-            ${svgVisibilidadeTaf}
-            
-	    ${svgTetoTaf}
 
             ${svgVisibilidade}
 
@@ -787,22 +604,6 @@ function plotaMarca(lat, lng, loc) {
         let adWRNG = opener.getStatusAdWRNG(loc)
 
         let adWRNGPertoDoFim = isCloseToValidOff(adWRNG.textoFull)
-        
-        let alertaVisTAF = !chkVisMetarTAF(loc)
-        let strAlertaTAF = ""
-        let descTAF = "</b><br><br><b>VIGILÂNCIA TAF:</b>"
-        if (alertaVisTAF){
-            strAlertaTAF += "*VISIBTAF"
-            descTAF += "<br><br>- <b> VISIBILIDADE NO METAR / SPECI</b> ESTÁ <b>ABAIXO</b> DA VISIBILIDADE PREVISTA PELO <b>TAF</b> PARA ESTE HORÁRIO! "
-        }
-        
-        let alertaTetoTAF = !chkTetoMetarTAF(loc)
-        if (alertaTetoTAF) { 
-            strAlertaTAF += "*TETOTAF"
-            descTAF += "<br><br>- <b> TETO NO METAR / SPECI</b> ESTÁ <b>ABAIXO</b> DO TETO PREVISTO PELO <b>TAF</b> PARA ESTE HORÁRIO! "
-        }
-
-        descTAF = (alertaVisTAF ||  alertaTetoTAF) ? descTAF : ""
 
         if (desc[0] == "*") {
             restricao = true
@@ -813,8 +614,8 @@ function plotaMarca(lat, lng, loc) {
             if (descU.includes("DESCOBERTO")) {
                 let strDescoberto = descU.split("DESCOBERTO")[1].split("<")[0]
                 let alerta = getTipoAlerta(loc, strDescoberto);
-                icon = redIcon
-                icon = getSvgIcon(loc, strDescoberto+strAlertaTAF, adWRNGPertoDoFim, true) //vento trovoada teto visib
+                //icon = redIcon
+                icon = getSvgIcon(loc, alerta.strAlerta, adWRNGPertoDoFim, true) //vento trovoada teto visib
 
                 //if (alerta.ad)
                 addMarker(L.marker([lat, lng], { icon: cssIconRed }), "", restricao, true)
@@ -825,19 +626,17 @@ function plotaMarca(lat, lng, loc) {
                 // icon = orangeIcon
                 //else {
                 //icon = yellowIcon
-                icon = getSvgIcon(loc, alerta.strAlerta+strAlertaTAF, adWRNGPertoDoFim, false) //vento trovoada teto visib
+                icon = getSvgIcon(loc, alerta.strAlerta, adWRNGPertoDoFim, false) //vento trovoada teto visib
 
                 //}
                 //if (alerta.ad)
                 //    addMarker(L.marker([lat, lng], { icon: cssIconYellow }), "", restricao, true)
             }
-        } else if (alertaVisTAF)
-            icon = getSvgIcon(loc, strAlertaTAF, adWRNGPertoDoFim, true) //vento trovoada teto visib
-        else
+        } else
             icon = greenIcon
 
 
-        var m = addMarker(L.marker([lat, lng], { icon: icon }), loc, restricao || alertaVisTAF)
+        var m = addMarker(L.marker([lat, lng], { icon: icon }), loc, restricao)
         //m._icon.classList.add("svgRedIcon");
 
 
@@ -855,7 +654,7 @@ function plotaMarca(lat, lng, loc) {
         }
         else
             adWRNG = ""
-        desc = removeInfo(desc) + adWRNG + descTAF
+        desc = removeInfo(desc) + adWRNG
         m.bindTooltip(desc, { closeButton: false, offset: L.point(0, -20) })
         //console.log(m)
     } //else
@@ -1136,14 +935,6 @@ function start() {
     plota_stsc();
 
     intervalSTSC = setInterval("atualizaSTSC()", 120000);
-	
-    atualizaTAFS();
-	
-    intervalTAF = setInterval(atualizaTAFS, 60000); //tem que ser de minuto em minuto
-
-    verificaTAFS();
-	
-    intervalVerificaTAF = setInterval(verificaTAFS, 60000); //tem que ser de minuto em minuto
 
     //checaPonto("S1637 W04911");
     //map.setView([-18.0,-45.0], 13);
@@ -1352,7 +1143,7 @@ function mostraLoading(txt = "") {
 function atualizaHora(id = false) {
     if (!id)
         id = "#clockAirmet"
-    var date = new Date();
+    var date = getUTCAgora();
     var hora = adicionaZero(date.getUTCHours()) + ":" + adicionaZero(date.getUTCMinutes()) + ":" + adicionaZero(date.getUTCSeconds());
     $(id).html(hora + " UTC");
 
@@ -1577,7 +1368,7 @@ function trataAirmetRedemet(texto) {
     var classe = "table-warning table-airmet";
     //limpaAirmets();
     texto = removeEspacosDuplos(texto);
-    var agora = new Date();
+    var agora = getUTCAgora();
     var horaAtual = agora.getHours()
     var erro = ""
 
