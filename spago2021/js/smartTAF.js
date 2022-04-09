@@ -434,7 +434,9 @@ function getTAFs(localidades = false, dataIni = false) {
     let url = ""
     
     let interval 
-    if (!dataIni && opener.getInterval)
+    if (! (opener.getIntervalTAF && opener.getInterval))
+	return false
+    if (!dataIni)
 	    interval = opener.getInterval(5)
     else
 	    interval = opener.getIntervalTAF(dataIni)
