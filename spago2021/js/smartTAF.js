@@ -34,10 +34,8 @@ function atualizaStatusConsultaTAF() {
 	let agora = getUTCAgora()
 	
 	let dh = getHoraNextTAF()
-	let d1 = new Date(dh.dataIni.addHours(-3))
-	let d2 = new Date(dh.dataIni.addHours(-2))
-
-	let ignorarAusentes = (agora < d1 && agora > d2) || (agora < d2)//
+	
+	let ignorarAusentes = agora < dh.dataIni.addHours(-3) && agora > dh.dataIni.addHours(-2) 
 	
 	let arrAusentes = tafsProxHora.filter((i) => !arrayProximosTAFs.some((i2) => i2 === i));
 	let strAusentes = ""
@@ -53,13 +51,13 @@ function atualizaStatusConsultaTAF() {
 		$(".statusTAF").addClass("statusERRO")
 		$(".statusTAF").addClass("errorPulse")
 		$(".statusTAF").removeClass("statusOK")
-		$(".statusTAF").html(`TAF's ${dh.dia} ${dh.hora}Z AUSENTES`)
+		$(".statusTAF").html(`TAF - ${dh.dia} ${dh.hora}Z AUSENTES`)
 		$( ".statusTAF" ).attr("title", `TAFs AUSENTES: ${strAusentes}` );
 	} else {
 		$(".statusTAF").addClass("statusOK")
 		$(".statusTAF").removeClass("errorPulse")
 		$(".statusTAF").removeClass("statusERRO")
-		$(".statusTAF").html(`TAF's ${dh.dia} ${dh.hora}Z OK`)
+		$(".statusTAF").html(`TAF - ${dh.dia} ${dh.hora}Z  - OK`)
 		$( ".statusTAF" ).attr("title", '' );
 	}
 	$(".statusTAF").show()
@@ -457,7 +455,7 @@ function updateArrayStatus(localidade, status) { // retorna true se o status mud
 
 function atualizaArrayTAFs(texto) {
     let TAFs = clearMsgIWXXM(texto)
-    arrayProximosTAFs = []
+    //arrayProximosTAFs = []
     for (let i in TAFs) {
         TAFs[i] = JSON.parse(TAFs[i]);
         let loc = getICAOIndicator(TAFs[i])
