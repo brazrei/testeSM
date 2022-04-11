@@ -260,6 +260,7 @@ function createAdWrng(layer){
     }
       
     $('#taModalAdWrng').val(str);
+    $('#taCoodenadas').val(str);
     $('#modalAdWrng').modal();
     
 }
