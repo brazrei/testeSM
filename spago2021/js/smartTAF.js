@@ -80,7 +80,7 @@ function atualizaStatusConsultaTAF() {
 		$(".statusTAF").removeClass("errorPulse")
 		$(".statusTAF").removeClass("statusERRO")
 		$(".statusTAF").html(`TAF - ${dh.dia} ${dh.hora}  - OK`)
-		$( ".statusTAF" ).attr("title", '' );
+		$( ".statusTAF" ).attr("title", `${qtdTAFsProxHoraNaRede} TAFs ENCONTRADOS NA CONSULTA: ${arrayProximosTAFs.join(", ")}` );
 	}
 	$(".statusTAF").show()
 	
@@ -134,7 +134,7 @@ function getArrayTAFsHora(diaSemana, hora) {
     diaSemana = diaSemana.toUpperCase()
 
     for (var i in arrTAFSCimaer) {
-        t = arrTAFSCimaer[i]
+        let t = arrTAFSCimaer[i]
         indice = t.indice.toUpperCase()
         if (indice.includes(hora) && ((indice.includes("DIARIAMENTE") || indice.includes(diaSemana)))) {
             locs += separador + t.localidades
