@@ -80,7 +80,7 @@ function atualizaStatusConsultaTAF() {
 		$(".statusTAF").removeClass("errorPulse")
 		$(".statusTAF").removeClass("statusERRO")
 		$(".statusTAF").html(`TAF - ${dh.dia} ${dh.hora}  - OK`)
-		$( ".statusTAF" ).attr("title", `${qtdTAFsProxHoraNaRede} TAFs ENCONTRADOS NA CONSULTA: ${arrayProximosTAFs.join(", ")}` );
+		$( ".statusTAF" ).attr("title", `${qtdTAFsProxHoraNaRede} TAFs ENCONTRADOS NA CONSULTA: ${tafsProxHora.join(", ")}` );
 	}
 	$(".statusTAF").show()
 	
