@@ -73,13 +73,13 @@ function atualizaStatusConsultaTAF() {
 		if (ligarPulse)
 		    $(".statusTAF").addClass("errorPulse")
 		$(".statusTAF").removeClass("statusOK")
-		$(".statusTAF").html(`TAF - ${dh.dia} ${dh.hora}Z - ${arrAusentes.length} AUSENTES`)
+		$(".statusTAF").html(`TAF - ${dh.dia} ${dh.hora} - ${arrAusentes.length} AUSENTES`)
 		$( ".statusTAF" ).attr("title", `TAFs AUSENTES: ${strAusentes}` );
 	} else {
 		$(".statusTAF").addClass("statusOK")
 		$(".statusTAF").removeClass("errorPulse")
 		$(".statusTAF").removeClass("statusERRO")
-		$(".statusTAF").html(`TAF - ${dh.dia} ${dh.hora}Z  - OK`)
+		$(".statusTAF").html(`TAF - ${dh.dia} ${dh.hora}  - OK`)
 		$( ".statusTAF" ).attr("title", '' );
 	}
 	$(".statusTAF").show()
@@ -94,7 +94,8 @@ function getHoraNextTAF() {
     while((inicio.getHours() % 6) !== 0)
     	inicio = inicio.addHours(1);
     hora = (inicio.getHours() < 10) ? "0" + inicio.getHours() : "" + inicio.getHours();
-    return { dia: days[inicio.getDay()], hora, dataIni: inicio }
+    
+    return { dia: days[inicio.getDay()], hora: hora + "Z", dataIni: inicio }
 }
 
 function getTAFsProximaHora() {
@@ -483,7 +484,7 @@ function excluiTAFsAntigos(arr){
   	if (arr[i].inicio > getUTCAgora())
   	    arr2[arr[i].localidade] = arr[i]
   }
-  return arr2.slice(0) //retorna o valor como referencia
+  return arr2 //retorna o valor como referencia
 }
 
 function atualizaArrayTAFs(texto) {
@@ -549,4 +550,3 @@ function GetWebContentTAF(url, primeiraVez) {
 //function getTetoMudanca
 
 //t.TAF.baseForecast.MeteorologicalAerodromeForecast.cloud.AerodromeCloudForecast.layer.CloudLayer.qtd
-
