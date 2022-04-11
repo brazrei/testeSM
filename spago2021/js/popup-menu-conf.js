@@ -234,7 +234,24 @@ function openContextMenuMapa(evt) {
 
 function createAdWrng(layer){
     let locs = getAeroportosOnEdit(layer)
-    $('#taCoordenadas').html(locs);
+
+    let patt = /[A-Z][A-Z][A-Z][A-Z]/g
+    let arr = locs.match(patt)
+    let arrCMA=[]
+    if (arr.length > 0) {
+        for (let i in arr){
+            cma = opener.getCMA(arr[i])
+            arrCMA[cma] = arrCMA[cma]?arrCMA[cma]+"\t"+ arr[i]:arr[i]; 
+        }
+    }
+    
+    let str = ""
+    for (let i in arrCMA){
+        str += `CMA (${i}) => ` + arrCMA[i]+"\n"
+
+    }
+      
+    $('#taCoordenadas').val(str);
     
 }
 
