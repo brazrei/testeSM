@@ -241,6 +241,7 @@ function createAdWrng(layer){
     if (arr.length > 0) {
         for (let i in arr){
             cma = opener.getCMA(arr[i])
+            cma = cma !=="" ? cma:"DESCONHECIDO"
             arrCMA[cma] = arrCMA[cma]?arrCMA[cma]+"\t"+ arr[i]:arr[i]; 
         }
     }
