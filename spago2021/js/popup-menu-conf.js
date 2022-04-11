@@ -238,17 +238,24 @@ function createAdWrng(layer){
     let patt = /[A-Z][A-Z][A-Z][A-Z]/g
     let arr = locs.match(patt)
     let arrCMA=[]
+    let newLine = "\t"
     if (arr.length > 0) {
+        let cont = 0
+        
         for (let i in arr){
+            cont++;
             cma = opener.getCMA(arr[i])
             cma = cma !=="" ? cma:"DESCONHECIDO"
-            arrCMA[cma] = arrCMA[cma]?arrCMA[cma]+"\t"+ arr[i]:arr[i]; 
+            newLine= arrCMA[cma] ? ((arrCMA[cma].split("\t").length % 5 == 0)?"\t\n":"\t"):"\t"
+
+            arrCMA[cma] = arrCMA[cma]?arrCMA[cma] + newLine + arr[i] : arr[i]; 
         }
     }
     
     let str = ""
     for (let i in arrCMA){
-        str += `CMA (${i}) => ` + arrCMA[i]+"\n"
+
+        str += `CMA (${i}) =>\n` + arrCMA[i]+"\n\n"
 
     }
       
