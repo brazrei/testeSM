@@ -484,7 +484,7 @@ function excluiTAFsAntigos(arr){
   	if (arr[i].inicio > getUTCAgora())
   	    arr2[arr[i].localidade] = arr[i]
   }
-  return arr2.slice(0) //retorna o valor como referencia
+  return arr2 //retorna o valor como referencia
 }
 
 function atualizaArrayTAFs(texto) {
