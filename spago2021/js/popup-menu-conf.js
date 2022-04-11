@@ -255,7 +255,7 @@ function createAdWrng(layer){
     let str = ""
     for (let i in arrCMA){
 
-        str += `CMA (${i}) =>\n` + arrCMA[i]+"\n\n"
+        str += `CMA (${i}):\n` + arrCMA[i]+"\n\n"
 
     }
       
