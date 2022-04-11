@@ -1,4 +1,4 @@
-var tafsGrupoConsulta = "SBPA,SBCT,SBFI,SBFL,SBNF,SBPK,SBCO,SBSM,SBBG,SBNM,SBJV,SBBI,SBYS,SBAF,SBSC,SBAN,SBMN,SBCH,SBUG,SBPF,SBJA,SBGW,SBCC,SBCX,SBGP,SBLJ,SBPG"
+var tafsGrupoConsulta = "SBPA,SBCT,SBFI,SBFL,SBNF,SBPK,SBCO,SBSM,SBBG,SBNM,SBJV,SBBI,SBYS,SBAF,SBSC,SBAN,SBMN,SBCH,SBUG,SBPF,SBJA,SBGW,SBCC,SBCX,SBGP,SBLJ,SBPG,SNCP"
 var arrayTAFs = []
 var arrayProximosTAFs = [] 
 
@@ -27,6 +27,26 @@ function getArrayLength(array){
 	
 }
 
+function isTAFCimaer(loc) {
+	let achou = false;
+	for (let i in arrTAFSCimaer){
+		achou = arrTAFSCimaer[i].localidades.includes(loc)
+		if (achou)
+			break;
+		
+	}
+	return achou
+}
+
+function excluiTAFs(total, naRede){
+	let ausentes = []
+	for (let i in total) {
+		if (!naRede[total[i]])
+			ausentes.push(total[i])
+	}	
+	return ausentes;
+}
+	
 function atualizaStatusConsultaTAF() {
 	let qtdTAFsProxHoraNaRede = getArrayLength(arrayProximosTAFs) //tafs da proxima hora de envio obtidos da rede
 	let tafsProxHora = getTAFsProximaHora();  // tafs que deveriam estar na proxima hora de envio
@@ -35,10 +55,10 @@ function atualizaStatusConsultaTAF() {
 	
 	let dh = getHoraNextTAF()
 	
-	let ligarPulse = agora > dh.dataIni.addHours(-4) //dh é alterado na funcao addHours
+	let ligarPulse = agora > dh.dataIni.addHours(-2) //dh é alterado na funcao addHours
 	let ignorarAusentes = agora < dh.dataIni.addHours(-1)
 	
-	let arrAusentes = tafsProxHora.filter((i) => !arrayProximosTAFs.some((i2) => i2 === i));
+	let arrAusentes = excluiTAFs(tafsProxHora, arrayProximosTAFs);
 	let strAusentes = ""
 	if (arrAusentes.length > 0)
 		strAusentes = arrAusentes.join(', ');
@@ -53,13 +73,13 @@ function atualizaStatusConsultaTAF() {
 		if (ligarPulse)
 		    $(".statusTAF").addClass("errorPulse")
 		$(".statusTAF").removeClass("statusOK")
-		$(".statusTAF").html(`TAF - ${dh.dia} ${dh.hora}Z - ${arrAusentes.length} AUSENTES`)
-		$( ".statusTAF" ).attr("title", `TAFs AUSENTES:<br><br> ${strAusentes}` );
+		$(".statusTAF").html(`TAF - ${dh.dia} ${dh.hora} - ${arrAusentes.length} AUSENTES`)
+		$( ".statusTAF" ).attr("title", `TAFs AUSENTES: ${strAusentes}` );
 	} else {
 		$(".statusTAF").addClass("statusOK")
 		$(".statusTAF").removeClass("errorPulse")
 		$(".statusTAF").removeClass("statusERRO")
-		$(".statusTAF").html(`TAF - ${dh.dia} ${dh.hora}Z  - OK`)
+		$(".statusTAF").html(`TAF - ${dh.dia} ${dh.hora}  - OK`)
 		$( ".statusTAF" ).attr("title", '' );
 	}
 	$(".statusTAF").show()
@@ -74,7 +94,8 @@ function getHoraNextTAF() {
     while((inicio.getHours() % 6) !== 0)
     	inicio = inicio.addHours(1);
     hora = (inicio.getHours() < 10) ? "0" + inicio.getHours() : "" + inicio.getHours();
-    return { dia: days[inicio.getDay()], hora, dataIni: inicio }
+    
+    return { dia: days[inicio.getDay()], hora: hora + "Z", dataIni: inicio }
 }
 
 function getTAFsProximaHora() {
@@ -457,15 +478,24 @@ function updateArrayStatus(localidade, status) { // retorna true se o status mud
     */
 }
 
+function excluiTAFsAntigos(arr){
+  let arr2 = []
+  for (let i in arr){
+  	if (arr[i].inicio > getUTCAgora())
+  	    arr2[arr[i].localidade] = arr[i]
+  }
+  return arr2.slice(0) //retorna o valor como referencia
+}
+
 function atualizaArrayTAFs(texto) {
     let TAFs = clearMsgIWXXM(texto)
-    //arrayProximosTAFs = []
+    arrayProximosTAFs = excluiTAFsAntigos(arrayProximosTAFs);
     for (let i in TAFs) {
         TAFs[i] = JSON.parse(TAFs[i]);
         let loc = getICAOIndicator(TAFs[i])
-	let dados = { TAF: TAFs[i], localidade: loc, inicio: getBeginTAF(TAFs[i]), getVisPredHora: getVisPredHora, getTetoHora: getTetoHora }
+	    let dados = { TAF: TAFs[i], localidade: loc, inicio: getBeginTAF(TAFs[i]), getVisPredHora: getVisPredHora, getTetoHora: getTetoHora }
         if ( getBeginTAF(TAFs[i]) > getUTCAgora() ){
-	  arrayProximosTAFs[loc] = dados
+	       arrayProximosTAFs[loc] = dados
           continue;
 	}
         arrayTAFs[loc] = dados
