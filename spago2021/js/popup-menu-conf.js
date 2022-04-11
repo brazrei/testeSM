@@ -259,7 +259,8 @@ function createAdWrng(layer){
 
     }
       
-    $('#taCoordenadas').val(str);
+    $('#taModalAdWrng').val(str);
+    $('#modalAdWrng').modal();
     
 }
 
