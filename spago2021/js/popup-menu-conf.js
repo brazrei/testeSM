@@ -93,17 +93,17 @@ function createPopUpMenu() {
                     }
                 },*/
                 {
+                    'icon': '', 'name': 'Aviso de Aeródromo', action: () => {
+                        createAdWrng(selectedLayer);
+                    }
+                },
+                {
                     'icon': '', 'name': 'Excluir', action: () => {
                         removeLayerEdit(selectedLayer, true);
                     }
                 },
-/*                {
-                    'icon': '', 'name': 'Compartilhar', action: () => {
-                        compartilharLayer(selectedLayer);
-                    }
-                },
 
-                {
+/*                {
                     'icon': '', 'name': 'Plotar nova Área', action: (e) => {
                         iniciarPlotagem(e);
                     }
@@ -230,6 +230,12 @@ function openContextMenuMapa(evt) {
     menuMapaBackup = menuMapa
 
     document.addEventListener('click', hideContextMenu, false);
+}
+
+function createAdWrng(layer){
+    let locs = getAeroportosOnEdit(layer)
+    $('#taCoordenadas').html(locs);
+    
 }
 
 
