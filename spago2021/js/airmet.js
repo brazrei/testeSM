@@ -1039,7 +1039,7 @@ function start() {
 	
     atualizaTAFS();
 	
-    intervalTAF = setInterval(atualizaTAFS, 60000); //tem que ser de minuto em minuto
+    intervalTAF = setInterval(atualizaTAFS, 120000); //tem que ser de minuto em minuto
 
     verificaTAFS();
 	
