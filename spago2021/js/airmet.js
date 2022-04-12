@@ -614,6 +614,8 @@ function plotaMarca(lat, lng, loc) {
     if (!isNaN(lat) && !isNaN(lng)) {
 
         desc = getMetar(loc)
+        if (loc == "SBGW")
+            console.log("")
 
         var greenIcon = new L.Icon({
             //            iconUrl: 'png/marker-icon-green.png',
@@ -720,7 +722,10 @@ function plotaMarca(lat, lng, loc) {
                 // icon = orangeIcon
                 //else {
                 //icon = yellowIcon
-                icon = getSvgIcon(loc, alerta.strAlerta+strAlertaTAF, adWRNGPertoDoFim, false) //vento trovoada teto visib
+                if (alerta.ad || alerta.rota || alerta.strAlerta !== '')
+                    icon = getSvgIcon(loc, alerta.strAlerta+strAlertaTAF, adWRNGPertoDoFim, false) //vento trovoada teto visib
+                else
+                  icon = greenIcon
 
                 //}
                 //if (alerta.ad)
