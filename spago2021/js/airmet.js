@@ -683,7 +683,9 @@ function plotaMarca(lat, lng, loc) {
         let adWRNGPertoDoFim = isCloseToValidOff(adWRNG.textoFull)
         
         //inicio da verificacao do TAF
- 	    let TAFCimaer = isTAFCimaer(loc)
+	let TAF = getTAFFromLoc(loc)
+	let permiteAMD =  (TAF  && TAF.permiteAMD)
+ 	    let TAFCimaer = isTAFCimaer(loc) && permiteAMD
  	    let alertaTAFCimaer = TAFCimaer ? spanRed ("<br><br>* TAF CONFECCIONADO PELO CIMAER! ","TAF CONFECCIONADO PELO CIMAER"):"";
 
         let alertaVisTAF = TAFCimaer && !chkVisMetarTAF(loc)
