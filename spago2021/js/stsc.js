@@ -176,7 +176,7 @@ function animaSTSC(oneTime = false) {
           layerHeatAnterior.removeFrom(map);
     } else
         idxSTSC = 0
-    if (idxSTSC > -1)
+    if (idxSTSC > -1 && heat && heat[idxSTSC])
       heat[idxSTSC].layer.addTo(map);
     layerHeatAnterior = heat[idxSTSC].layer;
     setSTSCLabel(heat[idxSTSC].hora)
