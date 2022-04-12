@@ -490,9 +490,15 @@ function excluiTAFsAntigos(arr){
 function atualizaArrayTAFs(texto) {
     let TAFs = clearMsgIWXXM(texto)
     arrayProximosTAFs = excluiTAFsAntigos(arrayProximosTAFs);
+    let tafsProxHora = getTAFsProximaHora();  // tafs que deveriam estar na proxima hora de envio
+	
     for (let i in TAFs) {
         TAFs[i] = JSON.parse(TAFs[i]);
         let loc = getICAOIndicator(TAFs[i])
+
+        if (tafsProxHora.indexOf(loc)==-1)
+          continue
+
 	    let dados = { TAF: TAFs[i], localidade: loc, inicio: getBeginTAF(TAFs[i]), getVisPredHora: getVisPredHora, getTetoHora: getTetoHora }
         if ( getBeginTAF(TAFs[i]) > getUTCAgora() ){
 	       arrayProximosTAFs[loc] = dados
