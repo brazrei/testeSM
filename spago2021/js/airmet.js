@@ -682,7 +682,11 @@ function plotaMarca(lat, lng, loc) {
 
         let adWRNGPertoDoFim = isCloseToValidOff(adWRNG.textoFull)
         
-        let alertaVisTAF = !chkVisMetarTAF(loc)
+        //inicio da verificacao do TAF
+ 	    //let alertaTAFCimaer = isTAFCimaer(loc) ? "" : spanRed ("<br><br>* TAF NÃO CONCECCIONADO PELO CIMAER! ","TAF NÃO CONCECCIONADO PELO CIMAER");
+ 	    let alertaTAFCimaer = isTAFCimaer(loc)
+
+        let alertaVisTAF = alertaTAFCimaer && !chkVisMetarTAF(loc)
         let strAlertaTAF = ""
         let descTAF = "</b><br><br><b>VIGILÂNCIA TAF:</b>"
         if (alertaVisTAF){
@@ -690,13 +694,12 @@ function plotaMarca(lat, lng, loc) {
             descTAF += "<br><br>- <b> VISIBILIDADE NO METAR / SPECI</b> ESTÁ <b>ABAIXO</b> DA VISIBILIDADE PREVISTA PELO <b>TAF</b> PARA ESTE HORÁRIO! "
         }
         
-        let alertaTetoTAF = !chkTetoMetarTAF(loc)
+        let alertaTetoTAF = alertaTAFCimaer && !chkTetoMetarTAF(loc)
         if (alertaTetoTAF) { 
             strAlertaTAF += "*TETOTAF"
             descTAF += "<br><br>- <b> TETO NO METAR / SPECI</b> ESTÁ <b>ABAIXO</b> DO TETO PREVISTO PELO <b>TAF</b> PARA ESTE HORÁRIO! "
         }
 	    
-	let alertaTAFCimaer = isTAFCimaer(loc) ? "" : spanRed ("<br><br>* TAF NÃO CONCECCIONADO PELO CIMAER! ","TAF NÃO CONCECCIONADO PELO CIMAER");
 	
         descTAF = (alertaVisTAF ||  alertaTetoTAF) ? descTAF + alertaTAFCimaer : ""
 	
