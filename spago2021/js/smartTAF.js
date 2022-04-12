@@ -104,13 +104,10 @@ function getTAFsProximaHora() {
 }
 
 function atualizaTAFS() { //atualiza os TAFs de hora em hora, na hora cheia.
-	if (!arrayTAFs[tafsGrupoConsulta[0]])
-		getTAFs(getAeroInternacional())
-	
-	let agora = new Date()
-	
-	if (agora.getMinutes() == 0)
-		getTAFs(getAeroInternacional())
+  function removeRepetidos(str) {
+  	return [...new Set(str.split(','))].join(','); 
+  }
+  getTAFs(removeRepetidos(getAeroInternacional() + ','+ tafsGrupoConsulta))
 }
 
 function verificaTAFS() { //atualiza os TAFs de hora em hora, na hora cheia.
