@@ -187,13 +187,16 @@ function chkTetoMetarTAF(loc) {
     return true
 }
 
-function getTAFFromMetar(metar) {
-    let loc = opener.getLocalidade(metar)
+function getTAFFromLoc(loc){ 
     let dh = getMetarFullDateTime(metar)
     if (arrayTAFs[loc])
         return { localidade: loc, TAF: arrayTAFs[loc].TAF, visibilidade: getVisPredHora(arrayTAFs[loc].TAF, dh), teto: getTetoHora(arrayTAFs[loc].TAF, dh), inicioValid: getBeginTAF(arrayTAFs[loc].TAF), fimValid: getEndTAF(arrayTAFs[loc].TAF), permiteAMD: getAMDStatus(arrayTAFs[loc].TAF) }
     else
         return { localidade: loc, TAF: false, visibilidade: false, teto: false };
+}
+function getTAFFromMetar(metar) {
+    let loc = opener.getLocalidade(metar)
+    return getTAFFromLoc(loc)
 }
 
 function updateArrayMetarTAF() {
