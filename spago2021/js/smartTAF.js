@@ -496,14 +496,12 @@ function atualizaArrayTAFs(texto) {
         TAFs[i] = JSON.parse(TAFs[i]);
         let loc = getICAOIndicator(TAFs[i])
 
-        if (tafsProxHora.indexOf(loc)==-1)
-          continue
-
 	    let dados = { TAF: TAFs[i], localidade: loc, inicio: getBeginTAF(TAFs[i]), getVisPredHora: getVisPredHora, getTetoHora: getTetoHora }
         if ( getBeginTAF(TAFs[i]) > getUTCAgora() ){
-	       arrayProximosTAFs[loc] = dados
-          continue;
-	}
+        	if (tafsProxHora.indexOf(loc)>-1)
+	           arrayProximosTAFs[loc] = dados
+           continue;
+	    }
         arrayTAFs[loc] = dados
 
     }
