@@ -104,7 +104,7 @@ function getInterval(horas = 1) {
 
 function getIntervalTAF(dataIni) {
     let dini = getFormatedDate(dataIni);
-    let dfim = getFormatedDate(addHours(dataIni, 6));
+    let dfim = getFormatedDate(addHours(dataIni, 0));
     return `&data_ini=${dini}&data_fim=${dfim}`
 }
 
