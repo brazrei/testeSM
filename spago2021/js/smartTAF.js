@@ -159,8 +159,9 @@ function getAMDStatus(TAF) {
     let prazoFinal = new Date(inicio)
     addHours(prazoFinal, (((horasValid.getDate() - 1) * 24) + horasValid.getHours()) / 6)
 
-    return horaAtual <= prazoFinal
-
+    let h = prazoFinal
+    h = ('0' + h.getHours()).slice(-2) + ":" + ('0' + h.getMinutes()).slice(-2)+'Z'
+    return {permite : horaAtual <= prazoFinal, prazoFinal: h}
 }
 
 function chkVisMetarTAF(loc) {
@@ -190,8 +191,12 @@ function chkTetoMetarTAF(loc) {
 function getTAFFromLoc(loc, metar = false){ 
 
     let dh = metar? getMetarFullDateTime(metar) : new Date();
-    if (arrayTAFs[loc])
-        return { localidade: loc, TAF: arrayTAFs[loc].TAF, visibilidade: getVisPredHora(arrayTAFs[loc].TAF, dh), teto: getTetoHora(arrayTAFs[loc].TAF, dh), inicioValid: getBeginTAF(arrayTAFs[loc].TAF), fimValid: getEndTAF(arrayTAFs[loc].TAF), permiteAMD: getAMDStatus(arrayTAFs[loc].TAF) }
+    if (arrayTAFs[loc]) {
+        let statusAMD = getAMDStatus(arrayTAFs[loc].TAF)
+        permiteAMD = statusAMD.permiteAMD
+        prazoAMD = statusAMD.prazoFinal
+        return { localidade: loc, TAF: arrayTAFs[loc].TAF, visibilidade: getVisPredHora(arrayTAFs[loc].TAF, dh), teto: getTetoHora(arrayTAFs[loc].TAF, dh), inicioValid: getBeginTAF(arrayTAFs[loc].TAF), fimValid: getEndTAF(arrayTAFs[loc].TAF), permiteAMD, prazoAMD}
+    }
     else
         return { localidade: loc, TAF: false, visibilidade: false, teto: false };
 }
