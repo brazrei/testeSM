@@ -161,7 +161,7 @@ function getAMDStatus(TAF) {
 
     let h = prazoFinal
     h = ('0' + h.getHours()).slice(-2) + ":" + ('0' + h.getMinutes()).slice(-2)+'Z'
-    return {permite : horaAtual <= prazoFinal, prazoFinal: h}
+    return {permiteAMD : horaAtual <= prazoFinal, prazoFinal: h}
 }
 
 function chkVisMetarTAF(loc) {
