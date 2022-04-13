@@ -686,10 +686,14 @@ function plotaMarca(lat, lng, loc) {
         //inicio da verificacao do TAF
 	let TAF = getTAFFromLoc(loc)
 	let permiteAMD =  (TAF  && TAF.permiteAMD)
- 	let TAFCimaer = isTAFCimaer(loc) && permiteAMD
- 	let alertaTAFCimaer = TAFCimaer ? spanRed ("<br><br>* TAF CONFECCIONADO PELO CIMAER! ","TAF CONFECCIONADO PELO CIMAER"):"";
-	if (permiteAMD)
-		
+ 	    let TAFCimaer = isTAFCimaer(loc) && permiteAMD
+ 	    let alertaTAFCimaer = TAFCimaer ? spanRed ("<br><br>* TAF CONFECCIONADO PELO CIMAER! ","TAF CONFECCIONADO PELO CIMAER"):"";
+ 	    if (TAFCimaer && permiteAMD ){ 
+ 	      let strPrazoAMD = '<br><br>HORÁRIO LIMITE PARA ENVIO DE EMENDA: ' + TAF.prazoAMD
+ 	      alertaTAFCimaer += spanRed(strPrazoAMD,strPrazoAMD)
+
+ 	    }
+ 	      
 
         let alertaVisTAF = TAFCimaer && !chkVisMetarTAF(loc)
         let strAlertaTAF = ""
