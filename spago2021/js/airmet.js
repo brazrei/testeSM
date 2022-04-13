@@ -331,6 +331,7 @@ function updateArrayMetaresGeral(loc, met) {
             arrayMetaresGeral[i].TAF.visibilidade = taf.visibilidade
             arrayMetaresGeral[i].TAF.teto = taf.teto
             arrayMetaresGeral[i].TAF.permiteAMD = taf.permiteAMD
+            arrayMetaresGeral[i].TAF.prazoAMD = taf.prazoAMD
             arrayMetaresGeral[i].TAF.inicioValid = taf.inicioValid
             arrayMetaresGeral[i].TAF.fimValid = taf.fimValid
             
@@ -339,7 +340,7 @@ function updateArrayMetaresGeral(loc, met) {
         }
     }
     
-    arrayMetaresGeral.push({ METAR:{loc, texto:met, visibilidade: opener.getVisibilidade(met), teto: opener.getTeto(met)},TAF:{achou: achouTAF, texto:"", visibilidade: taf.visibilidade, teto: taf.teto, inicioValid: taf.inicioValid, fimValid: taf.fimValid, permiteAMD: taf.permiteAMD} })
+    arrayMetaresGeral.push({ METAR:{loc, texto:met, visibilidade: opener.getVisibilidade(met), teto: opener.getTeto(met)},TAF:{achou: achouTAF, texto:"", visibilidade: taf.visibilidade, teto: taf.teto, inicioValid: taf.inicioValid, fimValid: taf.fimValid, permiteAMD: taf.permiteAMD, prazoAMD: taf.prazoAMD} })
     return false
 
 }
@@ -685,8 +686,10 @@ function plotaMarca(lat, lng, loc) {
         //inicio da verificacao do TAF
 	let TAF = getTAFFromLoc(loc)
 	let permiteAMD =  (TAF  && TAF.permiteAMD)
- 	    let TAFCimaer = isTAFCimaer(loc) && permiteAMD
- 	    let alertaTAFCimaer = TAFCimaer ? spanRed ("<br><br>* TAF CONFECCIONADO PELO CIMAER! ","TAF CONFECCIONADO PELO CIMAER"):"";
+ 	let TAFCimaer = isTAFCimaer(loc) && permiteAMD
+ 	let alertaTAFCimaer = TAFCimaer ? spanRed ("<br><br>* TAF CONFECCIONADO PELO CIMAER! ","TAF CONFECCIONADO PELO CIMAER"):"";
+	if (permiteAMD)
+		
 
         let alertaVisTAF = TAFCimaer && !chkVisMetarTAF(loc)
         let strAlertaTAF = ""
