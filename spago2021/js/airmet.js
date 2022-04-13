@@ -40,8 +40,8 @@ function getLocalidadesFIRSmartMetar() {
     return result
 }
 
-function getAeroInternacional(){
-    return removeEspacosDuplos(aeroIntern.replace(/\*/g,'')).replace(/ /g,',');
+function getAeroInternacional() {
+    return removeEspacosDuplos(aeroIntern.replace(/\*/g, '')).replace(/ /g, ',');
 }
 
 function iniciaAirmetGlobalVars() {
@@ -98,7 +98,7 @@ function getFimAirmet(hora) {
 }
 
 function getValidadeAirmet(text) {
-    return getValidadeMsg(text) 
+    return getValidadeMsg(text)
 }
 
 function airmetPertoDoFim(airmet) {
@@ -299,17 +299,17 @@ function addMarker(m, loc, restricao, pulse = false) {
 }
 
 function removeHTMLTags(txt) {
-  txt = jQuery('<p>' + txt + '</p>').text();
-  if (txt.includes ("="))
-      txt = txt.split("=")[0] + "="
-  return removeEspacosDuplos(txt)
+    txt = jQuery('<p>' + txt + '</p>').text();
+    if (txt.includes("="))
+        txt = txt.split("=")[0] + "="
+    return removeEspacosDuplos(txt)
 }
 
 function getMetarFromArrayMetaresGeral(loc) {
     for (let i in arrayMetaresGeral)
         if (arrayMetaresGeral[i].METAR.loc == loc)
             return arrayMetaresGeral[i]
-    
+
     return false
 }
 
@@ -317,7 +317,7 @@ function updateArrayMetaresGeral(loc, met) {
     let achou = false
     met = removeHTMLTags(met)
     let taf = getTAFFromMetar(met)
-    let achouTAF = taf.TAF?true:false
+    let achouTAF = taf.TAF ? true : false
     for (let i in arrayMetaresGeral) {
         if (arrayMetaresGeral[i].METAR.texto.includes(loc)) {
             achou = true
@@ -325,7 +325,7 @@ function updateArrayMetaresGeral(loc, met) {
             arrayMetaresGeral[i].METAR.texto = met
             arrayMetaresGeral[i].METAR.visibilidade = opener.getVisibilidade(met)
             arrayMetaresGeral[i].METAR.teto = opener.getTeto(met)
-            
+
             arrayMetaresGeral[i].TAF.achou = achouTAF
             arrayMetaresGeral[i].TAF.texto = ""
             arrayMetaresGeral[i].TAF.visibilidade = taf.visibilidade
@@ -334,13 +334,13 @@ function updateArrayMetaresGeral(loc, met) {
             arrayMetaresGeral[i].TAF.prazoAMD = taf.prazoAMD
             arrayMetaresGeral[i].TAF.inicioValid = taf.inicioValid
             arrayMetaresGeral[i].TAF.fimValid = taf.fimValid
-            
+
             return achou
-          
+
         }
     }
-    
-    arrayMetaresGeral.push({ METAR:{loc, texto:met, visibilidade: opener.getVisibilidade(met), teto: opener.getTeto(met)},TAF:{achou: achouTAF, texto:"", visibilidade: taf.visibilidade, teto: taf.teto, inicioValid: taf.inicioValid, fimValid: taf.fimValid, permiteAMD: taf.permiteAMD, prazoAMD: taf.prazoAMD} })
+
+    arrayMetaresGeral.push({ METAR: { loc, texto: met, visibilidade: opener.getVisibilidade(met), teto: opener.getTeto(met) }, TAF: { achou: achouTAF, texto: "", visibilidade: taf.visibilidade, teto: taf.teto, inicioValid: taf.inicioValid, fimValid: taf.fimValid, permiteAMD: taf.permiteAMD, prazoAMD: taf.prazoAMD } })
     return false
 
 }
@@ -348,14 +348,14 @@ function updateArrayMetaresGeral(loc, met) {
 function getMetar(loc) {
     function buscaMetar(array, loc) {
         let xitem = loc
-        
+
         for (let i in array) {
             let msg
-           if (typeof array[i] === 'string' || array[i] instanceof String)
-              msg = array[i]
+            if (typeof array[i] === 'string' || array[i] instanceof String)
+                msg = array[i]
             else
-              msg = array[i].METAR.texto
-            
+                msg = array[i].METAR.texto
+
             if (msg.includes(loc)) {
                 xitem = msg
                 break
@@ -370,10 +370,10 @@ function getMetar(loc) {
             met = buscaMetar(opener.arrayMetares.slice().reverse(), loc) // pega apenas os metares de uma determinada FIR
             if (met == loc) {//se nao achou, atualiza a lista geral 
                 met = buscaMetar(arrayMetaresGeral, loc)
-                if (met !==loc)
-                  updateArrayMetaresGeral(loc, met)
+                if (met !== loc)
+                    updateArrayMetaresGeral(loc, met)
             } else
-                  updateArrayMetaresGeral(loc, met)
+                updateArrayMetaresGeral(loc, met)
         } catch (e) {
             console.log(e)
         }
@@ -423,15 +423,15 @@ function plotaMarca(lat, lng, loc) {
         let svgTrovoada = ""
         let svgVento = ""
         let svgVisibilidadeTaf = ""
-	let svgTetoTaf = ""
+        let svgTetoTaf = ""
         let contRestricoes = 0
         let alt = 0
         let color = "yellow"
         let boxOpacity = "0.8";
         let backGroundColor = "#444";
         let classSvgIcon
-	let fontAlertaTAF = "red"
-	let fontAlertaTAFBorder = "white"
+        let fontAlertaTAF = "red"
+        let fontAlertaTAFBorder = "white"
 
         //if (adWRNGPertoDoFim)
 
@@ -441,8 +441,8 @@ function plotaMarca(lat, lng, loc) {
             boxOpacity = "0.9";
             backGroundColor = "red"
             classSvgIcon = "pulseZoom"
-	    fontAlertaTAF = "white"
-	    fontAlertaTAFBorder = "black"
+            fontAlertaTAF = "white"
+            fontAlertaTAFBorder = "black"
         }
 
         if (adWRNGPertoDoFim)
@@ -450,7 +450,7 @@ function plotaMarca(lat, lng, loc) {
 
         let iconColor = color
 
-        if (strAlerta.includes("VISIBTAF")){
+        if (strAlerta.includes("VISIBTAF")) {
             svgVisibilidadeTaf = `<g transform="matrix(1 0 0 1 ${inicioX}.5 25.5)" id="Capa_1"  >
               <g transform="matrix(1 0 0 1 48 38.17)" style=""  >
 		      <text xml:space="preserve" font-family="'Open Sans', sans-serif" font-size="100" font-style="normal" font-weight="bold" style="stroke: ${fontAlertaTAFBorder}; stroke-width: 5; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: ${fontAlertaTAF}; fill-rule: nonzero; opacity: 1; white-space: pre;" ><tspan x="-80" y="35.65" >V</tspan></text>
@@ -458,10 +458,10 @@ function plotaMarca(lat, lng, loc) {
             </g>`
             offSetX += 150;
             contRestricoes += 1
-            
+
         }
-        
-        if (strAlerta.includes("TETOTAF")){
+
+        if (strAlerta.includes("TETOTAF")) {
             inicioX = 84 + offSetX;
             svgTetoTaf = `<g transform="matrix(1 0 0 1 ${inicioX}.5 25.5)" id="Capa_1"  >
               <g transform="matrix(1 0 0 1 48 38.17)" style=""  >
@@ -470,9 +470,9 @@ function plotaMarca(lat, lng, loc) {
             </g>`
             offSetX += 150;
             contRestricoes += 1
-            
+
         }
-        
+
         if (strAlerta.includes("TETO")) {
             inicioX = 84 + offSetX;
             svgTeto = `<g transform="matrix(0.35 0 0 0.35 ${inicioX}.02 67.61)"  >
@@ -488,7 +488,7 @@ function plotaMarca(lat, lng, loc) {
             offSetX += 150;
             contRestricoes += 1
         }
-          
+
         if (strAlerta.includes("VISIBILIDADE")) {
             //inicio x= 84
 
@@ -682,36 +682,36 @@ function plotaMarca(lat, lng, loc) {
         let adWRNG = opener.getStatusAdWRNG(loc)
 
         let adWRNGPertoDoFim = isCloseToValidOff(adWRNG.textoFull)
-        
-        //inicio da verificacao do TAF
-	let TAF = getTAFFromLoc(loc)
-	let permiteAMD =  (TAF  && TAF.permiteAMD)
- 	    let TAFCimaer = isTAFCimaer(loc) && permiteAMD
- 	    let alertaTAFCimaer = TAFCimaer ? spanRed ("<br><br>* TAF CONFECCIONADO PELO CIMAER! ","TAF CONFECCIONADO PELO CIMAER"):"";
- 	    if (TAFCimaer && permiteAMD ){ 
- 	      let strPrazoAMD = '<br><br>HORÁRIO LIMITE PARA ENVIO DE EMENDA: ' + TAF.prazoAMD
- 	      alertaTAFCimaer += spanRed(strPrazoAMD,strPrazoAMD)
 
- 	    }
- 	      
+        //inicio da verificacao do TAF
+        let TAF = getTAFFromLoc(loc)
+        let permiteAMD = (TAF && TAF.permiteAMD)
+        let TAFCimaer = isTAFCimaer(loc) && permiteAMD
+        let alertaTAFCimaer = TAFCimaer ? spanRed("<br><br>* TAF CONFECCIONADO PELO CIMAER! ", "TAF CONFECCIONADO PELO CIMAER") : "";
+        if (TAFCimaer && permiteAMD) {
+            let strPrazoAMD = '<br><br>HORÁRIO LIMITE PARA ENVIO DE EMENDA: ' + TAF.prazoAMD
+            alertaTAFCimaer += spanRed(strPrazoAMD, strPrazoAMD)
+
+        }
+
 
         let alertaVisTAF = TAFCimaer && !chkVisMetarTAF(loc)
         let strAlertaTAF = ""
         let descTAF = "</b><br><br><b>VIGILÂNCIA TAF:</b>"
-        if (alertaVisTAF){
+        if (alertaVisTAF) {
             strAlertaTAF += "*VISIBTAF"
             descTAF += "<br><br>- <b> VISIBILIDADE NO METAR / SPECI</b> ESTÁ <b>ABAIXO</b> DA VISIBILIDADE PREVISTA PELO <b>TAF</b> PARA ESTE HORÁRIO! "
         }
-        
+
         let alertaTetoTAF = TAFCimaer && !chkTetoMetarTAF(loc)
-        if (alertaTetoTAF) { 
+        if (alertaTetoTAF) {
             strAlertaTAF += "*TETOTAF"
             descTAF += "<br><br>- <b> TETO NO METAR / SPECI</b> ESTÁ <b>ABAIXO</b> DO TETO PREVISTO PELO <b>TAF</b> PARA ESTE HORÁRIO! "
         }
-	    
-	
-        descTAF = (alertaVisTAF ||  alertaTetoTAF) ? descTAF + alertaTAFCimaer : ""
-	
+
+
+        descTAF = (alertaVisTAF || alertaTetoTAF) ? descTAF + alertaTAFCimaer : ""
+
 
         if (desc[0] == "*") {
             restricao = true
@@ -723,7 +723,7 @@ function plotaMarca(lat, lng, loc) {
                 let strDescoberto = descU.split("DESCOBERTO")[1].split("<")[0]
                 let alerta = getTipoAlerta(loc, strDescoberto);
                 icon = redIcon
-                icon = getSvgIcon(loc, strDescoberto+strAlertaTAF, adWRNGPertoDoFim, true) //vento trovoada teto visib
+                icon = getSvgIcon(loc, strDescoberto + strAlertaTAF, adWRNGPertoDoFim, true) //vento trovoada teto visib
 
                 //if (alerta.ad)
                 addMarker(L.marker([lat, lng], { icon: cssIconRed }), "", restricao, true)
@@ -735,9 +735,9 @@ function plotaMarca(lat, lng, loc) {
                 //else {
                 //icon = yellowIcon
                 if (alerta.ad || alerta.rota || alerta.strAlerta !== '')
-                    icon = getSvgIcon(loc, alerta.strAlerta+strAlertaTAF, adWRNGPertoDoFim, false) //vento trovoada teto visib
+                    icon = getSvgIcon(loc, alerta.strAlerta + strAlertaTAF, adWRNGPertoDoFim, false) //vento trovoada teto visib
                 else
-                  icon = greenIcon
+                    icon = greenIcon
 
                 //}
                 //if (alerta.ad)
@@ -1048,16 +1048,16 @@ function start() {
     plota_stsc();
 
     intervalSTSC = setInterval("atualizaSTSC()", 120000);
-	
+
     atualizaTAFS();
-	
+
     intervalTAF = setInterval(atualizaTAFS, 120000); //tem que ser de minuto em minuto
 
     verificaTAFS();
-	
+
     intervalVerificaTAF = setInterval(verificaTAFS, 60000); //tem que ser de minuto em minuto
-	
-    setTimeout(updateSmartMetar,5000) //
+
+    setTimeout(updateSmartMetar, 5000) //
 
     //checaPonto("S1637 W04911");
     //map.setView([-18.0,-45.0], 13);
@@ -1276,7 +1276,7 @@ function GetWebContentAirmet(url, primeiraVez) {
     xhttp.onreadystatechange = function () {
         var erro = "ErroSM=";
         if (this.status > 0) {
-            if ((this.readyState == 4 && this.status == 200) && (this.responseText !== "") && (!this.responseText.includes("Forbidden")) ) {
+            if ((this.readyState == 4 && this.status == 200) && (this.responseText !== "") && (!this.responseText.includes("Forbidden"))) {
 
 
                 //$("#imgLoad"+idxFIR).attr('src', 'pngs/green-button30.png');
