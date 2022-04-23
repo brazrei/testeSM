@@ -191,7 +191,7 @@ function chkTetoMetarTAF(loc) {
 function getTAFFromLoc(loc, metar = false) {
 
     let dh = metar ? getMetarFullDateTime(metar) : new Date();
-    if (arrayTAFs[loc]) {
+    if (arrayTAFs[loc] && arrayTAFs[loc].TAF && arrayTAFs[loc].TAF.TAF.baseForecast && arrayTAFs[loc].TAF.TAF.baseForecast !=="") {
         let statusAMD = getAMDStatus(arrayTAFs[loc].TAF)
         permiteAMD = statusAMD.permiteAMD
         prazoAMD = statusAMD.prazoFinal
