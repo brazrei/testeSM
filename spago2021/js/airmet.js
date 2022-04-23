@@ -615,8 +615,8 @@ function plotaMarca(lat, lng, loc) {
     if (!isNaN(lat) && !isNaN(lng)) {
 
         desc = getMetar(loc)
-        if (loc == "SBGW")
-            console.log("")
+        //if (loc == "SBGW")
+        //    console.log("")
 
         var greenIcon = new L.Icon({
             //            iconUrl: 'png/marker-icon-green.png',
