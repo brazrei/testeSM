@@ -454,7 +454,7 @@ function makeMap() {
         children: [
             {
                 label: 'OpenStreeMap',
-                layer: osm,
+                layer: basemaps.OpenStreetMaps,
                 children: [
                     { label: 'Padrão', layer: basemaps.OpenStreetMaps, name: 'OpenStreeMap B&W' },
                     { label: 'White', layer: basemaps.StamenToner, name: 'OpenStreeMap White' },
