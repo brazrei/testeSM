@@ -432,6 +432,10 @@ function makeMap() {
         OpenTopoMap: L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
             maxZoom: 17,
             attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+        }),
+        EsriWorldTerrain : L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
+	           attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
+	           maxZoom: 13
         })
 
 
@@ -461,7 +465,8 @@ function makeMap() {
                 layer: basemaps.OpenStreetMaps,
                 children: [
                     { label: 'Padrão', layer: basemaps.OpenStreetMaps, name: 'OpenStreeMap B&W' },
-                    { label: 'White', layer: basemaps.StamenToner, name: 'OpenStreeMap White' },
+                    { label: 'White 1', layer: basemaps.StamenToner, name: 'OpenStreeMap White 1' },
+                    { label: 'White 2', layer: basemaps.EsriWorldTerrain, name: 'OpenStreeMap White 2' },
                     { label: 'Black', layer: basemaps.CartoDBDarkMatter, name: 'OpenStreeMap Black' },
                     { label: 'Topografia', layer: basemaps.OpenTopoMap, name: 'OpenStreeMap Topo' }
                 ]
