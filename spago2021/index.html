@@ -365,8 +365,8 @@
     }
 
     .divStatus {
-      float: right;
-      position: absolute;
+      /*float: right;
+      position: absolute;*/
       margin-right: 5px;
       right: 5px;
       text-shadow: 1px 1px 1px #fff, -2px -2px 1px #ccc;
@@ -450,32 +450,32 @@
         </div>
 
         <div class="divStatus">
+          <span>TETO</span>
           <label class="switch">
             <input type="checkbox" id="chkTeto" onchange="updateSmartMetar();" checked />
             <span class="slider round"></span>
           </label>
-          <span>TETO</span>
         </div>
         <div class="divStatus">
+          <span>VISIBILIDADE</span>
           <label class="switch">
             <input type="checkbox" id="chkVisibilidade" onchange="updateSmartMetar();" checked />
             <span class="slider round"></span>
           </label>
-          <span>VISIBILIDADE</span>
         </div>
         <div class="divStatus">
+          <span>VENTO</span>
           <label class="switch">
             <input type="checkbox" id="chkVento" onchange="updateSmartMetar();" checked />
             <span class="slider round"></span>
           </label>
-          <span>VENTO</span>
         </div>
         <div class="divStatus">
+          <span>TROVOADA</span>
           <label class="switch">
             <input type="checkbox" id="chkTrovoada" onchange="updateSmartMetar();" checked />
             <span class="slider round"></span>
           </label>
-          <span>TROVOADA</span>
         </div>
         <br>
         <div class="divStatus">
@@ -502,26 +502,26 @@
         <br>
 
         <div class="divStatus">
-          <label class="switch">
-            <input type="checkbox" id="chkSigmet" onchange="mostraSigmet(this)" checked />
-            <span class="slider round"></span>
-          </label>
           <span>SIGMET's</span>
           <span class="sigmet"> (</span><span class="sigmet" id="clockSigmet">--:--</span>
           <span class="sigmet"> ) </span>
           <img src="gif/loading.gif" alt="Carregando Sigmets" class="loading loadingSigmet">
+          <label class="switch">
+            <input type="checkbox" id="chkSigmet" onchange="mostraSigmet(this)" checked />
+            <span class="slider round"></span>
+          </label>
         </div>
         <br>
 
         <div class="divStatus">
-          <label class="switch">
-            <input type="checkbox" id="chkAirmet" onchange="mostraAirmet(this)" checked />
-            <span class="slider round"></span>
-          </label>
           <span>AIRMET's</span>
           <span class="airmet"> (</span><span class="airmet" id="clockAirmet">--:--</span>
           <span class="airmet"> ) </span>
           <img src="gif/loading.gif" alt="Carregando Airmets" class="loading loadingAirmet"><br>
+          <label class="switch">
+            <input type="checkbox" id="chkAirmet" onchange="mostraAirmet(this)" checked />
+            <span class="slider round"></span>
+          </label>
         </div>
 
 
