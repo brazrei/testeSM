@@ -108,6 +108,9 @@
       font-weight: bold;
       font-size: 9pt;
       outline: none;
+      border: silver;
+      border-radius: 5px;
+      box-shadow: 1px 1px 1px;
     }
 
     .button:hover {
@@ -527,14 +530,16 @@
 
 
         <span class="stsc" id="latlng">teste</span>
-        <textarea id="taCoordenadas"
-          style="resize: none; box-sizing: border-box; width:98%; text-transform: uppercase; font-family: monospace"
-          rows="4"
-          placeholder="Cole aqui as coordenadas a serem plotadas (Redemet, Skyvector ou Windy) e pressione <enter>!"></textarea>
+        <div>
+          <textarea id="taCoordenadas"
+            style="resize: none; box-sizing: border-box; width:98%; text-transform: uppercase; font-family: monospace"
+            rows="4"
+            placeholder="Cole aqui as coordenadas a serem plotadas (Redemet, Skyvector ou Windy) e pressione <enter>!"></textarea>
 
-        <br>
-        <input type="button" value="Copiar" onclick="copyFromTextArea()" class="blue">
-        <input type="button" value="Limpar" onclick="$('#taCoordenadas').val('').focus()" class="blue">
+          <br>
+          <input type="button" value="Copiar" onclick="copyFromTextArea()" class="blue">
+          <input type="button" value="Limpar" onclick="$('#taCoordenadas').val('').focus()" class="blue">
+        </div>
         <br><br>
 
         <input type="button" value="Separar Área por FIRs" onclick="cutPlotFIRs()" class="blue" style="display: none;">
