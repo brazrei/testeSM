@@ -428,7 +428,11 @@ function makeMap() {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
             subdomains: 'abcd',
             maxZoom: 20
-        })
+        }),
+        OpenTopoMap : L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+            maxZoom: 17,
+            attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+        });
 
 
 
@@ -458,7 +462,8 @@ function makeMap() {
                 children: [
                     { label: 'Padrão', layer: basemaps.OpenStreetMaps, name: 'OpenStreeMap B&W' },
                     { label: 'White', layer: basemaps.StamenToner, name: 'OpenStreeMap White' },
-                    { label: 'Black', layer: basemaps.CartoDBDarkMatter, name: 'OpenStreeMap Black' }
+                    { label: 'Black', layer: basemaps.CartoDBDarkMatter, name: 'OpenStreeMap Black' },
+                    { label: 'Topografia', layer: basemaps.OpenTopoMap, name: 'OpenStreeMap Topo' }
                 ]
             },
             {
