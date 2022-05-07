@@ -347,14 +347,14 @@ function updateArrayMetaresGeral(loc, met) {
 function getMetar(loc) {
     function buscaMetar(array, loc) {
         let xitem = loc
-        
+
         for (let i in array) {
             let msg
-           if (typeof array[i] === 'string' || array[i] instanceof String)
-              msg = array[i]
+            if (typeof array[i] === 'string' || array[i] instanceof String)
+                msg = array[i]
             else
-              msg = array[i].METAR.texto
-            
+                msg = array[i].METAR.texto
+
             if (msg.includes(loc)) {
                 xitem = msg
                 break
@@ -366,16 +366,13 @@ function getMetar(loc) {
     let met = buscaMetar(arrayMetares, loc) //busca os que tem restrição
     if (met == loc) {//se não, encontrou busca no geral
         try {
-            met = buscaMetar(opener.arrayMetares.slice().reverse(), loc) //pega apenas os metares de uma determinada FIR
-            if (met !== loc) //atualiza a lista geral se achou
-                updateArrayMetaresGeral(loc, met)
-            else
+            met = buscaMetar(opener.arrayMetares.slice().reverse(), loc) // pega apenas os metares de uma determinada FIR
+            if (met == loc) {//se nao achou, atualiza a lista geral 
                 met = buscaMetar(arrayMetaresGeral, loc)
-                if (met !==loc)
-                  updateArrayMetaresGeral(loc, met)
+                if (met !== loc)
+                    updateArrayMetaresGeral(loc, met)
             } else
-                  updateArrayMetaresGeral(loc, met)
-            
+                updateArrayMetaresGeral(loc, met)
         } catch (e) {
             console.log(e)
         }
