@@ -6,8 +6,8 @@
     background: #555;
     border-radius: 15px;
     padding: 5px;
-    box-shadow: inset 0 -1px 1px rgba(255, 255, 255, 0.3), 1px 1px 1px;
-    width: 11%;
+    box-shadow: inset 0 -1px 1px rgba(255, 255, 255, 0.3);
+    width: 41%;
     float:right;
   }
   .meter > span {
