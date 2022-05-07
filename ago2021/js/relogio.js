@@ -209,6 +209,7 @@ function setGrupos() {
 
 function openSmartPlot() {
   if (!smartPlot || smartPlot.closed)
+    smartPlotOnline = true
     smartPlot = window.open("../spago2021/index.html", 'SMART PLOT', '')
  // smartPlot = window.open("../../smartplot8/index.html", 'SMART PLOT', 'menubar=no,status=no')
   else
