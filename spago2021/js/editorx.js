@@ -611,7 +611,11 @@ function makeMap() {
       hideAll();
 
   });
-
+  
+  map.on('mouseout', function (e) {
+    $("#h5latlng").hide();
+  });
+  
   map.on('mousemove', function (e) {
     mouseOverMap(e)
     //    if (e.originalEvent.ctrlKey && !polygonDrawer.enabled() && !disableCtrl)
