@@ -532,10 +532,15 @@ function makeMap() {
 
   map.on('draw:drawvertex',
     function (e) {
+      function getLatLngFromLayer(arr) {
+        let idx = arr.length-1
+        return {lat: arr[idx][1], lng: arr[idx][0]}
+      }
       $(".leaflet-marker-icon.leaflet-div-icon.leaflet-editing-icon.leaflet-touch-icon.leaflet-zoom-animated.leaflet-interactive:first").css({ 'background-color': 'green' });
       $(".infoCoordinates").show();
-      if (globalLatlng)
-      latLngClicked = globalLatlng;
+     // if (globalLatlng)
+      latLngClicked = getLatLngFromLayer(e.layers.toMultiPoint().geometry.coordinates)
+
       disableCtrl = true
     });
 
