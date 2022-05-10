@@ -12,7 +12,7 @@ function addHours(data, horas) {
 function addMinutes(data, minutos) {
     if (!Date.prototype.addMinutes)
         Date.prototype.addMinutes = function (h) {
-            this.setTime(this.getTime() - (minutos * 60 * 1000));
+            this.setTime(this.getTime() + (minutos * 60 * 1000));
             return this;
         }
 
