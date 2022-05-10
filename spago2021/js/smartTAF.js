@@ -166,27 +166,74 @@ function getAMDStatus(TAF) {
 }
 
 function chkVisMetarTAF(loc) {
-    let msg = getMetarFromArrayMetaresGeral(loc)
-    if (!msg || !msg.METAR)
-        return true
-    if (msg.METAR.visibilidade && msg.METAR.visibilidade < 5000) {
-        if (msg.TAF && msg.TAF.achou && msg.TAF.visibilidade)
-            return parseInt(msg.METAR.visibilidade) >= parseInt(msg.TAF.visibilidade)
-    }
+  function checkVisibilidadeTAF(visMETAR, visTAF) {
+    visTAF = parseInt(visTAF)
+    visMETAR = parseInt(visMETAR)
 
+    if (visMETAR > 5000)
+      return true
+
+    let erro = false
+
+    let deltaVis = Math.abs(visMETAR - visTAF)
+
+    if (visMETAR < visTAF) {
+      let tolerancia = 0
+      if (visMETAR <= 800) 
+        tolerancia = 200
+       else 
+        tolerancia = visTAF * 0.3
+      
+      erro = (deltaVis > tolerancia)
+
+    }
+    return !erro
+  }
+  let msg = getMetarFromArrayMetaresGeral(loc)
+  if (!msg || !msg.METAR)
     return true
+  if (msg.METAR.visibilidade && msg.METAR.visibilidade < 5000) {
+    if (msg.TAF && msg.TAF.achou && msg.TAF.visibilidade)
+      return checkVisibilidadeTAF(msg.METAR.visibilidade, msg.TAF.visibilidade)
+  }
+
+  return true
 }
 
 function chkTetoMetarTAF(loc) {
-    let msg = getMetarFromArrayMetaresGeral(loc)
-    if (!msg || !msg.METAR)
-        return true
-    if (msg.METAR.teto && Array.isArray(msg.METAR.teto) && (msg.METAR.teto[1] == "T") && (getNum(msg.METAR.teto[3]) * 100) < 1500) {
-        if (msg.TAF && msg.TAF.achou && msg.TAF.teto && msg.TAF.teto.altura)
-            return parseInt(getNum(msg.METAR.teto[3]) * 100) >= parseInt(msg.TAF.teto.altura)
-    }
+  function checkTetoTAF(tetoMETAR, tetoTAF) {
+    tetoTAF = parseInt(tetoTAF)
+    tetoMETAR = parseInt(tetoMETAR)
 
+    if (tetoMETAR > 1500)
+      return true
+
+    let erro = false
+
+    let deltaTeto = Math.abs(tetoMETAR - tetoTAF)
+
+    if (tetoMETAR < tetoTAF) {
+      let tolerancia = 0
+      if (tetoMETAR <= 1000) 
+        tolerancia = 100
+       else 
+        tolerancia = tetoTAF * 0.3
+      
+      erro = (deltaTeto > tolerancia)
+
+    }
+    return !erro
+  }
+  let msg = getMetarFromArrayMetaresGeral(loc)
+  if (!msg || !msg.METAR)
     return true
+  if (msg.METAR.teto && Array.isArray(msg.METAR.teto) && (msg.METAR.teto[1] == "T") && (getNum(msg.METAR.teto[3]) * 100) < 1500) {
+    if (msg.TAF && msg.TAF.achou && msg.TAF.teto && msg.TAF.teto.altura)
+      //return parseInt(getNum(msg.METAR.teto[3]) * 100) >= parseInt(msg.TAF.teto.altura)
+      return checkTetoTAF(getNum(msg.METAR.teto[3]) * 100, msg.TAF.teto.altura)
+  }
+
+  return true
 }
 
 function getTAFFromLoc(loc, metar = false) {
