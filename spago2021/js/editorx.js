@@ -587,6 +587,8 @@ function makeMap() {
       return bearing
     }
     globalLatlng = e.latlng
+    $("#h5latlng").show();
+
     $("#h5latlng").html(convertLat(deg_to_dms(e.latlng.lat)) + " - " + convertLng(deg_to_dms(e.latlng.lng)));
     if (latLngClicked) {
       let angulo = getAngle([latLngClicked.lng, latLngClicked.lat], [e.latlng.lng, e.latlng.lat])
