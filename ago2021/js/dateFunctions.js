@@ -9,6 +9,16 @@ function addHours(data, horas) {
 
 }
 
+function addMinutes(data, minutos) {
+    if (!Date.prototype.addMinutes)
+        Date.prototype.addMinutes = function (h) {
+            this.setTime(this.getTime() - (minutos * 60 * 1000));
+            return this;
+        }
+
+    return data.addMinutes(minutos)
+}
+
 function calcDifData(ini, fim) {
     let dif = new Date(fim - ini)
     let chk = new Date(new Date() - new Date())
