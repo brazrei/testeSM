@@ -179,7 +179,7 @@ function chkVisMetarTAF(loc) {
 
     if (visMETAR < visTAF) {
       let tolerancia = 0
-      if (visMETAR <= 800) 
+      if (visTAF <= 800) 
         tolerancia = 200
        else 
         tolerancia = visTAF * 0.3
@@ -214,7 +214,7 @@ function chkTetoMetarTAF(loc) {
 
     if (tetoMETAR < tetoTAF) {
       let tolerancia = 0
-      if (tetoMETAR <= 1000) 
+      if (tetoTAF <= 1000) 
         tolerancia = 100
        else 
         tolerancia = tetoTAF * 0.3
