@@ -534,6 +534,8 @@ function makeMap() {
     function (e) {
       $(".leaflet-marker-icon.leaflet-div-icon.leaflet-editing-icon.leaflet-touch-icon.leaflet-zoom-animated.leaflet-interactive:first").css({ 'background-color': 'green' });
       $(".infoCoordinates").show();
+      if (globalLatlng)
+      latLngClicked = globalLatlng;
       disableCtrl = true
     });
 
@@ -545,6 +547,7 @@ function makeMap() {
     function (e) {
       $(".infoCoordinates").hide();
       disableCtrl = false
+      globalLatlng = false
     });
 
   map.on(L.Draw.Event.DELETED, function (e) {
@@ -578,6 +581,8 @@ function makeMap() {
       var bearing = turf.bearing(point1, point2);
       return bearing
     }
+    globalLatlng = e.latlng
+    $("#h5latlng").html(convertLat(deg_to_dms(e.latlng.lat)) + " - " + convertLng(deg_to_dms(e.latlng.lng)));
     if (latLngClicked) {
       let angulo = getAngle([latLngClicked.lng, latLngClicked.lat], [e.latlng.lng, e.latlng.lat])
       if (angulo < 0)
@@ -586,7 +591,7 @@ function makeMap() {
         angulo = 360
 
       let distancia = getDistancia([latLngClicked.lng, latLngClicked.lat], [e.latlng.lng, e.latlng.lat])
-      $("#h5latlng").html(convertLat(deg_to_dms(e.latlng.lat)) + " - " + convertLng(deg_to_dms(e.latlng.lng)));
+      
       $("#h5angulo").html("Radial: " + Math.round(angulo) + "°");
       $("#h5distancia").html("Distância do Último Ponto: " + Math.round(distancia) + " Milhas");
     }
@@ -612,7 +617,7 @@ function makeMap() {
     //   if (!polygonDrawer.enabled() && menuMapa)
     //     iniciarPlotagem(e)
 
-    latLngClicked = e.latlng;
+    
   });
 
   map.on('zoomend', function (e) {
