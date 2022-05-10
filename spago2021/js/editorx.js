@@ -502,7 +502,7 @@ function makeMap() {
   var drawControl = new L.Control.Draw(drawOptions);
 
   polygonDrawer = new L.Draw.Polygon(map, drawControl.options.polygon);
-  polylineDrawer = new L.Draw.Polyline(map, drawControl.options.polyline);
+  polylineDrawer = new L.Draw.Polyline(map, drawControl.options.polyline).enable();
   rectangleDrawer = new L.Draw.Rectangle(map);
 
 
