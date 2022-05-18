@@ -230,6 +230,7 @@ function plotaSigmets(arr, primeiraVez) {
                 color: color,
                 fillColor: color,
                 fillOpacity: 0,
+                fillPattern: stripes,
                 radius: raio
             }
             if (isCloseToValidOff(a.codigo))
