@@ -233,6 +233,8 @@ function plotaSigmets(arr, primeiraVez) {
                 fillPattern: stripes,
                 radius: raio
             }
+            let stripes = new L.StripePattern();
+            stripes.addTo(map);
             if (isCloseToValidOff(a.codigo))
                 opt.className = "pulse";
 
