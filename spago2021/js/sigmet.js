@@ -231,7 +231,7 @@ function plotaSigmets(arr, primeiraVez) {
                 className: "",
                 color: color,
                 fillColor: color,
-                fillOpacity: 0,
+                fillOpacity: 0.2,
                 fillPattern: stripes,
                 radius: raio
             }
