@@ -238,9 +238,12 @@ function plotaSigmets(arr, primeiraVez) {
             let p;
             if (a.tipo ==  "TC") { 
               arrIdxSigmetsPlot.push(a.codigo)
-              arrSigmetsPlot.push(L.circle(L.latLng(poly[1]), optTC).addTo(map));  //ponto futuro
+              if (poly && poly.length>0) {
+                if (poly.length>1)
+                       arrSigmetsPlot.push(L.circle(L.latLng(poly[1]), optTC).addTo(map));  //ponto futuro
                 //
               p = L.circle(L.latLng(poly[0]), opt).addTo(map);
+              }
             }
             else{ 
               p = L.polygon(poly, opt).addTo(map);
