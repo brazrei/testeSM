@@ -235,12 +235,14 @@ function plotaSigmets(arr, primeiraVez) {
             if (isCloseToValidOff(a.codigo))
                 opt.className = "pulse";
 
-            let p;
+            let p,p1;
             if (a.tipo ==  "TC") { 
               arrIdxSigmetsPlot.push(a.codigo)
               if (poly && poly.length>0) {
-                if (poly.length>1)
-                       arrSigmetsPlot.push(L.circle(L.latLng(poly[1]), optTC).addTo(map));  //ponto futuro
+                if (poly.length>1) { 
+                    p1 = L.circle(L.latLng(poly[1]), optTC).addTo(map)
+                       arrSigmetsPlot.push(p1);  //ponto futuro
+                }
                 //
               p = L.circle(L.latLng(poly[0]), opt).addTo(map);
               }
@@ -250,6 +252,9 @@ function plotaSigmets(arr, primeiraVez) {
               p.bringToBack();
             } 
             p.bindTooltip(getSigmetDescription(a).replace("FCST","<br>FCST"), { closeButton: false, sticky: true });
+            if (p1) {
+                p1.bindTooltip(getSigmetDescription(a).replace("FCST","<br>FCST") + "<br><br>" + spanBold(spanRed("*** PREVISÃO ***")), { closeButton: false, sticky: true });
+            }
             if (a.cancelado)
                 p.setStyle({
                     color: 'red',
