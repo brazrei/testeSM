@@ -216,6 +216,8 @@ function plotaSigmets(arr, primeiraVez) {
         a = arr[i]
         if ((a.tipo !== "C") && (!a.cancelado)) {//o sigmet de cancelamento nao eh plotado
             var poly = invertLatLong(a.coordDeg)
+            let stripes = new L.StripePattern();
+            stripes.addTo(map);
             //console.log("poly ==>", poly)
             color = getColorSigmet(a.tipo)
             let raio = a.raio*1000
@@ -233,8 +235,6 @@ function plotaSigmets(arr, primeiraVez) {
                 fillPattern: stripes,
                 radius: raio
             }
-            let stripes = new L.StripePattern();
-            stripes.addTo(map);
             if (isCloseToValidOff(a.codigo))
                 opt.className = "pulse";
 
