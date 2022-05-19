@@ -34,8 +34,20 @@ function getAeroportos() {
                 var indicativo = tit[0];
 
 		var desc = tit[1] + " - " + $(this).find('l').text()
-                var lat = Math.trunc($(this).find('lt').text());
-                var lng = Math.trunc($(this).find('ln').text());
+		let lat,lng
+		try { 
+                lat = Math.trunc($(this).find('lt').text() * 100) /100;
+		} catch {
+            lat = 0
+		}
+		try {
+                lng = Math.trunc($(this).find('ln').text() * 100) /100;
+
+		} catch {
+			lng = 0
+		}
+
+
 		
 		arrAeroIndicativo.push(indicativo);
 		arrAeroLat.push(lat);
