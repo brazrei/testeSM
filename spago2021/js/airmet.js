@@ -173,8 +173,16 @@ function plotarAreaLocalidade(loc, onlyZoom) {
 
 
 /*Integrar ao SmartMetar*/
-function contaVertices(str){
-	return str.split("-").length
+function checaVertices(arr){
+        if () > 21){ 
+            $('#taCoordenadas').css('background','red')          
+            $('#taCoordenadas').css('color','white')          
+	    return false
+        } else {
+            $('#taCoordenadas').css('background','white')          
+            $('#taCoordenadas').css('color','black')          
+	    return true
+        }
 
 }
 
@@ -190,14 +198,8 @@ $("document").ready(function () {
     });
 	
     $('#taCoordenadas').change(function () {
-        if (contaVertices(str) > 21){ 
-            $('#taCoordenadas').css('background','red')          
-            $('#taCoordenadas').css('color','white')          
-        } else {
-            $('#taCoordenadas').css('background','white')          
-            $('#taCoordenadas').css('color','black')          
-        }
-
+	let str = $('#taCoordenadas').val()
+	checaVertices(str.split('-'))
     });
 
     getIp();
