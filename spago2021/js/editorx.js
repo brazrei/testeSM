@@ -292,14 +292,20 @@ function formataLayerEdit(layer, keepStyle = false) {
       console.log("excluir");
     }
   }]
+  let layerCoords = extractDMS(JSON.stringify(layer.toGeoJSON()))
 
 
   if (!keepStyle) {
+    let color = '#333'
+    if (!checaVertices(layerCoords.split('-')))
+      color = 'red'
     layer.setStyle({
       fillColor: "#111",
-      color: "#333",
+      color: color,
       dashArray: '20, 20', dashOffset: '10'
+
     });
+      
   }
 
   layer.setStyle({
@@ -307,14 +313,13 @@ function formataLayerEdit(layer, keepStyle = false) {
     //    contextmenuItems: menuEdits
   });
 
-
   layer.on('contextmenu', function (event) {
     selectedLayer = event.target
     openContextMenuPoly(event, event.target);
   }, this);
 
   layer.on('click', function (event) {
-    timerCopiaCoords = setTimeout(copiaCoordenadas, 800, extractDMS(JSON.stringify(layer.toGeoJSON())))
+    timerCopiaCoords = setTimeout(copiaCoordenadas, 800, layerCoords)
     //copiaCoordenadas()
     layer.openPopup();
   }, this);
