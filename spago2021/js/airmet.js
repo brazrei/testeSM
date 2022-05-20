@@ -197,7 +197,7 @@ $("document").ready(function () {
         }
     });
 	
-    $('#taCoordenadas').change(function () {
+    $('#taCoordenadas').on('change',function () {
 	let str = $('#taCoordenadas').val()
 	checaVertices(str.split('-'))
     });
