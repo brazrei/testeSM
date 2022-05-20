@@ -284,6 +284,22 @@ function removeLayerEdit(layer, limpaCoord = false) {
 
 }
 
+function setLayerStyleByVertices(layer){
+   let layerCoords = extractDMS(JSON.stringify(layer.toGeoJSON()))
+   let color = '#333'
+   
+    if (!checaVertices(layerCoords.split('-')))
+     color = 'red'
+    layer.setStyle({
+      fillColor: "#111",
+      color: color,
+      dashArray: '20, 20', dashOffset: '10'
+
+    });
+
+  
+}
+
 function formataLayerEdit(layer, keepStyle = false) {
 
   var menuEdits = [{
@@ -296,16 +312,7 @@ function formataLayerEdit(layer, keepStyle = false) {
 
 
   if (!keepStyle) {
-    let color = '#333'
-    if (!checaVertices(layerCoords.split('-')))
-      color = 'red'
-    layer.setStyle({
-      fillColor: "#111",
-      color: color,
-      dashArray: '20, 20', dashOffset: '10'
-
-    });
-      
+    setLayerStyleByVertices(layer)
   }
 
   layer.setStyle({
@@ -546,7 +553,7 @@ function makeMap() {
      // if (globalLatlng)
       let coords = e.layers.toMultiPoint().geometry.coordinates
       latLngClicked = getLatLngFromLayer(coords)
-      !checaVertices(coords)
+      !checaVertices(coords + " - INICIAL")
 
       disableCtrl = true
     });
