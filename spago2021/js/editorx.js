@@ -553,7 +553,8 @@ function makeMap() {
      // if (globalLatlng)
       let coords = e.layers.toMultiPoint().geometry.coordinates
       latLngClicked = getLatLngFromLayer(coords)
-      !checaVertices(coords + " - INICIAL")
+      coords.push(" - INICIAL")
+      !checaVertices(coords)
 
       disableCtrl = true
     });
