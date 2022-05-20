@@ -539,7 +539,9 @@ function makeMap() {
       $(".leaflet-marker-icon.leaflet-div-icon.leaflet-editing-icon.leaflet-touch-icon.leaflet-zoom-animated.leaflet-interactive:first").css({ 'background-color': 'green' });
       $(".infoCoordinates").show();
      // if (globalLatlng)
-      latLngClicked = getLatLngFromLayer(e.layers.toMultiPoint().geometry.coordinates)
+      let coords = e.layers.toMultiPoint().geometry.coordinates
+      latLngClicked = getLatLngFromLayer(coords)
+      !checaVertices(coords)
 
       disableCtrl = true
     });
