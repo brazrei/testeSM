@@ -200,7 +200,7 @@ $("document").ready(function () {
         }
     });
 	
-    $('#taCoordenadas').on('input selectionchange propertychange',function () {
+    $('#taCoordenadas').on('input selectionchange propertychange paste',function () {
 	let str = $('#taCoordenadas').val()
 	checaVertices(str.split('-'))
     });
