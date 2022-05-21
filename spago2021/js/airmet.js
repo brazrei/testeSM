@@ -183,7 +183,7 @@ function checaVertices(arr){
         } else {
             $('#taCoordenadas').css('background','white')          
             $('#taCoordenadas').css('color','black')          
-	    $('#taCoordenadas').attr('')  
+	    $('#taCoordenadas').attr('title','')  
 	    return true
         }
 
