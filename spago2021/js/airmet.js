@@ -11,6 +11,7 @@ var groupMarkersHide = false
 var groupMarkers = false
 var intervalAirmet = false
 var arrayMetaresGeral = []
+var msgErroSAGITARIO = 'title','Áreas com mais de 21 VÉRTICES náo podem ser plotados pelo Sistema SAGITARIO!!!'
 
 function mostraAirmet() {
     if ($('#chkAirmet').prop('checked')) {
@@ -176,11 +177,13 @@ function plotarAreaLocalidade(loc, onlyZoom) {
 function checaVertices(arr){
         if (arr.length > 21){ 
             $('#taCoordenadas').css('background','red')          
-            $('#taCoordenadas').css('color','white')          
+            $('#taCoordenadas').css('color','white')  
+	    $('#taCoordenadas').attr('title','')  
 	    return false
         } else {
             $('#taCoordenadas').css('background','white')          
             $('#taCoordenadas').css('color','black')          
+	    $('#taCoordenadas').attr(msgErroSAGITARIO)  
 	    return true
         }
 
