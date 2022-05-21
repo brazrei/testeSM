@@ -123,6 +123,8 @@ function copiaCoordenadas(coord, copiaForcada = false) {
   }
   $("#taCoordenadas").val(coord)
   $("#taCoordenadas").select()
+  document.getElementById('taCoordenadas').dispatchEvent(new Event('input'))
+
   return coord
   //alert(coord);
 }
