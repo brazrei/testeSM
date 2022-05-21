@@ -176,7 +176,7 @@ function plotarAreaLocalidade(loc, onlyZoom) {
 /*Integrar ao SmartMetar*/
 function checaVertices(arr){
         if (arr.length > 21){ 
-            $('#taCoordenadas').css('background','red')          
+            $('#taCoordenadas').css('background','#ff8d8d')          
             $('#taCoordenadas').css('color','white')  
 	    $('#taCoordenadas').attr('title',msgErroSAGITARIO)  
 	    return false
