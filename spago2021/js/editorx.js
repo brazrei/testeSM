@@ -445,7 +445,11 @@ function makeMap() {
   //Render Main Map
 
   map = L.map("map", mapOptions);
-
+  
+  //cria o stripPattern global
+  stripes = new L.StripePattern();
+  stripes.addTo(map);
+  
 
   //Render Zoom Control
   L.control
