@@ -288,16 +288,16 @@ function setLayerStyleByVertices(layer){
    let layerCoords = extractDMS(JSON.stringify(layer.toGeoJSON()))
    let color = '#333'
    let ret = true
-    if (!checaVertices(layerCoords.split('-')))
+    if (!checaVertices(layerCoords.split('-'))) {
       ret = false
-     color = 'red'
+      color = 'red'
       layer.setStyle({
         fillColor: "#111",
         color: color,
         dashArray: '20, 20', dashOffset: '10'
 
-    });
-
+      });
+    }
   return ret
 }
 
