@@ -11,7 +11,7 @@ var groupMarkersHide = false
 var groupMarkers = false
 var intervalAirmet = false
 var arrayMetaresGeral = []
-var msgErroSAGITARIO = 'title','Áreas com mais de 21 VÉRTICES náo podem ser plotados pelo Sistema SAGITARIO!!!'
+var msgErroSAGITARIO = 'Áreas com mais de 21 VÉRTICES não podem ser plotados pelo Sistema SAGITARIO!!!'
 
 function mostraAirmet() {
     if ($('#chkAirmet').prop('checked')) {
