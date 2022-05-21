@@ -287,17 +287,18 @@ function removeLayerEdit(layer, limpaCoord = false) {
 function setLayerStyleByVertices(layer){
    let layerCoords = extractDMS(JSON.stringify(layer.toGeoJSON()))
    let color = '#333'
-   
+   let ret = true
     if (!checaVertices(layerCoords.split('-')))
+      ret = false
      color = 'red'
-    layer.setStyle({
-      fillColor: "#111",
-      color: color,
-      dashArray: '20, 20', dashOffset: '10'
+      layer.setStyle({
+        fillColor: "#111",
+        color: color,
+        dashArray: '20, 20', dashOffset: '10'
 
     });
 
-  
+  return ret
 }
 
 function formataLayerEdit(layer, keepStyle = false) {
@@ -310,9 +311,9 @@ function formataLayerEdit(layer, keepStyle = false) {
   }]
   let layerCoords = extractDMS(JSON.stringify(layer.toGeoJSON()))
 
-
+  let showMsgSAGITARIO = false
   if (!keepStyle) {
-    setLayerStyleByVertices(layer)
+    showMsgSAGITARIO = !setLayerStyleByVertices(layer)
   }
 
   layer.setStyle({
@@ -373,7 +374,8 @@ function formataLayerEdit(layer, keepStyle = false) {
   coord = insereQuebraHTML("-", coord)
   let strHelp = "<br><br>Clique uma Vez para Copiar as Coordenadas desta Área!<br>" +
     "Duplo-Clique para Excluir esta Área!"
-  let desc = coord + "<br><br><b>Aeródromos na área plotada:<br>" + insereQuebraHTML(",", locs, 10) + "</b>" + spanRed(strHelp)
+  msgSAG = showMsgSAGITARIO? "<br><br>" + spanBold(spanRed(msgErroSAGITARIO))
+  let desc = coord + "<br><br><b>Aeródromos na área plotada:<br>" + insereQuebraHTML(",", locs, 10) + "</b>" + spanRed(strHelp) + msgSAG
 
   //layer.bindPopup(desc).openPopup();
 
