@@ -288,13 +288,16 @@ function setLayerStyleByVertices(layer){
    let layerCoords = extractDMS(JSON.stringify(layer.toGeoJSON()))
    let color = '#333'
    let ret = true
+   let xStripes
     if (!checaVertices(layerCoords.split('-'))) {
       ret = false
       color = 'red'
+      xStripes = stripes
     }
     layer.setStyle({
         fillColor: "#111",
         color: color,
+        fillPattern: xStripes,
         dashArray: '20, 20', dashOffset: '10'
 
     });
