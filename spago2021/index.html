@@ -521,7 +521,7 @@
 
         <br>
         <input type="button" value="Copiar" onclick="copyFromTextArea()" class="blue">
-        <input type="button" value="Limpar" onclick="$('#taCoordenadas').val('').focus()" class="blue">
+        <input type="button" value="Limpar" onclick="$('#taCoordenadas').val('').focus(); document.getElementById('taCoordenadas').dispatchEvent(new Event('input'))" class="blue">
         <br><br>
 
         <input type="button" value="Separar Área por FIRs" onclick="cutPlotFIRs()" class="blue" style="display: none;">
