@@ -293,7 +293,7 @@ function setLayerStyleByVertices(layer){
    let xStripes
     if (!checaVertices(layerCoords.split('-'))) {
       ret = false
-      color = '#ff8d8d'
+      color = 'red'
       xStripes = stripes
     }
     layer.setStyle({
