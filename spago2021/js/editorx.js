@@ -379,7 +379,7 @@ function formataLayerEdit(layer, keepStyle = false) {
   let strHelp = "<br><br>Clique uma Vez para Copiar as Coordenadas desta Área!<br>" +
     "Duplo-Clique para Excluir esta Área!"
   let msgSAG = showMsgSAGITARIO? "<br><br>" + spanBold(spanRed(msgErroSAGITARIO)) : ""
-  let strPoints = "<br>Vértices: " + (layerCoords.split("-").length-1)
+  let strPoints = spanBold("<br>Vértices: " + (layerCoords.split("-").length-1))
   let desc = coord + "<br><br><b>Aeródromos na área plotada:<br>" + insereQuebraHTML(",", locs, 10) + "</b>" + spanRed(strHelp) + msgSAG + strPoints
 
   //layer.bindPopup(desc).openPopup();
