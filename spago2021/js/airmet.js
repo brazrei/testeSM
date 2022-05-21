@@ -178,12 +178,12 @@ function checaVertices(arr){
         if (arr.length > 21){ 
             $('#taCoordenadas').css('background','red')          
             $('#taCoordenadas').css('color','white')  
-	    $('#taCoordenadas').attr('title','')  
+	    $('#taCoordenadas').attr('title',msgErroSAGITARIO)  
 	    return false
         } else {
             $('#taCoordenadas').css('background','white')          
             $('#taCoordenadas').css('color','black')          
-	    $('#taCoordenadas').attr(msgErroSAGITARIO)  
+	    $('#taCoordenadas').attr('')  
 	    return true
         }
 
