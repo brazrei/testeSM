@@ -291,13 +291,14 @@ function setLayerStyleByVertices(layer){
     if (!checaVertices(layerCoords.split('-'))) {
       ret = false
       color = 'red'
-      layer.setStyle({
+    }
+    layer.setStyle({
         fillColor: "#111",
         color: color,
         dashArray: '20, 20', dashOffset: '10'
 
-      });
-    }
+    });
+    
   return ret
 }
 
