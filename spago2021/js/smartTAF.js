@@ -1,6 +1,6 @@
 var tafsGrupoConsulta = "SBPA,SBCT,SBFI,SBFL,SBNF,SBPK,SBCO,SBSM,SBBG,SBNM,SBJV,SBBI,SBYS,SBAF,SBSC,SBAN,SBMN,SBCH,SBUG,SBPF,SBJA,SBGW,SBCC,SBCX,SBGP,SBLJ,SBPG,SNCP"
 var arrayTAFs = []
-var arrayProximosTAFs = [] 
+var arrayProximosTAFs = []
 
 var arrTAFSCimaer = []
 
@@ -19,105 +19,108 @@ arrTAFSCimaer.push({ indice: "12 HORAS, (06Z, 12Z) DIARIAMENTE", localidades: "S
 arrTAFSCimaer.push({ indice: "12 HORAS, (06Z, 12Z  e 18Z) SEX", localidades: "SBPG" });
 arrTAFSCimaer.push({ indice: "12 HORAS, (06Z e 18Z) DIARIAMENTE", localidades: "SNCP" });
 
-function getArrayLength(array){
-	let i =0
-	for (let c in array)
-		i++
-	return i
-	
+function getArrayLength(array) {
+    let i = 0
+    for (let c in array)
+        i++
+    return i
+
 }
 
 function isTAFCimaer(loc) {
-	let achou = false;
-	for (let i in arrTAFSCimaer){
-		achou = arrTAFSCimaer[i].localidades.includes(loc)
-		if (achou)
-			break;
-		
-	}
-	return achou
+    let achou = false;
+    for (let i in arrTAFSCimaer) {
+        achou = arrTAFSCimaer[i].localidades.includes(loc)
+        if (achou)
+            break;
+
+    }
+    return achou
 }
 
-function excluiTAFs(total, naRede){
-	let ausentes = []
-	for (let i in total) {
-		if (!naRede[total[i]])
-			ausentes.push(total[i])
-	}	
-	return ausentes;
+function excluiTAFs(total, naRede) {
+    let ausentes = []
+    for (let i in total) {
+        if (!naRede[total[i]])
+            ausentes.push(total[i])
+    }
+    return ausentes;
 }
-	
+
 function atualizaStatusConsultaTAF() {
-	let qtdTAFsProxHoraNaRede = getArrayLength(arrayProximosTAFs) //tafs da proxima hora de envio obtidos da rede
-	let tafsProxHora = getTAFsProximaHora();  // tafs que deveriam estar na proxima hora de envio
-	let qtdTAFsProxHora = tafsProxHora.length;
-	let agora = getUTCAgora()
-	
-	let dh = getHoraNextTAF()
-	
-	let ligarPulse = agora > dh.dataIni.addHours(-2) //dh é alterado na funcao addHours
-	let ignorarAusentes = agora < dh.dataIni.addHours(-1)
-	
-	let arrAusentes = excluiTAFs(tafsProxHora, arrayProximosTAFs);
-	let strAusentes = ""
-	if (arrAusentes.length > 0)
-		strAusentes = arrAusentes.join(', ');
-	
-	
-	if (qtdTAFsProxHoraNaRede < qtdTAFsProxHora) {
-		if (ignorarAusentes) {
-			$(".statusTAF").hide()
-			return false
-		}
-		$(".statusTAF").addClass("statusERRO")
-		if (ligarPulse)
-		    $(".statusTAF").addClass("errorPulse")
-		$(".statusTAF").removeClass("statusOK")
-		$(".statusTAF").html(`TAF - ${dh.dia} ${dh.hora} - ${arrAusentes.length} AUSENTES`)
-		$( ".statusTAF" ).attr("title", `TAFs AUSENTES: ${strAusentes}` );
-	} else {
-		$(".statusTAF").addClass("statusOK")
-		$(".statusTAF").removeClass("errorPulse")
-		$(".statusTAF").removeClass("statusERRO")
-		$(".statusTAF").html(`TAF - ${dh.dia} ${dh.hora}  - OK`)
-		$( ".statusTAF" ).attr("title", '' );
-	}
-	$(".statusTAF").show()
-	
-	
+    let qtdTAFsProxHoraNaRede = getArrayLength(arrayProximosTAFs) //tafs da proxima hora de envio obtidos da rede
+    let tafsProxHora = getTAFsProximaHora();  // tafs que deveriam estar na proxima hora de envio
+    let qtdTAFsProxHora = tafsProxHora.length;
+    let agora = getUTCAgora()
+
+    let dh = getHoraNextTAF()
+
+    let ligarPulse = agora > dh.dataIni.addHours(-2) //dh é alterado na funcao addHours
+    let ignorarAusentes = agora < dh.dataIni.addHours(-1)
+
+    let arrAusentes = excluiTAFs(tafsProxHora, arrayProximosTAFs);
+    let strAusentes = ""
+    if (arrAusentes.length > 0)
+        strAusentes = arrAusentes.join(', ');
+
+
+    if (qtdTAFsProxHoraNaRede < qtdTAFsProxHora) {
+        if (ignorarAusentes) {
+            $(".statusTAF").hide()
+            return false
+        }
+        $(".statusTAF").addClass("statusERRO")
+        if (ligarPulse)
+            $(".statusTAF").addClass("errorPulse")
+        $(".statusTAF").removeClass("statusOK")
+        $(".statusTAF").html(`TAF - ${dh.dia} ${dh.hora} - ${arrAusentes.length} AUSENTES`)
+        $(".statusTAF").attr("title", `TAFs AUSENTES: ${strAusentes}`);
+    } else {
+        $(".statusTAF").addClass("statusOK")
+        $(".statusTAF").removeClass("errorPulse")
+        $(".statusTAF").removeClass("statusERRO")
+        $(".statusTAF").html(`TAF - ${dh.dia} ${dh.hora}  - OK`)
+        $(".statusTAF").attr("title", `${qtdTAFsProxHoraNaRede} TAFs ENCONTRADOS NA CONSULTA: ${tafsProxHora.join(", ")}`);
+    }
+    $(".statusTAF").show()
+
+
 }
 
 function getHoraNextTAF() {
     let days = ["DOM", "SEG", "TER", "QUA", "QUI", "SEX", "SAB"]
     let inicio = new Date(new Date(getUTCAgora().addHours(1).setMinutes(0)).setSeconds(0));
     let hora
-    while((inicio.getHours() % 6) !== 0)
-    	inicio = inicio.addHours(1);
+    if (inicio.getHours() % 6 <= 3) { 
+      while ((inicio.getHours() % 6) !== 0)
+          inicio = inicio.addHours(-1);
+    } else { 
+      while ((inicio.getHours() % 6) !== 0)
+          inicio = inicio.addHours(1);
+    }
+
     hora = (inicio.getHours() < 10) ? "0" + inicio.getHours() : "" + inicio.getHours();
-    
+
     return { dia: days[inicio.getDay()], hora: hora + "Z", dataIni: inicio }
 }
 
 function getTAFsProximaHora() {
-	let dh = getHoraNextTAF()
-	return getArrayTAFsHora(dh.dia, dh.hora)	
+    let dh = getHoraNextTAF()
+    return getArrayTAFsHora(dh.dia, dh.hora)
 }
 
 function atualizaTAFS() { //atualiza os TAFs de hora em hora, na hora cheia.
-	if (!arrayTAFs[tafsGrupoConsulta[0]])
-		getTAFs(getAeroInternacional())
-	
-	let agora = new Date()
-	
-	if (agora.getMinutes() == 0)
-		getTAFs(getAeroInternacional())
+    function removeRepetidos(str) {
+        return [...new Set(str.split(','))].join(',');
+    }
+    getTAFs(removeRepetidos(getAeroInternacional() + ',' + tafsGrupoConsulta))
 }
 
 function verificaTAFS() { //atualiza os TAFs de hora em hora, na hora cheia.
-	let dh = getHoraNextTAF()
-	let locs = getTAFsProximaHora()
+    let dh = getHoraNextTAF()
+    let locs = getTAFsProximaHora()
 
-	getTAFs(locs,dh.dataIni)
+    getTAFs(locs, dh.dataIni)
 }
 
 function getArrayTAFsHora(diaSemana, hora) {
@@ -134,7 +137,7 @@ function getArrayTAFsHora(diaSemana, hora) {
     diaSemana = diaSemana.toUpperCase()
 
     for (var i in arrTAFSCimaer) {
-        t = arrTAFSCimaer[i]
+        let t = arrTAFSCimaer[i]
         indice = t.indice.toUpperCase()
         if (indice.includes(hora) && ((indice.includes("DIARIAMENTE") || indice.includes(diaSemana)))) {
             locs += separador + t.localidades
@@ -161,42 +164,99 @@ function getAMDStatus(TAF) {
 
     let prazoFinal = new Date(inicio)
     addHours(prazoFinal, (((horasValid.getDate() - 1) * 24) + horasValid.getHours()) / 6)
+    addMinutes(prazoFinal,-61)
 
-    return horaAtual <= prazoFinal
-
+    let h = prazoFinal
+    h = ('0' + h.getHours()).slice(-2) + ":" + ('0' + h.getMinutes()).slice(-2) + 'Z'
+    return { permiteAMD: horaAtual <= prazoFinal, prazoFinal: h }
 }
 
 function chkVisMetarTAF(loc) {
-    let msg = getMetarFromArrayMetaresGeral(loc)
-    if (!msg || !msg.METAR)
-        return true
-    if (msg.METAR.visibilidade && msg.METAR.visibilidade < 5000) {
-        if (msg.TAF && msg.TAF.achou && msg.TAF.visibilidade)
-            return parseInt(msg.METAR.visibilidade) >= parseInt(msg.TAF.visibilidade)
-    }
+  function checkVisibilidadeTAF(visMETAR, visTAF) {
+    visTAF = parseInt(visTAF)
+    visMETAR = parseInt(visMETAR)
 
+    if (visMETAR > 5000)
+      return true
+
+    let erro = false
+
+    let deltaVis = Math.abs(visMETAR - visTAF)
+
+    if (visMETAR < visTAF) {
+      let tolerancia = 0
+      if (visTAF <= 800) 
+        tolerancia = 200
+       else 
+        tolerancia = visTAF * 0.3
+      
+      erro = (deltaVis > tolerancia)
+
+    }
+    return !erro
+  }
+  let msg = getMetarFromArrayMetaresGeral(loc)
+  if (!msg || !msg.METAR)
     return true
+  if (msg.METAR.visibilidade && msg.METAR.visibilidade < 5000) {
+    if (msg.TAF && msg.TAF.achou && msg.TAF.visibilidade)
+      return checkVisibilidadeTAF(msg.METAR.visibilidade, msg.TAF.visibilidade)
+  }
+
+  return true
 }
 
 function chkTetoMetarTAF(loc) {
-    let msg = getMetarFromArrayMetaresGeral(loc)
-    if (!msg || !msg.METAR)
-        return true
-    if (msg.METAR.teto && Array.isArray(msg.METAR.teto) && (msg.METAR.teto[1] == "T") && (getNum(msg.METAR.teto[3]) * 100) < 1500) {
-        if (msg.TAF && msg.TAF.achou && msg.TAF.teto && msg.TAF.teto.altura)
-            return parseInt(getNum(msg.METAR.teto[3]) * 100) >= parseInt(msg.TAF.teto.altura)
-    }
+  function checkTetoTAF(tetoMETAR, tetoTAF) {
+    tetoTAF = parseInt(tetoTAF)
+    tetoMETAR = parseInt(tetoMETAR)
 
+    if (tetoMETAR > 1500)
+      return true
+
+    let erro = false
+
+    let deltaTeto = Math.abs(tetoMETAR - tetoTAF)
+
+    if (tetoMETAR < tetoTAF) {
+      let tolerancia = 0
+      if (tetoTAF <= 1000) 
+        tolerancia = 100
+       else 
+        tolerancia = tetoTAF * 0.3
+      
+      erro = (deltaTeto > tolerancia)
+
+    }
+    return !erro
+  }
+  let msg = getMetarFromArrayMetaresGeral(loc)
+  if (!msg || !msg.METAR)
     return true
+  if (msg.METAR.teto && Array.isArray(msg.METAR.teto) && (msg.METAR.teto[1] == "T") && (getNum(msg.METAR.teto[3]) * 100) < 1500) {
+    if (msg.TAF && msg.TAF.achou && msg.TAF.teto && msg.TAF.teto.altura)
+      //return parseInt(getNum(msg.METAR.teto[3]) * 100) >= parseInt(msg.TAF.teto.altura)
+      return checkTetoTAF(getNum(msg.METAR.teto[3]) * 100, msg.TAF.teto.altura)
+  }
+
+  return true
 }
 
+function getTAFFromLoc(loc, metar = false) {
+
+    let dh = metar ? getMetarFullDateTime(metar) : new Date();
+    try {
+        let statusAMD = getAMDStatus(arrayTAFs[loc].TAF)
+        permiteAMD = statusAMD.permiteAMD
+        prazoAMD = statusAMD.prazoFinal
+        return { localidade: loc, TAF: arrayTAFs[loc].TAF, visibilidade: getVisPredHora(arrayTAFs[loc].TAF, dh), teto: getTetoHora(arrayTAFs[loc].TAF, dh), inicioValid: getBeginTAF(arrayTAFs[loc].TAF), fimValid: getEndTAF(arrayTAFs[loc].TAF), permiteAMD, prazoAMD }
+    } catch { 
+    }
+    return { localidade: loc, TAF: false, visibilidade: false, teto: false };
+}
 function getTAFFromMetar(metar) {
     let loc = opener.getLocalidade(metar)
-    let dh = getMetarFullDateTime(metar)
-    if (arrayTAFs[loc])
-        return { localidade: loc, TAF: arrayTAFs[loc].TAF, visibilidade: getVisPredHora(arrayTAFs[loc].TAF, dh), teto: getTetoHora(arrayTAFs[loc].TAF, dh), inicioValid: getBeginTAF(arrayTAFs[loc].TAF), fimValid: getEndTAF(arrayTAFs[loc].TAF), permiteAMD: getAMDStatus(arrayTAFs[loc].TAF) }
-    else
-        return { localidade: loc, TAF: false, visibilidade: false, teto: false };
+    return getTAFFromLoc(loc, metar)
 }
 
 function updateArrayMetarTAF() {
@@ -228,66 +288,119 @@ function getMetarFullDateTime(metar) {
 }
 
 function getBeginTAF(taf) {
-    return new Date(taf.TAF.validPeriod.TimePeriod.beginPosition)
+    try{ 
+        return new Date(taf.TAF.validPeriod.TimePeriod.beginPosition)
+    } catch {
+        return false
+    }
+
 }
 
 function getEndTAF(taf) {
-    return new Date(taf.TAF.validPeriod.TimePeriod.endPosition)
+    try{ 
+      return new Date(taf.TAF.validPeriod.TimePeriod.endPosition)
+    } catch {
+        return false
+    }
 }
 
 function getInterval(taf) {
+
     return { inicio: getBeginTAF(taf), fim: getEndTAF(taf) }
 }
 
 function getBeginChange(tafMAF) {
-    return new Date(tafMAF.phenomenonTime.TimePeriod.beginPosition);
+    try { 
+        return new Date(tafMAF.phenomenonTime.TimePeriod.beginPosition);
+    } catch {
+        return false
+    }
+
 }
 
 function getEndChange(tafMAF) {
-    return new Date(tafMAF.phenomenonTime.TimePeriod.endPosition);
-}
-
-function getIntervalChangeForecast(tafMAF) {
-    return { inicio: getBeginChange(tafMAF), fim: getEndChange(tafMAF) }
-}
-
-function getICAOIndicator(taf) {
-    return taf.TAF.aerodrome.AirportHeliport.timeSlice.AirportHeliportTimeSlice.locationIndicatorICAO
-}
-
-function getBaseForecast(taf) {
-    return taf.TAF.baseForecast
-}
-
-function getMinTemp(taf) {
-    return {
-        valor: taf.TAF.baseForecast.MeteorologicalAerodromeForecast.temperature.AerodromeAirTemperatureForecast.minimumAirTemperature.content,
-        hora: taf.TAF.baseForecast.MeteorologicalAerodromeForecast.temperature.AerodromeAirTemperatureForecast.minimumAirTemperatureTime.TimeInstant.timePosition
+    try { 
+      return new Date(tafMAF.phenomenonTime.TimePeriod.endPosition);
+    } catch {
+        return false
     }
 }
 
+function getIntervalChangeForecast(tafMAF) {
+    try { 
+        return { inicio: getBeginChange(tafMAF), fim: getEndChange(tafMAF) }
+    } catch {
+        return false
+    }
+
+}
+
+function getICAOIndicator(taf) {
+    try { 
+        return taf.TAF.aerodrome.AirportHeliport.timeSlice.AirportHeliportTimeSlice.locationIndicatorICAO
+    } catch {
+        return false
+    }
+}
+
+function getBaseForecast(taf) {
+    try { 
+        return taf.TAF.baseForecast
+    } catch {
+        return false
+    }
+}
+
+function getMinTemp(taf) {
+    try { 
+      return {
+        valor: taf.TAF.baseForecast.MeteorologicalAerodromeForecast.temperature.AerodromeAirTemperatureForecast.minimumAirTemperature.content,
+        hora: taf.TAF.baseForecast.MeteorologicalAerodromeForecast.temperature.AerodromeAirTemperatureForecast.minimumAirTemperatureTime.TimeInstant.timePosition
+      }
+    } catch{
+        return false
+    }
+
+}
+
 function getMaxTemp(taf) {
-    return {
+    try { 
+      return {
         valor: taf.TAF.baseForecast.MeteorologicalAerodromeForecast.temperature.AerodromeAirTemperatureForecast.maximumAirTemperature.content,
         hora: taf.TAF.baseForecast.MeteorologicalAerodromeForecast.temperature.AerodromeAirTemperatureForecast.maximumAirTemperatureTime.TimeInstant.timePosition
+      }
+    } catch {
+        return false
     }
 }
 
 function getCAVOK(tafMAF) { //MeteorologicalAerodromeForecast == MAF
-    return tafMAF.cloudAndVisibilityOK
-
+    try { 
+        return tafMAF.cloudAndVisibilityOK
+    } catch {
+        return false
+    }
 }
 
 function getMainCAVOK(taf) {
-    return getCAVOK(taf.TAF.baseForecast.MeteorologicalAerodromeForecast)
+    try { 
+        return getCAVOK(taf.TAF.baseForecast.MeteorologicalAerodromeForecast)
+    } catch {
+        return false
+    }
 
 }
 
 function getVisPred(taf) {
-    if (taf.TAF.baseForecast.MeteorologicalAerodromeForecast.cloudAndVisibilityOK)
+    try { 
+    
+      if (taf.TAF.baseForecast.MeteorologicalAerodromeForecast.cloudAndVisibilityOK)
+          return 9999
+      else
+          return taf.TAF.baseForecast.MeteorologicalAerodromeForecast.prevailingVisibility.content
+    } catch {
         return 9999
-    else
-        return taf.TAF.baseForecast.MeteorologicalAerodromeForecast.prevailingVisibility.content
+    }
 }
 
 function getVisPredMudanca(tafMAF) {
@@ -309,21 +422,26 @@ function getVnt(taf) {
 }
 
 function getChangeCount(taf) {
-    if (taf.TAF.changeForecast) {
+
+    try {
         if (Array.isArray(taf.TAF.changeForecast))
             return taf.TAF.changeForecast.length
         else
             return 1
-    }
-    else
+    } catch{ 
         return 0
+    }
 }
 
 function getChangeForecastArray(taf) {
-    if (Array.isArray(taf.TAF.changeForecast))
+    try { 
+      if (Array.isArray(taf.TAF.changeForecast))
         return taf.TAF.changeForecast
-    else
+      else
         return [taf.TAF.changeForecast]
+    } catch{
+
+    }
 
 }
 
@@ -401,6 +519,7 @@ function getTetoHora(taf, hora) {
 
 function clearMsgIWXXM(txt) {
     let separator = "**,**"
+    txt = txt + ""
     txt = txt.replace(/iwxxm:/g, "").replace(/gml:/g, "").replace(/aixm:/g, "").replace(/xlink:/g, "").replace(/{"TAF/g, separator + '{"TAF')
     //if (!txt.includes(separator))
     //    txt = [txt]
@@ -453,18 +572,18 @@ function getTeto(tafMAF) {
 function getTAFs(localidades = false, dataIni = false) {
     //mostraLoading("TAFs");
     let url = ""
-    
-    let interval 
-    if (! (opener.getIntervalTAF && opener.getInterval))
-	return false
+
+    let interval
+    if (!(opener.getIntervalTAF && opener.getInterval))
+        return false
     if (!dataIni)
-	    interval = opener.getInterval(5)
+        interval = opener.getInterval(5)
     else
-	    interval = opener.getIntervalTAF(dataIni)
-	
+        interval = opener.getIntervalTAF(dataIni)
+
     url = opener.linkInternetIWXXM;
 
-    localidades = !localidades ? tafsGrupoConsulta : localidades ;
+    localidades = !localidades ? tafsGrupoConsulta : localidades;
     url = `${url}&local=${localidades}&msg=taf${interval}`;
 
     GetWebContentTAF(url, false);
@@ -478,26 +597,41 @@ function updateArrayStatus(localidade, status) { // retorna true se o status mud
     */
 }
 
-function excluiTAFsAntigos(arr){
-  let arr2 = []
-  for (let i in arr){
-  	if (arr[i].inicio > getUTCAgora())
-  	    arr2[arr[i].localidade] = arr[i]
-  }
-  return arr2 //retorna o valor como referencia
+function excluiTAFsAntigos(arr) {
+    let arr2 = []
+    for (let i in arr) {
+        if (arr[i].inicio > getUTCAgora().addHours(1))
+            arr2[arr[i].localidade] = arr[i]
+    }
+    return arr2 //retorna o valor como referencia
 }
 
 function atualizaArrayTAFs(texto) {
-    let TAFs = clearMsgIWXXM(texto)
+    function clearTAFsCor(){
+        let arrCorr = []
+        for (let i in arrayTAFs)
+          if (arrayTAFs[i].TAF.TAF.reportStatus.toUpperCase() == "CORRECTION")
+             arrCorr.push(getICAOIndicator(arrayTAFs[i]))
+
+
+    }
+
+    let TAFs = clearMsgIWXXM(texto).reverse() //pegar as correções por ultimo
     arrayProximosTAFs = excluiTAFsAntigos(arrayProximosTAFs);
+    let tafsProxHora = getTAFsProximaHora();  // tafs que deveriam estar na proxima hora de envio
+
     for (let i in TAFs) {
         TAFs[i] = JSON.parse(TAFs[i]);
         let loc = getICAOIndicator(TAFs[i])
-	    let dados = { TAF: TAFs[i], localidade: loc, inicio: getBeginTAF(TAFs[i]), getVisPredHora: getVisPredHora, getTetoHora: getTetoHora }
-        if ( getBeginTAF(TAFs[i]) > getUTCAgora() ){
-	       arrayProximosTAFs[loc] = dados
-          continue;
-	}
+
+        let dados = { TAF: TAFs[i], localidade: loc, inicio: getBeginTAF(TAFs[i]), getVisPredHora: getVisPredHora, getTetoHora: getTetoHora }
+        if (getBeginTAF(TAFs[i]) > getUTCAgora().addHours(-3)) {
+
+            if (tafsProxHora.indexOf(loc) > -1)//retorna a ultima hora enquando  não chega em hProx-3h
+                arrayProximosTAFs[loc] = dados
+            if (getBeginTAF(TAFs[i]) > getUTCAgora())    
+                continue;// se a validade do taf ainda não começou, ignora da lista de TAFs validos.
+        }
         arrayTAFs[loc] = dados
 
     }
@@ -515,7 +649,7 @@ function GetWebContentTAF(url, primeiraVez) {
                 let resposta = opener.removeCacheMessage(this.responseText);
 
                 atualizaArrayTAFs(resposta);
-		atualizaStatusConsultaTAF();
+                atualizaStatusConsultaTAF();
 
                 let erroConexao = false
                 if (erroConexao || !opener.smartPlotOnline) {
@@ -550,4 +684,3 @@ function GetWebContentTAF(url, primeiraVez) {
 //function getTetoMudanca
 
 //t.TAF.baseForecast.MeteorologicalAerodromeForecast.cloud.AerodromeCloudForecast.layer.CloudLayer.qtd
-
