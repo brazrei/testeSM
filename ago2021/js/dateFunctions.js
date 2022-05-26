@@ -119,7 +119,7 @@ function getIntervalTAF(dataIni) {
 }
 
 function isLinux() {
-    return navigator.userAgent.indexOf("Linux") > -1
+    return navigator.userAgent.toUpperCase().indexOf('LINUX') > -1
 }
 
 function getValidadeMsg(text) {
