@@ -246,7 +246,7 @@ function createAdWrng(layer){
             cont++;
             cma = opener.getCMA(arr[i])
             cma = cma !=="" ? cma:"DESCONHECIDO"
-            newLine= arrCMA[cma] ? ((arrCMA[cma].split("\t").length % 5 == 0)?"\n":"\t"):"\t"
+            newLine= arrCMA[cma] ? ((arrCMA[cma].split("\t").length % 5 == 0)?"\t\n":"\t"):"\t"
 
             arrCMA[cma] = arrCMA[cma]?arrCMA[cma] + newLine + arr[i] : arr[i]; 
         }
