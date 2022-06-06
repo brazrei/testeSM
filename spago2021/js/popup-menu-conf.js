@@ -246,7 +246,7 @@ function createAdWrng(layer){
             cont++;
             cma = opener.getCMA(arr[i])
             cma = cma !=="" ? cma:"DESCONHECIDO"
-            newLine= arrCMA[cma] ? ((arrCMA[cma].split("\t").length % 5 == 0)?"\t\n":"\t"):"\t"
+            newLine= arrCMA[cma] ? ((arrCMA[cma].split("\t").length % 5 == 0)?"\n":"\t"):"\t"
 
             arrCMA[cma] = arrCMA[cma]?arrCMA[cma] + newLine + arr[i] : arr[i]; 
         }
@@ -254,9 +254,8 @@ function createAdWrng(layer){
     
     let str = ""
     for (let i in arrCMA){
-
+        arrCMA[i] = arrCMA[i].replaceAll("\t\n","\n")
         str += `CMA (${i}):\n` + arrCMA[i]+"\n\n"
-
     }
       
     $('#taModalAdWrng').val(str);
