@@ -120,7 +120,7 @@ function getIntervalTAF(dataIni) {
 
 function isLinux() {
     try {
-        return navigator.userAgent.toUpperCase().indexOf('LINUX') > -1
+        return navigator.platform.toUpperCase().indexOf('LINUX') > -1
     } catch (e) {
         console.log(e);
         return false
