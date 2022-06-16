@@ -253,6 +253,7 @@ function plotaSigmets(arr, primeiraVez) {
               p.bringToBack();
             } 
             p.bindTooltip(getSigmetDescription(a).replace("FCST","<br>FCST"), { closeButton: false, sticky: true });
+            p.bindPopup(getSigmetDescription(a).replace("FCST","<br>FCST"), {closeOnClick: false, closeButton: true, autoClose: false, closePopupOnClick :false })
             if (p1) {
                 p1.bindTooltip(getSigmetDescription(a).replace("FCST","<br>FCST") + "<br><br>" + spanBold(spanRed("*** PREVISÃO ***")), { closeButton: false, sticky: true });
             }
