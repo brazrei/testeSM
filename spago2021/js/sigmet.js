@@ -189,15 +189,18 @@ function getSigmetDescription(sigmet) {
     return "SIGMET " + cancelado + fir + " - N. " + cod + " - </br>" + spanRed(spanBold(texto)) + " - " + spanBold(sigmet.textoFinal);
 }
 
-function clearLayersSigmets() {
-    if (arrSigmetsPlot)
-        for (var i in arrSigmetsPlot)
-            map.removeLayer(arrSigmetsPlot[i])
+function clearPopups(){
     if (arrPopups)
         for (var i in arrPopups)
             map.removeLayer(arrPopups[i])
 
+    arrPopups = []
+}
 
+function clearLayersSigmets() {
+    if (arrSigmetsPlot)
+        for (var i in arrSigmetsPlot)
+            map.removeLayer(arrSigmetsPlot[i])
     arrSigmetsPlot.length = 0
     arrIdxSigmetsPlot.length = 0
 }
@@ -352,7 +355,7 @@ function mostraSigmet() {
         clearInterval(intervalSigmet)
         clearLayersSigmets()
         iniciaSigmetGlobalVars();
-
+        clearPopups()
     }
 }
 function GetWebContentSigmet(url, primeiraVez) {
