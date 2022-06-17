@@ -222,12 +222,13 @@ function makeDraggable(popup)
         popup.setLatLng(pos);
         let inicio = map.layerPointToLatLng(this._startPoint)
         if (!arrPopups[this]){
-            arrPopups[this].obj = removeFrom(map)
             arrPopups[this].inicio = this._startPoint
-        } else
+        } else { //se já existe a linha, apaga a linha e pega o inicio da linha apagada
             inicio = arrPopups[this].inicio
+            arrPopups[this].obj.removeFrom(map)
+        }
         let linePop = [inicio,map.layerPointToLatLng(this._newPos)]
-        arrPopups[this] = L.polyline(linePop).addTo(map);
+        arrPopups[this].obj = L.polyline(linePop).addTo(map);
       });
     }
 
