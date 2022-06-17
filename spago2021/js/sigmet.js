@@ -242,7 +242,7 @@ function plotaSigmets(arr, primeiraVez) {
         if ((a.tipo !== "C") && (!a.cancelado)) {//o sigmet de cancelamento nao eh plotado
             var poly = invertLatLong(a.coordDeg)
             //console.log("poly ==>", poly)
-            color = getColorSigmet(a.tipo)
+            let color = getColorSigmet(a.tipo)
             let raio = a.raio*1000
             let opt = {
                 className: "",
