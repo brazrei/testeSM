@@ -1,5 +1,6 @@
 var intervalSigmet = false
 var urlCache = "../ago2021/php/consulta_msg.php?url="
+var arrPopups = []
 
 function iniciaSigmetGlobalVars() {
     regSigmet = { codigo: "", FIR: 0, tipo: "", base: 0, visibilidade: 0, valIni: 0, valFin: 0, area: 0, cancelado: false, texto: "", coord: "", locs: "" }
@@ -219,6 +220,7 @@ function makeDraggable(popup)
       draggable.on('dragend', function() {
         var pos = map.layerPointToLatLng(this._newPos);
         popup.setLatLng(pos);
+        L.polyline([map.layerPointToLatLng(this._startPoint),map.layerPointToLatLng(this._newPos)]).addTo(map);
       });
     }
 
@@ -265,12 +267,13 @@ function plotaSigmets(arr, primeiraVez) {
               p = L.polygon(poly, opt).addTo(map);
               p.bringToBack();
             } 
-            p.bindTooltip(getSigmetDescription(a).replace("FCST","<br>FCST"), { closeButton: false, sticky: true });
+            let sigDesc = getSigmetDescription(a)
+            p.bindTooltip(sigDesc.replace("FCST","<br>FCST"), { closeButton: false, sticky: true });
             //p.bindPopup(getSigmetDescription(a).replace("FCST","<br>FCST"), {closeOnClick: false, closeButton: true, autoClose: false, closePopupOnClick :false })
             
             
             if (p1) {
-                p1.bindTooltip(getSigmetDescription(a).replace("FCST","<br>FCST") + "<br><br>" + spanBold(spanRed("*** PREVISÃO ***")), { closeButton: false, sticky: true });
+                p1.bindTooltip(sigDesc.replace("FCST","<br>FCST") + "<br><br>" + spanBold(spanRed("*** PREVISÃO ***")), { closeButton: false, sticky: true });
             }
             if (a.cancelado)
                 p.setStyle({
@@ -281,9 +284,9 @@ function plotaSigmets(arr, primeiraVez) {
                 //copiaCoordenadas(latLngToArray(layer.getLatLngs()[0]))
                 copiaCoordenadas(extractDMS(JSON.stringify(this.toGeoJSON())))
                 
-                let popup = L.popup()
+                let popup = L.popup({closeOnClick: false, closeButton: true, autoClose: false, closePopupOnClick :false })
                     .setLatLng(e.latlng)
-                    .setContent(getSigmetDescription(a).replace("FCST","<br>FCST"))
+                    .setContent(sigDesc.replace("FCST","<br>FCST"))
                     .openOn(map);
 
                 makeDraggable(popup);
