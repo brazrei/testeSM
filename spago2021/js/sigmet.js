@@ -222,6 +222,7 @@ function makeDraggable(popup)
         popup.setLatLng(pos);
         let inicio = map.layerPointToLatLng(this._startPoint)
         if (!arrPopups[this]){
+            arrPopups[this] = {}
             arrPopups[this].inicio = this._startPoint
         } else { //se já existe a linha, apaga a linha e pega o inicio da linha apagada
             inicio = arrPopups[this].inicio
