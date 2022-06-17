@@ -1,5 +1,6 @@
 var intervalSigmet = false
 var urlCache = "../ago2021/php/consulta_msg.php?url="
+var arrPopupsLines = []
 var arrPopups = []
 
 function iniciaSigmetGlobalVars() {
@@ -43,16 +44,16 @@ function getTxtFimSigmet(texto, coord) {
     let txt;
     try {
         txt = texto.split("W0")
-        txt = txt[txt.length-1]
+        txt = txt[txt.length - 1]
         txt = txt.split(" ").splice(1).join(" ")
-        
+
     } catch {
         console.log("Erro ao tentar obter texto final do Sigmet: " + texto);
     }
     return txt;
 }
 
-function getTxtSigmet(texto, tipo="") {
+function getTxtSigmet(texto, tipo = "") {
     txt = removeEspacosDuplos(texto);
     txts = removeEspacos(texto);
 
@@ -68,7 +69,7 @@ function getTxtSigmet(texto, tipo="") {
         txt = texto.split(" FIR ")[1]
     else
         txt = texto.split(" FIR ")[1].split(strEnd)[0];
-    
+
     return txt
 
     /*let fim = ""
@@ -192,6 +193,10 @@ function clearLayersSigmets() {
     if (arrSigmetsPlot)
         for (var i in arrSigmetsPlot)
             map.removeLayer(arrSigmetsPlot[i])
+    if (arrPopups)
+        for (var i in arrPopups)
+            map.removeLayer(arrPopups[i])
+
 
     arrSigmetsPlot.length = 0
     arrIdxSigmetsPlot.length = 0
@@ -210,33 +215,32 @@ function getColorSigmet(tipo) {
     }
 }
 
-function makeDraggable(popup,color)
-    {
-      var pos = map.latLngToLayerPoint(popup.getLatLng());
-      L.DomUtil.setPosition(popup._wrapper.parentNode, pos);
-      var draggable = new L.Draggable(popup._container, popup._wrapper);
-      draggable.enable();
-      
-      draggable.on('dragend', function() {
+function makeDraggable(popup, color) {
+    var pos = map.latLngToLayerPoint(popup.getLatLng());
+    L.DomUtil.setPosition(popup._wrapper.parentNode, pos);
+    var draggable = new L.Draggable(popup._container, popup._wrapper);
+    draggable.enable();
+
+    draggable.on('dragend', function () {
         var pos = map.layerPointToLatLng(this._newPos);
         popup.setLatLng(pos);
         let inicio = map.layerPointToLatLng(this._startPos)
         let id = this._leaflet_id
-        if (!arrPopups[id]){
-            arrPopups[id] = {}
-            arrPopups[id].inicio = inicio
+        if (!arrPopupsLines[id]) {
+            arrPopupsLines[id] = {}
+            arrPopupsLines[id].inicio = inicio
         } else { //se já existe a linha, apaga a linha e pega o inicio da linha apagada
-            inicio = arrPopups[id].inicio
-            arrPopups[id].obj.removeFrom(map)
+            inicio = arrPopupsLines[id].inicio
+            arrPopupsLines[id].obj.removeFrom(map)
         }
-        let linePop = [inicio,map.layerPointToLatLng(this._newPos)]
-        arrPopups[id].obj = L.polyline(linePop).setStyle({color:color,opacity:0.5}).addTo(map);
-        popup.on('remove', function() {
+        let linePop = [inicio, map.layerPointToLatLng(this._newPos)]
+        arrPopupsLines[id].obj = L.polyline(linePop).setStyle({ color: color, opacity: 0.8, dashArray: '3, 5', dashOffset: '10' }).addTo(map);
+        popup.on('remove', function () {
             //Your code here
-            arrPopups[id].obj.removeFrom(map)   
+            arrPopupsLines[id].obj.removeFrom(map)
         });
-      });
-    }
+    });
+}
 
 function plotaSigmets(arr, primeiraVez) {
 
@@ -247,7 +251,7 @@ function plotaSigmets(arr, primeiraVez) {
             var poly = invertLatLong(a.coordDeg)
             //console.log("poly ==>", poly)
             let color = getColorSigmet(a.tipo)
-            let raio = a.raio*1000
+            let raio = a.raio * 1000
             let opt = {
                 className: "",
                 color: color,
@@ -265,29 +269,29 @@ function plotaSigmets(arr, primeiraVez) {
             if (isCloseToValidOff(a.codigo))
                 opt.className = "pulse";
 
-            let p,p1;
-            if (a.tipo ==  "TC") { 
-              arrIdxSigmetsPlot.push(a.codigo)
-              if (poly && poly.length>0) {
-                if (poly.length>1) { 
-                    p1 = L.circle(L.latLng(poly[1]), optTC).addTo(map)
-                       arrSigmetsPlot.push(p1);  //ponto futuro
+            let p, p1;
+            if (a.tipo == "TC") {
+                arrIdxSigmetsPlot.push(a.codigo)
+                if (poly && poly.length > 0) {
+                    if (poly.length > 1) {
+                        p1 = L.circle(L.latLng(poly[1]), optTC).addTo(map)
+                        arrSigmetsPlot.push(p1);  //ponto futuro
+                    }
+                    //
+                    p = L.circle(L.latLng(poly[0]), opt).addTo(map);
                 }
-                //
-              p = L.circle(L.latLng(poly[0]), opt).addTo(map);
-              }
             }
-            else{ 
-              p = L.polygon(poly, opt).addTo(map);
-              p.bringToBack();
-            } 
+            else {
+                p = L.polygon(poly, opt).addTo(map);
+                p.bringToBack();
+            }
             let sigDesc = getSigmetDescription(a)
-            p.bindTooltip(sigDesc.replace("FCST","<br>FCST"), { closeButton: false, sticky: true });
+            p.bindTooltip(sigDesc.replace("FCST", "<br>FCST"), { closeButton: false, sticky: true });
             //p.bindPopup(getSigmetDescription(a).replace("FCST","<br>FCST"), {closeOnClick: false, closeButton: true, autoClose: false, closePopupOnClick :false })
-            
-            
+
+
             if (p1) {
-                p1.bindTooltip(sigDesc.replace("FCST","<br>FCST") + "<br><br>" + spanBold(spanRed("*** PREVISÃO ***")), { closeButton: false, sticky: true });
+                p1.bindTooltip(sigDesc.replace("FCST", "<br>FCST") + "<br><br>" + spanBold(spanRed("*** PREVISÃO ***")), { closeButton: false, sticky: true });
             }
             if (a.cancelado)
                 p.setStyle({
@@ -297,13 +301,14 @@ function plotaSigmets(arr, primeiraVez) {
             p.on('click', function (e) {
                 //copiaCoordenadas(latLngToArray(layer.getLatLngs()[0]))
                 copiaCoordenadas(extractDMS(JSON.stringify(this.toGeoJSON())))
-                
-                let popup = L.popup({closeOnClick: false, closeButton: true, autoClose: false, closePopupOnClick :false })
+
+                let popup = L.popup({ closeOnClick: false, closeButton: true, autoClose: false, closePopupOnClick: false })
                     .setLatLng(e.latlng)
-                    .setContent(sigDesc.replace("FCST","<br>FCST"))
+                    .setContent(sigDesc.replace("FCST", "<br>FCST"))
                     .openOn(map);
 
-                makeDraggable(popup,color);
+                makeDraggable(popup, color);
+                arrPopups.push(popup)
             })
 
             p.on('mouseover', function (e) {
@@ -355,7 +360,7 @@ function GetWebContentSigmet(url, primeiraVez) {
     xhttp.onreadystatechange = function () {
         var erro = "ErroSM=";
         if (this.status > 0) {
-            if ((this.readyState == 4 && this.status == 200) && (this.responseText !== "") && (!this.responseText.includes("Forbidden")) ) {
+            if ((this.readyState == 4 && this.status == 200) && (this.responseText !== "") && (!this.responseText.includes("Forbidden"))) {
                 let resposta = opener.removeCacheMessage(this.responseText);
 
                 clearLayersSigmets()
@@ -377,36 +382,36 @@ function GetWebContentSigmet(url, primeiraVez) {
 
         }
     };
-    
+
     const params = {
-            url: url,
-        }
+        url: url,
+    }
 
     xhttp.open('GET', urlCache + params.url + opener.getProxy(), true);
     xhttp.setRequestHeader('Content-type', 'application/json');
-    
+
     xhttp.send();
 }
 
 function getSigmet(primeiraVez = false) {
     mostraLoading("Sigmet");
-/*    dini = "2020101800"
-    dfim = "2020101815"
-    var interval = ""
-    var interval = `&data_ini=${dini}&data_fim=${dfim}`*/
+    /*    dini = "2020101800"
+        dfim = "2020101815"
+        var interval = ""
+        var interval = `&data_ini=${dini}&data_fim=${dfim}`*/
     //var url = "https://www.redemet.intraer/api/consulta_automatica/index.php?local=SBAZ,SBBS,SBRE,SBAO,SBCW&msg=sigmet" + interval;
     let url = ""
     let interval = opener.getInterval(6)
 
     if (opener.redemetAntiga) {
-      if (opener.intraer)
-         url = opener.linkIntraer;
-      else
-         url = opener.linkInternet;      
-      url = `${url}SBAZ,SBBS,SBRE,SBCW,SBAO&msg=sigmet${interval}`
-    }  else
-      url = `${opener.linkAPINova}sigmet/?api_key=${opener.apiKey}` 
-    
+        if (opener.intraer)
+            url = opener.linkIntraer;
+        else
+            url = opener.linkInternet;
+        url = `${url}SBAZ,SBBS,SBRE,SBCW,SBAO&msg=sigmet${interval}`
+    } else
+        url = `${opener.linkAPINova}sigmet/?api_key=${opener.apiKey}`
+
 
     GetWebContentSigmet(url, primeiraVez);
 }
@@ -422,7 +427,7 @@ function makeIdxSigmet(sigmet) {
     try {
         num = parseInt(num) //elimina os zeros a esquerda
     } catch (e) {
-        console.log('Erro ao tentar criar índice do sigmet '+sigmet)
+        console.log('Erro ao tentar criar índice do sigmet ' + sigmet)
     }
 
     var val = getValidadeSigmet(sigmet)
@@ -444,7 +449,7 @@ function getSigmetCNL(sigmet) {
 }
 
 function trataSigmetsCNL(xArray, xArrayIdx) {
-     trataCNL(xArray, xArrayIdx) //funcao no arquivo airmet.js
+    trataCNL(xArray, xArrayIdx) //funcao no arquivo airmet.js
 }
 
 function getCoordSigmet(sigmet) {
@@ -456,13 +461,13 @@ function getCoordDegSigmet(coord) {
 }
 
 function getRaioTC(sigmet) {
-    let raio = 0 
+    let raio = 0
     if (sigmet.includes("KM OF TC"))
-        raio =  getNum((sigmet.split("KM OF TC")[0]).split("WI")[1])
+        raio = getNum((sigmet.split("KM OF TC")[0]).split("WI")[1])
     else if (sigmet.includes("NM OF TC"))
         raio = getNum((sigmet.split("NM OF TC")[0]).split("WI")[1]) * 1.852
 
-    
+
     return raio
 }
 function getTipoSigmet(sigmet) {
@@ -483,7 +488,7 @@ function getTipoSigmet(sigmet) {
 function trataSigmetRedemet(texto) {
 
     if (texto.includes("mens"))
-      texto = opener.convertToRedemet(texto,"SIGMET")
+        texto = opener.convertToRedemet(texto, "SIGMET")
     lastSigmet = texto + "" //var global
     //var classe = "table-warning table-sigmet";
 
@@ -528,13 +533,13 @@ function trataSigmetRedemet(texto) {
 
                 try {
                     tipo = getTipoSigmet(sigmet[i])
-                    if (tipo == "TC"){ 
-                       textoSigmet = getTxtSigmet(sigmet[i],'TC')
-                       raio = getRaioTC(sigmet[i])
+                    if (tipo == "TC") {
+                        textoSigmet = getTxtSigmet(sigmet[i], 'TC')
+                        raio = getRaioTC(sigmet[i])
                     }
                     else
-                      textoSigmet = getTxtSigmet(sigmet[i])
-                        
+                        textoSigmet = getTxtSigmet(sigmet[i])
+
                     coord = getCoordSigmet(sigmet[i])
 
                     coordDeg = getCoordDegSigmet(coord)
@@ -545,11 +550,11 @@ function trataSigmetRedemet(texto) {
 
             }
 
-            if (!arrIdxSigmetGeral.includes(idxSigmet)){ 
-              arrSigmetGeral.push({ codigo: idxSigmet, FIR: idx, tipo: tipo, raio: raio, base: base, visibilidade: vis, texto: textoSigmet, textoFinal: textoFimSigmet, cancelado: false, coord: coord, coordDeg: coordDeg, locs: "" })
-              arrIdxSigmetGeral.push(idxSigmet)
+            if (!arrIdxSigmetGeral.includes(idxSigmet)) {
+                arrSigmetGeral.push({ codigo: idxSigmet, FIR: idx, tipo: tipo, raio: raio, base: base, visibilidade: vis, texto: textoSigmet, textoFinal: textoFimSigmet, cancelado: false, coord: coord, coordDeg: coordDeg, locs: "" })
+                arrIdxSigmetGeral.push(idxSigmet)
             }
-         }
+        }
         idx++;
     }
     trataSigmetsCNL(arrSigmetGeral, arrIdxSigmetGeral)
