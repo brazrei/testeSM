@@ -221,13 +221,13 @@ function makeDraggable(popup)
         var pos = map.layerPointToLatLng(this._newPos);
         popup.setLatLng(pos);
         let inicio = map.layerPointToLatLng(this._startPoint)
-        if (!arrayPopups[this]){
-            arrayPopups[this].obj = removeFrom(map)
-            arrayPopups[this].inicio = this._startPoint
+        if (!arrPopups[this]){
+            arrPopups[this].obj = removeFrom(map)
+            arrPopups[this].inicio = this._startPoint
         } else
-            inicio = arrayPopups[this].inicio
+            inicio = arrPopups[this].inicio
         let linePop = [inicio,map.layerPointToLatLng(this._newPos)]
-        arrayPopups[this] = L.polyline(linePop).addTo(map);
+        arrPopups[this] = L.polyline(linePop).addTo(map);
       });
     }
 
