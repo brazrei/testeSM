@@ -231,6 +231,10 @@ function makeDraggable(popup,color)
         }
         let linePop = [inicio,map.layerPointToLatLng(this._newPos)]
         arrPopups[id].obj = L.polyline(linePop).setStyle({color:color,opacity:0.5}).addTo(map);
+        popup.on('remove', function() {
+            //Your code here
+            arrPopups[id].obj.removeFrom(map)   
+        });
       });
     }
 
