@@ -220,7 +220,14 @@ function makeDraggable(popup)
       draggable.on('dragend', function() {
         var pos = map.layerPointToLatLng(this._newPos);
         popup.setLatLng(pos);
-        L.polyline([map.layerPointToLatLng(this._startPoint),map.layerPointToLatLng(this._newPos)]).addTo(map);
+        let inicio = map.layerPointToLatLng(this._startPoint)
+        if (!arrayPopups[this]){
+            arrayPopups[this].obj = removeFrom(map)
+            arrayPopups[this].inicio = this._startPoint
+        } else
+            inicio = arrayPopups[this].inicio
+        let linePop = [inicio,map.layerPointToLatLng(this._newPos)]
+        arrayPopups[this] = L.polyline(linePop).addTo(map);
       });
     }
 
