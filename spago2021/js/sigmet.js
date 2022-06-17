@@ -220,10 +220,10 @@ function makeDraggable(popup)
       draggable.on('dragend', function() {
         var pos = map.layerPointToLatLng(this._newPos);
         popup.setLatLng(pos);
-        let inicio = map.layerPointToLatLng(this._startPoint)
+        let inicio = map.layerPointToLatLng(this._startPos)
         if (!arrPopups[this]){
             arrPopups[this] = {}
-            arrPopups[this].inicio = this._startPoint
+            arrPopups[this].inicio = inicio
         } else { //se já existe a linha, apaga a linha e pega o inicio da linha apagada
             inicio = arrPopups[this].inicio
             arrPopups[this].obj.removeFrom(map)
