@@ -210,7 +210,7 @@ function getColorSigmet(tipo) {
     }
 }
 
-function makeDraggable(popup)
+function makeDraggable(popup,color)
     {
       var pos = map.latLngToLayerPoint(popup.getLatLng());
       L.DomUtil.setPosition(popup._wrapper.parentNode, pos);
@@ -230,7 +230,7 @@ function makeDraggable(popup)
             arrPopups[id].obj.removeFrom(map)
         }
         let linePop = [inicio,map.layerPointToLatLng(this._newPos)]
-        arrPopups[id].obj = L.polyline(linePop).addTo(map);
+        arrPopups[id].obj = L.polyline(linePop).setStyle({color:color,opacity:0.5}).addTo(map);
       });
     }
 
@@ -299,7 +299,7 @@ function plotaSigmets(arr, primeiraVez) {
                     .setContent(sigDesc.replace("FCST","<br>FCST"))
                     .openOn(map);
 
-                makeDraggable(popup);
+                makeDraggable(popup,color);
             })
 
             p.on('mouseover', function (e) {
