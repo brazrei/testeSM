@@ -221,15 +221,16 @@ function makeDraggable(popup)
         var pos = map.layerPointToLatLng(this._newPos);
         popup.setLatLng(pos);
         let inicio = map.layerPointToLatLng(this._startPos)
-        if (!arrPopups[this]){
-            arrPopups[this] = {}
-            arrPopups[this].inicio = inicio
+        let id = this._leaflet_id
+        if (!arrPopups[id]){
+            arrPopups[id] = {}
+            arrPopups[id].inicio = inicio
         } else { //se já existe a linha, apaga a linha e pega o inicio da linha apagada
-            inicio = arrPopups[this].inicio
-            arrPopups[this].obj.removeFrom(map)
+            inicio = arrPopups[id].inicio
+            arrPopups[id].obj.removeFrom(map)
         }
         let linePop = [inicio,map.layerPointToLatLng(this._newPos)]
-        arrPopups[this].obj = L.polyline(linePop).addTo(map);
+        arrPopups[id].obj = L.polyline(linePop).addTo(map);
       });
     }
 
