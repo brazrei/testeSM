@@ -209,6 +209,19 @@ function getColorSigmet(tipo) {
     }
 }
 
+function makeDraggable(popup)
+    {
+      var pos = map.latLngToLayerPoint(popup.getLatLng());
+      L.DomUtil.setPosition(popup._wrapper.parentNode, pos);
+      var draggable = new L.Draggable(popup._container, popup._wrapper);
+      draggable.enable();
+      
+      draggable.on('dragend', function() {
+        var pos = map.layerPointToLatLng(this._newPos);
+        popup.setLatLng(pos);
+      });
+    }
+
 function plotaSigmets(arr, primeiraVez) {
 
     //var groupPolygon;
@@ -253,7 +266,9 @@ function plotaSigmets(arr, primeiraVez) {
               p.bringToBack();
             } 
             p.bindTooltip(getSigmetDescription(a).replace("FCST","<br>FCST"), { closeButton: false, sticky: true });
-            p.bindPopup(getSigmetDescription(a).replace("FCST","<br>FCST"), {closeOnClick: false, closeButton: true, autoClose: false, closePopupOnClick :false })
+            //p.bindPopup(getSigmetDescription(a).replace("FCST","<br>FCST"), {closeOnClick: false, closeButton: true, autoClose: false, closePopupOnClick :false })
+            
+            
             if (p1) {
                 p1.bindTooltip(getSigmetDescription(a).replace("FCST","<br>FCST") + "<br><br>" + spanBold(spanRed("*** PREVISÃO ***")), { closeButton: false, sticky: true });
             }
@@ -265,6 +280,13 @@ function plotaSigmets(arr, primeiraVez) {
             p.on('click', function (e) {
                 //copiaCoordenadas(latLngToArray(layer.getLatLngs()[0]))
                 copiaCoordenadas(extractDMS(JSON.stringify(this.toGeoJSON())))
+                
+                let popup = L.popup()
+                    .setLatLng(e.latlng)
+                    .setContent(getSigmetDescription(a).replace("FCST","<br>FCST"))
+                    .openOn(map);
+
+                makeDraggable(popup);
             })
 
             p.on('mouseover', function (e) {
