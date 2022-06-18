@@ -9,7 +9,16 @@ function loadFirBrasil(url = 'kml/setores_fir_destaque_brasilia.kml') {
         
     }).addTo(map);
     
-    firBrasil.options = {interactive: false};
+   firBrasil.options = {interactive: false};
+   firBrasilia = omnivore.kml(url).on('ready', function() {
+        // when this is fired, the layer
+        // is done being initialized
+      this.setStyle({fillOpacity:0, color:"grey",weight:2});
+
+        
+    });
+    
+    firBrasilia.options = {interactive: false};
 /*
 var track;
 
