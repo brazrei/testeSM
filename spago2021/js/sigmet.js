@@ -204,7 +204,7 @@ function removePopupsVencidos() {
             if (!checaValidadeSigmet(arrPopups[1].sigmet))
                 map.removeLayer(arrPopups[i].popup)
             else
-                arrAux.push(arrPopups[i].popup)
+                arrAux.push(arrPopups[i])
         }
         arrPopups =  arrAux.slice(0)
     } catch (e) {
