@@ -189,18 +189,36 @@ function getSigmetDescription(sigmet) {
     return "SIGMET " + cancelado + fir + " - N. " + cod + " - </br>" + spanRed(spanBold(texto)) + " - " + spanBold(sigmet.textoFinal);
 }
 
-function clearPopups(){
+function clearPopups() {
     if (arrPopups)
         for (var i in arrPopups)
-            map.removeLayer(arrPopups[i])
+            map.removeLayer(arrPopups[i].popup)
 
     arrPopups = []
+}
+
+function removePopupsVencidos() {
+    let arrAux = []
+    try {
+        for (let i in arrPopups) {
+            if (!checaValidadeSigmet(arrPopups[1].sigmet))
+                map.removeLayer(arrPopups[i].popup)
+            else
+                arrAux.push(arrPopups[i].popup)
+        }
+        arrPopups =  arrAux.slice(0)
+    } catch (e) {
+
+    }
+
 }
 
 function clearLayersSigmets() {
     if (arrSigmetsPlot)
         for (var i in arrSigmetsPlot)
             map.removeLayer(arrSigmetsPlot[i])
+
+    removePopupsVencidos()
     arrSigmetsPlot.length = 0
     arrIdxSigmetsPlot.length = 0
 }
@@ -245,11 +263,19 @@ function makeDraggable(popup, color) {
     });
 }
 
+function removePopup(codigo) {
+    for (let i in arrPopups) {
+        if (arrPopups[i].sigmet == codigo)
+            map.removeLayer(arrPopups[i].popup)
+    }
+
+}
+
 function plotaSigmets(arr, primeiraVez) {
 
     //var groupPolygon;
     for (var i in arr) {
-        a = arr[i]
+        let a = arr[i]
         if ((a.tipo !== "C") && (!a.cancelado)) {//o sigmet de cancelamento nao eh plotado
             var poly = invertLatLong(a.coordDeg)
             //console.log("poly ==>", poly)
@@ -305,13 +331,14 @@ function plotaSigmets(arr, primeiraVez) {
                 //copiaCoordenadas(latLngToArray(layer.getLatLngs()[0]))
                 copiaCoordenadas(extractDMS(JSON.stringify(this.toGeoJSON())))
 
+                removePopup(a.codigo);
                 let popup = L.popup({ closeOnClick: false, closeButton: true, autoClose: false, closePopupOnClick: false })
                     .setLatLng(e.latlng)
                     .setContent(sigDesc.replace("FCST", "<br>FCST"))
                     .openOn(map);
 
                 makeDraggable(popup, color);
-                arrPopups.push(popup)
+                arrPopups.push({ popup: popup, sigmet: a.codigo })
             })
 
             p.on('mouseover', function (e) {
