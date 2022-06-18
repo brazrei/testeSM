@@ -1,6 +1,8 @@
-function loadFirBrasil(url = 'kml/setores_fir_destaque_brasilia.kml') {
+function loadFirBrasil() {
+  let urlBrasil = 'kml/firBrasil.kml'
+  let urlBrasilia = 'kml/setores_fir_destaque_brasilia.kml'
   map = makeMap();
-  firBrasil = omnivore.kml(url).on('ready', function() {
+  firBrasil = omnivore.kml(urlBrasil).on('ready', function() {
         // when this is fired, the layer
         // is done being initialized
       this.setStyle({fillOpacity:0, color:"grey",weight:2});
@@ -10,7 +12,7 @@ function loadFirBrasil(url = 'kml/setores_fir_destaque_brasilia.kml') {
     }).addTo(map);
     
    firBrasil.options = {interactive: false};
-   firBrasilia = omnivore.kml(url).on('ready', function() {
+   firBrasilia = omnivore.kml(urlBrasilia).on('ready', function() {
         // when this is fired, the layer
         // is done being initialized
       this.setStyle({fillOpacity:0, color:"grey",weight:2});
