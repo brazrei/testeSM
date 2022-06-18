@@ -161,12 +161,37 @@ function createPopUpMenu() {
                 {
                     'icon': '', 'name': 'Plotar Retângulo', action: (e) => {
                         iniciarPlotagem(e, true)
+                    },
+                {
+                    'icon': '', 'name': 'Exibir FIR Brasil', action: (e) => {
+                        selecionaFIR(firBrasil, firBrasilia)
+                    },
+                {
+                    'icon': '', 'name': 'Exibir FIR Briefing Brasília', action: (e) => {
+                        selecionaFIR(firBrasilia, firBrasil)
                     }
                 }]
         }
     );
     menuMapaBackup = menuMapa
 
+}
+
+function selecionaFIR(entra, sai){
+    if (sai && map){
+        try {
+            map.removeLayer(sai)
+        } catch (e){
+        }
+        
+    }
+    if (entra && map){
+        try {
+            entra.addTo(map)
+        } catch (e){
+        }
+        
+    }
 }
 
 function hideMenu(menu) {
