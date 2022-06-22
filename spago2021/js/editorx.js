@@ -5,6 +5,7 @@ var latLngClicked
 var disableCtrl = false
 var timerCopiaCoords = null
 var decMagnetica = 20
+
 function updateSmartMetar() {
   window.opener.BtnMetarGERALClick(false,'SP');
   setTimeout("window.opener.BtnMetarGERALClick(false,'');",2000) //força a atualizacao dos gamets com a nova lista de metares
@@ -612,7 +613,7 @@ function makeMap() {
       var point2 = turf.point(dest);
 
       var bearing = turf.bearing(point1, point2);
-      return (bearing+decMagnetica) mod 360
+      return (bearing+decMagnetica) % 360
     }
     globalLatlng = e.latlng
     $("#h5latlng").show();
