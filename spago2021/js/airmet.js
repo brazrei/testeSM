@@ -715,19 +715,22 @@ function plotaMarca(lat, lng, loc) {
 
         }
 
-
-        let alertaVisTAF = TAFCimaer && !chkVisMetarTAF(loc)
+	let chkVMT = chkVisMetarTAF(loc)
+        let alertaVisTAF = TAFCimaer && !chkVMT.ok
         let strAlertaTAF = ""
         let descTAF = "</b><br><br><b>VIGILÂNCIA TAF:</b>"
         if (alertaVisTAF) {
             strAlertaTAF += "*VISIBTAF"
             descTAF += "<br><br>- <b> VISIBILIDADE NO METAR / SPECI</b> ESTÁ <b>ABAIXO</b> DA VISIBILIDADE PREVISTA PELO <b>TAF</b> PARA ESTE HORÁRIO! "
+            descTAF += "<br>TETO PREVISTO PELO <b>TAF</b>: " + spanRed(chkTMT.tetoTAF + "M", chkTMT.tetoTAF + "M")
         }
 
-        let alertaTetoTAF = TAFCimaer && !chkTetoMetarTAF(loc)
+	let chkTMT = chkTetoMetarTAF(loc)
+        let alertaTetoTAF = TAFCimaer && !chkTMT.ok
         if (alertaTetoTAF) {
             strAlertaTAF += "*TETOTAF"
             descTAF += "<br><br>- <b> TETO NO METAR / SPECI</b> ESTÁ <b>ABAIXO</b> DO TETO PREVISTO PELO <b>TAF</b> PARA ESTE HORÁRIO! "
+            descTAF += "<br>TETO PREVISTO PELO <b>TAF</b>: " + spanRed(chkTMT.tetoTAF + "FT", chkTMT.tetoTAF + "FT")
         }
 
 
