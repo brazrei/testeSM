@@ -197,13 +197,13 @@ function chkVisMetarTAF(loc) {
   }
   let msg = getMetarFromArrayMetaresGeral(loc)
   if (!msg || !msg.METAR)
-    return true
+    return {ok: true}
   if (msg.METAR.visibilidade && msg.METAR.visibilidade < 5000) {
     if (msg.TAF && msg.TAF.achou && msg.TAF.visibilidade)
-      return checkVisibilidadeTAF(msg.METAR.visibilidade, msg.TAF.visibilidade)
+      return {ok: checkVisibilidadeTAF(msg.METAR.visibilidade, msg.TAF.visibilidade), visTAF: msg.TAF.visibilidade}
   }
 
-  return true
+  return {ok: true}
 }
 
 function chkTetoMetarTAF(loc) {
@@ -232,14 +232,14 @@ function chkTetoMetarTAF(loc) {
   }
   let msg = getMetarFromArrayMetaresGeral(loc)
   if (!msg || !msg.METAR)
-    return true
+    return {ok: true}
   if (msg.METAR.teto && Array.isArray(msg.METAR.teto) && (msg.METAR.teto[1] == "T") && (getNum(msg.METAR.teto[3]) * 100) < 1500) {
     if (msg.TAF && msg.TAF.achou && msg.TAF.teto && msg.TAF.teto.altura)
       //return parseInt(getNum(msg.METAR.teto[3]) * 100) >= parseInt(msg.TAF.teto.altura)
-      return checkTetoTAF(getNum(msg.METAR.teto[3]) * 100, msg.TAF.teto.altura)
+      return {ok: checkTetoTAF(getNum(msg.METAR.teto[3]) * 100, msg.TAF.teto.altura), tetoTAF:msg.TAF.teto.altura}
   }
 
-  return true
+  return {ok: true}
 }
 
 function getTAFFromLoc(loc, metar = false) {
