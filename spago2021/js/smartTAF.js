@@ -270,7 +270,7 @@ function getMetarDataHora(metar) {
     if (t1 && t1.length > 0)
         return t1[0]
     else
-        return str
+        return metar
 
 }
 
