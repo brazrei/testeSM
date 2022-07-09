@@ -22,7 +22,7 @@ function isZooming(){
         //console.log("zooming");
         if (zoom2CookieTimer)
           clearTimeout(zoom2CookieTimer)
-        zoom2CookieTimer = setTimeout(saveZoom2Cookie, 5000, Math.round(px_ratio*100)+"%");
+        zoom2CookieTimer = setTimeout(saveZoom2Cookie, 5000, Math.round(px_ratio*100));
         return true;
     }else{
         //console.log("just resizing");
