@@ -6,9 +6,30 @@ var segundos = 0;
 var last = new Date(0);
 var myIp;
 var smartPlot = false;
+var zoom2CookieTimer = false
+
 last.setUTCHours(-1);
 
 var tickState = true;
+
+//Zoom control
+px_ratio = window.devicePixelRatio || window.screen.availWidth / document.documentElement.clientWidth;
+$(window).resize(function(){isZooming();});
+function isZooming(){
+    var newPx_ratio = window.devicePixelRatio || window.screen.availWidth / document.documentElement.clientWidth;
+    if(newPx_ratio != px_ratio){
+        px_ratio = newPx_ratio;
+        //console.log("zooming");
+        if (zoom2CookieTimer)
+          clearTimeout(zoom2CookieTimer)
+        zoom2CookieTimer = setTimeout(saveZoom2Cookie, Math.round(px_ratio)+"%", 5000);
+        return true;
+    }else{
+        //console.log("just resizing");
+        return false;
+    }
+}
+//
 
 function getIp() {
   $.get("https://ipinfo.io", function (response) {
