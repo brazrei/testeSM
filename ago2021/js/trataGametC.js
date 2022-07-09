@@ -2,6 +2,7 @@ var arrayLocalidadeFIR = ["SBAZ", "SBBS", "SBRE", "SBCW"]
 var gametsBrutos;
 var gamets = []
 lastGamet = ""
+gametTimeout = false
 
 
 function GetWebContentGamet(url) {
@@ -100,7 +101,8 @@ function trataGametRedemet(texto) {
         classe = "table-dark";
         erro = " **** Gamet fora da Validade! **** "
         erro = spanRed(erro, erro)
-        setTimeout("getGamet();", 5000)
+        if (!gametTimeout)
+          gametTimeout = setTimeout("getGamet();", 5000)
 
       }
       let strStyle = ""
@@ -127,6 +129,7 @@ function trataGametRedemet(texto) {
 
 
 function getGamet() {
+  gametTimeout = false
   var agora = getUTCAgora();
   if (agora.getHours() < 6) {
     ini = "00"
