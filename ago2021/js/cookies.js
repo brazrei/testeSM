@@ -14,4 +14,8 @@ function inicializaCookies(){
     $("#imgSom").attr('src', "pngs/sound-off30.png");
 }
 
+function saveZoom2Cookie(zoom){
+  $.cookie('zoom', zoom)
+}
+
 
