@@ -20,7 +20,7 @@ function inicializaCookies(){
 
 function saveZoom2Cookie(zoom){
   zoom2CookieTimer = false
-  $.cookie('zoom', zoom)
+  $.cookie('zoom', zoom+"%")
 }
 
 
