@@ -15,12 +15,12 @@ function inicializaCookies(){
   
   //zoom control
   if ($.cookie('zoom')) 
-  document.body.style.zoom = $.cookie('zoom')
+  document.body.style.zoom = $.cookie('zoom') + "%"
 }
 
 function saveZoom2Cookie(zoom){
   zoom2CookieTimer = false
-  $.cookie('zoom', zoom+"%")
+  $.cookie('zoom', zoom)
 }
 
 
