@@ -1,8 +1,8 @@
 var arrayLocalidadeFIR = ["SBAZ", "SBBS", "SBRE", "SBCW"]
 var gametsBrutos;
 var gamets = []
-lastGamet = ""
-gametTimeout = false
+var lastGamet = ""
+var gametTimeout = false
 
 
 function GetWebContentGamet(url) {
