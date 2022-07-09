@@ -12,6 +12,10 @@ function inicializaCookies(){
     $("#imgSom").attr('src', "pngs/sound-on30.png");
   else
     $("#imgSom").attr('src', "pngs/sound-off30.png");
+  
+  //zoom control
+  if ($.cookie('zoom')) 
+  document.body.style.zoom = $.cookie('zoom')
 }
 
 function saveZoom2Cookie(zoom){
