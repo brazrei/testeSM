@@ -200,6 +200,8 @@ $("document").ready(function () {
         }
     });
 	
+    $(window).resize(function(){opener.isZooming();});
+	
     $('#taCoordenadas').on('input selectionchange propertychange paste',function () {
 	let str = $('#taCoordenadas').val()
 	checaVertices(str.split('-'))
