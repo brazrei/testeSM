@@ -77,11 +77,8 @@
     $response = "";
 
   echo $response;
-  if ( $response == "" ) {
+  if ( $response == "" || (strpos(strtoupper($response),"FORBIDDEN")) {
     //echo "Erro na consulta em consulta_msg.php! Resposta vazia do servidor!";
-    exit;
-  } else if (strpos(strtoupper($response),"FORBIDDEN")) {
-    //echo "Erro na consulta em consulta_msg.php! Acesso negado! Token pode estar expirado!";
     limpaToken();
     exit;
   }
