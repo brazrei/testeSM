@@ -485,6 +485,8 @@ function getTetoHora(taf, hora) {
     let teto = getTetoBase(taf)
     let periodo, auxTeto
 
+//    if (getICAOIndicator(taf) == "SBCH")
+//        console.log("")
     if (gruposMud > 0) {
         let arrChange = getChangeForecastArray(taf)
         for (let i in arrChange) {
@@ -499,7 +501,7 @@ function getTetoHora(taf, hora) {
                         auxTeto = getTeto(arrChange[i].MeteorologicalAerodromeForecast) ? getTeto(arrChange[i].MeteorologicalAerodromeForecast) : teto
                         // se for becoming, pega o valor mais baixo de vis
 
-                        teto = arrChange[i].MeteorologicalAerodromeForecast.changeIndicator == "BECOMING" ? ((teto.altura <= auxTeto.altura && teto.qtd > 4) || (teto.altura > auxTeto.altura && auxTeto.qtd < 5) ? teto : auxTeto) : auxTeto
+                        teto = arrChange[i].MeteorologicalAerodromeForecast.changeIndicator == "BECOMING" ? ((teto.altura <= auxTeto.altura && teto.qtd > 4 || (teto.qtd<5 && teto.altura < auxTeto.altura)) ? teto : auxTeto) : auxTeto
                         /*
                                                 if (arrChange[i].MeteorologicalAerodromeForecast.changeIndicator == "BECOMING") {
                                                     if ((teto.altura <= auxTeto.altura && teto.qtd > 4) || (teto.altura > auxTeto.altura && auxTeto.qtd < 5))
@@ -514,6 +516,8 @@ function getTetoHora(taf, hora) {
             }
         }
     }
+    if (teto.qtd < 5)
+        teto.altura = 1500
     return teto
 }
 
