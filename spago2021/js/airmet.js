@@ -724,7 +724,7 @@ function plotaMarca(lat, lng, loc) {
         if (alertaVisTAF) {
             strAlertaTAF += "*VISIBTAF"
             descTAF += "<br><br>- <b> VISIBILIDADE NO METAR / SPECI</b> ESTÁ <b>ABAIXO</b> DA VISIBILIDADE PREVISTA PELO <b>TAF</b> PARA ESTE HORÁRIO! "
-            descTAF += "<br>(TETO PREVISTO PELO <b>TAF</b>: <b>" + spanRed(chkVMT.visTAF + "M", chkVMT.visTAF + "M") + ")</b>"
+            descTAF += "<br>(VISIBILIDADE PREVISTA PELO <b>TAF</b>: <b>" + spanRed(chkVMT.visTAF + "M", chkVMT.visTAF + "M") + ")</b>"
         }
 
 	let chkTMT = chkTetoMetarTAF(loc)
