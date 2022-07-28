@@ -56,7 +56,7 @@
     return $proxy;
   }
 
-  function limpaToken() {
+  function atualizaToken() {
     file_get_contents("http://localhost/WebServiceOPMET/getAuthToken.php?update=true" . getProxy());
   }
 
@@ -77,9 +77,9 @@
     $response = "";
 
   echo $response;
-  if ( $response == "" || strpos(strtoupper($response),"FORBIDDEN")) {
+  if ( $response == "" || strpos(strtoupper($response),"FORBIDDEN") || strpos(strtoupper($response),"*#*ERRO")) {
     //echo "Erro na consulta em consulta_msg.php! Resposta vazia do servidor!";
-    limpaToken();
+    atualizaToken();
     exit;
   }
   include('bottom-cache.php');
