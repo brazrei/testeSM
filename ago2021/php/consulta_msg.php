@@ -81,7 +81,7 @@
     //echo "Erro na consulta em consulta_msg.php! Resposta vazia do servidor!";
     atualizaToken();
     exit(); //se mensagem com erro, atualiza o token e não grava o cache.
-  }
-  include('bottom-cache.php');
+  } else 
+    include('bottom-cache.php');
 ?>
 
