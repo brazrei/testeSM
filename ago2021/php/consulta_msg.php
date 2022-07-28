@@ -77,7 +77,7 @@
     $response = "";
 
   echo $response;
-  if ( $response == "" || strpos(strtoupper($response),"FORBIDDEN") || strpos(strtoupper($response),"*#*ERRO")) {
+  if ( $response == "" || (strpos(strtoupper($response),"FORBIDDEN") > -1) || (strpos(strtoupper($response),"*#*ERRO") > -1)) {
     //echo "Erro na consulta em consulta_msg.php! Resposta vazia do servidor!";
     atualizaToken();
     exit(); //se mensagem com erro, atualiza o token e não grava o cache.
