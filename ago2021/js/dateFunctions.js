@@ -1,3 +1,13 @@
+function getDataHoraMetar(metar) {
+        var patt2 = /\d{10} - /;
+        var t1 = metar.match(patt2)
+        if (t1 && t1.length > 0)
+            return t1[0]
+        else
+            return metar
+
+}
+
 function addHours(data, horas) {
     if (!Date.prototype.addHours)
         Date.prototype.addHours = function (h) {
