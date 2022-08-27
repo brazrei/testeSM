@@ -10,7 +10,8 @@ function GetWebContentGamet(url) {
   xhttp.onreadystatechange = function () {
     var erro = "ErroSM=";
     if (this.status > 0) {
-      if (this.readyState == 4 && this.status == 200) {
+      if ((this.readyState == 4 && this.status == 200) && (this.responseText !== "") && (!this.responseText.includes("Forbidden")) && (!this.responseText.includes("*#*"))) {
+//      if (this.readyState == 4 && this.status == 200) {
         //$("#imgLoad"+idxFIR).attr('src', 'pngs/green-button30.png');
 
         trataGametRedemet(this.responseText);
