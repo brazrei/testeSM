@@ -1,5 +1,5 @@
 function loadFirBrasil() {
-  let urlBrasil = 'kml/firBrasil2.kml'
+  let urlBrasil = 'kml/firBrasil.kml'
   let urlBrasilia = 'kml/setores_fir_destaque_brasilia.kml'
   map = makeMap();
   firBrasil = omnivore.kml(urlBrasil).on('ready', function() {
