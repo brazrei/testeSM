@@ -716,12 +716,13 @@ if (txt.length == 1)
   
 txt = txt[1]
 let patt = /\d{3}\/\d{2}KT/g
+let dir,vel
 try {
 txt =  txt.match(patt)[0]
 txt = txt.split('/')
 
-let dir = getNum(txt[0])
-let vel = getNum(txt[1])
+dir = getNum(txt[0])
+vel = getNum(txt[1])
 } catch (e) {
     dir = vel = false
 }
