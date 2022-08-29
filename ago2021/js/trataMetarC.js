@@ -706,6 +706,30 @@ function getCMA(loc) {
     return ""
 }
 
+function getVntAirmet(txt){
+txt = txt.toUpperCase()
+txt = txt.normalize("NFD").replace(/\p{Diacritic}/gu, "") //remove acentos
+txt = txt.replace(/ /g,'') //remove espaços
+txt = txt.split('SFCWIND')
+if (txt.length == 1) 
+  return false
+  
+txt = txt[1]
+let patt = /\d{3}\/\d{2}KT/g
+try {
+txt =  txt.match(patt)[0]
+txt = txt.split('/')
+
+let dir = getNum(t[0])
+let vel = getNum(t[1])
+} catch (e) {
+    dir = vel = false
+}
+return {dir,vel}
+	
+}
+
+
 function getAirmet(loc) {
     if (smartPlot.closed)
         return { texto: "", vis: "", teto: "", achou: false, offline: true }
@@ -716,12 +740,15 @@ function getAirmet(loc) {
     let vis = 9999
     let teto = 1500
     let achou = false
+    let vnt = false
     for (let i in airmets) {
         if ((!airmets[i].cancelado) && airmets[i].locs.includes(loc)) {
             if ((airmets[i].visibilidade >= 0) && (parseInt(airmets[i].visibilidade) < parseInt(vis)))
                 vis = airmets[i].visibilidade
             if ((airmets[i].base >= 0) && (parseInt(airmets[i].base) < parseInt(teto)))
                 teto = airmets[i].base
+            if (airmets[i].tipo == 'W')
+                vnt = getVntAirmet(airmets[i].texto)
             result = result + sep + smartPlot.getAirmetDescription(airmets[i], true)
             achou = true
         }
@@ -733,7 +760,7 @@ function getAirmet(loc) {
         teto = ""
     }
 
-    return { texto: result, vis: vis, teto: teto, achou: achou, offline: false }
+    return { texto: result, vis: vis, teto: teto, achou: achou, offline: false, vnt }
 }
 
 function getStatusSigmet(loc) {
@@ -766,7 +793,7 @@ function getStatusAirmet(loc) {
             if (tetoAirmet !== "1500FT")
                 tetoAirmet = spanRedBold(tetoAirmet, tetoAirmet)
             statusAirmet = visAirmet + " / " + tetoAirmet
-            return { texto: txtAirmet, vis: visAirmet, teto: tetoAirmet, tetoNum: airmet.teto, status: statusAirmet, achou: true, offline: airmet.offline }
+            return { texto: txtAirmet, vis: visAirmet, teto: tetoAirmet, tetoNum: airmet.teto, status: statusAirmet, achou: true, offline: airmet.offline, vnt: airmet.vnt }
         }
     } catch (e) {
         console.log("Erro ao Obter os Airmets")
@@ -900,7 +927,7 @@ function verificaStatusMetar(statusMetar, statusAdWRNG, statusAirmet, statusSigm
 
     //  if (parseInt(statusMetar.vento[0]) > globalVentoMax) {
     if (parseInt(statusMetar.vento[0]) > 21) {
-        if (isBigger(statusMetar.vento[0], statusAdWRNG.max))
+        if (!statusAirmet.vnt || (statusAirmet.vnt.vel && (parseInt(statusAirmet.vnt.vel) > parseInt(statusMetar.vento[0]))) )
             arrayRest.push("Vento");
     }
 
