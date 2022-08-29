@@ -926,7 +926,7 @@ function verificaStatusMetar(statusMetar, statusAdWRNG, statusAirmet, statusSigm
     }
 
     //  if (parseInt(statusMetar.vento[0]) > globalVentoMax) {
-    if (parseInt(statusMetar.vento[0]) >= 30) {
+    if (parseInt(statusMetar.vento[0]) > 30) {
         if (!statusAirmet.vnt || (statusAirmet.vnt.vel && (parseInt(statusAirmet.vnt.vel) > parseInt(statusMetar.vento[0]))) )
             arrayRest.push("Vento");
     }
