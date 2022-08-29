@@ -720,8 +720,8 @@ try {
 txt =  txt.match(patt)[0]
 txt = txt.split('/')
 
-let dir = getNum(t[0])
-let vel = getNum(t[1])
+let dir = getNum(txt[0])
+let vel = getNum(txt[1])
 } catch (e) {
     dir = vel = false
 }
