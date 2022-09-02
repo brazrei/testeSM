@@ -588,7 +588,7 @@ function getTAFs(localidades = false, dataIni = false) {
     url = opener.linkInternetIWXXM;
 
     localidades = !localidades ? tafsGrupoConsulta : localidades;
-    url = `${url}&local=${localidades}&msg=taf${interval}`;
+    url = `${url}${localidades}&msg=taf${interval}`;
 
     GetWebContentTAF(url, false);
 }
