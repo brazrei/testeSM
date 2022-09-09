@@ -15,6 +15,31 @@
     }
     return $args;
   }
+  function createFile($fileName, $txt) {
+    try {
+    	$file = fopen($fileName, 'w');
+    	fwrite($file, $txt);
+    	fclose($file);    
+	    //echo "Arquivo criado com sucesso!";
+     } catch(Exception $e) {
+	    echo "Erro ao tentar criar arquivo! ->" . $e;
+     }
+  }
+
+  function flagFile($file, $start) { //retorna true se é inicio e o flag existe
+    $fileName = $file.$flagFile;
+    if ($start) { // cria arquivo flag
+      if (!file_exists($file)){
+        createFile($fileName,".");
+        return false
+      }
+    } else  { //deleta arquivo flag 
+      unlink($fileName);
+    }
+     
+    return true;      
+  }
+  $flagStr = ".flag";
   $url = $_SERVER["SCRIPT_NAME"];
   $break = Explode('/', $url);
   $file = $break[count($break) - 1];
@@ -44,11 +69,15 @@
   $cachefile = $dirName . "/" . 'cached-'.substr_replace($file ,"",-4).$encrypted_url.'.html';
   $cachetime = 50;
 
+  
   // Serve from the cache if it is younger than $cachetime
-  if (file_exists($cachefile) && time() - $cachetime < filemtime($cachefile)) {
-      echo "<!-- Cached copy, generated ".date('H:i', filemtime($cachefile))." -->\n";
-      readfile($cachefile);
-      exit;
-  }
+  if (file_exists($cachefile)) {
+      if (time() - $cachetime < filemtime($cachefile) || (flagFile($cachefile, true)) )  { //se a informacao for antiga ou houver solicitacao em aberto
+        echo "<!-- Cached copy, generated ".date('H:i', filemtime($cachefile))." -->\n";
+        readfile($cachefile);
+        exit;
+      }
+  } 
+  
   ob_start(); // Start the output buffer
 ?>
