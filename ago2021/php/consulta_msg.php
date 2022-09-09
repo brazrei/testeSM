@@ -57,7 +57,7 @@
   }
 
   function atualizaToken() {
-    file_get_contents("http://localhost/WebServiceOPMET/getAuthToken.php?update=true" . getProxy());
+    file_get_contents("http://localhost/WebServiceOPMETNovo/getAuthToken.php?update=true" . getProxy());
   }
 
 
