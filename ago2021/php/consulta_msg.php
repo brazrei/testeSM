@@ -60,9 +60,11 @@
     file_get_contents("http://localhost/WebServiceOPMET/getAuthToken.php?update=true" . getProxy());
   }
 
-  $urlF = $urlF . getProxy(); 
+
+
   deleteOldFiles(10); //tempo em minutos
   include('top-cache.php'); 
+  $urlF = $urlF . getProxy(); 
 
   // Your regular PHP code goes here
   //  $testeParam = $_POST['testeParam'];
@@ -71,6 +73,7 @@
  // echo ($urlF);
   //echo $urlF;
   //$response = getCurl($urlF);
+  
   $response = file_get_contents($urlF);
 
   if ( preg_replace('/\s+/', '', $response) == "") //remove todos os caracteres especiais se a msg for vazia
