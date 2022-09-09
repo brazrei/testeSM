@@ -31,7 +31,7 @@
     if ($start) { // cria arquivo flag
       if (!file_exists($file)){
         createFile($fileName,".");
-        return false
+        return false;
       }
     } else  { //deleta arquivo flag 
       unlink($fileName);
