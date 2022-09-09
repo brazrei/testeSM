@@ -27,9 +27,10 @@
   }
 
   function flagFile($file, $start) { //retorna true se é inicio e o flag existe
-    $fileName = $file.$flagFile;
+    global $flagStr;
+    $fileName = $file.$flagStr;
     if ($start) { // cria arquivo flag
-      if (!file_exists($file)){
+      if (!file_exists($fileName)){
         createFile($fileName,".");
         return false;
       }
