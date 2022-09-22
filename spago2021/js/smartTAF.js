@@ -652,11 +652,8 @@ function GetWebContentTAF(url, primeiraVez) {
                 //$("#imgLoad"+idxFIR).attr('src', 'pngs/green-button30.png');
                 let resposta = opener.removeCacheMessage(this.responseText);
                 
-                if (isIWXXM(resposta))) {
-                    atualizaArrayTAFs(resposta);
-                    atualizaStatusConsultaTAF();
-                } else
-                    getTafs(
+                atualizaArrayTAFs(resposta);
+                atualizaStatusConsultaTAF();
 
                 let erroConexao = false
                 if (erroConexao || !opener.smartPlotOnline) {
