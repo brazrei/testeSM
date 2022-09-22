@@ -1075,13 +1075,17 @@ function start() {
 
     intervalSTSC = setInterval("atualizaSTSC()", 120000);
 
-    atualizaTAFS();
+    atualizaTAFsBrutos()
 
-    intervalTAF = setInterval(atualizaTAFS, 120000); //tem que ser de minuto em minuto
+    intervalTAFsBrutos = setInterval (atualizaTAFsBrutos, 60000)
 
-    verificaTAFS();
+    atualizaTAFS(); // consulta os tafs mais recentes na rede
 
-    intervalVerificaTAF = setInterval(verificaTAFS, 60000); //tem que ser de minuto em minuto
+    intervalTAF = setInterval(atualizaTAFS, 120000); //
+
+    verificaTAFS(); // a hora de inicio da pesquisa depende da hora atual em relacao a validade do TAF
+
+    intervalVerificaTAF = setInterval(verificaTAFS, 60000); //
 
     setTimeout(updateSmartMetar, 5000) //
 
