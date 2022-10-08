@@ -1,6 +1,6 @@
 var tafsGrupoConsulta = "SBPA,SBCT,SBFI,SBFL,SBNF,SBPK,SBCO,SBSM,SBBG,SBNM,SBJV,SBBI,SBYS,SBAF,SBSC,SBAN,SBMN,SBCH,SBUG,SBPF,SBJA,SBGW,SBCC,SBCX,SBGP,SBLJ,SBPG,SNCP"
-var strTAFsNaoTraduzidos = ''
-var arrayTAFsNaoTraduzidos = []
+var strTAFsTraduzidos = ''
+var arrayTAFsTraduzidos = []
 var arrayTAFsBrutos = []
 var arrayTAFs = []
 var arrayProximosTAFs = []
@@ -587,6 +587,29 @@ function getTeto(tafMAF) {
     return { qtd: camada.qtd, altura: parseInt(camada.altura) }
 }
 
+function removeTraduzidos(locs, dh = false) {
+    if (typeof locs === 'string')
+        locs = locs.split(',')
+    let locsOut = []
+    let xdh = ''
+    if (dh)
+        xdh = dh
+    for (let l in locs) {
+        let traduzido = false
+        for (let i in arrayTAFsTraduzidos) {
+            if (i.includes(locs[l] + xdh) && arrayTAFsTraduzidos[i])
+                traduzido = true
+
+        }
+        if (!traduzido)
+            locsOut.push(locs[l])
+    }
+    if (locsOut.length == 0)
+      return 'AAAA'
+    else
+        return locsOut.join(',')
+}
+
 function getTAFs(localidades = false, dataIni = false, dadosBrutos) {
     //mostraLoading("TAFs");
     let url = ""
@@ -600,10 +623,13 @@ function getTAFs(localidades = false, dataIni = false, dadosBrutos) {
         interval = opener.getIntervalTAF(dataIni)
     if (dadosBrutos)
         url = opener.linkInternet;
-    else
+    else {
         url = opener.linkInternetIWXXM;
-
-    locs = removeTraduzidos(locs)
+        if (!dataIni)
+            localidades = removeTraduzidos(localidades) //remove traduzidos apenas se for a consulta ampla
+        else if (localidades)
+            localidades = removeTraduzidos(localidades, fillZero(dataIni.getDate()) + fillZero(dataIni.getHours())) //remove traduzidos apenas se for a consulta ampla
+    }
 
     localidades = !localidades ? tafsGrupoConsulta : localidades;
     url = `${url}${localidades}&msg=taf${interval}`;
@@ -622,7 +648,8 @@ function updateArrayStatus(localidade, status) { // retorna true se o status mud
 function excluiTAFsAntigos(arr) {
     let arr2 = []
     for (let i in arr) {
-        if (arr[i].inicio > getUTCAgora().addHours(1))
+        //if (arr[i].inicio > getUTCAgora().addHours(1))
+        if (arr[i].inicio >= getUTCAgora().getHours())
             arr2[arr[i].localidade] = arr[i]
     }
     return arr2 //retorna o valor como referencia
@@ -647,15 +674,18 @@ function atualizaArrayTAFs(texto) {
         let loc = getICAOIndicator(TAFs[i])
 
         let dados = { TAF: TAFs[i], localidade: loc, inicio: getBeginTAF(TAFs[i]), getVisPredHora: getVisPredHora, getTetoHora: getTetoHora }
+        
         if (getBeginTAF(TAFs[i]) > getUTCAgora().addHours(-3)) {
 
-            if (tafsProxHora.indexOf(loc) > -1)//retorna a ultima hora enquando  não chega em hProx-3h
+            if (tafsProxHora.indexOf(loc) > -1){//retorna a ultima hora enquando  não chega em hProx-3h
+                updateTAFsTraduzidos(dados, true)
                 arrayProximosTAFs[loc] = dados
+            }
             if (getBeginTAF(TAFs[i]) > getUTCAgora())
                 continue;// se a validade do taf ainda não começou, ignora da lista de TAFs validos.
         }
         arrayTAFs[loc] = dados
-
+        updateTAFsTraduzidos(dados, true)
     }
 }
 
@@ -675,21 +705,62 @@ function isIWXXM(texto) {
     return texto.toUpperCase().includes('IWXXM')
 }
 
-function updateTAFsBrutos(texto){
+function getDataHoraTAFBruto(taf) {
+    taf = taf.replace(/[^a-z0-9\/\-=]/gi, ' ') //troca  caracteres estranhos por espaços
+    taf = taf.replace(/ +/g, ' ') //remove espacos duplos
+
+    let patt = /[A-Z][A-Z][A-Z][A-Z] \d{6}Z \d{4}/g
+    let s = taf.match(patt)
+    if (!s || s.length == 0)
+
+        return ""
+    s = s[0].split(" ")
+
+    return s[0] + s[2]
+
+}
+
+function fillZero(str) {
+    return str.length == 1 ? "0" + str : str
+}
+
+function getDataHoraTAFTraduzido(taf) {
+    if (typeof taf === 'string') {
+        try {
+            taf = JSON.parse(taf)
+        } catch (e) {
+            return
+        }
+    }
+
+    return taf.localidade + fillZero(taf.inicio.getDate()) + fillZero(taf.inicio.getHours())
+}
+
+function updateTAFsTraduzidos(taf, trad = false) {
+    let dh = getDataHoraTAFTraduzido(taf)
+
+    //if (arrayTAFsTraduzidos[dh])
+    arrayTAFsTraduzidos[dh] = trad
+
+}
+
+function updateTAFsBrutos(texto) {
     let TAFs = texto.split('=')
-    strTAFsNaoTraduzidos = ''
+    //strTAFsNaoTraduzidos = ''
     if (TAFs.length == 0)
         return false
     for (let i in TAFs) {
-        let loc = getLocalidadesFromTAFsContent(TAFs[i])
+        //let loc = getLocalidadesFromTAFsContent(TAFs[i])
 
         if (!arrayTAFsBrutos.includes(TAFs[i])) {
+            let dh = getDataHoraTAFBruto(TAFs[i])
+
             arrayTAFsBrutos.push(TAFs[i])
-            arrayTAFsNaoTraduzidos.push(TAFs[i])
+            arrayTAFsTraduzidos[dh] = false
         }
 
     }
-    strTAFsNaoTraduzidos = getLocalidadesFromTAFsContent(TAFs.join(''))
+    //strTAFsNaoTraduzidos = getLocalidadesFromTAFsContent(TAFs.join(''))
 }
 
 function GetWebContentTAF(url, primeiraVez) {
@@ -706,7 +777,8 @@ function GetWebContentTAF(url, primeiraVez) {
                 if (isIWXXM(resposta)) {
                     atualizaArrayTAFs(resposta);
                     atualizaStatusConsultaTAF();
-                } else 
+
+                } else
                     updateTAFsBrutos(resposta)
 
                 let erroConexao = false
