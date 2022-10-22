@@ -1,4 +1,4 @@
-var tafsGrupoConsulta = "SBPA,SBCT,SBFI,SBFL,SBNF,SBPK,SBCO,SBSM,SBBG,SBNM,SBJV,SBBI,SBYS,SBAF,SBSC,SBAN,SBMN,SBCH,SBUG,SBPF,SBJA,SBGW,SBCC,SBCX,SBGP,SBLJ,SBPG,SNCP"
+var tafsGrupoConsulta = "SBPA,SBCT,SBFI,SBFL,SBNF,SBPK,SBCO,SBSM,SBBG,SBNM,SBJV,SBBI,SBYS,SBAF,SBSC,SBAN,SBMN,SBCH,SBUG,SBPF,SBJA,SBGW,SBCC,SBCX,SBGP,SBLJ,SBPG,SNCP,SBBH"
 var strTAFsTraduzidos = ''
 var arrayTAFsTraduzidos = []
 var arrayTAFsBrutos = []
@@ -127,6 +127,34 @@ function atualizaTAFS() { // consulta os tafs mais recentes na rede
     let locs = removeRepetidos(getAeroInternacional() + ',' + tafsGrupoConsulta, false, false)
 
     getTAFs(locs, false, false)
+}
+
+function destacaPalavrasTAF(taf) {
+    function appPatt(taf, patt) {
+        let arr = taf.match(patt)
+        let s = ''
+        
+        if (!arr || arr.length == 0)
+            return taf
+        for (let i in arr) {
+            taf = spanRed(taf, arr[i])
+            s += arr[i]
+        }
+        return taf
+    }
+    let pattNuvem = / [B,O][A-Z][A-Z]00[0-9] /g
+    let pattVis = / [0-4]\d{3} /g
+    let pattTrov = /[+,-,\s]TS[A-Z][A-Z] /g
+    let pattTrov2 = / TS /g
+    let pattRaj = / \d{5}G\d{2}KT /g
+    
+
+    taf = appPatt(taf, pattNuvem)
+    taf = appPatt(taf, pattVis)
+    taf = appPatt(taf, pattTrov)
+    taf = appPatt(taf, pattTrov2)
+    taf = appPatt(taf, pattRaj)
+    return taf
 }
 
 function verificaTAFS() { // a hora de inicio da pesquisa depende da hora atual em relacao a validade do TAF
@@ -605,7 +633,7 @@ function removeTraduzidos(locs, dh = false) {
             locsOut.push(locs[l])
     }
     if (locsOut.length == 0)
-      return 'AAAA'
+        return 'AAAA'
     else
         return locsOut.join(',')
 }
@@ -648,8 +676,8 @@ function updateArrayStatus(localidade, status) { // retorna true se o status mud
 function excluiTAFsAntigos(arr) {
     let arr2 = []
     for (let i in arr) {
-        //if (arr[i].inicio > getUTCAgora().addHours(1))
-        if (arr[i].inicio >= getUTCAgora().getHours())
+        if (arr[i].inicio > getUTCAgora().addHours(1))
+            //if (arr[i].inicio >= getUTCAgora().getHours())
             arr2[arr[i].localidade] = arr[i]
     }
     return arr2 //retorna o valor como referencia
@@ -666,7 +694,6 @@ function atualizaArrayTAFs(texto) {
     }
 
     let TAFs = clearMsgIWXXM(texto).reverse() //pegar as correções por ultimo
-    arrayProximosTAFs = excluiTAFsAntigos(arrayProximosTAFs);
     let tafsProxHora = getTAFsProximaHora();  // tafs que deveriam estar na proxima hora de envio
 
     for (let i in TAFs) {
@@ -674,10 +701,10 @@ function atualizaArrayTAFs(texto) {
         let loc = getICAOIndicator(TAFs[i])
 
         let dados = { TAF: TAFs[i], localidade: loc, inicio: getBeginTAF(TAFs[i]), getVisPredHora: getVisPredHora, getTetoHora: getTetoHora }
-        
+
         if (getBeginTAF(TAFs[i]) > getUTCAgora().addHours(-3)) {
 
-            if (tafsProxHora.indexOf(loc) > -1){//retorna a ultima hora enquando  não chega em hProx-3h
+            if (tafsProxHora.indexOf(loc) > -1) {//retorna a ultima hora enquando  não chega em hProx-3h
                 updateTAFsTraduzidos(dados, true)
                 arrayProximosTAFs[loc] = dados
             }
@@ -809,6 +836,47 @@ function GetWebContentTAF(url, primeiraVez) {
     xhttp.setRequestHeader('Content-type', 'application/json');
 
     xhttp.send();
+}
+
+function clearTAFsTraduzidos() { // limpa os tafs traduzidos de hora em hora
+    let data = new Date()
+    if (data.getMinutes() == 0) {
+        arrayTAFsTraduzidos = []
+        arrayProximosTAFs = excluiTAFsAntigos(arrayProximosTAFs);
+    }
+}
+
+function getTAFBruto(loc) {
+    let taf = ""
+    for (let i in arrayTAFsBrutos) {
+        if (arrayTAFsBrutos[i].indexOf(loc) > -1)
+            taf = arrayTAFsBrutos[i]
+    }
+    return taf
+}
+
+function formataTAFBruto(taf) {
+
+    taf = taf.replace('TAF', '<b>TAF</b>')
+    taf = taf.split(' ')
+    tafOut = ''
+    arrayTermos = ['BECMG', 'FM', 'PROB30', 'PROB40', 'RMK', 'TEMPO']
+    for (let i in taf) {
+        if (i < 2)
+            continue
+        let boldI = ''
+        let boldF = ''
+        if (arrayTermos.indexOf(taf[i]) > -1 && arrayTermos.indexOf(taf[i - 1]) < 0) {
+            tafOut += '<br>'
+            if (taf[i] !== 'RMK') {
+                boldI = '<b>'
+                boldF = '</b>'
+            }
+        }
+        tafOut += ` ${boldI}${taf[i]}${boldF}`
+    }
+    return tafOut
+
 }
 
 //function getTetoMudanca
