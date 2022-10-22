@@ -174,18 +174,36 @@ function plotarAreaLocalidade(loc, onlyZoom) {
 
 
 /*Integrar ao SmartMetar*/
-function checaVertices(arr){
-        if (arr.length > 22){ 
-            $('#taCoordenadas').css('background','#ff8d8d')          
-            $('#taCoordenadas').css('color','white')  
-	    $('#taCoordenadas').attr('title',msgErroSAGITARIO)  
-	    return false
-        } else {
-            $('#taCoordenadas').css('background','white')          
-            $('#taCoordenadas').css('color','black')          
-	    $('#taCoordenadas').attr('title','')  
-	    return true
+function checaVertices(arr) {
+    if (arr.length > 22) {
+        $('#taCoordenadas').css('background', '#ff8d8d')
+        $('#taCoordenadas').css('color', 'white')
+        $('#taCoordenadas').attr('title', msgErroSAGITARIO)
+        return false
+    } else {
+        $('#taCoordenadas').css('background', 'white')
+        $('#taCoordenadas').css('color', 'black')
+        $('#taCoordenadas').attr('title', '')
+        return true
+    }
+
+}
+
+function iniciaSTSCForm() {
+    let sPageURL = decodeURIComponent(window.location.search.substring(1));
+    let sURLVariables = sPageURL.split('&');
+    if (sURLVariables[0] !== '') {
+
+        for (var i = 0; i < sURLVariables.length; i++) {
+            let sParameterName = sURLVariables[i].split('=');
+            if (sParameterName[0].toUpperCase() == 'STSC'){ 
+                //oldSTSCDate = 'true'
+                $("#painel").addClass("disabledbutton");
+                $('#modalSTSC').modal();
+                
+            }
         }
+    } 
 
 }
 
@@ -199,12 +217,12 @@ $("document").ready(function () {
                 plotarAreaLocalidade(loc)
         }
     });
-	
-    $(window).resize(function(){opener.isZooming();});
-	
-    $('#taCoordenadas').on('input selectionchange propertychange paste',function () {
-	let str = $('#taCoordenadas').val()
-	checaVertices(str.split('-'))
+
+    $(window).resize(function () { opener.isZooming(); });
+
+    $('#taCoordenadas').on('input selectionchange propertychange paste', function () {
+        let str = $('#taCoordenadas').val()
+        checaVertices(str.split('-'))
     });
 
     getIp();
@@ -216,6 +234,7 @@ $("document").ready(function () {
     iniciaAirmetGlobalVars();
     iniciaSigmetGlobalVars();
     getAeroportos();
+    iniciaSTSCForm()
 })
 //*********************** */
 
@@ -717,7 +736,7 @@ function plotaMarca(lat, lng, loc) {
 
         }
 
-	let chkVMT = chkVisMetarTAF(loc)
+        let chkVMT = chkVisMetarTAF(loc)
         let alertaVisTAF = TAFCimaer && !chkVMT.ok
         let strAlertaTAF = ""
         let descTAF = "</b><br><br><b>VIGILÂNCIA TAF:</b>"
@@ -727,12 +746,12 @@ function plotaMarca(lat, lng, loc) {
             descTAF += "<br>(VISIBILIDADE PREVISTA PELO <b>TAF</b>: <b>" + spanRed(chkVMT.visTAF + "M", chkVMT.visTAF + "M") + ")</b>"
         }
 
-	let chkTMT = chkTetoMetarTAF(loc)
+        let chkTMT = chkTetoMetarTAF(loc)
         let alertaTetoTAF = TAFCimaer && !chkTMT.ok
         if (alertaTetoTAF) {
             strAlertaTAF += "*TETOTAF"
             descTAF += "<br><br>- <b> TETO NO METAR / SPECI</b> ESTÁ <b>ABAIXO</b> DO TETO PREVISTO PELO <b>TAF</b> PARA ESTE HORÁRIO! "
-            descTAF += "<br>(TETO PREVISTO PELO <b>TAF</b>: <b>" + spanRed(chkTMT.tetoTAF + "FT", chkTMT.tetoTAF + "FT")+")</b>"
+            descTAF += "<br>(TETO PREVISTO PELO <b>TAF</b>: <b>" + spanRed(chkTMT.tetoTAF + "FT", chkTMT.tetoTAF + "FT") + ")</b>"
         }
 
 
@@ -1302,7 +1321,7 @@ function GetWebContentAirmet(url, primeiraVez) {
     xhttp.onreadystatechange = function () {
         var erro = "ErroSM=";
         if (this.status > 0) {
-            if ((this.readyState == 4 && this.status == 200) && (!this.responseText.toUpperCase().includes("ERRO")) && (!this.responseText.includes("Forbidden")) && (this.responseText !== "") ) {
+            if ((this.readyState == 4 && this.status == 200) && (!this.responseText.toUpperCase().includes("ERRO")) && (!this.responseText.includes("Forbidden")) && (this.responseText !== "")) {
 
 
                 //$("#imgLoad"+idxFIR).attr('src', 'pngs/green-button30.png');
