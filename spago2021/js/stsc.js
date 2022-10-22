@@ -7,11 +7,13 @@ var layerHeatAnterior = false
 var intervalSTSC = false;
 var intervalAnimaSTSC = false
 var raioAvisoSTSC = 35 //milhas
+var oldSTSCDate = "false"
 var centroAvisoSTSCTMASP = [["-23.50", "-046.63"], // SBMT
 ["-23.62", "-046.65"], //SBSP
 ["-23.43", "-046.47"],//SBGR
 ["-23.00", "-047.13"] //SBKP
 ]
+var oldSearch = false
 
 /*
 optImgSat = {
@@ -59,9 +61,9 @@ $(document).ready(function () {
     sliderSTSC.oninput = function () {
         //if (isImgSatOn() && LayerImg_sat)
         //    LayerImg_sat.setOpacity(this.value / 100);
-        idxSTSC = Math.round((sliderSTSC.value/100)*heat.length)-1
-        if (idxSTSC<0)
-          idxSTSC = 0
+        idxSTSC = Math.round((sliderSTSC.value / 100) * heat.length) - 1
+        if (idxSTSC < 0)
+            idxSTSC = 0
         animaSTSC(true)
 
     }
@@ -74,26 +76,30 @@ $(document).ready(function () {
 
     $('.play-pauseSTSC').click(function () {
         if (isSTSCOn()) {
-          if (!$(this).hasClass('playSTSC')) {
-              $(this).attr('src', 'png/pause.png');
-              $(this).addClass('playSTSC')
-              playSTSC();
-            //$('.cycle-slideshow').cycle('pause');   
-          } else {
-              $(this).attr('src', 'png/play.png');
-              $(this).removeClass('playSTSC')
-              pauseSTSC();
-            //$('.cycle-slideshow').cycle('resume');
-          }
+            if (!$(this).hasClass('playSTSC')) {
+                $(this).attr('src', 'png/pause.png');
+                $(this).addClass('playSTSC')
+                playSTSC();
+                //$('.cycle-slideshow').cycle('pause');   
+            } else {
+                $(this).attr('src', 'png/play.png');
+                $(this).removeClass('playSTSC')
+                pauseSTSC();
+                //$('.cycle-slideshow').cycle('resume');
+            }
         }
     });
 });
 
-function playSTSC(){
+function plotaSTSCDataHora() {
+    plota_stsc('#modalSTSC')
+}
+
+function playSTSC() {
     animaSTSC()
 }
 
-function pauseSTSC(){
+function pauseSTSC() {
     if (intervalAnimaSTSC)
         clearTimeout(intervalAnimaSTSC)
 }
@@ -157,11 +163,11 @@ function inAreaAvisoSTSC(lat, long) {
     return { ativo: false, TMA: "" }
 }
 
-function setSlider(value){
+function setSlider(value) {
     //sliderSTSC.value = value;
     value += ""
     if (!value.includes('%'))
-      value += "%"
+        value += "%"
     $('#rangeSTSC').css('width', value);
 }
 
@@ -173,27 +179,29 @@ function animaSTSC(oneTime = false) {
 
     if (idxSTSC > -1) {
         if (layerHeatAnterior)
-          layerHeatAnterior.removeFrom(map);
+            layerHeatAnterior.removeFrom(map);
     } else
         idxSTSC = 0
     if (idxSTSC > -1 && heat && heat[idxSTSC])
-      heat[idxSTSC].layer.addTo(map);
+        heat[idxSTSC].layer.addTo(map);
     layerHeatAnterior = heat[idxSTSC].layer;
-    setSTSCLabel(heat[idxSTSC].hora)
+
+    if ($('#dateTimeSTSC').val() == '')
+        setSTSCLabel(heat[idxSTSC].hora)
 
     if (idxSTSC == tam - 1) {//ultimo
         idxSTSC = 0
         intervalo = 1000
         if (sliderSTSC)
-          setSlider(100)
+            setSlider(100)
     } else {
         idxSTSC++;
-        setSlider( Math.round(idxSTSC / (tam - 1) * 100) )
+        setSlider(Math.round(idxSTSC / (tam - 1) * 100))
     }
     if (intervalAnimaSTSC)
         clearTimeout(intervalAnimaSTSC)
     if (!oneTime)
-      intervalAnimaSTSC = setTimeout('animaSTSC()', intervalo);
+        intervalAnimaSTSC = setTimeout('animaSTSC()', intervalo);
 }
 
 function clearGridTMAs() {
@@ -232,7 +240,7 @@ function setSTSCLabel(label) {
         $('#clockSTSC').text("--:-- UTC");
 }
 
-function isHeatAnimationOn(){
+function isHeatAnimationOn() {
     return $('#imgPlayPauseSTSC').hasClass('playSTSC');
 }
 
@@ -240,11 +248,11 @@ function toggle_stsc(objSTSC) {
     if (isSTSCOn())
         if (intervalSTSC)
             animaSTSC() //se j[a carrecado só anima
-        else 
+        else
             plota_stsc(objSTSC)
     else
         removeSTSC();
-        
+
 }
 
 function atualizaPHP_STSC() {
@@ -255,42 +263,79 @@ function loadPHP_STSC() {
     //carrega os dados STSC heatmap e filtra, deixando apenas as informacoes recentes
 }
 
+function isValidDate(date) {
+    date = new Date(date)
+    return date instanceof Date && !isNaN(date.valueOf())
+}
+
+function isOldSearch(){
+    return oldSearch
+
+}
+
 function plota_stsc(obj_chk) {
 
-    function clearOldSTSC(){
+    function clearOldSTSC() {
         let agora = new Date();
         let vencido = addHours(agora, -1);
 
-        if (heat && heat.length>0) {
+        if (heat && heat.length > 0) {
             let i = 0
-            while ( i <= heat.length-1) {
+            while (i <= heat.length - 1) {
                 if (heat[i] && (heat[i].dataHora < vencido)) {
                     map.removeLayer(heat[i].layer)
-                    heat.splice(i,1)
+                    heat.splice(i, 1)
                 }
                 else
-                  i++;
+                    i++;
             }
 
         }
-          
+
     }
+    let dataHoraPesquisa = false
+    let dhConsulta = ''
+    oldSearch = obj_chk == '#modalSTSC'
+    try {
+        //se olsSTSCDate já for uma data válida e for igual a data pesquisada entao não busca o STSC
+        if (!isValidDate(oldSTSCDate) && $('#dateTimeSTSC').val() == '')
+            return false
+    } catch (e) {
+        //apenas continua
+    }
+    //  if (oldSTSCDate == 'true' && $('#dateTimeSTSC').val() == '')
+    //      return;
+    if (isOldSearch()) {
+        
+        document.getElementById("chkSTSC").disabled = true;
+
+        oldSTSCDate = $('#dateTimeSTSC').val()
+        dataHoraPesquisa = new Date($('#dateTimeSTSC').val())
+        if (dataHoraPesquisa.getMinutes() < 30) {
+            addHours(dataHoraPesquisa, -1)
+        }
+        dhConsulta = `&data=${dataHoraPesquisa.getFullYear()}${fillZero(dataHoraPesquisa.getMonth() + 1)}${fillZero(dataHoraPesquisa.getDate())}${fillZero(dataHoraPesquisa.getHours())}`
+        removeSTSC()
+        heat = []
+    }
+
     //if (!obj_chk || obj_chk.checked) {
     if (true) {
         mostraLoading("stsc");
         clearOldSTSC();
         let url;
-        if (opener.intraer)
-          url = `https://api-redemet.decea.mil.br/produtos/stsc?api_key=${opener.apiKey}`
-        else
-          url = `https://api-redemet.decea.mil.br/produtos/stsc?api_key=${opener.apiKey}`
-            
+        //if (opener.intraer)
+        //    url = `https://api-redemet.decea.mil.br/produtos/stsc?api_key=${opener.apiKey}${dhConsulta}&anima=1`
+        //else
+        let apiKey = 'U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei'
+        url = `https://api-redemet.decea.mil.br/produtos/stsc?api_key=${apiKey}${dhConsulta}`
+
         if (horaSTSCAnterior == "") { //primeira bisca pegar a animacao
             //url = 'https://api-redemet.decea.mil.br/produtos/stsc?api_key=U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei&anima=5'
             loadPHP_STSC()
         }
-//        else
-//        url = 'https://api-redemet.decea.gov.br/api/produtos/stsc?api_key=U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei';
+        //        else
+        //        url = 'https://api-redemet.decea.gov.br/api/produtos/stsc?api_key=U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei';
 
         $.ajax({
             //url: urlCache + url + opener.getProxy(),
@@ -303,7 +348,12 @@ function plota_stsc(obj_chk) {
             success: function (data) {
 
                 var i = 0;
-                var hoje = getUTCAgora();
+
+                var hoje
+                if ($('#dateTimeSTSC').val() == '')
+                    hoje = getUTCAgora();
+                else
+                    hoje = new Date($('#dateTimeSTSC').val());
                 var hoje_dia = hoje.getUTCDate();
                 var hoje_mes = parseInt(hoje.getUTCMonth()) + 1;
                 var hoje_ano = hoje.getUTCFullYear();
@@ -324,7 +374,7 @@ function plota_stsc(obj_chk) {
                 let data_prod = false
                 if (horaAnima)
                     data_prod = hoje_dia + '/' + hoje_mes + '/' + hoje_ano + ' ' + horaAnima
-                
+
                 setSTSCLabel(data_prod);
                 data_prod = hoje_mes + " " + hoje_dia + ' ' + hoje_ano + ' ' + horaAnima
                 data_prod = getUTCDate(new Date(data_prod))
@@ -335,15 +385,15 @@ function plota_stsc(obj_chk) {
                 let diffHora = dif.getHours()
                 let diffMin = dif.getMinutes()
 
-                if (isLinux() || (dif.getFullYear() < 1970) ) {
+                if (isLinux() || (dif.getFullYear() < 1970)) {
                     diffHora -= 21; //decrementa 1 hora, bug do linux
                 }
 
                 diffMin += (diffHora * 60)
                 let erro = (diffMin > 20) //20 minutos
 
-                formataErro('#clockSTSC', erro)
-                formataErro('#labelSTSC', erro)
+                formataErro('#clockSTSC', erro && !isOldSearch())
+                formataErro('#labelSTSC', erro && !isOldSearch())
                 let xheat = []
                 for (let i in data.data.stsc) {
                     var pontos = data.data.stsc[i];
@@ -395,7 +445,7 @@ function plota_stsc(obj_chk) {
                     heat = heat.slice(1)
                 idxSTSC = -1;
                 if (isHeatAnimationOn() && isSTSCOn())
-                  animaSTSC();
+                    animaSTSC();
 
                 escondeLoading("stsc");
 
@@ -407,7 +457,7 @@ function plota_stsc(obj_chk) {
                 formataErro('#labelSTSC', true)
             }
         });
-    } 
+    }
 }
 
 
@@ -416,7 +466,7 @@ function removeSTSC(onlyLast) {
         clearTimeout(intervalAnimaSTSC);
 
     //if (intervalSTSC)
-     //   clearTimeout(intervalSTSC);
+    //   clearTimeout(intervalSTSC);
     if (heat) {
         for (i in heat)
             map.removeLayer(heat[i].layer);
