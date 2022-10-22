@@ -174,18 +174,18 @@ function plotarAreaLocalidade(loc, onlyZoom) {
 
 
 /*Integrar ao SmartMetar*/
-function checaVertices(arr){
-        if (arr.length > 22){ 
-            $('#taCoordenadas').css('background','#ff8d8d')          
-            $('#taCoordenadas').css('color','white')  
-	    $('#taCoordenadas').attr('title',msgErroSAGITARIO)  
-	    return false
-        } else {
-            $('#taCoordenadas').css('background','white')          
-            $('#taCoordenadas').css('color','black')          
-	    $('#taCoordenadas').attr('title','')  
-	    return true
-        }
+function checaVertices(arr) {
+    if (arr.length > 22) {
+        $('#taCoordenadas').css('background', '#ff8d8d')
+        $('#taCoordenadas').css('color', 'white')
+        $('#taCoordenadas').attr('title', msgErroSAGITARIO)
+        return false
+    } else {
+        $('#taCoordenadas').css('background', 'white')
+        $('#taCoordenadas').css('color', 'black')
+        $('#taCoordenadas').attr('title', '')
+        return true
+    }
 
 }
 
@@ -199,12 +199,12 @@ $("document").ready(function () {
                 plotarAreaLocalidade(loc)
         }
     });
-	
-    $(window).resize(function(){opener.isZooming();});
-	
-    $('#taCoordenadas').on('input selectionchange propertychange paste',function () {
-	let str = $('#taCoordenadas').val()
-	checaVertices(str.split('-'))
+
+    $(window).resize(function () { opener.isZooming(); });
+
+    $('#taCoordenadas').on('input selectionchange propertychange paste', function () {
+        let str = $('#taCoordenadas').val()
+        checaVertices(str.split('-'))
     });
 
     getIp();
@@ -607,7 +607,7 @@ function plotaMarca(lat, lng, loc) {
 
     function removeInfo(desc) {
         if (desc.includes("</b><b>")) {
-            desc = desc.split("<b><img src=")[0]
+            desc = desc.split("<b><img src=")[0] + "</b>"
             return desc.replace(/&#10/g, "<br>")
         }
         else
@@ -717,7 +717,7 @@ function plotaMarca(lat, lng, loc) {
 
         }
 
-	let chkVMT = chkVisMetarTAF(loc)
+        let chkVMT = chkVisMetarTAF(loc)
         let alertaVisTAF = TAFCimaer && !chkVMT.ok
         let strAlertaTAF = ""
         let descTAF = "</b><br><br><b>VIGILÂNCIA TAF:</b>"
@@ -727,12 +727,12 @@ function plotaMarca(lat, lng, loc) {
             descTAF += "<br>(VISIBILIDADE PREVISTA PELO <b>TAF</b>: <b>" + spanRed(chkVMT.visTAF + "M", chkVMT.visTAF + "M") + ")</b>"
         }
 
-	let chkTMT = chkTetoMetarTAF(loc)
+        let chkTMT = chkTetoMetarTAF(loc)
         let alertaTetoTAF = TAFCimaer && !chkTMT.ok
         if (alertaTetoTAF) {
             strAlertaTAF += "*TETOTAF"
             descTAF += "<br><br>- <b> TETO NO METAR / SPECI</b> ESTÁ <b>ABAIXO</b> DO TETO PREVISTO PELO <b>TAF</b> PARA ESTE HORÁRIO! "
-            descTAF += "<br>(TETO PREVISTO PELO <b>TAF</b>: <b>" + spanRed(chkTMT.tetoTAF + "FT", chkTMT.tetoTAF + "FT")+")</b>"
+            descTAF += "<br>(TETO PREVISTO PELO <b>TAF</b>: <b>" + spanRed(chkTMT.tetoTAF + "FT", chkTMT.tetoTAF + "FT") + ")</b>"
         }
 
 
@@ -793,7 +793,19 @@ function plotaMarca(lat, lng, loc) {
         }
         else
             adWRNG = ""
-        desc = removeInfo(desc) + adWRNG + descTAF
+
+        let tafBruto = getTAFBruto(loc)
+
+        if (tafBruto !== "") {
+            tafBruto = `<br><br>${destacaPalavrasTAF (formataTAFBruto(tafBruto))}<br><br>`
+        }
+        desc = desc.replace('METAR','<b>METAR</b>')
+        desc = desc.replace('SPECI','<b>SPECI</b>')
+        if (desc == loc)
+        //    desc = '<b>METAR AUSENTE !</b>'
+            desc = ''
+        desc = '<b>' + loc + ' - '+  getDescricao(loc).toUpperCase() + '</b><br><br>' + removeInfo(desc) + tafBruto + adWRNG + descTAF
+        
         m.bindTooltip(desc, { closeButton: false, offset: L.point(0, -20) })
         //console.log(m)
     } //else
@@ -1077,7 +1089,7 @@ function start() {
 
     atualizaTAFsBrutos()
 
-    intervalTAFsBrutos = setInterval (atualizaTAFsBrutos, 60000)
+    intervalTAFsBrutos = setInterval(atualizaTAFsBrutos, 60000)
 
     atualizaTAFS(); // consulta os tafs mais recentes na rede
 
@@ -1088,6 +1100,8 @@ function start() {
     intervalVerificaTAF = setInterval(verificaTAFS, 60000); //
 
     setTimeout(updateSmartMetar, 5000) //
+
+    setInterval(clearTAFsTraduzidos, 60000)  // limpa os tafs traduzidos de hora em hora
 
     //checaPonto("S1637 W04911");
     //map.setView([-18.0,-45.0], 13);
@@ -1103,8 +1117,18 @@ function invertLatLong(arr) {
     return arr
 }
 
-function spanRed(texto) {
+/*function spanRed(texto) {
     return '<span style="color:red">' + texto + '</span>'
+}*/
+
+function spanRed(texto,word=false,space='') {
+    if (space)
+        space = ' '
+    if (word)
+        return texto.replaceAll(word, `${space}<span style="color:red">${word}</span>${space}`)
+    else
+        return '<span style="color:red">' + texto + '</span>'
+
 }
 
 function spanBold(texto) {
@@ -1306,7 +1330,7 @@ function GetWebContentAirmet(url, primeiraVez) {
     xhttp.onreadystatechange = function () {
         var erro = "ErroSM=";
         if (this.status > 0) {
-            if ((this.readyState == 4 && this.status == 200) && (!this.responseText.toUpperCase().includes("ERRO")) && (!this.responseText.includes("Forbidden")) && (this.responseText !== "") ) {
+            if ((this.readyState == 4 && this.status == 200) && (!this.responseText.toUpperCase().includes("ERRO")) && (!this.responseText.includes("Forbidden")) && (this.responseText !== "")) {
 
 
                 //$("#imgLoad"+idxFIR).attr('src', 'pngs/green-button30.png');
