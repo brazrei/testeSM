@@ -9,7 +9,7 @@ function getAeroportos() {
 
     $.ajax({
         type: "GET",
-        url: "files/aeroportos2.xml",
+        url: "files/aeroportos2.xml?v=202210281200",
         dataType: "xml",
 
         error: function (e) {
