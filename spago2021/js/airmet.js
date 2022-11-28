@@ -419,12 +419,16 @@ function updateDescobertos(loc, tipoAlerta) {
             desc = desc.split("<br>")[1]
         if (!desc.includes(loc))
             desc = desc + sep + loc
+
         $(id).html(legenda + "<br>" + desc)
+        $(id).show()
     }
 
     if (!loc) {
         $('#h6descobertasAD').html("")
+        $('#h6descobertasAD').hide()
         $('#h6descobertasRota').html("")
+        $('#h6descobertasRota').hide()
         return
     }
 
@@ -781,7 +785,8 @@ function plotaMarca(lat, lng, loc) {
 
         m.on('contextmenu', function (event) {
             let d
-            d = removeEspacos(event.target.getTooltip()._content)
+            d = removeEspacos(event.target.getTooltip()._content).match(/[A-Z][A-Z][A-Z][A-Z]/)
+            d = d.length==0?"":d[0]
             selectedMarker = d.replace("METARCOR", "").replace("SPECICOR", "").replace("METAR", "").replace("SPECI", "").substr(0, 4)
             openContextMenuMarker(event, event.target);
         }, this);
@@ -1218,7 +1223,7 @@ function plotaAirmets(arr, primeiraVez) {
             let opt = {
                 className: "",
                 color: "black",
-                fillColor: "black"
+                fillColor: "white"
                 //fillPattern: bigStripes
 
             }

@@ -34,7 +34,7 @@ optImgSat = optDefault = {
     blur: 1,
     maxZoom: 8,
     opacity: 1,
-    minOpacity: 0.1,
+    minOpacity: 0.5,
     gradient: {
         0.0: '#00ff99',
         0.5: '#6600ff',
@@ -42,6 +42,45 @@ optImgSat = optDefault = {
         1.0: '#fcf932'
     }
 }
+
+/*
+optImgSat = optDefault = {
+    radius: 4,
+    blur: 1,
+    maxZoom: 8,
+    opacity: 1,
+    minOpacity: 0.6,
+    /*gradient: {
+        0.0: '#ff0000',
+        0.5: '#ff0000',
+        0.8: '#ff0000',
+        1.0: '#ff0000'
+    }
+        0.0: '#00ff99',
+        0.5: '#6600ff',
+        0.8: '#33ffff',
+        1.0: '#fcf932'
+    
+    gradient: {
+        /*   
+        0.0: '#ff0000',
+           0.5: '#ff0000',
+           0.8: '#ff6c6c',
+           1.0: '#fff3f3'
+           */
+        /*
+         0.0: '#00ff99',
+         0.5: '#ff00ec',
+         0.8: '#33ffff',
+         1.0: '#fcf932'
+         
+         0.0: '#ff0000',
+         0.5: '#ff0000',
+         0.8: '#33ffff',
+         1.0: '#fcf932'
+  }
+}
+*/
 
 var boolAlertaSTSCTMASP = boolAlertaSTSCTMABH = boolAlertaSTSCTMACT = boolAlertaSTSCTMARJ = false
 
@@ -59,9 +98,9 @@ $(document).ready(function () {
     sliderSTSC.oninput = function () {
         //if (isImgSatOn() && LayerImg_sat)
         //    LayerImg_sat.setOpacity(this.value / 100);
-        idxSTSC = Math.round((sliderSTSC.value/100)*heat.length)-1
-        if (idxSTSC<0)
-          idxSTSC = 0
+        idxSTSC = Math.round((sliderSTSC.value / 100) * heat.length) - 1
+        if (idxSTSC < 0)
+            idxSTSC = 0
         animaSTSC(true)
 
     }
@@ -74,26 +113,26 @@ $(document).ready(function () {
 
     $('.play-pauseSTSC').click(function () {
         if (isSTSCOn()) {
-          if (!$(this).hasClass('playSTSC')) {
-              $(this).attr('src', 'png/pause.png');
-              $(this).addClass('playSTSC')
-              playSTSC();
-            //$('.cycle-slideshow').cycle('pause');   
-          } else {
-              $(this).attr('src', 'png/play.png');
-              $(this).removeClass('playSTSC')
-              pauseSTSC();
-            //$('.cycle-slideshow').cycle('resume');
-          }
+            if (!$(this).hasClass('playSTSC')) {
+                $(this).attr('src', 'png/pause.png');
+                $(this).addClass('playSTSC')
+                playSTSC();
+                //$('.cycle-slideshow').cycle('pause');   
+            } else {
+                $(this).attr('src', 'png/play.png');
+                $(this).removeClass('playSTSC')
+                pauseSTSC();
+                //$('.cycle-slideshow').cycle('resume');
+            }
         }
     });
 });
 
-function playSTSC(){
+function playSTSC() {
     animaSTSC()
 }
 
-function pauseSTSC(){
+function pauseSTSC() {
     if (intervalAnimaSTSC)
         clearTimeout(intervalAnimaSTSC)
 }
@@ -157,11 +196,11 @@ function inAreaAvisoSTSC(lat, long) {
     return { ativo: false, TMA: "" }
 }
 
-function setSlider(value){
+function setSlider(value) {
     //sliderSTSC.value = value;
     value += ""
     if (!value.includes('%'))
-      value += "%"
+        value += "%"
     $('#rangeSTSC').css('width', value);
 }
 
@@ -173,11 +212,11 @@ function animaSTSC(oneTime = false) {
 
     if (idxSTSC > -1) {
         if (layerHeatAnterior)
-          layerHeatAnterior.removeFrom(map);
+            layerHeatAnterior.removeFrom(map);
     } else
         idxSTSC = 0
     if (idxSTSC > -1 && heat && heat[idxSTSC])
-      heat[idxSTSC].layer.addTo(map);
+        heat[idxSTSC].layer.addTo(map);
     layerHeatAnterior = heat[idxSTSC].layer;
     setSTSCLabel(heat[idxSTSC].hora)
 
@@ -185,15 +224,15 @@ function animaSTSC(oneTime = false) {
         idxSTSC = 0
         intervalo = 1000
         if (sliderSTSC)
-          setSlider(100)
+            setSlider(100)
     } else {
         idxSTSC++;
-        setSlider( Math.round(idxSTSC / (tam - 1) * 100) )
+        setSlider(Math.round(idxSTSC / (tam - 1) * 100))
     }
     if (intervalAnimaSTSC)
         clearTimeout(intervalAnimaSTSC)
     if (!oneTime)
-      intervalAnimaSTSC = setTimeout('animaSTSC()', intervalo);
+        intervalAnimaSTSC = setTimeout('animaSTSC()', intervalo);
 }
 
 function clearGridTMAs() {
@@ -232,7 +271,7 @@ function setSTSCLabel(label) {
         $('#clockSTSC').text("--:-- UTC");
 }
 
-function isHeatAnimationOn(){
+function isHeatAnimationOn() {
     return $('#imgPlayPauseSTSC').hasClass('playSTSC');
 }
 
@@ -240,11 +279,11 @@ function toggle_stsc(objSTSC) {
     if (isSTSCOn())
         if (intervalSTSC)
             animaSTSC() //se j[a carrecado só anima
-        else 
+        else
             plota_stsc(objSTSC)
     else
         removeSTSC();
-        
+
 }
 
 function atualizaPHP_STSC() {
@@ -257,23 +296,23 @@ function loadPHP_STSC() {
 
 function plota_stsc(obj_chk) {
 
-    function clearOldSTSC(){
+    function clearOldSTSC() {
         let agora = new Date();
         let vencido = addHours(agora, -1);
 
-        if (heat && heat.length>0) {
+        if (heat && heat.length > 0) {
             let i = 0
-            while ( i <= heat.length-1) {
+            while (i <= heat.length - 1) {
                 if (heat[i] && (heat[i].dataHora < vencido)) {
                     map.removeLayer(heat[i].layer)
-                    heat.splice(i,1)
+                    heat.splice(i, 1)
                 }
                 else
-                  i++;
+                    i++;
             }
 
         }
-          
+
     }
     //if (!obj_chk || obj_chk.checked) {
     if (true) {
@@ -281,16 +320,16 @@ function plota_stsc(obj_chk) {
         clearOldSTSC();
         let url;
         if (opener.intraer)
-          url = `https://api-redemet.decea.mil.br/produtos/stsc?api_key=${opener.apiKey}`
+            url = `https://api-redemet.decea.mil.br/produtos/stsc?api_key=${opener.apiKey}`
         else
-          url = `https://api-redemet.decea.mil.br/produtos/stsc?api_key=${opener.apiKey}`
-            
+            url = `https://api-redemet.decea.mil.br/produtos/stsc?api_key=${opener.apiKey}`
+
         if (horaSTSCAnterior == "") { //primeira bisca pegar a animacao
             //url = 'https://api-redemet.decea.mil.br/produtos/stsc?api_key=U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei&anima=5'
             loadPHP_STSC()
         }
-//        else
-//        url = 'https://api-redemet.decea.gov.br/api/produtos/stsc?api_key=U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei';
+        //        else
+        //        url = 'https://api-redemet.decea.gov.br/api/produtos/stsc?api_key=U9Q2PoK6e5uhykrMXrsrGAQssG8htAnPIqXsxmei';
 
         $.ajax({
             //url: urlCache + url + opener.getProxy(),
@@ -324,7 +363,7 @@ function plota_stsc(obj_chk) {
                 let data_prod = false
                 if (horaAnima)
                     data_prod = hoje_dia + '/' + hoje_mes + '/' + hoje_ano + ' ' + horaAnima
-                
+
                 setSTSCLabel(data_prod);
                 data_prod = hoje_mes + " " + hoje_dia + ' ' + hoje_ano + ' ' + horaAnima
                 data_prod = getUTCDate(new Date(data_prod))
@@ -335,7 +374,7 @@ function plota_stsc(obj_chk) {
                 let diffHora = dif.getHours()
                 let diffMin = dif.getMinutes()
 
-                if (isLinux() || (dif.getFullYear() < 1970) ) {
+                if (isLinux() || (dif.getFullYear() < 1970)) {
                     diffHora -= 21; //decrementa 1 hora, bug do linux
                 }
 
@@ -395,7 +434,7 @@ function plota_stsc(obj_chk) {
                     heat = heat.slice(1)
                 idxSTSC = -1;
                 if (isHeatAnimationOn() && isSTSCOn())
-                  animaSTSC();
+                    animaSTSC();
 
                 escondeLoading("stsc");
 
@@ -407,7 +446,7 @@ function plota_stsc(obj_chk) {
                 formataErro('#labelSTSC', true)
             }
         });
-    } 
+    }
 }
 
 
@@ -416,7 +455,7 @@ function removeSTSC(onlyLast) {
         clearTimeout(intervalAnimaSTSC);
 
     //if (intervalSTSC)
-     //   clearTimeout(intervalSTSC);
+    //   clearTimeout(intervalSTSC);
     if (heat) {
         for (i in heat)
             map.removeLayer(heat[i].layer);

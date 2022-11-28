@@ -7,8 +7,8 @@ var timerCopiaCoords = null
 var decMagnetica = 20
 
 function updateSmartMetar() {
-  window.opener.BtnMetarGERALClick(false,'SP');
-  setTimeout("window.opener.BtnMetarGERALClick(false,'');",2000) //força a atualizacao dos gamets com a nova lista de metares
+  window.opener.BtnMetarGERALClick(false, 'SP');
+  setTimeout("window.opener.BtnMetarGERALClick(false,'');", 2000) //força a atualizacao dos gamets com a nova lista de metares
 }
 
 function fillZero(num) {
@@ -287,24 +287,24 @@ function removeLayerEdit(layer, limpaCoord = false) {
 
 }
 
-function setLayerStyleByVertices(layer){
-   let layerCoords = extractDMS(JSON.stringify(layer.toGeoJSON()))
-   let color = '#333'
-   let ret = true
-   let xStripes
-    if (!checaVertices(layerCoords.split('-'))) {
-      ret = false
-      color = 'red'
-      xStripes = stripes
-    }
-    layer.setStyle({
-        fillColor: "#111",
-        color: color,
-        fillPattern: xStripes,
-        dashArray: '20, 20', dashOffset: '10'
+function setLayerStyleByVertices(layer) {
+  let layerCoords = extractDMS(JSON.stringify(layer.toGeoJSON()))
+  let color = '#333'
+  let ret = true
+  let xStripes
+  if (!checaVertices(layerCoords.split('-'))) {
+    ret = false
+    color = 'red'
+    xStripes = stripes
+  }
+  layer.setStyle({
+    fillColor: "#111",
+    color: color,
+    fillPattern: xStripes,
+    dashArray: '20, 20', dashOffset: '10'
 
-    });
-    
+  });
+
   return ret
 }
 
@@ -381,8 +381,8 @@ function formataLayerEdit(layer, keepStyle = false) {
   coord = insereQuebraHTML("-", coord)
   let strHelp = "<br><br>Clique uma Vez para Copiar as Coordenadas desta Área!<br>" +
     "Duplo-Clique para Excluir esta Área!"
-  let msgSAG = showMsgSAGITARIO? "<br><br>" + spanBold(spanRed(msgErroSAGITARIO)) : ""
-  let strPoints = spanBold("<br>Vértices: " + (layerCoords.split("-").length-1))
+  let msgSAG = showMsgSAGITARIO ? "<br><br>" + spanBold(spanRed(msgErroSAGITARIO)) : ""
+  let strPoints = spanBold("<br>Vértices: " + (layerCoords.split("-").length - 1))
   let desc = coord + "<br><br><b>Aeródromos na área plotada:<br>" + insereQuebraHTML(",", locs, 10) + "</b>" + spanRed(strHelp) + msgSAG + strPoints
 
   //layer.bindPopup(desc).openPopup();
@@ -405,7 +405,7 @@ function makeMap() {
 
   //
   //Init BaseMaps
-  var basemaps = {
+  basemaps = {
     "OpenStreetMaps": L.tileLayer(
       "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
       {
@@ -414,7 +414,7 @@ function makeMap() {
         id: "osm.streets"
       }
     ),
-    "Google-Map": L.tileLayer(
+    "GoogleMap": L.tileLayer(
       "https://mt1.google.com/vt/lyrs=r&x={x}&y={y}&z={z}",
       {
         minZoom: 2,
@@ -422,7 +422,7 @@ function makeMap() {
         id: "google.street"
       }
     ),
-    "Google-Satellite": L.tileLayer(
+    "GoogleSatellite": L.tileLayer(
       "https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",
       {
         minZoom: 2,
@@ -430,13 +430,32 @@ function makeMap() {
         id: "google.satellite"
       }
     ),
-    "Google-Hybrid": L.tileLayer(
+    "GoogleHybrid": L.tileLayer(
       "https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}",
       {
         minZoom: 2,
         maxZoom: 19,
         id: "google.hybrid"
       }
+    ),
+    "Windy": L.tileLayer(
+      "https://tiles.windy.com/tiles/v9.0/darkmap/{z}/{x}/{y}.png",
+      {
+        minZoom: 2,
+        maxZoom: 19,
+        id: "osm.windy"
+      }
+    ),
+    "Dark": L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png', {
+      maxZoom: 20,
+      attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
+    }
+    ),
+    "Dark - Sem Legendas": L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+      subdomains: 'abcd',
+      maxZoom: 20
+    }
     )
   };
 
@@ -452,11 +471,11 @@ function makeMap() {
   //Render Main Map
 
   map = L.map("map", mapOptions);
-  
+
   //cria o stripPattern global
   stripes = new L.StripePattern();
   stripes.addTo(map);
-  
+
 
   //Render Zoom Control
   L.control
@@ -476,7 +495,7 @@ function makeMap() {
   //Render Layer Control & Move to Sidebar
   var layerControl = L.control
     .layers(basemaps, overlays, {
-      position: "topright",
+      position: "bottomleft",
       collapsed: true
     })
     .addTo(map);
@@ -485,7 +504,7 @@ function makeMap() {
   var oldLayerControl = layerControl.getContainer();
   var newLayerControl = $("#layercontrol");
   $("#sidebar").hide();
-  newLayerControl.append(oldLayerControl);
+  // newLayerControl.append(oldLayerControl);
   $(".leaflet-control-layers-list").prepend("<strong class='title'>Mapas Base</strong><br>");
   $(".leaflet-control-layers-separator").after("<br><strong class='title'>Camadas</strong>");
 
@@ -559,12 +578,12 @@ function makeMap() {
   map.on('draw:drawvertex',
     function (e) {
       function getLatLngFromLayer(arr) {
-        let idx = arr.length-1
-        return {lat: arr[idx][1], lng: arr[idx][0]}
+        let idx = arr.length - 1
+        return { lat: arr[idx][1], lng: arr[idx][0] }
       }
       $(".leaflet-marker-icon.leaflet-div-icon.leaflet-editing-icon.leaflet-touch-icon.leaflet-zoom-animated.leaflet-interactive:first").css({ 'background-color': 'green' });
       $(".infoCoordinates").show();
-     // if (globalLatlng)
+      // if (globalLatlng)
       let coords = e.layers.toMultiPoint().geometry.coordinates
       latLngClicked = getLatLngFromLayer(coords)
       coords.push(" - INICIAL")
@@ -613,7 +632,7 @@ function makeMap() {
       var point2 = turf.point(dest);
 
       var bearing = turf.bearing(point1, point2);
-      return (bearing+decMagnetica) % 360
+      return (bearing + decMagnetica) % 360
     }
     globalLatlng = e.latlng
     $("#h5latlng").show();
@@ -627,7 +646,7 @@ function makeMap() {
         angulo = 360
 
       let distancia = getDistancia([latLngClicked.lng, latLngClicked.lat], [e.latlng.lng, e.latlng.lat])
-      
+
       $("#h5angulo").html("Radial: " + Math.round(angulo) + "°");
       $("#h5distancia").html("Distância do Último Ponto: " + Math.round(distancia) + " Milhas");
     }
@@ -642,11 +661,11 @@ function makeMap() {
       hideAll();
 
   });
-  
+
   map.on('mouseout', function (e) {
     $("#h5latlng").hide();
   });
-  
+
   map.on('mousemove', function (e) {
     mouseOverMap(e)
     //    if (e.originalEvent.ctrlKey && !polygonDrawer.enabled() && !disableCtrl)
@@ -657,7 +676,7 @@ function makeMap() {
     //   if (!polygonDrawer.enabled() && menuMapa)
     //     iniciarPlotagem(e)
 
-    
+
   });
 
   map.on('zoomend', function (e) {
@@ -683,9 +702,26 @@ function makeMap() {
     alert("Copied: " + $("#latlng").text());
     $("#latlng").hide();
   });
+
+  bringMapToFront(basemaps)
+
   return map;
 }
 
+function bringMapToFront(basemaps) {
+
+  /*var topPane = map.createPane('leaflet-top-pane', map.getPanes().mapPane);
+  topPane.appendChild(basemaps.Windy.getContainer());
+  basemaps.Windy.setZIndex(5);  
+
+  /*
+  var layers = [];
+  map.eachLayer( function(layer) {
+      if( layer instanceof L.TileLayer ) {
+          layer.bringToFront();
+      }
+  } );  */
+}
 function getDistancia(p1, p2) {
   var point1 = {
     "type": "Feature",

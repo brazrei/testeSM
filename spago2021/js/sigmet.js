@@ -206,7 +206,7 @@ function removePopupsVencidos() {
             else
                 arrAux.push(arrPopups[i])
         }
-        arrPopups =  arrAux.slice(0)
+        arrPopups = arrAux.slice(0)
     } catch (e) {
 
     }
@@ -277,6 +277,12 @@ function plotaSigmets(arr, primeiraVez) {
     for (var i in arr) {
         let a = arr[i]
         if ((a.tipo !== "C") && (!a.cancelado)) {//o sigmet de cancelamento nao eh plotado
+            if (a.tipo == "N" && !getSigmetTSStatus())
+                continue
+            if (a.tipo == "I" && !getSigmetICEStatus())
+                continue
+            if (a.tipo == "T" && !getSigmetTurbStatus())
+                continue
             var poly = invertLatLong(a.coordDeg)
             //console.log("poly ==>", poly)
             let color = getColorSigmet(a.tipo)
@@ -374,12 +380,45 @@ function getIdxSigmet(codigo) {
     return arrIdxSigmetGeral.indexOf(codigo)
 }
 
-function mostraSigmet() {
+function getSigmeTypeStatus(id) {
+    return $(id).prop('checked')
+}
+
+function getSigmetTurbStatus() {
+    return getSigmeTypeStatus("#chkSigmetTURB")
+}
+
+function getSigmetTSStatus() {
+    return getSigmeTypeStatus("#chkSigmetTS")
+}
+
+function getSigmetICEStatus() {
+    return getSigmeTypeStatus("#chkSigmetICE")
+}
+
+function setSpans(){
+    function setSpan(id, on){
+        on ? $(id).removeClass('pulse'): $(id).addClass('pulse')
+    }
+    setSpan('#spanTS', getSigmetTSStatus());
+    setSpan('#spanTURB', getSigmetTurbStatus());
+    setSpan('#spanICE', getSigmetICEStatus());
+}
+
+function mostraSigmet(sender = false) {
+    //if (sender && sender.className.includes(''))
+
     if ($('#chkSigmet').prop('checked')) {
+        setSpans();
         getSigmet();
-        intervalSigmet = setInterval("getSigmet()", 60000);
+        $('#divSigmetType').show()
+        if (!intervalSigmet)
+            intervalSigmet = setInterval("getSigmet()", 60000);
     } else {
+        $('#divSigmetType').hide()
+
         clearInterval(intervalSigmet)
+        intervalSigmet = false
         clearLayersSigmets()
         iniciaSigmetGlobalVars();
         clearPopups()
@@ -390,8 +429,8 @@ function GetWebContentSigmet(url, primeiraVez) {
     xhttp.onreadystatechange = function () {
         var erro = "ErroSM=";
         if (this.status > 0) {
-            if ((this.readyState == 4 && this.status == 200) && (!this.responseText.toUpperCase().includes("ERRO")) && (!this.responseText.includes("Forbidden")) && (this.responseText !== "") ) {
-                
+            if ((this.readyState == 4 && this.status == 200) && (!this.responseText.toUpperCase().includes("ERRO")) && (!this.responseText.includes("Forbidden")) && (this.responseText !== "")) {
+
                 let resposta = opener.removeCacheMessage(this.responseText);
 
                 clearLayersSigmets()

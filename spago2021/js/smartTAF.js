@@ -72,16 +72,18 @@ function atualizaStatusConsultaTAF() {
             $(".statusTAF").hide()
             return false
         }
+        $(".statusTAF").removeClass("statusOK")
+        $(".statusTAF").removeClass("sombraClara")
         $(".statusTAF").addClass("statusERRO")
         if (ligarPulse)
             $(".statusTAF").addClass("errorPulse")
-        $(".statusTAF").removeClass("statusOK")
         $(".statusTAF").html(`TAF - ${dh.dia} ${dh.hora} - ${arrAusentes.length} AUSENTES`)
         $(".statusTAF").attr("title", `TAFs AUSENTES: ${strAusentes}`);
     } else {
-        $(".statusTAF").addClass("statusOK")
         $(".statusTAF").removeClass("errorPulse")
         $(".statusTAF").removeClass("statusERRO")
+        $(".statusTAF").addClass("statusOK")
+        $(".statusTAF").addClass("sombraClara")
         $(".statusTAF").html(`TAF - ${dh.dia} ${dh.hora}  - OK`)
         $(".statusTAF").attr("title", `${qtdTAFsProxHoraNaRede} TAFs ENCONTRADOS NA CONSULTA: ${tafsProxHora.join(", ")}`);
     }
@@ -867,7 +869,7 @@ function formataTAFBruto(taf) {
         let boldI = ''
         let boldF = ''
         if (arrayTermos.indexOf(taf[i]) > -1 && arrayTermos.indexOf(taf[i - 1]) < 0) {
-            tafOut += '<br>'
+            tafOut += ' <br>' // o espaco é importante para as buscas
             if (taf[i] !== 'RMK') {
                 boldI = '<b>'
                 boldF = '</b>'
