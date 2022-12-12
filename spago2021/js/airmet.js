@@ -34,7 +34,7 @@ function getLocalidadesFIRSmartMetar() {
         result = [
             "SBEG,SBMN,SBBV,SBPV,SBRB,SBCY,SBSL,SBBE,SBJC,SBSN,SBMQ,SBCZ,SBTF,SBMY,SBAT,SBUA,SBCC,SBSO,SBIH,SBTT,SBTK,SBJI,SBHT,SBMA,SBVH,SBTU,SBOI,SBCJ,SBCI,SBIZ,SBTS,SBTB,SBUY,SBIC,SBEK,SBGM,SBMD,SBAA,SBSO,SBRD,SSKW,SBSI",
             "SBAN, SBBH, SBBR, SBBW, SBCF, SBCN, SBGO, SBIP, SBIT, SBLS, SBMK, SBNV, SBPJ, SBPR, SBYS, SBAQ, SBAX, SBBP, SBGP, SBJD, SBKP,SBSJ, SBPC, SBRP, SBSR, SBUL, SBUR, SBVG, SNDV, SDAM",
-            "SBFZ, SBSG, SBNT, SBJP, SBKG, SBRF, SBMO, SBAR, SBPL, SBJU, SBSV, SBIL, SBPS, SBVC, SBLP, SBVT, SBTE, SBFN, SBPB, SBGV, SBMS, SBUF, SBLE, SBTC, SBFE,SBTV,SBAC,SBJE,SNBR,SNTF,SDIY,SNVB,SNHS,SWKQ",
+            "SBFZ, SBSG, SBNT, SBJP, SBKG, SBRF, SBMO, SBAR, SBPL, SBJU, SBSV, SBIL, SBPS, SBVC, SBLP, SBVT, SBTE, SBFN, SBPB, SBGV, SBMS, SBUF, SBLE, SBTC, SBFE,SBTV,SBAC,SBJE,SNBR,SNTF,SDIY,SNVB,SNHS",
             "SAEZ,SUMU,SGAS,SARE,SBUG,SBBG,SBPK,SBSM,SBNM,SBPF,SBPA,SBCO,SBCX,SBTR,SBCM,SBJA,SBLJ,SBCH,SBCD,SBFL,SBNF,SBJV,SBCT,SBBI,SBFI,SBPG,SSGG,SBPO,SBCA,SBTD,SBPP,SBDB,SBDO,SBCG,SBCR,SBTG,SBMG,SBLO,SBDN,SBML,SBBU,SBAE,SBAU,SBSP,SBMT,SBGR,SBST,SBTA,SBGW,SBSC,SBJR,SBAF,SBRJ,SBGL,SBBQ,SBZM,SBJF,SBES,SBBZ,SBCB,SBME,SBMM,SBEC,SBLB,SBCP,SBFS,SBEN,SDAG,SBMI,SBGU,SDCO,SBJH"
         ];
     }
@@ -106,8 +106,8 @@ function airmetPertoDoFim(airmet) {
     return msgPertoDoFim(airmet)
 }
 
-function checaValidadeAirmet(airmet) {
-    return checaValidadeMsg(airmet)
+function checaValidadeAirmet(airmet, data = getUTCAgora()) {
+    return checaValidadeMsg(airmet, data)
 }
 
 /*funcoes gerais */
@@ -452,8 +452,8 @@ function plotaMarca(lat, lng, loc) {
         let svgVisibilidadeTaf = ""
         let svgTetoTaf = ""
         let contRestricoes = 0
-        let alt = 0
-        let color = "yellow"
+        let alt = 500
+        let color = "white"
         let boxOpacity = "0.8";
         let backGroundColor = "#444";
         let classSvgIcon
@@ -706,23 +706,39 @@ function plotaMarca(lat, lng, loc) {
         });
 
         let restricao = false
+        //ocultar adwrng vencendo
+        let dhIni = getUTCAgora()
+        if (ocultarSigmetsVencendo)
+            dhIni = addMinutes(dhIni, 30)
+        //
         let adWRNG = opener.getStatusAdWRNG(loc)
+
+        if (adWRNG.textoFull !=='' && !(checaValidadeMsg(adWRNG.textoFull, dhIni))) {
+            adWRNG.texto = ''
+            adWRNG.textoFull = ''
+            adWRNG.min = -1
+            adWRNG.max = -1
+        }
+
 
         let adWRNGPertoDoFim = isCloseToValidOff(adWRNG.textoFull)
 
         //inicio da verificacao do TAF
+        let showAlertaTAF = getStatusAlertaTAF()
+
         let TAF = getTAFFromLoc(loc)
+
         let permiteAMD = (TAF && TAF.permiteAMD)
         let TAFCimaer = isTAFCimaer(loc) && permiteAMD
         let alertaTAFCimaer = TAFCimaer ? spanRed("<br><br>* TAF CONFECCIONADO PELO CIMAER! ", "TAF CONFECCIONADO PELO CIMAER") : "";
         if (TAFCimaer && permiteAMD) {
-            let strPrazoAMD = '<br><br>HORÁRIO LIMITE PARA ENVIO DE EMENDA: ' + TAF.prazoAMD
+            let strPrazoAMD = '<br><br>HORÁRIO LIMITE PARA ENVIO DE EMENDA SEM ATRASO: ' + TAF.prazoAMD
             alertaTAFCimaer += spanRed(strPrazoAMD, strPrazoAMD)
 
         }
 
         let chkVMT = chkVisMetarTAF(loc)
-        let alertaVisTAF = TAFCimaer && !chkVMT.ok
+        let alertaVisTAF = showAlertaTAF && TAFCimaer && !chkVMT.ok
         let strAlertaTAF = ""
         let descTAF = "</b><br><br><b>VIGILÂNCIA TAF:</b>"
         if (alertaVisTAF) {
@@ -732,7 +748,7 @@ function plotaMarca(lat, lng, loc) {
         }
 
         let chkTMT = chkTetoMetarTAF(loc)
-        let alertaTetoTAF = TAFCimaer && !chkTMT.ok
+        let alertaTetoTAF = showAlertaTAF && TAFCimaer && !chkTMT.ok
         if (alertaTetoTAF) {
             strAlertaTAF += "*TETOTAF"
             descTAF += "<br><br>- <b> TETO NO METAR / SPECI</b> ESTÁ <b>ABAIXO</b> DO TETO PREVISTO PELO <b>TAF</b> PARA ESTE HORÁRIO! "
@@ -740,7 +756,7 @@ function plotaMarca(lat, lng, loc) {
         }
 
 
-        descTAF = (alertaVisTAF || alertaTetoTAF) ? descTAF + alertaTAFCimaer : ""
+        descTAF = (alertaVisTAF || alertaTetoTAF) && showAlertaTAF ? descTAF + alertaTAFCimaer : ""
 
 
         if (desc[0] == "*") {
@@ -786,12 +802,12 @@ function plotaMarca(lat, lng, loc) {
         m.on('contextmenu', function (event) {
             let d
             d = removeEspacos(event.target.getTooltip()._content).match(/[A-Z][A-Z][A-Z][A-Z]/)
-            d = d.length==0?"":d[0]
+            d = d.length == 0 ? "" : d[0]
             selectedMarker = d.replace("METARCOR", "").replace("SPECICOR", "").replace("METAR", "").replace("SPECI", "").substr(0, 4)
             openContextMenuMarker(event, event.target);
         }, this);
         if (adWRNG && adWRNG.textoFull.length > 0) {
-            adWRNG = "<br><br>Aviso de Aeródromo:<br>" + opener.spanRed(adWRNG.textoFull, getValidadeAirmet(adWRNG.textoFull))
+            adWRNG = '<br>' + separadorToolTip + "<br>Aviso de Aeródromo:<br>" + opener.spanRed(adWRNG.textoFull, getValidadeAirmet(adWRNG.textoFull))
             if (adWRNGPertoDoFim)
                 adWRNG += "<br>" + spanBold(spanRed("* Este Aviso de Aeródromo está Próximo do Fim de Sua Validade!"))
             adWRNG = spanBold(adWRNG)
@@ -802,15 +818,15 @@ function plotaMarca(lat, lng, loc) {
         let tafBruto = getTAFBruto(loc)
 
         if (tafBruto !== "") {
-            tafBruto = `<br><br>${destacaPalavrasTAF (formataTAFBruto(tafBruto))}<br><br>`
+            tafBruto = `<br><br>${destacaPalavrasTAF(formataTAFBruto(tafBruto))}<br>`
         }
-        desc = desc.replace('METAR','<b>METAR</b>')
-        desc = desc.replace('SPECI','<b>SPECI</b>')
+        desc = desc.replace('METAR', '<b>METAR</b>')
+        desc = desc.replace('SPECI', '<b>SPECI</b>')
         if (desc == loc)
-        //    desc = '<b>METAR AUSENTE !</b>'
+            //    desc = '<b>METAR AUSENTE !</b>'
             desc = ''
-        desc = '<b>' + loc + ' - '+  getDescricao(loc).toUpperCase() + '</b><br><br>' + removeInfo(desc) + tafBruto + adWRNG + descTAF
-        
+        desc = '<b>' + loc + ' - ' + getDescricao(loc).toUpperCase() + separadorToolTip + '</b><br><br>' + removeInfo(desc) + tafBruto + adWRNG + descTAF
+
         m.bindTooltip(desc, { closeButton: false, offset: L.point(0, -20) })
         //console.log(m)
     } //else
@@ -821,7 +837,9 @@ function bringRedMarkersToFront(layers) {
     //layer1.bringToFront();   
     layers.eachLayer(function (layer) {
         if (layer.options.icon.options.alt >= 1000)
-            layer.setZIndexOffset(5000);
+            layer.setZIndexOffset(5000)
+        else if (layer.options.icon.options.alt == 500)
+        layer.setZIndexOffset(1000)
     });
 }
 
@@ -1126,7 +1144,7 @@ function invertLatLong(arr) {
     return '<span style="color:red">' + texto + '</span>'
 }*/
 
-function spanRed(texto,word=false,space='') {
+function spanRed(texto, word = false, space = '') {
     if (space)
         space = ' '
     if (word)
@@ -1555,6 +1573,10 @@ function trataAirmetRedemet(texto) {
     var erro = ""
 
     //var part1 = [0,0,0,0]
+    let dhIni = getUTCAgora()
+    if (ocultarSigmetsVencendo)
+        dhIni = addMinutes(dhIni, 30)
+
     var idx = 0;
     while (idx < arrayLocalidadeFIR.length) {
 
@@ -1567,7 +1589,7 @@ function trataAirmetRedemet(texto) {
             //pega o codigo
             var idxAirmet = idx + "-" + makeIdxAirmet(airmet[i])
 
-            let vencido = !checaValidadeAirmet(airmet[i]);
+            let vencido = !checaValidadeAirmet(airmet[i], dhIni);
 
             if (vencido)
                 continue;
