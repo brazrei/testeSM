@@ -12,7 +12,7 @@
 
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/switch.css">
-  <link rel="stylesheet" href="css/leaflet.css"/>
+  <link rel="stylesheet" href="css/leaflet.css" />
   <link rel="stylesheet" href="css/context-menu.css">
 
   <link rel="stylesheet" href="css/popup-alert.css">
@@ -23,7 +23,7 @@
   <script src="js/leaflet.pattern.js"></script>
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Mono">
+  <!--<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Mono">-->
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
   <link rel="stylesheet" href="css/leaflet.draw.css">
   <link rel="stylesheet" href="css/leaflet-sidebar.min.css">
@@ -55,6 +55,9 @@
       height: 100%;
       margin: 0;
       background-color: #EEF2F7;
+      overflow: hidden;
+      color: #eee;
+
 
       user-select: none;
       /* supported by Chrome and Opera */
@@ -65,6 +68,10 @@
       -moz-user-select: none;
       /* Firefox */
       -ms-user-select: none;
+
+      font-weight: 500;
+
+
       /* Internet Explorer/Edge */
     }
 
@@ -72,6 +79,11 @@
       width: 100%;
       height: 100%;
       float: left;
+      background-color: #555;
+    }
+
+    .divEspaco {
+      padding-bottom: 10px;
     }
 
     .hora {
@@ -135,6 +147,11 @@
       box-shadow: inset 0 2px 5px #2370FE;
     }
 
+    .mouseOFF {
+      pointer-events: none;
+      cursor: default;
+
+    }
 
     #painel {
       height: 99%;
@@ -145,6 +162,31 @@
       right: 5px;
       padding-left: 10px;
       padding-top: 40px;
+      text-shadow: -1px -1px 2px rgb(0, 0, 0, 0.5), 1px -1px 2px rgb(0, 0, 0, 0.5), -1px 1px 2px rgb(0, 0, 0, 0.5), 1px 1px 2px rgb(0, 0, 0, 0.5);
+      text-align: end;
+      color: #fff;
+      pointer-events: none;
+      font-size: 18px;
+    }
+
+    #labelAvisoSTSC {
+      color: red;
+      display: none;
+      font-size: 22px;
+      padding-right: 50px;
+    }
+
+    #taCoordenadas {
+      border-radius: 5px;
+      box-shadow: -1px -1px 2px #000;
+      border-style: hidden;
+      font-size: 12px;
+    }
+
+    .esconder {
+      pointer-events: all;
+      margin-right: 5px;
+
     }
 
     #seta {
@@ -186,7 +228,7 @@
       background-image: -ms-linear-gradient(top, #FFF 0%, #CFCFCF 100%);
       background-image: -moz-linear-gradient(top, #FFF 0%, #CFCFCF 100%);
       background-image: -o-linear-gradient(top, #FFF 0%, #CFCFCF 100%);
-      background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #FFF), color-stop(1, #CFCFCF)); 
+      background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #FFF), color-stop(1, #CFCFCF));
       background-image: -webkit-linear-gradient(top, #FFF 0%, #CFCFCF 100%);
       background-image: linear-gradient(top, #FFF 0%, #CFCFCF 100%);
     }
@@ -196,29 +238,62 @@
       width: 20px;
       height: 20px;
     }
-    
-    .statusTAF {
+
+    .statusTAF,
+    #divCoordenadas {
       /*text-shadow: 1px 1px 3px #2f2828, 1px 1px 0px #6d1717;*/
       border-radius: 8px;
       background-color: #ccc;
       padding: 5px;
-      cursor: pointer;   
-      color: white;
+      cursor: pointer;
+      color: #000;
       font-size: 22px;
+      box-shadow: 1px 1px 3px #555;
+      pointer-events: all;
     }
+
+    #divCoordenadas {
+      cursor: none;
+      width: 65%;
+      margin-left: 30%;
+    }
+
+    .statusAlertas {
+      border-radius: 8px;
+      background-color: red;
+      padding: 2px;
+      color: white;
+      font-size: 18px;
+      box-shadow: 1px 1px 3px #555;
+      text-align: left;
+      opacity: 0.9;
+      display: none;
+      width: 65%;
+      margin-left: 30%;
+
+    }
+
     .statusOK {
-      color: #008000;
+      background-color: #ccc;
+      color: green;
+      text-shadow: -1px -1px 3px #fff, 1px -1px 3px #fff, -1px 1px 3px #fff, 1px 1px 3px #fff;
     }
+
     .statusERRO {
-      color: red;
+      color: white;
+      background-color: red;
+      text-shadow: -1px -1px 3px #000, 1px -1px 3px #000, -1px 1px 3px #000, 1px 1px 3px #000;
+
     }
 
     /* box ------------------------------------------------------ */
     #box {
       text-align: center;
-      font-size: 2em;
+      font-size: 2.5em;
       font-weight: bold;
       -webkit-backface-visibility: hidden;
+      pointer-events: none;
+      padding-top: 20px;
       /* fixes flashing */
     }
 
@@ -236,9 +311,9 @@
 
     #flash {
       display: inline-block;
-      font-family: Geneva, sans-serif;
-      text-shadow: #333 0 0 1px, #fff 0 -1px 2px, #fff 0 -3px 2px, rgba(0, 0, 0, 0.8) 0 30px 25px;
-      transition: margin-left 0.3s cubic-bezier(0, 1, 0, 1);
+      /*font-family: Geneva, sans-serif;*/
+      color: #eee;
+      text-shadow: -1px -1px 2px #222, 1px -1px 2px #222, -1px 1px 2px #222, 1px 1px 2px #222;
     }
 
 
@@ -255,7 +330,8 @@
       width: 75px;
       height: 27px;
       margin-bottom: 15px;
-      cursor: pointer
+      cursor: pointer;
+      visibility: hidden;
     }
 
     .pop:hover {
@@ -322,6 +398,9 @@
       -webkit-animation: pulsateM 1s ease-out;
       -webkit-animation-iteration-count: infinite;
       color: red;
+      text-shadow: -1px -1px 3px #000, 1px -1px 3px #000, -1px 1px 3px #000, 1px 1px 3px #000;
+
+
     }
 
     @keyframes pulsateM {
@@ -355,11 +434,18 @@
     }
 
     .divStatus {
-      float: left;
-      margin-right: 5px
+      margin-right: 5px;
+      text-align: -webkit-right;
+
     }
-    .modal{
+
+    .modal {
       top: 80px;
+    }
+
+    .sombraClara {
+      /* text-shadow: -1px -1px 1px #eee, 1px -1px 1px #eee, -1px 1px 1px #eee, 1px 1px 1px #eee;*/
+      text-shadow: -0px -0px 1px rgba(255, 255, 255, 0.3), 0px -0px 1px rgba(255, 255, 255, 0.3), -0px 0px 1px rgba(255, 255, 255, 0.3), 0px 0px 1px rgba(255, 255, 255, 0.3);
     }
   </style>
 
@@ -372,7 +458,6 @@
   <script src="js/airmet.js"></script>
   <script src="js/sigmet.js"></script>
   <script src="js/smartTAF.js?v=202209021922"></script>
-  
   <script src="js/aeroportos20102020.js?v=202210281200"></script>
   <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.2.0/leaflet-omnivore.min.js'></script>
   <script src="js/kmlLoad.js"></script>
@@ -385,7 +470,7 @@
   <div id='header' class='gradientgrey sombra' ondblclick='window.opener.openSmartMetar()'>
     <div id="box">
       <p id="flashlight">
-        <span id="flash">SMART PLOT</span>
+        <span id="flash">Smartplot</span>
       </p>
     </div>
   </div>
@@ -423,90 +508,127 @@
 
     <div id='map'></div>
     <div class='glass'>
-      <div id='painel' class='degrade sombra'>
-        <div style="width:100%; margin-top: 15px;margin-bottom: 50px;">
-          <b><span class="statusTAF" id="statusTAF">STATUS TAF...</span></b><br><br>
+      <div id='painel'>
+        <div style="width:100%; margin-top: 15px;margin-bottom: 10px;">
+          <b><span class="sombraClara statusTAF" id="statusTAF">STATUS TAF...</span></b><br><br>
           <div class="divStatus">
+            <span>Teto </span>
             <label class="switch">
               <input type="checkbox" id="chkTeto" onchange="updateSmartMetar();" checked />
               <span class="slider round"></span>
             </label>
-            <span>TETO</span>
           </div>
           <div class="divStatus">
+            <span>Visibilidade </span>
             <label class="switch">
               <input type="checkbox" id="chkVisibilidade" onchange="updateSmartMetar();" checked />
               <span class="slider round"></span>
             </label>
-            <span>VISIBILIDADE</span>
           </div>
           <div class="divStatus">
+            <span>Vento </span>
             <label class="switch">
               <input type="checkbox" id="chkVento" onchange="updateSmartMetar();" checked />
               <span class="slider round"></span>
             </label>
-            <span>VENTO</span>
           </div>
           <div class="divStatus">
+            <span>Trovoada </span>
             <label class="switch">
               <input type="checkbox" id="chkTrovoada" onchange="updateSmartMetar();" checked />
               <span class="slider round"></span>
             </label>
-            <span>TROVOADA</span>
           </div>
         </div>
-        <br>
-        <label class="switch">
-          <input type="checkbox" id="chkSTSC" onchange="toggle_stsc(this)" checked />
-          <span class="slider round"></span>
-        </label>
-        <span id="labelSTSC">STSC</span>
-        <span class="stsc"> (</span><span class="stsc" id="clockSTSC">--:--</span>
-        <span class="stsc"> ) </span>
-        <!-- <img src="gif/loading.gif" alt="Carregando STSC" class="loading"><br> -->
-        <br>
-        <img src="png/pause.png" alt="Play/Pausa Animação STSC" id="imgPlayPauseSTSC"
-          class="play-pauseSTSC playSTSC pop popClick">
+        <div class="divStatus divEspaco">
+          <span id="labelSTSC">STSC</span>
+          <span class="stsc"> (</span><span class="stsc" id="clockSTSC">--:--</span>
+          <span class="stsc"> ) </span>
+          <!-- <img src="gif/loading.gif" alt="Carregando STSC" class="loading"><br> -->
+          <label class="switch">
+            <input type="checkbox" id="chkSTSC" onchange="toggle_stsc(this)" checked />
+            <span class="slider round"></span>
+          </label>
+          <br>
+          <img src="png/pause.png" alt="Play/Pausa Animação STSC" id="imgPlayPauseSTSC"
+            class="play-pauseSTSC playSTSC pop popClick">
 
-        <!-- <input type="range" min="1" max="100" value="50" id="rangeSTSC"> -->
-        <div class="meter blue nostripes">
-          <span style="width: 0%" id="rangeSTSC"></span>
+          <!-- <input type="range" min="1" max="100" value="50" id="rangeSTSC"> -->
+          <div class="meter blue nostripes">
+            <span style="width: 0%" id="rangeSTSC"></span>
+          </div>
+
         </div>
-        <br>
 
-        <label class="switch">
-          <input type="checkbox" id="chkSigmet" onchange="mostraSigmet(this)" checked />
-          <span class="slider round"></span>
-        </label>
-        <span>SIGMET's</span>
-        <span class="sigmet"> (</span><span class="sigmet" id="clockSigmet">--:--</span>
-        <span class="sigmet"> ) </span>
-        <img src="gif/loading.gif" alt="Carregando Sigmets" class="loading loadingSigmet">
-        <br>
+        <div class="divStatus" onmouseover="">
+          <span>SIGMET</span>
+          <span class="sigmet"> (</span><span class="sigmet" id="clockSigmet">--:--</span>
+          <span class="sigmet"> ) </span>
+          <img src="gif/loading.gif" alt="Carregando Sigmets" class="loading loadingSigmet">
 
+          <label class="switch">
+            <input type="checkbox" id="chkSigmet" onchange="mostraSigmet(this)" checked />
+            <span class="slider round"></span>
+          </label>
 
-        <label class="switch">
-          <input type="checkbox" id="chkAirmet" onchange="mostraAirmet(this)" checked />
-          <span class="slider round"></span>
-        </label>
-        <span>AIRMET's</span>
-        <span class="airmet"> (</span><span class="airmet" id="clockAirmet">--:--</span>
-        <span class="airmet"> ) </span>
-        <img src="gif/loading.gif" alt="Carregando Airmets" class="loading loadingAirmet"><br>
+        </div>
+        <div class="divSigmetType divEspaco" id = "divSigmetType" style="width: 100%; display: table;">
+          <div class="divStatus" style="display: table-cell; float: right;">
+            <span id = "spanICE">ICE</span>
 
-        <label class="switch">
-          <input type="checkbox" id="chkImgSat" onchange="plota_ImgSat(this)" />
-          <span class="slider round"></span>
-        </label>
-        <span class="imgsat" id="labelImgSat">IMAGEM DE SATÉLITE </span>
-        <span class="imgsat"> (</span><span class="imgsat" id="clockImgSat">--:--</span>
-        <span class="imgsat"> ) </span>
-        <img src="gif/loading.gif" alt="Carregando Imagem de Satélite" class="loading loadingImgSat"
-          style="display: none;"><br>
-        <input type="range" min="1" max="100" value="50" id="myRange" style="display: none;">
-        <br>
-        <br>
-<!--        <label class="switch">
+            <label class="switch">
+              <input type="checkbox" id="chkSigmetICE" onchange="mostraSigmet(this)" checked="">
+              <span class="slider round"></span>
+            </label>
+
+          </div>
+          <div class="divStatus" style="display: table-cell; float: right;">
+            <span id = "spanTS">TS</span>
+
+            <label class="switch">
+              <input type="checkbox" id="chkSigmetTS" onchange="mostraSigmet(this)" checked="">
+              <span class="slider round"></span>
+            </label>
+
+          </div>
+          <div class="divStatus" style="display: table-cell; float: right;">
+            <span id = "spanTURB">TURB</span>
+
+            <label class="switch">
+              <input type="checkbox" id="chkSigmetTURB" onchange="mostraSigmet(this)" checked="">
+              <span class="slider round"></span>
+            </label>
+
+          </div>
+        </div>
+
+        <div class="divStatus divEspaco">
+          <span>AIRMET</span>
+          <span class="airmet"> (</span><span class="airmet" id="clockAirmet">--:--</span>
+          <span class="airmet"> ) </span>
+          <img src="gif/loading.gif" alt="Carregando Airmets" class="loading loadingAirmet">
+
+          <label class="switch">
+            <input type="checkbox" id="chkAirmet" onchange="mostraAirmet(this)" checked />
+            <span class="slider round"></span>
+          </label>
+        </div>
+
+        <div class="divStatus">
+          <span class="imgsat" id="labelImgSat">Imagem de Satélite </span>
+          <span class="imgsat"> (</span><span class="imgsat" id="clockImgSat">--:--</span>
+          <span class="imgsat"> ) </span>
+          <img src="gif/loading.gif" alt="Carregando Imagem de Satélite" class="loading loadingImgSat"
+            style="display: none;">
+          <label class="switch">
+            <input type="checkbox" id="chkImgSat" onchange="plota_ImgSat(this)" />
+            <span class="slider round"></span>
+          </label>
+          <br>
+          <input type="range" min="1" max="100" value="50" id="myRange" style="display: none;pointer-events: all;">
+          <br>
+        </div>
+        <!--        <label class="switch">
           <input type="checkbox" id="chkCopiaAuto" />
           <span class="slider round"></span>
         </label>
@@ -515,42 +637,48 @@
         <br><br>
 -->
         <span class="stsc" id="latlng">teste</span>
-        <textarea id="taCoordenadas" style="resize: none; box-sizing: border-box; width:98%; text-transform: uppercase; font-family: monospace"
-          rows="4"
-          placeholder="Cole aqui as coordenadas a serem plotadas (Redemet, Skyvector ou Windy) e pressione <enter>!"></textarea>
+        <div class="esconder mouseOFF" id="divCoordenadas">
+          <textarea id="taCoordenadas"
+            style="resize: none; box-sizing: border-box; width:98%; text-transform: uppercase; font-family: monospace"
+            rows="4"
+            placeholder="Cole aqui as coordenadas a serem plotadas (Redemet, Skyvector ou Windy) e pressione <enter>!"></textarea>
 
+          <br>
+          <input type="button" value="Copiar" onclick="copyFromTextArea()" class="blue">
+          <input type="button" value="Limpar"
+            onclick="$('#taCoordenadas').val('').focus(); document.getElementById('taCoordenadas').dispatchEvent(new Event('input'))"
+            class="blue">
+        </div>
         <br>
-        <input type="button" value="Copiar" onclick="copyFromTextArea()" class="blue">
-        <input type="button" value="Limpar" onclick="$('#taCoordenadas').val('').focus(); document.getElementById('taCoordenadas').dispatchEvent(new Event('input'))" class="blue">
-        <br><br>
-
-        <input type="button" value="Separar Área por FIRs" onclick="cutPlotFIRs()" class="blue" style="display: none;">
-
-        <br><br>
-        <input type="button" value="Recortar Áreas Sobrepostas" id="btnDiffPlot" class="blue" onclick="cutPlotSobr()"
-          style="display: none;">
-
-        <input type="button" value="Inserir Plotagem Externa" style="display:none" id="btnInsertPlot" class="blue"
-          onclick="plotagemDaArTransf()">
-
-        <h6 class="infoOffline" id="h5Offline" style="color: red; display: none;">SMARTPLOT OFFLINE! DADOS
-          DESATUALIZADOS! <br>REINICIAR PELO LINK DO SMARTMETAR!</h6>
-        <br>
-
-        <h6 class="infoDescobertasAD" id="h6descobertasAD" style="color: red;"
-          title="Localidades que estão com Algum Parâmetro Descoberto na Vigilância AD"></h6>
-        <br>
-        <h6 class="infoDescobertasRota" id="h6descobertasRota" style="color: red;"
-          title="Localidades que estão com Algum Parâmetro Descoberto na Vigilância Rota"></h6>
-        <br>
-
-        <h6 id="h5latlng" style="color: red"></h6>
-        <h6 class="infoCoordinates" id="h5angulo" style="color: red; display: none;"></h6>
-        <h6 class="infoCoordinates" id="h5distancia" style="color: red; display: none;"></h6>
-        <br><br>
-
         <div>
-          <span id="labelAvisoSTSC" style="display: none; font-size: 20px;">ALERTA DE TEMPO SEVERO CONVECTIVO:</span>
+          <input type="button" value="Separar Área por FIRs" onclick="cutPlotFIRs()" class="blue"
+            style="display: none;">
+          <input type="button" value="Recortar Áreas Sobrepostas" id="btnDiffPlot" class="blue" onclick="cutPlotSobr()"
+            style="display: none;">
+          <input type="button" value="Inserir Plotagem Externa" style="display:none" id="btnInsertPlot" class="blue"
+            onclick="plotagemDaArTransf()">
+          <h6 class="sombraClara infoOffline" id="h5Offline" style="color: red; display: none;">SMARTPLOT OFFLINE! DADOS
+            DESATUALIZADOS! <br>REINICIAR PELO LINK DO SMARTMETAR!</h6>
+          <br>
+        </div>
+        <div>
+          <h6 class="infoDescobertasAD statusAlertas" id="h6descobertasAD"
+            title="Localidades que estão com Algum Parâmetro Descoberto na Vigilância AD"></h6>
+        </div>
+        <div>
+          <h6 class="infoDescobertasRota statusAlertas" id="h6descobertasRota"
+            title="Localidades que estão com Algum Parâmetro Descoberto na Vigilância Rota"></h6>
+          <br>
+        </div>
+        <div>
+          <h6 class="sombraClara" id="h5latlng" style="color: red"></h6>
+          <h6 class="sombraClara infoCoordinates" id="h5angulo" style="color: red; display: none;"></h6>
+          <h6 class="sombraClara infoCoordinates" id="h5distancia" style="color: red; display: none;"></h6>
+        </div>
+        <br><br>
+
+        <div id="divAlertaSTSC">
+          <span class="sombraClara" id="labelAvisoSTSC">ALERTA DE TEMPO SEVERO CONVECTIVO:</span>
           <section class="grid grid-template-columns-1" style="display: none;">
             <div class="itemGrid gridTMABH">
               <span class="labelTMA labelTMABH">TMA-BH</span>
@@ -570,7 +698,8 @@
 
       </div>
     </div>
-    <div id="seta" class="pop popClick" onclick="$('#painel').toggle({direction: 'right' }, 1000);">
+    <div id="seta" class="pop popClick"
+      onclick="{$('.esconder').fadeToggle(); $('.leaflet-control-container').fadeToggle(); }">
     </div>
   </div>
   <div id='footer' class='gradientgrey '>
@@ -579,35 +708,38 @@
     <a href="http://smartmetar.atwebpages.com/smartplot3/indexold.html">IR PARA VERSÃO ANTERIOR...</a>
   </div>
   <div id="msgbox-area" class="msgbox-area"></div>
-  
-<!-- The Modal -->
-<div class="modal fade" id="modalAdWrng">
-  <div class="modal-dialog modal-xl">
-    <div class="modal-content">
 
-      <!-- Modal Header -->
-      <div class="modal-header">
-        <h4 class="modal-title">Aviso de Aeródromo</h4>
+  <!-- The Modal -->
+  <div class="modal fade" id="modalAdWrng">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Aviso de Aeródromo</h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>      
-      </div>
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
 
-      <!-- Modal body -->
-      <div class="modal-body">
-        Localidades Separadas por CMA:
-      	<textarea id = "taModalAdWrng" style="resize: none; box-sizing: border-box; width:98%; text-transform: uppercase; font-family: monospace" rows="20"></textarea>
-      </div>
+        <!-- Modal body -->
+        <div class="modal-body">
+          Localidades Separadas por CMA:
+          <textarea id="taModalAdWrng"
+            style="resize: none; box-sizing: border-box; width:98%; text-transform: uppercase; font-family: monospace"
+            rows="20"></textarea>
+        </div>
 
-      <!-- Modal footer -->
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="$('#modalAdWrng').modal('hide');">Fechar</button>
-      </div>
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
+            onclick="$('#modalAdWrng').modal('hide');">Fechar</button>
+        </div>
 
+      </div>
     </div>
   </div>
-</div>
-  
+
 
 </body>
 
