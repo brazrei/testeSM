@@ -21,7 +21,7 @@ function addHours(data, horas) {
 
 function addMinutes(data, minutos) {
     if (!Date.prototype.addMinutes)
-        Date.prototype.addMinutes = function (h) {
+        Date.prototype.addMinutes = function (minutos) {
             this.setTime(this.getTime() + (minutos * 60 * 1000));
             return this;
         }
@@ -91,9 +91,9 @@ function getFullDateValid(dataI, dataF) { // retorna data inteira de AIRMET e SI
 
 }
 
-function isValidMsg(ini, fim) {
+function isValidMsg(ini, fim, data = getUTCAgora()) {
     let interval = getFullDateValid(ini, fim)
-    let agora = getUTCAgora()
+    let agora = data
     if ((agora >= interval[0]) && (agora <= interval[1])) {
         return true
     } else if (interval[0] > agora)
@@ -217,14 +217,14 @@ function msgPertoDoFim(text) {
     return isCloseToValidOff(ini, fim)
 }
 
-function checaValidadeMsg(texto) {
+function checaValidadeMsg(texto, data = getUTCAgora()) {
 
     let val = getValidadeMsg(texto);
 
     let ini = val.split("/")[0]
     let fim = val.split("/")[1]
     if ((ini !== "") && (fim !== ""))
-        return isValidMsg(ini, fim)
+        return isValidMsg(ini, fim, data)
     else
         return false
 }
