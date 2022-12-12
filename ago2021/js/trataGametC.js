@@ -60,8 +60,8 @@ function getFimGamet(hora) {
 
 
 function trataGametRedemet(texto) {
-  //let visible = $('.tableGametContent').is(":visible") || lastGamet=="";
-  let visible = true
+  let visible = $('#chkExibirGamets').prop("checked");
+  //let visible = true
   lastGamet = texto + ""
   var classe = "table-warning tableGametContent";
   if (texto.includes("mens")) {
@@ -124,7 +124,7 @@ function trataGametRedemet(texto) {
     idx++;
   }
   if (!visible) {
-    $('tableGametContent').fadeOut();
+    $('tableGametContent').hide();
   }
 }
 

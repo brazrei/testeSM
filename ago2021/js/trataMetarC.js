@@ -33,14 +33,14 @@ const proxy = "&proxy=true"
 var localidadesFIR = [
     "SBEG,SBMN,SBBV,SBPV,SBRB,SBCY,SBSL,SBBE,SBJC,SBSN,SBMQ,SBCZ,SBTF,SBMY,SBAT,SBUA,SBCC,SBSO,SBIH,SBTT,SBTK,SBJI,SBHT,SBMA,SBVH,SBTU,SBOI,SBCJ,SBCI,SBIZ,SBTS,SBTB,SBUY,SBIC,SBEK,SBGM,SBMD,SBAA,SBRD,SSKW,SBSI",
     "SBAN, SBBH, SBBR, SBBW, SBCF, SBCN, SBGO, SBIP, SBIT, SBLS, SBMK, SBNV, SBPJ, SBPR, SBYS, SBAQ, SBAX, SBBP, SBGP, SBJD, SBKP,SBSJ, SBPC, SBRP, SBSR, SBUL, SBUR, SBVG, SNDV, SDAM, SWLC,SBML,SBBU,SBAE,SBAU",
-    "SBFZ, SBSG, SBNT, SBJP, SBKG, SBRF, SBMO, SBAR, SBPL, SBJU, SBSV, SBIL, SBPS, SBVC, SBLP, SBVT, SBTE, SBFN, SBPB, SBGV, SBMS, SBUF, SBLE, SBTC, SBFE,SBTV,SBAC,SBJE,SNBR,SNTF,SDIY,SNVB,SNHS,SWKQ",
+    "SBFZ, SBSG, SBNT, SBJP, SBKG, SBRF, SBMO, SBAR, SBPL, SBJU, SBSV, SBIL, SBPS, SBVC, SBLP, SBVT, SBTE, SBFN, SBPB, SBGV, SBMS, SBUF, SBLE, SBTC, SBFE,SBTV,SBAC,SBJE,SNBR,SNTF,SDIY,SNVB,SNHS",
     "SAEZ,SUMU,SGAS,SARE,SBUG,SBBG,SBPK,SBSM,SBNM,SBPF,SBPA,SBCO,SBCX,SBTR,SBCM,SBJA,SBLJ,SBCH,SBCD,SBFL,SBNF,SBJV,SBCT,SBBI,SBFI,SBPG,SSGG,SBPO,SBCA,SBTD,SBPP,SBDB,SBDO,SBCG,SBCR,SBTG,SBMG,SBLO,SBDN,SBSP,SBMT,SBGR,SBST,SBTA,SBGW,SBSC,SBJR,SBAF,SBRJ,SBGL,SBBQ,SBZM,SBJF,SBES,SBBZ,SBCB,SBME,SBMM,SBEC,SBLB,SBCP,SBFS,SBEN,SDAG,SBMI,SBGU,SDCO,SBJH,SBLI"
 ];
 
 var arrayCMA = [
     "SBEG = SBAA SBAT SBBE SBBV SBCC SBCI SBCY SBCZ SBCJ SBEG SBEK SBGM SBHT SBIC SBIH SBIZ SBJC SBJI SBMA SBMD SBMN SBMY SBMQ SBOI SBPV SBRB SBRD SBSI SBSL SBSN SBSO SBTB SBTF SBTS SBTT SBTU SBUA SBUY SBVH",
     "SBBR = SBAN SBBH SBBR SBBW SBCF SBCN SBGO SBIP SBIT SBLS SBMK SBNV SBPJ SBPR SBYS SWLC",
-    "SBRF = SBAC SBAR SBFN SBFZ SBGV SBIL SBJE SBJP SBJU SBKG SBLE SBLP SBMO SBMS SBNT SBPB SBPL SBPS SBQV SBRF SBSG SBSV SBTC SBTE SBTV SBVC SBVT SDIY SNBR SNTF SNVB SWKQ",
+    "SBRF = SBAC SBAR SBFN SBFZ SBGV SBIL SBJE SBJP SBJU SBKG SBLE SBLP SBMO SBMS SBNT SBPB SBPL SBPS SBQV SBRF SBSG SBSV SBTC SBTE SBTV SBVC SBVT SDIY SNBR SNTF SNVB",
     "SBPA = SBAE SBAF SBAU SBBG SBBI SBBU SBCA SBCD SBCG SBCH SBCO SBCR SBCT SBCX SBDB SBDN SBDO SBFI SBFL SBGU SBGW SBJA SBJV SBLJ SBLO SBMG SBML SBNF SBNM SBPA SBPF SBPG SBPK SBPO SBPP SBSC SBSM SBTD SDCO SBTG SBUG SSGG",
     "SBGL = SBBQ SBCB SBCP SBEC SBES SBFS SBGL SBJF SBJR SBLB SBME SBMI SBMM SBRJ SBSJ SBST SBTA SBZM SBEN SBLI",
     "SBGR = SBAQ SBAX SBBP SBGP SBGR SBJD SBKP SBMT SBPC SBRP SBSP SBSR SBUL SBUR SBVG SBJH SDAM"]
@@ -126,7 +126,7 @@ function getCortante(metar) {
 }
 
 function getTrovoada(metar) {
-    metar = metar.replace(/RETS/g,"");
+    metar = metar.replace(/RETS/g, "");
     return metar.includes(" TS ") || metar.includes("TSRA ") || metar.includes("TSGR ") || metar.includes("TSGRRA ") || metar.includes("TSRAGR ");
 }
 
@@ -706,28 +706,28 @@ function getCMA(loc) {
     return ""
 }
 
-function getVntAirmet(txt){
-txt = txt.toUpperCase()
-txt = txt.normalize("NFD").replace(/\p{Diacritic}/gu, "") //remove acentos
-txt = txt.replace(/ /g,'') //remove espaços
-txt = txt.split('SFCWIND')
-if (txt.length == 1) 
-  return false
-  
-txt = txt[1]
-let patt = /\d{3}\/\d{2}KT/g
-let dir,vel
-try {
-txt =  txt.match(patt)[0]
-txt = txt.split('/')
+function getVntAirmet(txt) {
+    txt = txt.toUpperCase()
+    txt = txt.normalize("NFD").replace(/\p{Diacritic}/gu, "") //remove acentos
+    txt = txt.replace(/ /g, '') //remove espaços
+    txt = txt.split('SFCWIND')
+    if (txt.length == 1)
+        return false
 
-dir = getNum(txt[0])
-vel = getNum(txt[1])
-} catch (e) {
-    dir = vel = false
-}
-return {dir,vel}
-	
+    txt = txt[1]
+    let patt = /\d{3}\/\d{2}KT/g
+    let dir, vel
+    try {
+        txt = txt.match(patt)[0]
+        txt = txt.split('/')
+
+        dir = getNum(txt[0])
+        vel = getNum(txt[1])
+    } catch (e) {
+        dir = vel = false
+    }
+    return { dir, vel }
+
 }
 
 
@@ -922,17 +922,21 @@ function verificaStatusMetar(statusMetar, statusAdWRNG, statusAirmet, statusSigm
 
     //if (parseInt(statusMetar.vento[1]) > globalVentoMax) {
     if (parseInt(statusMetar.vento[1]) > 21) {
-        if (isBigger(statusMetar.vento[1], statusAdWRNG.max * (1 + (toleranciaRajada/100))))
+        if (isBigger(statusMetar.vento[1], statusAdWRNG.max * (1 + (toleranciaRajada / 100))))
             arrayRest.push("Rajada")
     }
 
     //  if (parseInt(statusMetar.vento[0]) > globalVentoMax) {
     if (parseInt(statusMetar.vento[0]) > 30) {
-        if (!statusAirmet.vnt || (statusAirmet.vnt.vel && (parseInt(statusAirmet.vnt.vel) < parseInt(statusMetar.vento[0]))) )
+        if (!statusAirmet.vnt || (statusAirmet.vnt.vel && (parseInt(statusAirmet.vnt.vel) < parseInt(statusMetar.vento[0]))))
             arrayRest.push("Vento");
     }
 
     return { coberto: (arrayRest.length == 0), tipo: arrayRest, alerta: arrayAlerta.length > 0, tipoAlerta: arrayAlerta }
+}
+
+function getChkOcultarCobertosStatus() {
+    return document.getElementById("chkOcultarCobertos").checked
 }
 
 function strToCell(arr, idxFIR, novo, naoAdiciona, onLine = true) {//nãoadiciona significa substituir(apagar o anterior)
@@ -996,7 +1000,7 @@ function strToCell(arr, idxFIR, novo, naoAdiciona, onLine = true) {//nãoadicion
     let descAlerta = ""
     let infoAlerta = ""
     let adWRNGVencendo = adWRNGPertoDoFim(statusAdWRNG.textoFull);
-    
+
     let titleDegrada = "São utilizados nos AIRMETS, por analogia, os parâmetros para confecção de emendas TAF (segundo o item 8.2.9, da ICA 105-17/2020), para TETO E VISIBILIDADE:&#10;&#10;&#10;Parâmetros de visibilidade = 150M, 350M, 600M, 800M, 1500M, 3000M, 5000M &#10;&#10;Parâmetros de teto = 100FT, 200FT, 500FT, 1000FT, 1500FT"
     let xInfoAlerta = '<img src="pngs/info-26.png" title="' + titleDegrada + '" style="cursor: pointer;">'
 
@@ -1012,7 +1016,11 @@ function strToCell(arr, idxFIR, novo, naoAdiciona, onLine = true) {//nãoadicion
         txtTitleAdWRNG = '&#10;' + 'AVISO DE AERÓDROMO' + '&#10;&#10;' + statusAdWRNG.textoFull
     } else
         statusAdWRNG = ""
+
+
     //  if (regSigmet.loc) {
+
+    let totalmenteCoberto = false
     if (loc && (loc.length == 4) && (cma.length <= 4)) {
         let vis = regSigmet.vis + "M"
         let teto = regSigmet.teto + "FT"
@@ -1023,7 +1031,13 @@ function strToCell(arr, idxFIR, novo, naoAdiciona, onLine = true) {//nãoadicion
             teto = spanRedBold(teto, teto)
         statusSigmet = vis + " / " + teto
         let arrStatusMetar = verificaStatusMetar(arr[2], statusAdWRNG, regAirmet, regSigmet)
-        if (!arrStatusMetar.coberto && arr[2].maisRecente) { //Localidade descoberta
+
+        totalmenteCoberto = arrStatusMetar.coberto 
+        totalmenteCoberto = (totalmenteCoberto && !arrStatusMetar.alerta) 
+
+
+        if (!arrStatusMetar.coberto && arr[2].maisRecente) { //Localidade descoberta\
+
             classe = classe + " table-danger"
             descRestricao = '<br>' + 'Parâmetros descobertos: '
             let sep = ''
@@ -1049,12 +1063,15 @@ function strToCell(arr, idxFIR, novo, naoAdiciona, onLine = true) {//nãoadicion
         }
         if ((descAlerta + descRestricao).length > 0)
             infoAlerta = xInfoAlerta
-        
+
         if (adWRNGVencendo && arr[2].maisRecente)
             classeAdWRNG += " pulseValid"
-            
+
 
     }
+    if (totalmenteCoberto && getChkOcultarCobertosStatus())
+        classe += " invisivel"
+
     classe = classe + '"'
 
     if (naoAdiciona)
