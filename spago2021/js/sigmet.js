@@ -2,6 +2,7 @@ var intervalSigmet = false
 var urlCache = "../ago2021/php/consulta_msg.php?url="
 var arrPopupsLines = []
 var arrPopups = []
+var separadorToolTip = "</br><div style='border-top:1px solid black; width:100%; height: 2px' ></div>"
 
 function iniciaSigmetGlobalVars() {
     regSigmet = { codigo: "", FIR: 0, tipo: "", base: 0, visibilidade: 0, valIni: 0, valFin: 0, area: 0, cancelado: false, texto: "", coord: "", locs: "" }
@@ -19,8 +20,8 @@ function iniciaSigmetGlobalVars() {
     lastSigmet = ""
 }
 
-function checaValidadeSigmet(sigmet) {
-    return checaValidadeAirmet(sigmet)
+function checaValidadeSigmet(sigmet, data = getUTCAgora()) {
+    return checaValidadeAirmet(sigmet, data)
 }
 
 /*function getTxtVisSigmet(texto) {
@@ -143,7 +144,7 @@ function mergeTooltipsSigmet(arrToolTips) { //junta as descrições de sigmets q
             return ret.join(sep)
     }
 
-    var sep = "</br><div style='border-top:1px solid black; width:100%; height: 2px' ></div>"
+    
     for (var i in arrSigmetsPlot) { // varre o array de poligonos
         for (var j = parseInt(i) + 1; j <= arrSigmetsPlot.length - 1; j++) {
             var bi = arrSigmetsPlot[i].getBounds();
@@ -151,7 +152,7 @@ function mergeTooltipsSigmet(arrToolTips) { //junta as descrições de sigmets q
             biCbj = bi.contains(bj);
             bjCbi = bj.contains(bi);
             if (biCbj && bjCbi) { //os dois sao iguais
-                arrToolTips[i] = mergeArraysTTs(arrToolTips[i], arrToolTips[j], sep)
+                arrToolTips[i] = mergeArraysTTs(arrToolTips[i], arrToolTips[j], separadorToolTip)
                 arrToolTips[j] = arrToolTips[i]
                 arrSigmetsPlot[i].setStyle({ //deixar o de trás sempre claro pra mostrar o hover do de cima
                     opacity: 0
@@ -571,6 +572,9 @@ function trataSigmetRedemet(texto) {
     var idx = 0;
     //var arrayLocalidadeFIRSigMet = arrayLocalidadeFIR
     //arrayLocalidadeFIRSigMet.push("SBAO")
+    let dhIni = getUTCAgora()
+    if (ocultarSigmetsVencendo)
+        dhIni = addMinutes(dhIni,30)
     while (idx < arrayLocalidadeFIRSigmet.length) {
 
         var sigmet = texto.split(arrayLocalidadeFIRSigmet[idx] + " SIGMET");
@@ -581,7 +585,7 @@ function trataSigmetRedemet(texto) {
             //pega o codigo
             var idxSigmet = idx + "-" + makeIdxSigmet(sigmet[i])
 
-            let vencido = !checaValidadeSigmet(sigmet[i]);
+            let vencido = !checaValidadeSigmet(sigmet[i], dhIni);
 
             if (vencido)
                 continue;

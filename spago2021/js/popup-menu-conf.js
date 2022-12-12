@@ -1,3 +1,5 @@
+var ocultarSigmetsVencendo = false
+
 function setMenuMapaOff() {
     menuMapa = null
 
@@ -7,10 +9,10 @@ function setMenuMapaOn() {
     menuMapa = menuMapaBackup
 }
 
-function compartilharLayer(layer)  { 
+function compartilharLayer(layer) {
     let send = prompt("Descrição da Plotagem: ")
     if (send)
-        enviarPlotagem(layer,send);
+        enviarPlotagem(layer, send);
 }
 
 function capturaBotaoPlotagem() {
@@ -61,16 +63,16 @@ function iniciarPlotagem(e, retangulo = false) {
 
 function makeCancelTextSigmet(sigmet) {
     let tip = sigmet.getTooltip().getContent();
- //   tip = msg
-    tip = tip.replace(/<b>/g,"")
-    tip = tip.replace(/<\/b>/g,"")
-    tip = tip.replace(/ - N. /g,"")
-    tip = tip.replace(/SBAZ/g,"")
-    tip = tip.replace(/SBBS/g,"")
-    tip = tip.replace(/SBCW/g,"")
-    tip = tip.replace(/SBRE/g,"")
-    tip = tip.replace(/SBAO/g,"")
-    tip = tip.replace(/- VALID /g,"")
+    //   tip = msg
+    tip = tip.replace(/<b>/g, "")
+    tip = tip.replace(/<\/b>/g, "")
+    tip = tip.replace(/ - N. /g, "")
+    tip = tip.replace(/SBAZ/g, "")
+    tip = tip.replace(/SBBS/g, "")
+    tip = tip.replace(/SBCW/g, "")
+    tip = tip.replace(/SBRE/g, "")
+    tip = tip.replace(/SBAO/g, "")
+    tip = tip.replace(/- VALID /g, "")
     tip = tip.split(" - ")[0]
 
     return "CNL " + tip
@@ -103,13 +105,13 @@ function createPopUpMenu() {
                     }
                 },
 
-/*                {
-                    'icon': '', 'name': 'Plotar nova Área', action: (e) => {
-                        iniciarPlotagem(e);
-                    }
-
-                }
-*/
+                /*                {
+                                    'icon': '', 'name': 'Plotar nova Área', action: (e) => {
+                                        iniciarPlotagem(e);
+                                    }
+                
+                                }
+                */
             ]
         }
     );
@@ -136,19 +138,19 @@ function createPopUpMenu() {
             ]
         }
     );
-/*
-    menuAirmet = new ContextMenu(
-        {
-            'theme': 'default',
-            'items': [
-                { 'icon': '', 'name': 'Criar Texto de Cancelamento', action: () => copiaCoordenadas(makeCancelTextSigmet(selectedSigmet)) },
-                { 'icon': '', 'name': 'Enviar para Trás', action: () => selectedSigmet.bringToBack() }
-
-
-            ]
-        }
-    );
-*/
+    /*
+        menuAirmet = new ContextMenu(
+            {
+                'theme': 'default',
+                'items': [
+                    { 'icon': '', 'name': 'Criar Texto de Cancelamento', action: () => copiaCoordenadas(makeCancelTextSigmet(selectedSigmet)) },
+                    { 'icon': '', 'name': 'Enviar para Trás', action: () => selectedSigmet.bringToBack() }
+    
+    
+                ]
+            }
+        );
+    */
     menuMapa = new ContextMenu(
         {
             'theme': 'default',
@@ -161,38 +163,51 @@ function createPopUpMenu() {
                 {
                     'icon': '', 'name': 'Plotar Retângulo', action: (e) => {
                         iniciarPlotagem(e, true)
-                 }
-                    },
+                    }
+                },
                 {
                     'icon': '', 'name': 'Exibir FIR Brasil', action: (e) => {
                         selecionaFIR(firBrasil, firBrasilia)
-                 }
-                    },
+                    }
+                },
                 {
                     'icon': '', 'name': 'Exibir FIR Briefing Brasília', action: (e) => {
                         selecionaFIR(firBrasilia, firBrasil)
                     }
-                }]
+                },
+                {
+                    'icon': '', 'name': "Ocultar MSG's a Vencer (30 min.)", action: (e) => {
+                        ocultarSigmetsVencendo = !ocultarSigmetsVencendo
+                        if (ocultarSigmetsVencendo)
+                            $('#flash').html('Smartplot (+30 min.)')
+                        else
+                            $('#flash').html('Smartplot')
+
+                        mostraSigmet()
+                        mostraAirmet()
+                    }
+                }
+            ]
         }
     );
     menuMapaBackup = menuMapa
 
 }
 
-function selecionaFIR(entra, sai){
-    if (sai && map){
+function selecionaFIR(entra, sai) {
+    if (sai && map) {
         try {
             map.removeLayer(sai)
-        } catch (e){
+        } catch (e) {
         }
-        
+
     }
-    if (entra && map){
+    if (entra && map) {
         try {
             entra.addTo(map)
-        } catch (e){
+        } catch (e) {
         }
-        
+
     }
 }
 
@@ -259,36 +274,36 @@ function openContextMenuMapa(evt) {
     document.addEventListener('click', hideContextMenu, false);
 }
 
-function createAdWrng(layer){
+function createAdWrng(layer) {
     let locs = getAeroportosOnEdit(layer)
 
     let patt = /[A-Z][A-Z][A-Z][A-Z]/g
     let arr = locs.match(patt)
-    let arrCMA=[]
+    let arrCMA = []
     let newLine = "\t"
     if (arr.length > 0) {
         let cont = 0
-        
-        for (let i in arr){
+
+        for (let i in arr) {
             cont++;
             cma = opener.getCMA(arr[i])
-            cma = cma !=="" ? cma:"DESCONHECIDO"
-            newLine= arrCMA[cma] ? ((arrCMA[cma].split("\t").length % 5 == 0)?"\t\n":"\t"):"\t"
+            cma = cma !== "" ? cma : "DESCONHECIDO"
+            newLine = arrCMA[cma] ? ((arrCMA[cma].split("\t").length % 5 == 0) ? "\t\n" : "\t") : "\t"
 
-            arrCMA[cma] = arrCMA[cma]?arrCMA[cma] + newLine + arr[i] : arr[i]; 
+            arrCMA[cma] = arrCMA[cma] ? arrCMA[cma] + newLine + arr[i] : arr[i];
         }
     }
-    
+
     let str = ""
-    for (let i in arrCMA){
-        arrCMA[i] = arrCMA[i].replaceAll("\t\n","\n")
-        str += `CMA (${i}):\n` + arrCMA[i]+"\n\n"
+    for (let i in arrCMA) {
+        arrCMA[i] = arrCMA[i].replaceAll("\t\n", "\n")
+        str += `CMA (${i}):\n` + arrCMA[i] + "\n\n"
     }
-      
+
     $('#taModalAdWrng').val(str);
     $('#taCoordenadas').val(str);
     $('#modalAdWrng').modal();
-    
+
 }
 
 
