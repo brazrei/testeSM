@@ -21,6 +21,7 @@ arrTAFSCimaer.push({ indice: "12 HORAS, (12Z) SAB e DOM", localidades: "SBGP" })
 arrTAFSCimaer.push({ indice: "12 HORAS, (06Z, 12Z) DIARIAMENTE", localidades: "SBPG" });
 arrTAFSCimaer.push({ indice: "12 HORAS, (06Z, 12Z  e 18Z) SEX", localidades: "SBPG" });
 arrTAFSCimaer.push({ indice: "12 HORAS, (06Z e 18Z) DIARIAMENTE", localidades: "SNCP" });
+arrTAFSCimaer.push({ indice: "12 HORAS, (12Z) QUI, SAB E DOM", localidades: "SWKQ" });
 
 function getArrayLength(array) {
     let i = 0
@@ -802,7 +803,6 @@ function GetWebContentTAF(url, primeiraVez) {
 
                 //$("#imgLoad"+idxFIR).attr('src', 'pngs/green-button30.png');
                 let resposta = opener.removeCacheMessage(this.responseText);
-
                 if (isIWXXM(resposta)) {
                     atualizaArrayTAFs(resposta);
                     atualizaStatusConsultaTAF();

@@ -9,7 +9,7 @@ function getAeroportos() {
 
     $.ajax({
         type: "GET",
-        url: "files/aeroportos20102020.xml",
+        url: "files/aeroportos20102020.xml?v=202210281200",
         dataType: "xml",
         origin: "http://smartmetar.com",
 
