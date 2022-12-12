@@ -31,14 +31,14 @@ optImgSat = {
 */
 optImgSat = optDefault = {
     radius: 5,
-    blur: 1,
+    blur: 2,
     maxZoom: 8,
     opacity: 1,
-    minOpacity: 0.5,
+    minOpacity: 0.75,
     gradient: {
-        0.0: '#00ff99',
-        0.5: '#6600ff',
-        0.8: '#33ffff',
+        0.0: '#ff0000',
+        0.8: '#ff0000',
+        0.9: '#33ffff',
         1.0: '#fcf932'
     }
 }
