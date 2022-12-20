@@ -243,6 +243,12 @@ function openSmartMetar() {
   alert("Seja bem vindo!")
 }
 
+function checkNavigator() {
+  if (!navigator.userAgent.toUpperCase().includes('FIREFOX'))
+    alert('O SMARTPLOT PODE NÃO FUNCIONAR CORRETAMENTE NO NAVEGADOR CHROME! \n \nFAVOR UTILIZAR PREFERENCIALMENTE O FIREFOX!')
+
+}
+
 $(document).ready(function () {
   //BtnMetarGERALClick ();
   var scale = 'scale(0.99)';
@@ -254,6 +260,7 @@ $(document).ready(function () {
   document.body.style.transform = scale;     // General
 
   //getIp();
+  checkNavigator()
 
   inicializaChkFir();
   inicializaChkAUTO();
