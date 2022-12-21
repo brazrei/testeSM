@@ -889,7 +889,7 @@ function mostraTAF() {
 function getStatusAlertaTAF(){
     return $('#chkTAF').prop('checked')
 }
-
+ 
 
 
 //function getTetoMudanca
