@@ -1,4 +1,4 @@
-var tafsGrupoConsulta = "SBPA,SBCT,SBFI,SBFL,SBNF,SBPK,SBCO,SBSM,SBBG,SBNM,SBJV,SBBI,SBYS,SBAF,SBSC,SBAN,SBMN,SBCH,SBUG,SBPF,SBJA,SBGW,SBCC,SBCX,SBGP,SBLJ,SBPG,SNCP,SBBH,SWKQ"
+var tafsGrupoConsulta = "SBPA,SBCT,SBFI,SBFL,SBNF,SBPK,SBCO,SBSM,SBBG,SBNM,SBJV,SBBI,SBYS,SBAF,SBSC,SBAN,SBMN,SBCH,SBUG,SBPF,SBJA,SBGW,SBCC,SBCX,SBGP,SBLJ,SBPG,SNCP,SBBH,SWKQ,SBUF"
 var strTAFsTraduzidos = ''
 var arrayTAFsTraduzidos = []
 var arrayTAFsBrutos = []
@@ -22,6 +22,7 @@ arrTAFSCimaer.push({ indice: "12 HORAS, (06Z, 12Z) DIARIAMENTE", localidades: "S
 arrTAFSCimaer.push({ indice: "12 HORAS, (06Z, 12Z  e 18Z) SEX", localidades: "SBPG" });
 arrTAFSCimaer.push({ indice: "12 HORAS, (06Z e 18Z) DIARIAMENTE", localidades: "SNCP" });
 arrTAFSCimaer.push({ indice: "12 HORAS, (12Z) QUI, SAB e DOM", localidades: "SWKQ" });
+arrTAFSCimaer.push({ indice: "12 HORAS, (12Z) TER,QUI e DOM", localidades: "SBUF" });
 
 function getArrayLength(array) {
     let i = 0
