@@ -23,6 +23,7 @@ arrTAFSCimaer.push({ indice: "12 HORAS, (06Z, 12Z  e 18Z) SEX", localidades: "SB
 arrTAFSCimaer.push({ indice: "12 HORAS, (06Z e 18Z) DIARIAMENTE", localidades: "SNCP" });
 arrTAFSCimaer.push({ indice: "12 HORAS, (12Z) QUI, SAB e DOM", localidades: "SWKQ" });
 arrTAFSCimaer.push({ indice: "12 HORAS, (12Z) TER,QUI e DOM", localidades: "SBUF" });
+arrTAFSCimaer.push({ indice: "12 HORAS, (12Z) SEG", localidades: "SWKQ" });
 
 function getArrayLength(array) {
     let i = 0
