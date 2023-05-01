@@ -62,7 +62,7 @@
 
 
 
-  deleteOldFiles(10); //tempo em minutos
+  deleteOldFiles(1); //tempo em minutos
   include('top-cache.php'); 
   $urlF = $urlF . getProxy(); 
 
