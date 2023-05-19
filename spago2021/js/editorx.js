@@ -1,3 +1,6 @@
+//sempre que for editados os poligonos gravar o cookie
+//editableLayers._layers[23892]._tooltip._content.split('<br>')[0]
+
 var editableLayers = false
 var layersEditados = []
 var selectedLayer
