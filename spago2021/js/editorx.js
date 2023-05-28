@@ -319,6 +319,11 @@ function saveLayersOnServer() {
       txt += JSON.stringify(f.geometry)
   })
   
+  $.ajax({
+    url: 'php/saveLayers.php',
+    data: { 'layers': txt},
+    type: 'POST'
+  });
   
 }
 
