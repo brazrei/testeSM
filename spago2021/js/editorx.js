@@ -320,7 +320,7 @@ function saveLayersOnServer() {
   })
   
   $.ajax({
-    url: 'php/saveLayers.php',
+    url: '../ago2021/php/saveLayers.php',
     data: { 'layers': txt},
     type: 'POST'
   });
