@@ -269,6 +269,7 @@ function isEqualArr(arr1, arr2) { // compara dois arrays {lat lng}
 
 function updateEditableLayers(layer) { // apaga se existir algum layer com as mesmas coordenadas do layer em questao
   edtLayers = editableLayers.getLayers()
+  
   for (let i in edtLayers) {
     if (isEqualArr(edtLayers[i].getLatLngs()[0], layer.getLatLngs()[0])) {
       editableLayers.removeLayer(edtLayers[i])
@@ -309,6 +310,16 @@ function setLayerStyleByVertices(layer) {
   });
 
   return ret
+}
+
+function saveLayersOnServer() {
+  let features = editableLayers.toGeoJSON().features[0]
+  let txt = ''
+  features.foreach ( f => {
+      txt += JSON.stringify(f.geometry)
+  })
+  
+  
 }
 
 function formataLayerEdit(layer, keepStyle = false) {
@@ -393,6 +404,8 @@ function formataLayerEdit(layer, keepStyle = false) {
   layer.bindTooltip(desc, { closeButton: false, sticky: true });
 
   updateEditableLayers(layer);
+  
+  saveLayersOnServer()
 
   $(".drawercontainer .drawercontent").html(
     JSON.stringify(editableLayers.toGeoJSON())
