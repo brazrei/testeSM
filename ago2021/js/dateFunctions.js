@@ -75,12 +75,15 @@ function getFullDateValid(dataI, dataF) { // retorna data inteira de AIRMET e SI
 
     //  let diaA = 
     let agora = getUTCAgora()
-    let decMonth = 0
-    if (diaI > agora.getUTCDay())
-        decMonth = -1;
+    let decMonthI = 0
+    let decMonthF = 0
+    if (diaI > agora.getUTCDate())
+        decMonthI = -1;
+    if (diaF > agora.getUTCDate())
+        decMonthF = -1;
 
-    let dataInicial = new Date(agora.getUTCFullYear(), agora.getUTCMonth() + decMonth, diaI, horaI, minI)
-    let dataFinal = new Date(agora.getUTCFullYear(), agora.getUTCMonth(), diaF, horaF, minF)
+    let dataInicial = new Date(agora.getUTCFullYear(), agora.getUTCMonth() + decMonthI, diaI, horaI, minI)
+    let dataFinal = new Date(agora.getUTCFullYear(), agora.getUTCMonth() + decMonthF, diaF, horaF, minF)
 
     // if (parseInt(diaF) < parseInt(diaI))
     //     dataFinal.setMonth(dataFinal.getMonth() + 1);
@@ -155,7 +158,7 @@ function getUTCAgora() {
     //return new Date(agora.getUTCFullYear(), agora.getUTCMonth(), agora.getUTCDate(), agora.getUTCHours(), agora.getUTCMinutes())
 }
 
-function getFullDateValid(dataI, dataF) { // retorna data inteira de AIRMET e SIGMET 
+/*function getFullDateValid(dataI, dataF) { // retorna data inteira de AIRMET e SIGMET 
     let diaI = dataI.substr(0, 2);
     let horaI = dataI.substr(2, 2);
     let minI = dataI.substr(4, 2);
@@ -178,7 +181,7 @@ function getFullDateValid(dataI, dataF) { // retorna data inteira de AIRMET e SI
     //console.log(dataFinal.toISOString())
     return [dataInicial, dataFinal]
 
-}
+}*/
 
 function getUTCDate(date) {
     //let now_utc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(),
@@ -228,4 +231,3 @@ function checaValidadeMsg(texto, data = getUTCAgora()) {
     else
         return false
 }
-
