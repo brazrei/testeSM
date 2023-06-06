@@ -3,225 +3,63 @@
 
 <head>
   <meta charset="utf-8">
-  <link rel="shortcut icon" href="">
-  <title>Smart Plot</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>SMART METAR</title>
 
-  <link rel="icon" type="image/png" href="png/weather.png">
+  <link rel="icon" type="image/png" href="pngs/main2.png">
 
-  <script src="../ago2021/js/jquery.min.js"></script>
-
+  <link href='https://fonts.googleapis.com/css?family=Orbitron' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/relogio.css">
   <link rel="stylesheet" href="css/switch.css">
-  <link rel="stylesheet" href="css/leaflet.css" />
-  <link rel="stylesheet" href="css/context-menu.css">
+  <link rel="stylesheet" href="css/mainpage.css">
 
-  <link rel="stylesheet" href="css/popup-alert.css">
-
-
-  <script src="js/leaflet.js"></script>
-  <script src="js/leaflet-heat.js"></script>
-  <script src="js/leaflet.pattern.js"></script>
-
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!--<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Mono">-->
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
-  <link rel="stylesheet" href="css/leaflet.draw.css">
-  <link rel="stylesheet" href="css/leaflet-sidebar.min.css">
-  <link rel="stylesheet" href="css/editorx.css" />
-  <link rel="stylesheet" href="css/grid.css" />
-  <link rel="stylesheet" href="css/meter.css" />
-
-
-
-  <script src="js/context-menu.js"></script>
-  <script src="js/popup-menu-conf.js"></script>
-
-
-
-  <script src="js/leaflet-pip.min.js"></script>
-
-  <script src="js/bootstrap.min.js"></script>
-  <script src="../ago2021/js/dateFunctions.js"></script>
+  <script src="js/jquery.min.js"></script>
+  <script src="js/jquery.cookie.js" type="text/javascript"></script>
   <script src="js/popper.min.js"></script>
-  <script src="js/leaflet.draw.js"></script>
-  <script src="js/leaflet-sidebar.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/trataMetarC.js" type="text/javascript"></script>
+  <script src="js/relogio.js" type="text/javascript"></script>
+  <script src="js/cookies.js" type="text/javascript"></script>
+  <script src="js/aeroportos.js" type="text/javascript"></script>
+  <script src="js/trataGametC.js" type="text/javascript"></script>
+  <script src="js/trataGametBot.js" type="text/javascript"></script>
+  <script src="js/adwrng.js" type="text/javascript"></script>
+  <script src="js/dateFunctions.js" type="text/javascript"></script>
+  <script src="js/share.js" type="text/javascript"></script>
 
-  <!--Biblioteca que calcula interseções-->
-  <script src='js/turf.min.js'></script>
-
-  <style>
-    html,
-    body {
-      height: 100%;
-      margin: 0;
-      background-color: #EEF2F7;
-      overflow: hidden;
-      color: #eee;
-
-
-      user-select: none;
-      /* supported by Chrome and Opera */
-      -webkit-user-select: none;
-      /* Safari */
-      -khtml-user-select: none;
-      /* Konqueror HTML */
-      -moz-user-select: none;
-      /* Firefox */
-      -ms-user-select: none;
-
-      font-weight: 500;
-
-
-      /* Internet Explorer/Edge */
+  <!--Plugin para corrigir o Z-Indexc
+  <script type="text/javascript">
+    (function (global) {
+      var MarkerMixin = {
+        _updateZIndex: function (offset) {
+          this._icon.style.zIndex = this.options.forceZIndex ? (this.options.forceZIndex + (this.options.zIndexOffset || 0)) : (this._zIndex + offset);
+        },
+        setForceZIndex: function (forceZIndex) {
+          this.options.forceZIndex = forceZIndex ? forceZIndex : null;
+        }
+      };
+      if (global) global.include(MarkerMixin);
+    })(L.Marker);
+  </script>
+  -->
+  
+  <style type="text/css">
+    .bs-example {
+      margin: 20px;
     }
 
-    #map {
-      width: 100%;
-      height: 100%;
-      float: left;
-      background-color: #555;
+    .table-hover tbody tr:hover td,
+    .table-hover tbody tr:hover th {
+      background-color: #a9a2a2;
     }
 
-    .divEspaco {
-      padding-bottom: 10px;
-    }
-
-    .hora {
-      font-size: 25px;
-
-    }
-
-    .stsc {
-      /*font-size: 14px;*/
-
-    }
-
-    .sombra {
-      box-shadow: 5px 5px 5px 5px #888888;
-
-    }
-
-    .degrade {
-      background-color: #b8c6db;
-      background-image: linear-gradient(315deg, #b8c6db 0%, #f5f7fa 74%);
-    }
-
-    .button {
-      width: 100%;
-      color: #444444;
-      background: #F3F3F3;
-      border: 1px #DADADA solid;
-      padding: 5px 10px;
-      border-radius: 2px;
-      font-weight: bold;
-      font-size: 9pt;
-      outline: none;
-    }
-
-    .button:hover {
-      border: 1px #C6C6C6 solid;
-      box-shadow: 1px 1px 1px #EAEAEA;
-      color: #333333;
-      background: #F7F7F7;
-    }
-
-    .button:active {
-      box-shadow: inset 1px 1px 1px #DFDFDF;
-    }
-
-    /* Blue button as seen on translate.google.com*/
-    .button .blue {
-      color: white;
-      background: #4C8FFB;
-      border: 1px #3079ED solid;
-      box-shadow: inset 0 1px 0 #80B0FB;
-    }
-
-    .button .blue:hover {
-      border: 1px #2F5BB7 solid;
-      box-shadow: 0 1px 1px #EAEAEA, inset 0 1px 0 #5A94F1;
-      background: #3F83F1;
-    }
-
-    .button .blue:active {
-      box-shadow: inset 0 2px 5px #2370FE;
-    }
-
-    .mouseOFF {
-      pointer-events: none;
-      cursor: default;
-
-    }
-
-    #painel {
-      height: 99%;
-      width: 28%;
-      float: none;
-      position: fixed;
-      z-index: 5000;
-      right: 5px;
-      padding-left: 10px;
-      padding-top: 40px;
-      text-shadow: -1px -1px 2px rgb(0, 0, 0, 0.5), 1px -1px 2px rgb(0, 0, 0, 0.5), -1px 1px 2px rgb(0, 0, 0, 0.5), 1px 1px 2px rgb(0, 0, 0, 0.5);
-      text-align: end;
-      color: #fff;
-      pointer-events: none;
-      font-size: 18px;
-    }
-
-    #labelAvisoSTSC {
-      color: red;
-      display: none;
-      font-size: 22px;
-      padding-right: 50px;
-    }
-
-    #taCoordenadas {
-      border-radius: 5px;
-      box-shadow: -1px -1px 2px #000;
-      border-style: hidden;
-      font-size: 12px;
-    }
-
-    .esconder {
-      pointer-events: all;
-      margin-right: 5px;
-
-    }
-
-    #seta {
-      height: 50px;
-      width: 50px;
-      float: none;
-      position: fixed;
-      z-index: 5001;
-      right: 10px;
-      top: 5px;
-      padding-left: 10px;
-      background: url(png/menu.png) no-repeat;
-      background-size: 100% 100%;
-      cursor: pointer;
-    }
-
-    #corpo {
-      width: 100%;
-      height: 100%;
-      padding: 3px;
-    }
-
-    #header {
-      height: 0px;
-      position: sticky;
-      top: 0;
-      z-index: 5000;
+    .step3 {
+      margin: 6px -6px 6px -6px;
+      border-radius: 0px;
+      box-shadow: 0px -3px 5px #666;
       padding: 0px;
-      margin-top: 0px;
-      cursor: pointer;
-    }
-
-    .labelTMA {
-      color: white;
-      font-weight: bold;
     }
 
     .gradientgrey {
@@ -233,179 +71,35 @@
       background-image: linear-gradient(top, #FFF 0%, #CFCFCF 100%);
     }
 
-    .loading,
-    .loadingstsc {
-      width: 20px;
-      height: 20px;
-    }
-
-    .statusTAF,
-    #divCoordenadas {
-      /*text-shadow: 1px 1px 3px #2f2828, 1px 1px 0px #6d1717;*/
-      border-radius: 8px;
-      background-color: #ccc;
-      padding: 5px;
-      cursor: pointer;
-      color: #000;
-      font-size: 22px;
-      box-shadow: 1px 1px 3px #555;
-      pointer-events: all;
-    }
-
-    #divCoordenadas {
-      cursor: none;
-      width: 65%;
-      margin-left: 30%;
-    }
-
-    .statusAlertas {
-      border-radius: 8px;
-      background-color: red;
-      padding: 2px;
-      color: white;
-      font-size: 18px;
-      box-shadow: 1px 1px 3px #555;
-      text-align: left;
-      opacity: 0.9;
-      display: none;
-      width: 65%;
-      margin-left: 30%;
-
-    }
-
-    .statusOK {
-      background-color: #ccc;
-      color: green;
-      text-shadow: -1px -1px 3px #fff, 1px -1px 3px #fff, -1px 1px 3px #fff, 1px 1px 3px #fff;
-    }
-
-    .statusERRO {
-      color: white;
-      background-color: red;
-      text-shadow: -1px -1px 3px #000, 1px -1px 3px #000, -1px 1px 3px #000, 1px 1px 3px #000;
-
-    }
-
-    /* box ------------------------------------------------------ */
-    #box {
-      text-align: center;
-      font-size: 2.5em;
-      font-weight: bold;
-      -webkit-backface-visibility: hidden;
-      pointer-events: none;
-      padding-top: 20px;
-      /* fixes flashing */
-    }
-
-
-    /* flashlight ------------------------------------------------------ */
-
-    #flashlight {
-      color: hsla(0, 0%, 0%, 0);
-      perspective: 80px;
-      outline: none;
-    }
-
-
-    /* flash ------------------------------------------------------ */
-
-    #flash {
-      display: inline-block;
-      /*font-family: Geneva, sans-serif;*/
-      color: #eee;
-      text-shadow: -1px -1px 2px #222, 1px -1px 2px #222, -1px 1px 2px #222, 1px 1px 2px #222;
-    }
-
-
-    /* light ------------------------------------------------------ */
-
-    #light {
-      display: inline-block;
-      text-shadow: #444 0 0 1px, rgba(255, 255, 255, 0.1) 0 1px 3px;
-    }
-
-    .play-pauseSTSC {
-      padding-bottom: 5px;
-      padding-left: 50px;
-      width: 75px;
-      height: 27px;
-      margin-bottom: 15px;
-      cursor: pointer;
-      visibility: hidden;
-    }
-
-    .pop:hover {
-      animation: pulse 0.3s linear 1;
-    }
-
-    .popClick:active {
-      animation: pulseClick 0.3s linear 1;
-    }
-
-    @keyframes pulse {
-      25% {
-        transform: scale(0.9);
-      }
-
-      75% {
-        transform: scale(1.1);
-      }
-    }
-
-    @keyframes pulseClick {
-      25% {
-        transform: scale(0.9);
-      }
-
-      75% {
-        transform: scale(1.1);
-      }
-    }
-
-    .css-icon path {
-      fill: red;
-    }
-
-    .svgRedIcon rect {
-      fill: green;
-    }
-
-    .gps_ring {
-      border: 3px solid rgb(235, 9, 9);
-      -webkit-border-radius: 30px;
-      box-shadow: 0 0 3pt 2pt gray;
-      height: 18px;
-      width: 18px;
-      -webkit-animation: pulsateM 1s ease-out;
-      -webkit-animation-iteration-count: infinite;
-      /*opacity: 0.0*/
-    }
-
-    .gps_ringYellow {
-      border: 3px solid yellow;
-      -webkit-border-radius: 30px;
-      box-shadow: 0 0 3pt 2pt gray;
-      height: 18px;
-      width: 18px;
-      -webkit-animation: pulsateM 1s ease-out;
-      -webkit-animation-iteration-count: infinite;
-      /*opacity: 0.0*/
-    }
-
-    .glass {}
-
     .errorPulse {
-      -webkit-animation: pulsateM 1s ease-out;
+      -webkit-animation: pulsateM 0.5s ease-out;
       -webkit-animation-iteration-count: infinite;
-      color: white;
-      text-shadow: -1px -1px 3px #000, 1px -1px 3px #000, -1px 1px 3px #000, 1px 1px 3px #000;
-
-
     }
 
     @keyframes pulsateM {
       0% {
-        -webkit-transform: scale(0.1, 0.1);
+        opacity: 0.3;
+      }
+
+      50% {
+        opacity: 1.0;
+      }
+
+      100% {
+        opacity: 0.3;
+      }
+    }
+
+    .pulseValid {
+      animation: pulsateValid 1s ease-out;
+      -webkit-animation: pulsateValid 1s ease-out;
+      -webkit-animation-iteration-count: infinite;
+      opacity: 0.0
+    }
+
+    @keyframes pulsateValid {
+      0% {
+        -webkit-transform: scale(1, 1);
         opacity: 0.0;
       }
 
@@ -414,345 +108,381 @@
       }
 
       100% {
-        -webkit-transform: scale(1.2, 1.2);
+        -webkit-transform: scale(1, 1);
         opacity: 0.0;
       }
     }
 
-    .neonText {
-      color: #fff;
-
-    }
-
-    .shine {
-      text-shadow:
-        0 0 7px #fff,
-        0 0 10px #fff,
-        0 0 21px #fff,
-        0 0 42px #0fa,
-        0 0 82px #0fa;
-    }
-
-    .divStatus {
-      margin-right: 5px;
-      text-align: -webkit-right;
-
-    }
-
-    .modal {
-      top: 80px;
-    }
-
-    .sombraClara {
-      /* text-shadow: -1px -1px 1px #eee, 1px -1px 1px #eee, -1px 1px 1px #eee, 1px 1px 1px #eee;*/
-      text-shadow: -0px -0px 1px rgba(255, 255, 255, 0.3), 0px -0px 1px rgba(255, 255, 255, 0.3), -0px 0px 1px rgba(255, 255, 255, 0.3), 0px 0px 1px rgba(255, 255, 255, 0.3);
+    .invisivel {
+      display: none;
     }
   </style>
-
-
 </head>
 
 <body>
-  <script src="js/firSkyVector.js?v=202212220015"></script>
 
-  <script src="js/airmet.js"></script>
-  <script src="js/sigmet.js"></script>
-  <script src="js/smartTAF.js?v=202212220015"></script>
+  <div class="topo step3 gradientgrey" ondblclick="openSmartPlot()">
+    <div id="mensagemTopo">
+      <!--<h1> SmartMetar </h1> -->
 
-  <script src="js/aeroportos20102020.js"></script>
-  <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.2.0/leaflet-omnivore.min.js'></script>
-  <script src="js/kmlLoad.js"></script>
-  <script src="js/stsc.js"></script>
-  <script src="js/editorx.js?v=202212220015"></script>
-  <script src="js/intersect.js"></script>
-  <script src="js/imgSat.js"></script>
-  <script src="js/import.js"></script>
+      <img src="pngs/SmartMetar.png" alt="" style="background: no-repeat center center;" />
 
-  <div id='header' class='gradientgrey sombra' ondblclick='window.opener.openSmartMetar()'>
-    <div id="box">
-      <p id="flashlight">
-        <span id="flash">Smartplot</span>
-      </p>
+      <input type="button" onclick="openSmartPlot()" style="float: right; margin-right: 15px;" value="SMART PLOT"></input>
+      <input type="button" onclick="login()" style="float: right" value="LOGIN"></input>
+    </div>
+    <div id="divCronometro" class="cronometro">
+      <img id="imgSom" src="pngs/sound-off30.png" title="Ligar/Desligar Alerta Sonoro" alt="" border=1 height=100%
+        onclick="alternaImagemSom()" />
+      <span id="cronometro">:00</span>
     </div>
   </div>
-  <div id='corpo'>
 
-    <!-- Inicio do Editor-->
-    <div id="sidebar" class="leaflet-sidebar collapsed">
-      <!-- Nav tabs -->
-      <div class="leaflet-sidebar-tabs">
-        <ul role="tablist">
-          <li><a href="#home" role="tab"><i class="fa fa-bars"></i></a></li>
-          <li class="disabled"><a href="#profile" id="toggledraw" role="tab"><i class="fa fa-pen"></i></a></li>
-        </ul>
-      </div>
+  <!--	<button type="button" onclick="BtnMetarGERALClick()" style="width:25%; height:60px" >Atualizar</button>
+<div style = "background-color: black;">
 
-      <!-- Tab panes -->
-      <div class="leaflet-sidebar-content">
-        <div class="leaflet-sidebar-pane" id="home">
-          <h1 class="leaflet-sidebar-header">
-            Layers
-            <span class="leaflet-sidebar-close"><i class="fa fa-caret-right"></i></span>
-          </h1>
-          <span id="layercontrol"></span>
-          <div id="latlng"></div>
-
-        </div>
-
-        <div class="leaflet-sidebar-pane" id="profile">
-          <h1 class="leaflet-sidebar-header">Profile<span class="leaflet-sidebar-close"><i
-                class="fa fa-caret-right"></i></span></h1>
-        </div>
-      </div>
+<div class="clock">
+  <div class="tick">:</div>
+  <div class="seconds" id = "seconds">
+    <div class="first">
+      <div class="number">5</div>
     </div>
-    <!-- Fim do Editor-->
+    <div class="second infinite">
+      <div class="number">9</div>
+    </div>
+  </div>
+</div>
 
-    <div id='map'></div>
-    <div class='glass'>
-      <div id='painel'>
-        <div style="width:100%; margin-top: 15px;margin-bottom: 10px;">
-          <b><span class="sombraClara statusTAF" id="statusTAF">STATUS TAF...</span></b><br><br>
-          <div class="divStatus">
-            <span>Teto </span>
-            <label class="switch">
-              <input type="checkbox" id="chkTeto" onchange="updateSmartMetar();" checked />
-              <span class="slider round"></span>
-            </label>
-          </div>
-          <div class="divStatus">
-            <span>Visibilidade </span>
-            <label class="switch">
-              <input type="checkbox" id="chkVisibilidade" onchange="updateSmartMetar();" checked />
-              <span class="slider round"></span>
-            </label>
-          </div>
-          <div class="divStatus">
-            <span>Vento </span>
-            <label class="switch">
-              <input type="checkbox" id="chkVento" onchange="updateSmartMetar();" checked />
-              <span class="slider round"></span>
-            </label>
-          </div>
-          <div class="divStatus">
-            <span>Trovoada </span>
-            <label class="switch">
-              <input type="checkbox" id="chkTrovoada" onchange="updateSmartMetar();" checked />
-              <span class="slider round"></span>
-            </label>
-          </div>
-        </div>
-        <div class="divStatus divEspaco">
-          <span id="labelSTSC">STSC</span>
-          <span class="stsc"> (</span><span class="stsc" id="clockSTSC">--:--</span>
-          <span class="stsc"> ) </span>
-          <!-- <img src="gif/loading.gif" alt="Carregando STSC" class="loading"><br> -->
-          <label class="switch">
-            <input type="checkbox" id="chkSTSC" onchange="toggle_stsc(this)" checked />
-            <span class="slider round"></span>
-          </label>
-          <br>
-          <img src="png/pause.png" alt="Play/Pausa Animação STSC" id="imgPlayPauseSTSC"
-            class="play-pauseSTSC playSTSC pop popClick">
+</div>
+ -->
 
-          <!-- <input type="range" min="1" max="100" value="50" id="rangeSTSC"> -->
-          <div class="meter blue nostripes">
-            <span style="width: 0%" id="rangeSTSC"></span>
-          </div>
-
-        </div>
-
-        <div class="divStatus" onmouseover="">
-          <span>SIGMET</span>
-          <span class="sigmet"> (</span><span class="sigmet" id="clockSigmet">--:--</span>
-          <span class="sigmet"> ) </span>
-          <img src="gif/loading.gif" alt="Carregando Sigmets" class="loading loadingSigmet">
-
-          <label class="switch">
-            <input type="checkbox" id="chkSigmet" onchange="mostraSigmet(this)" checked />
-            <span class="slider round"></span>
-          </label>
-
-        </div>
-        <div class="divSigmetType divEspaco" id = "divSigmetType" style="width: 100%; display: table;">
-          <div class="divStatus" style="display: table-cell; float: right;">
-            <span id = "spanICE">ICE</span>
-
-            <label class="switch">
-              <input type="checkbox" id="chkSigmetICE" onchange="mostraSigmet(this)" checked="">
-              <span class="slider round"></span>
-            </label>
-
-          </div>
-          <div class="divStatus" style="display: table-cell; float: right;">
-            <span id = "spanTS">TS</span>
-
-            <label class="switch">
-              <input type="checkbox" id="chkSigmetTS" onchange="mostraSigmet(this)" checked="">
-              <span class="slider round"></span>
-            </label>
-
-          </div>
-          <div class="divStatus" style="display: table-cell; float: right;">
-            <span id = "spanTURB">TURB</span>
-
-            <label class="switch">
-              <input type="checkbox" id="chkSigmetTURB" onchange="mostraSigmet(this)" checked="">
-              <span class="slider round"></span>
-            </label>
-
-          </div>
-        </div>
-
-        <div class="divStatus divEspaco">
-          <span>AIRMET</span>
-          <span class="airmet"> (</span><span class="airmet" id="clockAirmet">--:--</span>
-          <span class="airmet"> ) </span>
-          <img src="gif/loading.gif" alt="Carregando Airmets" class="loading loadingAirmet">
-
-          <label class="switch">
-            <input type="checkbox" id="chkAirmet" onchange="mostraAirmet(this)" checked />
-            <span class="slider round"></span>
-          </label>
-        </div>
-
-        <div class="divStatus">
-          <span class="imgsat" id="labelImgSat">Imagem de Satélite </span>
-          <span class="imgsat"> (</span><span class="imgsat" id="clockImgSat">--:--</span>
-          <span class="imgsat"> ) </span>
-          <img src="gif/loading.gif" alt="Carregando Imagem de Satélite" class="loading loadingImgSat"
-            style="display: none;">
-          <label class="switch">
-            <input type="checkbox" id="chkImgSat" onchange="plota_ImgSat(this)" />
-            <span class="slider round"></span>
-          </label>
-          <br>
-          <input type="range" min="1" max="100" value="50" id="myRange" style="display: none;pointer-events: all;">
-          <br>
-        </div>
-
-        <div class="divStatus divEspaco">
-          <span>TAF</span>
-
-          <label class="switch" title = "Ativar Vigilância TAF">
-            <input type="checkbox" id="chkTAF" onchange="mostraTAF(this)" checked />
-            <span class="slider round"></span>
-          </label>
-        </div>
-
-
-        <!--        <label class="switch">
-          <input type="checkbox" id="chkCopiaAuto" />
-          <span class="slider round"></span>
-        </label>
-        <span> Cópia Automática (Copiar Automaticamente as Coordenadas das
-          Figuras Clicadas para Área de Transferência )</span>
-        <br><br>
+  <!--
+<div style = "padding-top: 20px">
+  <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+  Inserir os GAMET's Manualmente
+  </button>
+  <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" id="getGamet">
+  Obter os GAMET's Automaticamente
+  </button>
+</div>
 -->
-        <span class="stsc" id="latlng">teste</span>
-        <div class="esconder mouseOFF" id="divCoordenadas">
-          <textarea id="taCoordenadas"
-            style="resize: none; box-sizing: border-box; width:98%; text-transform: uppercase; font-family: monospace"
-            rows="4"
-            placeholder="Cole aqui as coordenadas a serem plotadas (Redemet, Skyvector ou Windy) e pressione <enter>!"></textarea>
-
-          <br>
-          <input type="button" value="Copiar" onclick="copyFromTextArea()" class="blue">
-          <input type="button" value="Limpar"
-            onclick="$('#taCoordenadas').val('').focus(); document.getElementById('taCoordenadas').dispatchEvent(new Event('input'))"
-            class="blue">
-        </div>
-        <br>
-        <div>
-          <input type="button" value="Separar Área por FIRs" onclick="cutPlotFIRs()" class="blue"
-            style="display: none;">
-          <input type="button" value="Recortar Áreas Sobrepostas" id="btnDiffPlot" class="blue" onclick="cutPlotSobr()"
-            style="display: none;">
-          <input type="button" value="Inserir Plotagem Externa" style="display:none" id="btnInsertPlot" class="blue"
-            onclick="plotagemDaArTransf()">
-          <h6 class="sombraClara infoOffline" id="h5Offline" style="color: red; display: none;">SMARTPLOT OFFLINE! DADOS
-            DESATUALIZADOS! <br>REINICIAR PELO LINK DO SMARTMETAR!</h6>
-          <br>
-        </div>
-        <div>
-          <h6 class="infoDescobertasAD statusAlertas" id="h6descobertasAD"
-            title="Localidades que estão com Algum Parâmetro Descoberto na Vigilância AD"></h6>
-        </div>
-        <div>
-          <h6 class="infoDescobertasRota statusAlertas" id="h6descobertasRota"
-            title="Localidades que estão com Algum Parâmetro Descoberto na Vigilância Rota"></h6>
-          <br>
-        </div>
-        <div>
-          <h6 class="sombraClara" id="h5latlng" style="color: red"></h6>
-          <h6 class="sombraClara infoCoordinates" id="h5angulo" style="color: red; display: none;"></h6>
-          <h6 class="sombraClara infoCoordinates" id="h5distancia" style="color: red; display: none;"></h6>
-        </div>
-        <br><br>
-
-        <div id="divAlertaSTSC">
-          <span class="sombraClara" id="labelAvisoSTSC">ALERTA DE TEMPO SEVERO CONVECTIVO:</span>
-          <section class="grid grid-template-columns-1" style="display: none;">
-            <div class="itemGrid gridTMABH">
-              <span class="labelTMA labelTMABH">TMA-BH</span>
-            </div>
-            <div class="itemGrid gridTMACT" id="labelTMACT">
-              <span class="labelTMA labelTMACT">TMA-CT</span>
-            </div>
-            <div class="itemGrid gridTMARJ" id="labelTMARJ">
-              <span class="labelTMA labelTMARJ">TMA-RJ</span>
-            </div>
-            <div class="itemGrid gridTMASP" id="labelTMASP">
-              <span class="labelTMA labelTMASP">TMA-SP</span>
-            </div>
-          </section>
-        </div>
-
-
-      </div>
-    </div>
-    <div id="seta" class="pop popClick"
-      onclick="{$('.esconder').fadeToggle(); $('.leaflet-control-container').fadeToggle(); }">
-    </div>
-  </div>
-  <div id='footer' class='gradientgrey '>
-    <h3 style="color: blue"> ATENÇÃO! APLICATIVO EM TESTE! VERSÃO BETA!</h3>
-    <h3 style="color: red"> É ALTAMENTE RECOMENDADO CONFERIR A PLOTAGEM NO SKYVECTOR!</h3>
-    <a href="http://smartmetar.atwebpages.com/smartplot3/indexold.html">IR PARA VERSÃO ANTERIOR...</a>
-  </div>
-  <div id="msgbox-area" class="msgbox-area"></div>
-
-  <!-- The Modal -->
-  <div class="modal fade" id="modalAdWrng">
-    <div class="modal-dialog modal-xl">
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    style="width: 90%; height: 70%">
+    <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
-
-        <!-- Modal Header -->
         <div class="modal-header">
-          <h4 class="modal-title">Aviso de Aeródromo</h4>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+          <h4 class="modal-title" id="myModalLabel">Insira os GAMET's</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+              aria-hidden="true">&times;</span></button>
         </div>
-
-        <!-- Modal body -->
-        <div class="modal-body">
-          Localidades Separadas por CMA:
-          <textarea id="taModalAdWrng"
-            style="resize: none; box-sizing: border-box; width:98%; text-transform: uppercase; font-family: monospace"
-            rows="20"></textarea>
+        <div class="modal-body" style="height: 500px">
+          <span>Cole os GAMET's na área abaixo:</span>
+          <textarea id="taGAMETS" style="width:99%; height: 90%; border-width: 2px;"></textarea>
         </div>
-
-        <!-- Modal footer -->
         <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
-            onclick="$('#modalAdWrng').modal('hide');">Fechar</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" id="salvarGamets">Salvar</button>
         </div>
-
       </div>
     </div>
+  </div>
+
+
+  <div class="bs-example">
+    <table class="table table-hover table-striped" id="firAZtable" style="table-layout: fixed;">
+      <colgroup>
+        <col style="width: 50%;">
+        <col style="width: 15%;">
+        <col style="width: 15%;">
+        <col style="width: 15%;">
+        <col style="width: 5%;">
+      </colgroup>
+      <thead>
+        <tr>
+          <th colspan="5" class="table-secondary"><img id="imgLoad0" class="imgLoad" src="gifs/loading30x30.gif" alt=""
+              border=1 height=100%> FIR AMAZÔNICA</img> </th>
+        </tr>
+
+        <tr>
+          <th colspan="5" class="table-warning"><img id="imgLoad0" class="imgLoad" src="" alt="" border=1 height=100%>
+            GAMET </img> </th>
+        </tr>
+
+        <tr class="cabecalho">
+          <th>Mensagem</th>
+          <th>Status AD WRNG</th>
+          <th>Status GAMET</th>
+          <th>Status AIRMET</th>
+          <th>CMA-1</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr class="table-primary">
+          <td>METAR SBXX xxxxxZ XXXXXKT XXXVXXX XXXX FEWXXX BKNXXX XX/XX QXXXX xxxxxxxxxxxxxxx</td>
+          <td>Indefinido</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <div class="bs-example">
+    <table class="table table-hover table-striped" id="firBStable" style="table-layout: fixed;">
+      <colgroup>
+        <col style="width: 50%;">
+        <col style="width: 15%;">
+        <col style="width: 15%;">
+        <col style="width: 15%;">
+        <col style="width: 5%;">
+      </colgroup>
+      <thead>
+        <tr>
+          <th colspan="5" class="table-secondary"><img id="imgLoad1" class="imgLoad" src="gifs/loading30x30.gif" alt=""
+              border=1 height=100%> FIR BRASÍLIA</th>
+        </tr>
+        <tr>
+          <th colspan="5" class="table-warning"><img id="imgLoad0" class="imgLoad" src="" alt="" border=1 height=100%>
+            GAMET </img> </th>
+        </tr>
+
+        <tr class="cabecalho">
+          <th>Mensagem</th>
+          <th>Status AD WRNG</th>
+          <th>Status GAMET</th>
+          <th>Status AIRMET</th>
+          <th>CMA-1</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr class="table-primary">
+          <td>METAR SBXX xxxxxZ XXXXXKT XXXVXXX XXXX FEWXXX BKNXXX XX/XX QXXXX xxxxxxxxxxxxxxx</td>
+          <td>Indefinido</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <div class="bs-example">
+    <table class="table table-hover table-striped" id="firREtable" style="table-layout: fixed;">
+      <colgroup>
+        <col style="width: 50%;">
+        <col style="width: 15%;">
+        <col style="width: 15%;">
+        <col style="width: 15%;">
+        <col style="width: 5%;">
+      </colgroup>
+
+      <thead>
+        <tr>
+          <th colspan="5" class="table-secondary"><img id="imgLoad2" class="imgLoad" src="gifs/loading30x30.gif" alt=""
+              border=1 height=100%> FIR RECIFE</th>
+        </tr>
+
+        <tr>
+          <th colspan="5" class="table-warning"><img id="imgLoad0" class="imgLoad" src="" alt="" border=1 height=100%>
+            GAMET </img> </th>
+        </tr>
+
+        <tr class="cabecalho">
+          <th>Mensagem</th>
+          <th>Status AD WRNG</th>
+          <th>Status GAMET</th>
+          <th>Status AIRMET</th>
+          <th>CMA-1</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr class="table-primary">
+          <td>METAR SBXX xxxxxZ XXXXXKT XXXVXXX XXXX FEWXXX BKNXXX XX/XX QXXXX xxxxxxxxxxxxxxx</td>
+          <td>Indefinido</td>
+          <td>xxx</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <div class="bs-example">
+    <table class="table table-hover table-striped" id="firCWtable" style="table-layout: fixed;">
+      <colgroup>
+        <col style="width: 50%;">
+        <col style="width: 15%;">
+        <col style="width: 15%;">
+        <col style="width: 15%;">
+        <col style="width: 5%;">
+      </colgroup>
+      <thead>
+        <tr>
+          <th colspan="5" class="table-secondary"><img id="imgLoad3" class="imgLoad" src="gifs/loading30x30.gif" alt=""
+              border=1 height=100%> FIR CURITIBA</th>
+        </tr>
+
+        <tr>
+          <th colspan="5" class="table-warning"><img id="imgLoad0" class="imgLoad" src="" alt="" border=1 height=100%>
+            GAMET </img> </th>
+        </tr>
+        <tr class="cabecalho">
+          <th>Mensagem</th>
+          <th>Status AD WRNG</th>
+          <th>Status GAMET</th>
+          <th>Status AIRMET</th>
+          <th>CMA-1</th>
+        </tr>
+      </thead>
+
+      <tbody id="firCWlines">
+        <tr class="table-primary">
+          <td>METAR SBXX xxxxxZ XXXXXKT XXXVXXX XXXX FEWXXX BKNXXX XX/XX QXXXX xxxxxxxxxxxxxxx</td>
+          <td>Indefinido</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
 
 </body>
+
+<footer>
+  <!--
+</br>
+<h5>Desenvolvido por Reinaldo Braz - email: brazrab@fab.mil.br</h5>
+-->
+  </br>
+  <h5 style="color: red" id="relogio"> Hora da última consulta à REDEMET: </h5>
+  </br>
+  <h5>Parâmetros de Filtragem:</h5>
+  <label class="switch">
+    <input type="checkbox" id="chkTeto" onclick="updateMetarGamet()" checked>
+    <span class="slider round"></span>
+  </label>
+  <label>Teto Abaixo de: 1000FT</label>
+  </br>
+
+  <label class="switch">
+    <input type="checkbox" id="chkVis" onclick="updateMetarGamet()" checked>
+    <span class="slider round"></span>
+  </label>
+  <label>Visibilidade Abaixo de: </label>
+  <select id="selectVis" onchange="selectVisChange()">
+    <option value="10000">10000m</option>
+    <option value="9000">9000m</option>
+    <option value="8000">8000m</option>
+    <option value="7000">7000m</option>
+    <option value="6000">6000m</option>
+    <option value="5000" selected>5000m</option>
+    <option value="4000">4000m</option>
+    <option value="3000">3000m</option>
+    <option value="2000">2000m</option>
+    <option value="1000">1000m</option>
+  </select>
+  </br>
+
+  <label class="switch">
+    <input type="checkbox" id="chkVento" onclick="updateMetarGamet()" checked>
+    <span class="slider round"></span>
+  </label>
+  <label>Vento Acima de: </label>
+  <select id="selectVento" onchange="selectVentoChange()">
+    <option value="10">10KT</option>
+    <option value="12">12KT</option>
+    <option value="14" selected>14KT</option>
+    <option value="16">16KT</option>
+    <option value="18">18KT</option>
+    <option value="20">20KT</option>
+    <option value="50">50KT</option>
+  </select>
+  <br>
+  <label class="switch">
+    <input type="checkbox" id="chkTrovoada" onclick="updateMetarGamet()" checked>
+    <span class="slider round"></span>
+  </label>
+  <label>Trovoada</label>
+  </br></br>
+
+  <h5>Exibir/Ocultar:</h5>
+  <label class="switch">
+    <input type="checkbox" id="chkFIRAZ" checked>
+    <span class="slider round"></span>
+  </label><span> FIR AMAZÔNICA</span><br>
+
+  <label class="switch">
+    <input type="checkbox" id="chkFIRBS" checked>
+    <span class="slider round"></span>
+  </label><span> FIR BRASÍLIA</span><br>
+
+  <label class="switch">
+    <input type="checkbox" id="chkFIRRE" checked>
+    <span class="slider round"></span>
+  </label><span> FIR RECIFE</span><br>
+
+  <label class="switch">
+    <input type="checkbox" id="chkFIRCW" checked>
+    <span class="slider round"></span>
+  </label><span> FIR CURITIBA</span><br>
+  <br>
+
+  <br>
+  <label class="switch">
+    <input type="checkbox" id="chkOcultarCobertos" onchange="updateMetarGamet()">
+    <span class="slider round"></span>
+  </label>
+  <span> Exibir apenas Localidades com Parâmetros Descobertos </span><br>
+  </br>
+
+  <label class="switch">
+    <input type="checkbox" id="chkExibirGamets" onchange="updateMetarGamet()" checked>
+    <span class="slider round"></span>
+  </label>
+  <span> Exibir os GAMET's </span><br>
+  </br>
+
+
+
+  <h5>Localidades Automáticas:</h5>
+  <label class="switch">
+    <input type="checkbox" id="chkLocAuto" checked>
+    <span class="slider round"></span>
+  </label><span> Exibir apenas o último SPECI das Localidades Automáticas </span><br>
+
+  <!-- 
+  <h5>Fonte de Dados API:</h5>
+  <label class="switch">
+    <input type="checkbox" id="chkFonteAPINova">
+    <span class="slider round"></span>
+  </label><span> Obter os Dados Meteorológicos API Nova  </span><br>
+  </br>
+  
+  -->
+  <div style="padding-top: 20px">
+    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" id="getGamet">
+      Atualizar os GAMET's Agora
+    </button>
+    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal"
+      id="showWindowGamet">
+      Inserir os GAMET's Manualmente
+    </button>
+    <button type="button" class="btn btn-primary btn-lg" id="ocultarGamet"
+      onclick="$('.tableGametContent').fadeToggle();">
+      Exibir/Ocultar os GAMET's
+    </button>
+  </div>
+
+  </br>
+  <h5>Dados dos Grupos de Consulta Colhidos no Site da REDEMET em 09/02/2021)</h5>
+  <h5>FIR AMAZÔNICA - GRUPO CMI-AZ: </h5><span id="spanCMIAZ"></span></br></br>
+  <h5>FIR BRASÍLIA - GRUPO CMI-BSV: </h5><span id="spanCMIBS"></span></br></br>
+  <h5>FIR RECIFE - GRUPO CMI-RE: </h5><span id="spanCMIRE"></span></br></br>
+  <h5>FIR CURITIBA - GRUPO CMI-CWV: </h5><span id="spanCMICW"></span></br></br>
+
+
+  <h3 style="color: red"> ATENÇÃO! APLICATIVO EM TESTE! VERSÃO BETA!</h3>
+  <img src="gifs/loading30x30.gif" alt="" border=1 height=100% style="display:none" />
+
+  <div onclick="new Audio('mp3/double-beep.wav').play()" id="divDoubleBeep"></div>
+</footer>
 
 </html>
