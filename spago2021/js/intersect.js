@@ -215,8 +215,12 @@ function cutPlotSobr(poly) {
 
 }
 
-function cutPlotFIRs(poly) {
+function cutPlotFIRs(poly) {  
     let coordEdit
+    let descricao = getDescricaoLayer(poly)
+    
+    descricao = descricao?descricao:""
+     
     if (!poly) {
         coordEdit = $("#taCoordenadas").val()
     } else {
@@ -230,11 +234,11 @@ function cutPlotFIRs(poly) {
 
     arrCutted = []
     let cont = 0
-    cont += cutPlotFIR(coordEdit, [(getCoordDegAirmet((firAZCoords)))])
-    cont += cutPlotFIR(coordEdit, [(getCoordDegAirmet((firAOCoords)))])
-    cont += cutPlotFIR(coordEdit, [(getCoordDegAirmet((firRECoords)))])
-    cont += cutPlotFIR(coordEdit, [(getCoordDegAirmet((firBSCoords)))])
-    cont += cutPlotFIR(coordEdit, [(getCoordDegAirmet((firCWCoords)))])
+    cont += cutPlotFIR(coordEdit, [(getCoordDegAirmet((firAZCoords)))], descricao)
+    cont += cutPlotFIR(coordEdit, [(getCoordDegAirmet((firAOCoords)))], descricao)
+    cont += cutPlotFIR(coordEdit, [(getCoordDegAirmet((firRECoords)))], descricao)
+    cont += cutPlotFIR(coordEdit, [(getCoordDegAirmet((firBSCoords)))], descricao)
+    cont += cutPlotFIR(coordEdit, [(getCoordDegAirmet((firCWCoords)))], descricao)
 
     //map.removeLayer()
     /*    cutPlotFIR(coordEdit, [firAOCoords])
@@ -251,6 +255,7 @@ function bringCuttedToFront() {
         arrCutted[i].bringToFront()
 
 }
+
 
 function bringEditableToFront() {
     let l = editableLayers.getLayers()
@@ -287,7 +292,7 @@ function getCutCoordinates(layer) {
     return ret
 }
 
-function cutPlotFIR(coordEdit, tPolyFir) {
+function cutPlotFIR(coordEdit, tPolyFir, descricao) {
     //    let tPolyFir = [getCoordDegAirmet(coordFIR)]
     // let tPolyFir = coordFIR
     let polyFir = turf.polygon(tPolyFir)
@@ -311,7 +316,8 @@ function cutPlotFIR(coordEdit, tPolyFir) {
                 color: "green",
             });*/
 
-
+            if (descricao !== "")
+                saveDescricaoLayer(cut, descricao)
             formataLayerEdit(cut, false)
             arrCutted.push(cut)
         }
@@ -328,8 +334,8 @@ function paste(pasteText) {
 
 function isFromSkyVector(coords) {
     coords = removeEspacos(coords);
-    let latLngPatt1 = /\d{6}[nNsS]\d{7}[WwEe]/g
-    let latLngPatt2 = /\d{4}[nNsS]\d{5}[WwEe]/g
+    let latLngPatt1 = /\d{6}[nNsS]\d{7}[W]/g
+    let latLngPatt2 = /\d{4}[nNsS]\d{5}[W]/g
     let arrCoords = coords.match(latLngPatt1)
 
     if (arrCoords && (arrCoords.length > 2)) {
@@ -345,7 +351,7 @@ function isFromSkyVector(coords) {
 
 function isFromRedemet(coords) {
     coords = removeEspacos(coords);
-    let latLngPatt = /[nNsS]\d{4}[WwEe]\d{5}/g
+    let latLngPatt = /[nNsS]\d{4}[W]\d{5}/g
     let arrCoords = coords.match(latLngPatt)
 
     return arrCoords && (arrCoords.length > 2)
@@ -354,8 +360,8 @@ function isFromRedemet(coords) {
 function skyVectorToRedemet(coords) {
     coords = removeEspacos(coords);
     //console.log(coords)
-    let latLngPatt1 = /\d{6}[nNsS]\d{7}[WwEe]/g
-    let latLngPatt2 = /\d{4}[nNsS]\d{5}[WwEe]/g
+    let latLngPatt1 = /\d{6}[nNsS]\d{7}[W]/g
+    let latLngPatt2 = /\d{4}[nNsS]\d{5}[W]/g
 
     let arrCoords = coords.match(latLngPatt1)
 
@@ -370,14 +376,9 @@ function skyVectorToRedemet(coords) {
         let sepLat = "S"
         if (icoord.includes("N"))
             sepLat = "N"
-            
-        let sepLon = "W"
-        if (icoord.includes("E"))
-            sepLon = "E"
-            
         let ilat = icoord.split(sepLat)[0].substr([0, 4])
         let ilong = icoord.split(sepLat)[1].substr(0, 5)
-        arrCoords[i] = sepLat + ilat + " " + sepLon + ilong
+        arrCoords[i] = sepLat + ilat + " W" + ilong
 
     }
     if (arrCoords[0] !== arrCoords[arrCoords.length - 1])
@@ -390,7 +391,7 @@ function formataCoordsExternas(coords) {
 
     coords = removeEspacos(coords);
     //console.log(coords)
-    let latLngPatt = /[nNsS]\d{4}[WwEe]\d{5}/g
+    let latLngPatt = /[nNsS]\d{4}[W]\d{5}/g
     let arrCoords = coords.match(latLngPatt)
 
     if (!arrCoords || arrCoords.length == 0)
@@ -467,4 +468,5 @@ function addLayerToMap(layer) {
     //layersEditaveis.push(l);
     return l
 }
+
 

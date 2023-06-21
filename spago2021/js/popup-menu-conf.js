@@ -1,5 +1,7 @@
 var ocultarSigmetsVencendo = false
 
+var arrayDescricaoLayer = []
+
 function setMenuMapaOff() {
     menuMapa = null
 
@@ -104,6 +106,8 @@ function createPopUpMenu() {
                         removeLayerEdit(selectedLayer, true);
                     }
                 },
+                { 'icon': '', 'name': 'Compartilhar Área', action: () => sharePolygon(selectedLayer) }
+
 
                 /*                {
                                     'icon': '', 'name': 'Plotar nova Área', action: (e) => {
@@ -185,6 +189,18 @@ function createPopUpMenu() {
 
                         mostraSigmet()
                         mostraAirmet()
+                    }
+                },
+                {
+                    'icon': '', 'name': 'Importar Áreas de Outros Usuários', action: (e) => {
+                        // selecionaFIR(firBrasilia, firBrasil)
+                        loadLayers()
+                    }
+                },
+                {
+                    'icon': '', 'name': 'Cancelar Áreas Compartilhadas', action: (e) => {
+                        // selecionaFIR(firBrasilia, firBrasil)
+                        loadLayersCancel()
                     }
                 }
             ]
@@ -274,6 +290,70 @@ function openContextMenuMapa(evt) {
     document.addEventListener('click', hideContextMenu, false);
 }
 
+function saveDescricaoLayer(layer, descricao) {
+    arrayDescricaoLayer[layer._leaflet_id + 'L'] = descricao.toUpperCase()
+}
+
+$(document).ready(function () {
+    $('#modalAdWrng').on('shown.bs.modal', function () {
+        $('#taModalAdWrng').focus();
+    })
+    $('#modalDescricaoLayer').on('shown.bs.modal', function () {
+        $('#taModalDescricao').focus();
+    })
+
+    $('#btnSalvaDescricao').on('click', function () {
+        //        let d = $('#taModalDescricao').val() + ""
+        saveDescricaoLayer(selectedLayer, $('#taModalDescricao').val())
+
+        $('#modalDescricaoLayer').modal('hide');
+        atualizaLayersEditados()
+        saveLayersOnServer(selectedLayer)
+    }
+    );
+
+    $('#btnImportaLayer').on('click', function () {
+        //        let d = $('#taModalDescricao').val() + ""
+        //saveDescricaoLayer(selectedLayer, $('#taModalDescricao').val())
+
+        $('#modalLoadLayer').modal('hide');
+        plotaAreas(getSelecterLayersFromModal())
+        //atualizaLayersEditados()
+        //saveLayersOnServer(selectedLayer)
+    }
+    );
+
+    $('#btnDeleteLayer').on('click', function () {
+        //        let d = $('#taModalDescricao').val() + ""
+        //saveDescricaoLayer(selectedLayer, $('#taModalDescricao').val())
+
+        $('#modalCancelShare').modal('hide');
+        deleteLayers(getSelecterLayersFromModal('#divModalCancelLayerGroup'))
+        //atualizaLayersEditados()
+        //saveLayersOnServer(selectedLayer)
+    }
+    );
+
+
+})
+
+function getSelecterLayersFromModal(div = '#divModalLoadLayerGroup') {
+    let nodes = $(div)[0].childNodes
+    let areas = []
+    nodes.forEach(node => {
+        if (node.className.includes('active'))
+            areas.push(JSON.parse(node.value))
+
+    })
+    return areas
+}
+
+function sharePolygon(layer) {
+    //$('#taCoordenadas').val(str);
+    $('#modalDescricaoLayer').modal();
+    $('#taModalDescricao').val(arrayDescricaoLayer[layer._leaflet_id + 'L']);
+}
+
 function createAdWrng(layer) {
     let locs = getAeroportosOnEdit(layer)
 
@@ -306,8 +386,89 @@ function createAdWrng(layer) {
 
 }
 
+function selectGroupDivImportar(e) {
+    console.log(e.target)
+    if (!e.className.includes('active'))
+        e.className = e.className + " active"
+    else
+        e.className = e.className.replace(" active", "")
+
+}
+
+function updateModal(usuarios, divId) {
+
+    let html = ""
+    usuarios.forEach(usuario => {
+        usuario.areas.forEach(area => {
+            area.usuario = usuario.usuario == "nil" ? `Usuário Desconhecido - ${area.ip}` : usuario.usuario
+            let s = JSON.stringify(area)
+
+            let desc = area.descricao
+            desc = desc == "" ? "Área sem Descrição" : desc
+            html += `<button type="button" class="list-group-item list-group-item-action" onclick="selectGroupDivImportar(this)" value = '${s}'>${desc} - ( ${area.usuario} )</button>`
+        })
+    })
+    $(divId).html(html)
+
+
+}
+
+function deleteLayers(layers) {
+    removeSharedLayers(layers)
+    let txt = '{"areas": ' + JSON.stringify(layers) + '}'
+    $.ajax({
+        url: '../ago2021/php/deleteLayer.php',
+        data: { 'layers': txt },
+
+        type: 'POST'
+    });
+
+}
+
+function loadLayers() {
+
+    // return
+    fetch('../ago2021/php/loadLayers.php')
+        .then((response) => response.json())
+        .then((json) => {
+            console.log(json)
+            updateModal(json.usuarios, "#divModalLoadLayerGroup")
+            $('#modalLoadLayer').modal();
+            //plotaAreas(json.areas, json.usuario)
+        });
+}
+
+function loadLayersCancel() {
+
+    // return
+    fetch('../ago2021/php/loadLayers.php?cancel=TRUE')
+        .then((response) => response.json())
+        .then((json) => {
+            console.log(json)
+            updateModal(json.usuarios, '#divModalCancelLayerGroup')
+            $('#modalCancelShare').modal();
+            //plotaAreas(json.areas, json.usuario)
+        });
+}
+
+
+function plotaAreas(areas) {
+    function plotaPoligono(area, desc, usuario) {
+        coord = formataCoordsExternas(area);
+        coord = invertLatLong(getCoordDegAirmet(coord))
+        let layer = formataLayerEdit(addLayerToMap(L.polygon(coord)))
+        let u = usuario == "nil" ? "" : ` - ( ${usuario} )`
+        saveDescricaoLayer(layer, desc + u)
+        atualizaLayersEditados()
+    }
+    areas.forEach(a => {
+        plotaPoligono(a.coordenadas, a.descricao, a.usuario)
+    });
+}
+
 
 /*function hideContextMenuMapa(evt) {
     menuMapa.hide();
     document.removeEventListener('click', hideContextMenuMapa);
 }*/
+

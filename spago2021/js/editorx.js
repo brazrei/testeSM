@@ -2,6 +2,7 @@
 //editableLayers._layers[23892]._tooltip._content.split('<br>')[0]
 
 var editableLayers = false
+var sharedLayers = []
 var layersEditados = []
 var selectedLayer
 var latLngClicked
@@ -269,7 +270,7 @@ function isEqualArr(arr1, arr2) { // compara dois arrays {lat lng}
 
 function updateEditableLayers(layer) { // apaga se existir algum layer com as mesmas coordenadas do layer em questao
   edtLayers = editableLayers.getLayers()
-  
+
   for (let i in edtLayers) {
     if (isEqualArr(edtLayers[i].getLatLngs()[0], layer.getLatLngs()[0])) {
       editableLayers.removeLayer(edtLayers[i])
@@ -312,19 +313,65 @@ function setLayerStyleByVertices(layer) {
   return ret
 }
 
-function saveLayersOnServer() {
-  let features = editableLayers.toGeoJSON().features[0]
-  let txt = ''
-  features.foreach ( f => {
-      txt += JSON.stringify(f.geometry)
+function removeSharedLayers(layers) {
+  let newSharedLayers = []
+  layers.forEach(layer => {
+    Object.values(sharedLayers).forEach(l=>{
+      if (!l._tooltip._content.includes(layer.coordenadas))
+        newSharedLayers.push(l)
+    })
   })
-  
+  sharedLayers = newSharedLayers.splice(0)
+}
+
+//Se for passado um layer como parâmetro, envia apenas ele, se não, envia todos os editáveis.
+function saveLayersOnServer(layer = false) {
+  function buscaLayer(sharedLayers, layer) { 
+    let achou = false
+    Object.values(sharedLayers).forEach(l => {
+      if (layer._leaflet_id == l._leaflet_id)
+        achou = true
+    })
+    return achou
+  }
+
+  //editableLayers._layers[23892]._tooltip._content.split('<br>')[0]
+  //let layers
+  if (!buscaLayer(sharedLayers, layer))
+    sharedLayers.push(layer)
+
+  /*if (layer) { 
+    keys = [layer]
+    layers = [layer]
+  }
+  else {
+    layers = editableLayers._layers //ajustar para exportar todos
+
+    let keys = Object.keys(layers)
+
+    if (keys.length == 0)
+      return false*/
+
+  let txt = '"areas": ['
+  let sep = ''
+  sharedLayers.forEach( (l) => {
+    txt += sep + '{"coordenadas": "' + l._tooltip._content.split('<br>')[0] + '", "descricao": "' + getDescricaoLayer(l) +'", "ip": "***@@IP@@***"}'
+    sep = ','
+
+  })
+
+
   $.ajax({
     url: '../ago2021/php/saveLayers.php',
-    data: { 'layers': txt},
+    data: { 'layers': txt + "]", 'usuario': opener.usuario },
+
     type: 'POST'
   });
-  
+
+}
+
+function getDescricaoLayer(layer) {
+  return arrayDescricaoLayer[layer._leaflet_id + 'L']
 }
 
 function formataLayerEdit(layer, keepStyle = false) {
@@ -402,15 +449,17 @@ function formataLayerEdit(layer, keepStyle = false) {
     "Duplo-Clique para Excluir esta Área!"
   let msgSAG = showMsgSAGITARIO ? "<br><br>" + spanBold(spanRed(msgErroSAGITARIO)) : ""
   let strPoints = spanBold("<br>Vértices: " + (layerCoords.split("-").length - 1))
-  let desc = coord + "<br><br><b>Aeródromos na área plotada:<br>" + insereQuebraHTML(",", locs, 10) + "</b>" + spanRed(strHelp) + msgSAG + strPoints
+  let strDescricao = getDescricaoLayer(layer)
+  strDescricao = strDescricao ? spanBold("<br>Descrição: " + strDescricao) : ""
+  let desc = coord + "<br><br><b>Aeródromos na área plotada:<br>" + insereQuebraHTML(",", locs, 10) + "</b>" + spanRed(strHelp) + msgSAG + strPoints + strDescricao
 
   //layer.bindPopup(desc).openPopup();
 
   layer.bindTooltip(desc, { closeButton: false, sticky: true });
 
   updateEditableLayers(layer);
-  
-  saveLayersOnServer()
+
+  //saveLayersOnServer()
 
   $(".drawercontainer .drawercontent").html(
     JSON.stringify(editableLayers.toGeoJSON())
