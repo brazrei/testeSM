@@ -404,7 +404,7 @@
 
     }
 
-    .bi{
+    .bi {
       padding-right: 5px;
     }
 
@@ -464,6 +464,7 @@
 
   <script src="js/airmet.js"></script>
   <script src="js/sigmet.js"></script>
+  <script src="js/gamet.js"></script>
   <script src="js/smartTAF.js?v=202212220015"></script>
 
   <script src="js/aeroportos20102020.js"></script>
@@ -766,7 +767,7 @@
 
         <!-- Modal Header -->
         <div class="modal-header">
-          <h4 class="modal-title">Compartilhar</h4>
+          <h4 class="modal-title" id = "modalDescriptionTitle">Compartilhar</h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -782,7 +783,10 @@
 
         <!-- Modal footer -->
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" id="btnSalvaDescricao">Compartilhar</button>
+          <button type="button" class="btn btn-primary" id="btnShare">Compartilhar</button>
+
+          <button type="button" id="btnSaveDescription" class="btn btn-primary" data-bs-dismiss="modal"
+            onclick="$('#modalDescricaoLayer').modal('hide');">Salvar</button>
 
           <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
             onclick="$('#modalDescricaoLayer').modal('hide');">Fechar</button>
@@ -823,7 +827,7 @@
           <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
             onclick="$('#modalLoadLayer').modal('hide');">Fechar</button>
 
-<!--          <button type="button" class="btn btn-danger" id="btnDeleteLayer" data-bs-dismiss="modal" onclick=""><i
+          <!--          <button type="button" class="btn btn-danger" id="btnDeleteLayer" data-bs-dismiss="modal" onclick=""><i
               class="bi bi-trash"></i>Excluir Selecionados</button>
 
 -->
@@ -857,11 +861,12 @@
         <!-- Modal footer -->
         <div class="modal-footer">
 
+          <button type="button" class="btn btn-danger" id="btnDeleteLayer" data-bs-dismiss="modal" onclick=""><i
+              class="bi bi-trash"></i>Excluir Selecionados</button>
+
           <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
             onclick="$('#modalCancelShare').modal('hide');">Fechar</button>
 
-          <button type="button" class="btn btn-danger" id="btnDeleteLayer" data-bs-dismiss="modal" onclick=""><i
-              class="bi bi-trash"></i>Excluir Selecionados</button>
 
 
         </div>

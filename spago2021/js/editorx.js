@@ -1,6 +1,7 @@
 //sempre que for editados os poligonos gravar o cookie
 //editableLayers._layers[23892]._tooltip._content.split('<br>')[0]
 
+
 var editableLayers = false
 var sharedLayers = []
 var layersEditados = []
@@ -9,6 +10,7 @@ var latLngClicked
 var disableCtrl = false
 var timerCopiaCoords = null
 var decMagnetica = 20
+var teste
 
 function updateSmartMetar() {
   window.opener.BtnMetarGERALClick(false, 'SP');
@@ -316,7 +318,7 @@ function setLayerStyleByVertices(layer) {
 function removeSharedLayers(layers) {
   let newSharedLayers = []
   layers.forEach(layer => {
-    Object.values(sharedLayers).forEach(l=>{
+    Object.values(sharedLayers).forEach(l => {
       if (!l._tooltip._content.includes(layer.coordenadas))
         newSharedLayers.push(l)
     })
@@ -326,7 +328,7 @@ function removeSharedLayers(layers) {
 
 //Se for passado um layer como parâmetro, envia apenas ele, se não, envia todos os editáveis.
 function saveLayersOnServer(layer = false) {
-  function buscaLayer(sharedLayers, layer) { 
+  function buscaLayer(sharedLayers, layer) {
     let achou = false
     Object.values(sharedLayers).forEach(l => {
       if (layer._leaflet_id == l._leaflet_id)
@@ -354,8 +356,8 @@ function saveLayersOnServer(layer = false) {
 
   let txt = '"areas": ['
   let sep = ''
-  sharedLayers.forEach( (l) => {
-    txt += sep + '{"coordenadas": "' + l._tooltip._content.split('<br>')[0] + '", "descricao": "' + getDescricaoLayer(l) +'", "ip": "***@@IP@@***"}'
+  sharedLayers.forEach((l) => {
+    txt += sep + '{"coordenadas": "' + l._tooltip._content.split('<br>')[0] + '", "descricao": "' + getDescricaoLayer(l) + '", "ip": "***@@IP@@***"}'
     sep = ','
 
   })
@@ -742,9 +744,10 @@ function makeMap() {
     //      iniciarPlotagem(e)
   });
 
-  map.on('click', function (e) {
+  map.on('mousedown', function (e) {
     //   if (!polygonDrawer.enabled() && menuMapa)
     //     iniciarPlotagem(e)
+    hideAll();
 
 
   });
@@ -818,3 +821,6 @@ function getDistancia(p1, p2) {
 
   return turf.distance(point1, point2, { units });
 }
+
+
+

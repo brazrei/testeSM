@@ -106,16 +106,16 @@ function createPopUpMenu() {
                         removeLayerEdit(selectedLayer, true);
                     }
                 },
-                { 'icon': '', 'name': 'Compartilhar Área', action: () => sharePolygon(selectedLayer) }
+                {
+                    'icon': '', 'name': 'Adicionar Descrição', action: () =>
+                        changeDescription(selectedLayer)
+                },
+                {
+                    'icon': '', 'name': 'Compartilhar Área', action: () =>
+                        sharePolygon(selectedLayer)
+                }
 
 
-                /*                {
-                                    'icon': '', 'name': 'Plotar nova Área', action: (e) => {
-                                        iniciarPlotagem(e);
-                                    }
-                
-                                }
-                */
             ]
         }
     );
@@ -302,16 +302,6 @@ $(document).ready(function () {
         $('#taModalDescricao').focus();
     })
 
-    $('#btnSalvaDescricao').on('click', function () {
-        //        let d = $('#taModalDescricao').val() + ""
-        saveDescricaoLayer(selectedLayer, $('#taModalDescricao').val())
-
-        $('#modalDescricaoLayer').modal('hide');
-        atualizaLayersEditados()
-        saveLayersOnServer(selectedLayer)
-    }
-    );
-
     $('#btnImportaLayer').on('click', function () {
         //        let d = $('#taModalDescricao').val() + ""
         //saveDescricaoLayer(selectedLayer, $('#taModalDescricao').val())
@@ -334,6 +324,29 @@ $(document).ready(function () {
     }
     );
 
+    $('#btnShare').on('click', function () {
+        //        let d = $('#taModalDescricao').val() + ""
+        
+        saveDescricaoLayer(selectedLayer, $('#taModalDescricao').val())
+
+        $('#modalDescricaoLayer').modal('hide');
+        atualizaLayersEditados()
+        saveLayersOnServer(selectedLayer)
+    }
+    );
+
+    $('#btnSaveDescription').on('click', function () {
+        //        let d = $('#taModalDescricao').val() + ""
+
+        saveDescricaoLayer(selectedLayer, $('#taModalDescricao').val())
+        $('#btnShare').hide()
+        $('#modalDescriptionTitle').html('Adicionar Descrição');
+        $('#modalDescricaoLayer').modal('hide');
+       // deleteLayers(getSelecterLayersFromModal('#divModalCancelLayerGroup'))
+        atualizaLayersEditados()
+    }
+    );
+
 
 })
 
@@ -350,8 +363,23 @@ function getSelecterLayersFromModal(div = '#divModalLoadLayerGroup') {
 
 function sharePolygon(layer) {
     //$('#taCoordenadas').val(str);
-    $('#modalDescricaoLayer').modal();
+    $('#btnShare').show();
+    $('#btnSaveDescription').hide();
     $('#taModalDescricao').val(arrayDescricaoLayer[layer._leaflet_id + 'L']);
+    $('#modalDescriptionTitle').html('Compartilhar');
+
+    $('#modalDescricaoLayer').modal();
+}
+
+function changeDescription(layer) {
+    //$('#taCoordenadas').val(str);
+    $('#btnSaveDescription').show();
+    $('#btnShare').hide();
+    //$('#btnDeleteLayer').hide();
+    $('#taModalDescricao').val(arrayDescricaoLayer[layer._leaflet_id + 'L']);
+    $('#modalDescriptionTitle').html('Adicionar Descrição');
+
+    $('#modalDescricaoLayer').modal();
 }
 
 function createAdWrng(layer) {
