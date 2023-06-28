@@ -1,0 +1,1 @@
+{"usuario": "nil", "areas": [{"coordenadas": "S0656 W06243 - S0053 W05024 - S1047 W05045 - S1142 W05716 - S0656 W06243", "descricao": "EMBD TS TOP FL450", "ip": "10.52.231.31"}]}

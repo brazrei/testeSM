@@ -121,11 +121,10 @@ function filtraValidadeZulu(texto) {
   let valPatt = /\d{2}\/\d{2}Z/g;
 
   let arrValidVis = texto.match(valPatt)
-  for (var i in arrValidVis){ 
+  for (var i in arrValidVis) {
     let validz = arrValidVis[i]
-    let validx = validz.replace("Z","")
-    while (texto.includes(validz))
-    { 
+    let validx = validz.replace("Z", "")
+    while (texto.includes(validz)) {
       texto = texto.replace(validz, validx)
     }
 
@@ -552,6 +551,10 @@ function getNuvensGamet(texto, idxFIR) {
 function NuvensToHtml(arrNuv, idxFIR) {
   var str = ""
   var oldValid = ""//arrNuv[0].validade
+  if (!arrayGamets[idxFIR])
+    arrayGamets[idxFIR] = {}
+  arrayGamets[idxFIR].arrTeto = []
+  arrayGamets[idxFIR].FIR = arrayLocalidadeFIR[idxFIR]
   for (var i in arrNuv) {
     var validade = arrNuv[i].validade + " "
     var valido = true
@@ -578,6 +581,8 @@ function NuvensToHtml(arrNuv, idxFIR) {
     let linha = validade + idxTeto + " ... " + arrNuv[i].nome + " " + arrNuv[i].base + "/" + topo + "FT ... " + arrNuv[i].area.texto + strLocs + "</br>" // + */// + " " + arrNuv[i].areaStr+ "</br>";
     if (!valido)
       linha = spanGray(linha, linha, "Linha Fora do Intervalo de Validade...")
+
+    arrayGamets[idxFIR].arrTeto.push({ validade, valido, valor: base + '/' + topo, area: arrNuv[i].area.texto })
 
     str = str + linha
   }
@@ -684,7 +689,10 @@ function VisibToHtml(arrVis, idxFIR) {
   var str = ""
   var oldValid = ""//arrNuv[0].validade
 
-
+  if (!arrayGamets[idxFIR])
+    arrayGamets[idxFIR] = {}
+  arrayGamets[idxFIR].arrVisib = []
+  arrayGamets[idxFIR].FIR = arrayLocalidadeFIR[idxFIR]
   for (var i in arrVis) {
     if ((arrVis[i].valor) && (arrVis[i].valor !== "undifined")) {
       var validade = arrVis[i].validade + " "
@@ -711,6 +719,8 @@ function VisibToHtml(arrVis, idxFIR) {
       let linha = validade + idxVis + " ... " + vis + " ... " + textoAreaVis + strLocs + "</br>" // + */// + " " + arrNuv[i].areaStr+ "</br>";
       if (!valido)
         linha = spanGray(linha, linha, "Linha Fora do Intervalo de Validade...")
+
+      arrayGamets[idxFIR].arrVisib.push({ validade, valido, valor: vis, area: textoAreaVis })
       str = str + linha
     }
   }
