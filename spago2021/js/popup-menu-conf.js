@@ -142,6 +142,17 @@ function createPopUpMenu() {
             ]
         }
     );
+    menuGamet = new ContextMenu(
+        {
+            'theme': 'default',
+            'items': [
+          
+                { 'icon': '', 'name': 'Enviar para Trás', action: () => selectedSigmet.bringToBack() }
+
+
+            ]
+        }
+    );
     /*
         menuAirmet = new ContextMenu(
             {
@@ -235,6 +246,7 @@ function hideMenu(menu) {
 function hideAll() {
     hideMenu(menuPoly);
     hideMenu(menuSigmet);
+    hideMenu(menuGamet);
     hideMenu(menuMarker);
     hideMenu(menuMapa);
     hideMenu(menuMapaBackup);
@@ -255,6 +267,15 @@ function openContextMenuSigmet(evt) { //sigmet e airmet
     hideAll();
 
     setTimeout(() => { menuSigmet.show(evt.containerPoint.x, evt.containerPoint.y) }, time);
+    document.addEventListener('click', hideContextMenu, false);
+}
+
+function openContextMenuGamet(evt) { //sigmet e airmet
+    //evt.preventDefault();
+    const time = menuGamet.isOpen() ? 100 : 0;
+    hideAll();
+
+    setTimeout(() => { menuGamet.show(evt.containerPoint.x, evt.containerPoint.y) }, time);
     document.addEventListener('click', hideContextMenu, false);
 }
 

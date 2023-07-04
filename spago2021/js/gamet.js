@@ -1,5 +1,5 @@
-arrGametsPlot = []
-
+var arrGametsPlot = []
+var arrayGametsTooltip = []
 function getGametArea(s) {
   function makeGametCoord(s, patt) {
     //patt = 
@@ -51,6 +51,7 @@ function clearLayersGamets() {
 
   //removePopupsVencidos()
   arrGametsPlot = []//.length = 0
+  arrayGametsTooltip = []
   //arrIdxSigmetsPlot.length = 0
 }
 
@@ -62,7 +63,7 @@ function getColorGamet(tipo) {
 
 }
 
-function cutFIRGamet(coordG, tPolyFir, descricao) {
+function cutFIRGamet(coordG, tPolyFir, descricao, opt) {
   //    let tPolyFir = [getCoordDegAirmet(coordFIR)]
   // let tPolyFir = coordFIR
 
@@ -78,20 +79,23 @@ function cutFIRGamet(coordG, tPolyFir, descricao) {
     let iCoord = getCutCoordinates(plotFirCut);
     if (iCoord.length == 1) //quando soh ha um poligono por fir a coordenada vem em formato diferente.
       iCoord = [iCoord]
+    let coord = []
     for (let i in iCoord) {
       iPoly = iCoord[i][0]
-      let coord = invertLatLong(iPoly)
-      return L.polygon(coord)
+      coord.push(invertLatLong(iPoly))
     }
-    return false
+    return coord
   }
   return false
 }
 
 
-function plotaGamet(FIR, tipo, area, valor) {
-  function getGametDescription(FIR, tipo, area, valor) {
-    return `GAMET ${FIR} <br><br> Área: ${area}<br>${valor}`
+function plotaGamet(FIR, validadeG, tipo, area, valor, validade) {
+  function getGametDescription(FIR, color, area, valor, validade) {
+    let circle = `<div id="circle" style = "background: ${color}; width: 20px;  height: 20px; border-radius: 50%; float:left; padding: 10px;"></div>`
+    validade = validade.replaceAll("<br>", "").replaceAll(" ", "")
+    validade = validade == '' ? '' : 'VALIDADE: <b>' + validade + 'Z</b><br>'
+    return `${circle} <div style="width: 300px"><span style="padding-left: 5px; font-weight: bold;">GAMET ${FIR} </span><br><br>${validade} ÁREA: ${area}<br><b>${valor}</b></div>`
   }
 
   let areaCoord = getGametArea(area)
@@ -108,7 +112,6 @@ function plotaGamet(FIR, tipo, area, valor) {
 
 
 
-  let cut = cutFIRGamet(areaCoord, [(getCoordDegAirmet((plotFir)))], "")
   //console.log("poly ==>", poly)
   let color = getColorGamet(tipo)
   let opt = {
@@ -116,40 +119,94 @@ function plotaGamet(FIR, tipo, area, valor) {
     color: color,
     fillColor: color
   }
+  //let cut = cutFIRGamet(areaCoord, [(getCoordDegAirmet((plotFir)))], "", opt)
+
   //if (isCloseToValidOff(a.codigo))
   //  opt.className = "pulse";
 
-  let p;
-  if (!cut)
-    p = L.polygon(poly, opt).addTo(map)
-  else
-    p = cut.addTo(map)
+  let arrCut = cutFIRGamet(areaCoord, [(getCoordDegAirmet((plotFir)))], "", opt)
+
+  arrCut.forEach(coord => {
+    let cut = L.polygon(coord, opt)
+    let p;
+    if (!cut)
+      p = L.polygon(poly, opt).addTo(map)
+    else
+      p = cut.addTo(map)
 
 
-  p.bringToBack();
-  arrGametsPlot.push(p)
+    p.bringToBack();
+    arrGametsPlot.push(p)
 
-  let gametDesc = getGametDescription(FIR, tipo, area, valor)
-  p.bindTooltip(gametDesc, { closeButton: false, sticky: true });
+    let gametDesc = getGametDescription(FIR + " - " + validadeG, color, area, valor, validade)
+    arrayGametsTooltip[p._leaflet_id] = gametDesc
+    p.bindTooltip(gametDesc, { closeButton: false, sticky: true });
 
-  p.on('mouseover', function (e) {
-    // Set highlight
-    this.setStyle({
-      opacity: 0.5,
-      fillOpacity: 0.8
-    })
-    setMenuMapaOff();
-  });
-  p.on('mouseout', function (e) {
-    this.setStyle({
-      opacity: 1,
-      fillOpacity: 0.2
+    p.on('mouseover', function (e) {
+      // Set highlight
+      setStyleMouseOver(this)
+      setMenuMapaOff();
     });
-    setMenuMapaOn();
+    p.on('mouseout', function (e) {
+      setStyleMouseOut(this)
+      setMenuMapaOn();
+    });
+
+    p.on('contextmenu', function (event) {
+      selectedSigmet = event.target
+      //selectedAirmet = false
+      openContextMenuGamet(event, event.target);
+    }, this);
+
+
+  })
+
+}
+
+function setStyleMouseOver(layer) {
+  layer.setStyle({
+    opacity: 0.1,
+    fillOpacity: 0.6
   });
+}
+
+function setStyleMouseOut(layer) {
+  layer.setStyle({
+    opacity: 1,
+    fillOpacity: 0.2
+  });
+}
+
+function isGametOn() {
+  return $('#chkGAMET').prop("checked")
+}
+
+function isGametVisOn() {
+  return $('#chkGametVis').prop("checked")
+}
+
+function isGametTetoOn() {
+  return $('#chkGametTeto').prop("checked")
+}
+
+function mostraGamet() {
+  if ($('#chkGAMET').prop("checked")) {
+    $('#divGametType').show()
+    plotaGamets()
+  }
+  else {
+    $('#divGametType').hide()
+    clearLayersGamets()
+  }
+}
 
 
+function mostraGametVis() {
+  plotaGamets()
+}
 
+function mostraGametTeto() {
+  plotaGamets()
 }
 
 
@@ -158,15 +215,19 @@ function plotaGamets() {
   //arrGametsPlot = []
 
   opener.arrayGamets.forEach(gamet => {
-    gamet.arrVisib.forEach(vis => {
-      plotaGamet(gamet.FIR, 'VIS', vis.area, vis.valor)
-      console.log(gamet.FIR + ' // ' + vis.area + ' // ' + vis.valor)
+    if (isGametVisOn()) {
+      gamet.arrVisib.forEach(vis => {
+        plotaGamet(gamet.FIR, gamet.validade, 'VIS', vis.area, vis.valor, vis.validade)
+        //console.log(gamet.FIR + ' // ' + vis.area + ' // ' + vis.valor)
 
-    })
-    gamet.arrTeto.forEach(teto => {
-      plotaGamet(gamet.FIR, 'TETO', teto.area, teto.valor)
-      console.log(gamet.FIR + ' // ' + teto.area + ' // ' + teto.valor)
+      })
+    }
+    if (isGametTetoOn()) {
+      gamet.arrTeto.forEach(teto => {
+        plotaGamet(gamet.FIR, gamet.validade, 'TETO', teto.area, teto.nome + " " + teto.valor, teto.validade)
+        //console.log(gamet.FIR + ' // ' + teto.area + ' // ' + teto.valor)
 
-    })
+      })
+    }
   })
 }

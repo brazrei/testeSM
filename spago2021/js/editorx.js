@@ -11,6 +11,7 @@ var disableCtrl = false
 var timerCopiaCoords = null
 var decMagnetica = 20
 var teste
+var timerMovemap = false
 
 function updateSmartMetar() {
   window.opener.BtnMetarGERALClick(false, 'SP');
@@ -722,8 +723,11 @@ function makeMap() {
       $("#h5angulo").html("Radial: " + Math.round(angulo) + "°");
       $("#h5distancia").html("Distância do Último Ponto: " + Math.round(distancia) + " Milhas");
     }
-
+    clearTimeout(timerMovemap);
+    timerMovemap = setTimeout(checkMouseGamets, 50, e.latlng)
   }
+
+
 
   map.on('keydown', function (e) {
     //    if (e.originalEvent.ctrlKey && !polygonDrawer.enabled() && !disableCtrl)
@@ -779,6 +783,35 @@ function makeMap() {
   bringMapToFront(basemaps)
 
   return map;
+}
+
+function checkMouseGamets(point) {
+  let arrTmp = []
+  let tooltip = ""
+  if (arrGametsPlot) {
+    let sep = ''
+    arrGametsPlot.forEach(gamet => {
+      if (checaPontoEdit([point.lat, point.lng], gamet)) {
+        arrTmp.push(gamet)
+
+        if (!tooltip.includes(arrayGametsTooltip[gamet._leaflet_id])) {
+          tooltip += sep + arrayGametsTooltip[gamet._leaflet_id]
+          sep = '<hr>'
+          //gamet.fire('mouseover')
+          setStyleMouseOver(gamet)
+          }
+        } else {
+          gamet.setTooltipContent(arrayGametsTooltip[gamet._leaflet_id])
+          //gamet.fire('mouseout')
+          setStyleMouseOut(gamet)
+        }
+      })
+
+    arrTmp.forEach(gamet => {
+      gamet.setTooltipContent(tooltip)
+    })
+
+  }
 }
 
 function bringMapToFront(basemaps) {

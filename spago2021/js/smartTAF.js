@@ -138,7 +138,7 @@ function destacaPalavrasTAF(taf) {
     function appPatt(taf, patt) {
         let arr = taf.match(patt)
         let s = ''
-        
+
         if (!arr || arr.length == 0)
             return taf
         for (let i in arr) {
@@ -152,7 +152,7 @@ function destacaPalavrasTAF(taf) {
     let pattTrov = /[+,-,\s]TS[A-Z][A-Z] /g
     let pattTrov2 = / TS /g
     let pattRaj = / \d{5}G\d{2}KT /g
-    
+
 
     taf = appPatt(taf, pattNuvem)
     taf = appPatt(taf, pattVis)
@@ -209,7 +209,7 @@ function getAMDStatus(TAF) {
         addHours(horasValid, 3)
     }
 
-    let prazoFinal = new Date(inicio)
+    let prazoFinal = getUTCDate(new Date(inicio))
     addHours(prazoFinal, (((horasValid.getDate() - 1) * 24) + horasValid.getHours()) / 6)
     addMinutes(prazoFinal, -61)
 
@@ -291,7 +291,7 @@ function chkTetoMetarTAF(loc) {
 
 function getTAFFromLoc(loc, metar = false) {
 
-    let dh = metar ? getMetarFullDateTime(metar) : new Date();
+    let dh = metar ? getMetarFullDateTime(metar) : getUTCDate(new Date());
     try {
         let statusAMD = getAMDStatus(arrayTAFs[loc].TAF)
         permiteAMD = statusAMD.permiteAMD
@@ -323,9 +323,9 @@ function getMetarDataHora(metar) {
 
 function metarDH2FullDateTime(dh) {
     let hora = dh.substr(2, 2)
-    let agora = new Date();
+    let agora = getUTCDate(new Date())
 
-    return new Date(agora.getUTCFullYear(), agora.getUTCMonth(), agora.getUTCDate(), hora)
+    return getUTCDate(new Date(agora.getUTCFullYear(), agora.getUTCMonth(), agora.getUTCDate(), hora))
 }
 
 function getMetarFullDateTime(metar) {
@@ -336,7 +336,7 @@ function getMetarFullDateTime(metar) {
 
 function getBeginTAF(taf) {
     try {
-        return new Date(taf.TAF.validPeriod.TimePeriod.beginPosition)
+        return getUTCDate(new Date(taf.TAF.validPeriod.TimePeriod.beginPosition))
     } catch {
         return false
     }
@@ -345,7 +345,7 @@ function getBeginTAF(taf) {
 
 function getEndTAF(taf) {
     try {
-        return new Date(taf.TAF.validPeriod.TimePeriod.endPosition)
+        return getUTCDate(new Date(taf.TAF.validPeriod.TimePeriod.endPosition))
     } catch {
         return false
     }
@@ -358,7 +358,7 @@ function getInterval(taf) {
 
 function getBeginChange(tafMAF) {
     try {
-        return new Date(tafMAF.phenomenonTime.TimePeriod.beginPosition);
+        return getUTCDate(new Date(tafMAF.phenomenonTime.TimePeriod.beginPosition))
     } catch {
         return false
     }
@@ -367,7 +367,7 @@ function getBeginChange(tafMAF) {
 
 function getEndChange(tafMAF) {
     try {
-        return new Date(tafMAF.phenomenonTime.TimePeriod.endPosition);
+        return getUTCDate(new Date(tafMAF.phenomenonTime.TimePeriod.endPosition))
     } catch {
         return false
     }
@@ -844,7 +844,7 @@ function GetWebContentTAF(url, primeiraVez) {
 }
 
 function clearTAFsTraduzidos() { // limpa os tafs traduzidos de hora em hora
-    let data = new Date()
+    let data = getUTCDate(new Date())
     if (data.getMinutes() == 0) {
         arrayTAFsTraduzidos = []
         arrayProximosTAFs = excluiTAFsAntigos(arrayProximosTAFs);
@@ -888,10 +888,10 @@ function mostraTAF() {
     plotaAeroportos()
 }
 
-function getStatusAlertaTAF(){
+function getStatusAlertaTAF() {
     return $('#chkTAF').prop('checked')
 }
- 
+
 
 
 //function getTetoMudanca
