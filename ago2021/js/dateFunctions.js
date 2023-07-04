@@ -84,6 +84,8 @@ if ((diaF > agora.getUTCDate()) && agora.getUTCDate() == 1)
 
 let dataInicial = new Date(agora.getUTCFullYear(), agora.getUTCMonth() + decMonthI, diaI, horaI, minI)
 let dataFinal = new Date(agora.getUTCFullYear(), agora.getUTCMonth() + decMonthF, diaF, horaF, minF)
+if (dataFinal < dataInicial && diaF == 1)
+    dataFinal = new Date(agora.getUTCFullYear(), agora.getUTCMonth() + decMonthF +1 , diaF, horaF, minF)
 
 // if (parseInt(diaF) < parseInt(diaI))
 //     dataFinal.setMonth(dataFinal.getMonth() + 1);

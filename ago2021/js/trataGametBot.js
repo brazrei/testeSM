@@ -548,13 +548,15 @@ function getNuvensGamet(texto, idxFIR) {
   return arrNuvens
 }
 
-function NuvensToHtml(arrNuv, idxFIR) {
+function NuvensToHtml(arrNuv, idxFIR, validade) {
   var str = ""
   var oldValid = ""//arrNuv[0].validade
   if (!arrayGamets[idxFIR])
     arrayGamets[idxFIR] = {}
   arrayGamets[idxFIR].arrTeto = []
   arrayGamets[idxFIR].FIR = arrayLocalidadeFIR[idxFIR]
+  arrayGamets[idxFIR].validade = validade
+
   for (var i in arrNuv) {
     var validade = arrNuv[i].validade + " "
     var valido = true
@@ -571,7 +573,7 @@ function NuvensToHtml(arrNuv, idxFIR) {
     var base = arrNuv[i].base
     var topo = arrNuv[i].topo.replace("FT", "")
     if (validade.includes("/"))
-      validade = validade + "</br>"
+      validade = validade + "<br>"
     var strLocs = " [ " + filtraLocs(arrNuv[i].area, idxFIR) + " ]"
     var idxTeto = '[T' + (parseInt(i) + 1) + '] ';
     if (valido) {
@@ -582,7 +584,7 @@ function NuvensToHtml(arrNuv, idxFIR) {
     if (!valido)
       linha = spanGray(linha, linha, "Linha Fora do Intervalo de Validade...")
 
-    arrayGamets[idxFIR].arrTeto.push({ validade, valido, valor: base + '/' + topo, area: arrNuv[i].area.texto })
+    arrayGamets[idxFIR].arrTeto.push({ validade, valido, valor: base + '/' + topo + 'FT', area: arrNuv[i].area.texto, nome: arrNuv[i].nome })
 
     str = str + linha
   }
@@ -685,7 +687,7 @@ function getStatusGamet(loc) {
   }
 }
 
-function VisibToHtml(arrVis, idxFIR) {
+function VisibToHtml(arrVis, idxFIR, validade) {
   var str = ""
   var oldValid = ""//arrNuv[0].validade
 
@@ -693,6 +695,8 @@ function VisibToHtml(arrVis, idxFIR) {
     arrayGamets[idxFIR] = {}
   arrayGamets[idxFIR].arrVisib = []
   arrayGamets[idxFIR].FIR = arrayLocalidadeFIR[idxFIR]
+  arrayGamets[idxFIR].validade = validade
+
   for (var i in arrVis) {
     if ((arrVis[i].valor) && (arrVis[i].valor !== "undifined")) {
       var validade = arrVis[i].validade + " "
@@ -708,7 +712,7 @@ function VisibToHtml(arrVis, idxFIR) {
         oldValid = validade
       var vis = arrVis[i].valor
       if (validade.includes("/"))
-        validade = validade + "</br>"
+        validade = validade + "<br>"
       var idxVis = '[V' + (parseInt(i) + 1) + '] ';
       var strLocs = " [ " + filtraLocs(arrVis[i].area, idxFIR) + " ]"
       if (valido) {
@@ -735,12 +739,12 @@ function VisibToHtml(arrVis, idxFIR) {
 //console.log(NuvensToHtml(getNuvensGamet(texto)))
 //$("#msg").html(NuvensToHtml(getNuvensGamet(texto)))
 
-function getNuvensHtml(gamet, idxFIR) {
-  return NuvensToHtml(getNuvensGamet(gamet, idxFIR), idxFIR)
+function getNuvensHtml(gamet, idxFIR, validade) {
+  return NuvensToHtml(getNuvensGamet(gamet, idxFIR), idxFIR, validade)
 }
 
-function getVisibHtml(gamet, idxFIR) {
-  return VisibToHtml(getVisGamet(gamet, idxFIR), idxFIR)
+function getVisibHtml(gamet, idxFIR, validade) {
+  return VisibToHtml(getVisGamet(gamet, idxFIR), idxFIR, validade)
 }
 
 

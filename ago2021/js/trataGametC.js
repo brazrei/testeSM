@@ -6,7 +6,7 @@ var lastGamet = ""
 var gametTimeout = false
 
 
-function GetWebContentGamet(url) {
+function GetWebContentGamet(url, update) {
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
     var erro = "ErroSM=";
@@ -16,7 +16,8 @@ function GetWebContentGamet(url) {
         //$("#imgLoad"+idxFIR).attr('src', 'pngs/green-button30.png');
 
         trataGametRedemet(this.responseText);
-
+        if (update && smartPlot && smartPlot.isGametOn())
+          smartPlot.plotaGamets()
         return this.responseText;
       } else if (this.readyState > 2 && this.status !== 200) {
         erro = erro + this.responseText;
@@ -92,12 +93,12 @@ function trataGametRedemet(texto) {
 
       gamet = gamet[posicaoGAMET].split("=")[0]
 
-      vis = "</br>" + getVisibHtml(gamet, idx)
-      teto = "</br>" + getNuvensHtml(gamet, idx)
       var val = getValidadeGamet(gamet)
       var horaIniGamet = getIniGamet(val)
       var horaFimGamet = getFimGamet(val)
 
+      vis = "</br>" + getVisibHtml(gamet, idx, val)
+      teto = "</br>" + getNuvensHtml(gamet, idx, val)
 
       if ((horaAtual < horaIniGamet) || (horaAtual >= horaFimGamet)) {
 
@@ -105,7 +106,7 @@ function trataGametRedemet(texto) {
         erro = " **** Gamet fora da Validade! **** "
         erro = spanRed(erro, erro)
         if (!gametTimeout)
-          gametTimeout = setTimeout("getGamet();", 5000)
+          gametTimeout = setTimeout("getGamet(1);", 5000)
 
       }
       let strStyle = ""
@@ -131,9 +132,9 @@ function trataGametRedemet(texto) {
 }
 
 
-function getGamet() {
+function getGamet(update) {
   gametTimeout = false
-  
+
   var agora = getUTCAgora();
   if (agora.getHours() < 6) {
     ini = "00"
@@ -162,7 +163,7 @@ function getGamet() {
     url = `${linkAPINova}gamet/?api_key=${apiKey}&local=SBAZ,SBBS,SBRE,SBCW;`
   }
 
-  GetWebContentGamet(url);
+  GetWebContentGamet(url, update == 1);
 }
 
 function getGametAZ() {
