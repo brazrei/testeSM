@@ -84,7 +84,7 @@
     }
 
     .divEspaco {
-      padding-bottom: 10px;
+      padding-bottom: 1px;
     }
 
     .hora {
@@ -610,7 +610,7 @@
 
           </div>
         </div>
-
+        <br>
         <div class="divStatus divEspaco">
           <span>AIRMET</span>
           <span class="airmet"> (</span><span class="airmet" id="clockAirmet">--:--</span>
@@ -646,6 +646,37 @@
             <span class="slider round"></span>
           </label>
         </div>
+
+        <div class="divStatus divEspaco">
+          <span>GAMET</span>
+
+          <label class="switch" title="Ativar GAMETs">
+            <input type="checkbox" id="chkGAMET" onchange="mostraGamet(this)" />
+            <span class="slider round"></span>
+          </label>
+        </div>
+        <div class=" divEspaco" id="divGametType" style="width: 100%; display: none;">
+
+          <div class="divStatus" style="display: table-cell; float: right;">
+            <span id="spanGametVis">VISIB</span>
+
+            <label class="switch">
+              <input type="checkbox" id="chkGametVis" onchange="mostraGametVis(this)" checked>
+              <span class="slider round"></span>
+            </label>
+
+          </div>
+          <div class="divStatus" style="display: table-cell; float: right;">
+            <span id="spanGametTeto">TETO</span>
+
+            <label class="switch">
+              <input type="checkbox" id="chkGametTeto" onchange="mostraGametTeto(this)" checked>
+              <span class="slider round"></span>
+            </label>
+
+          </div>
+        </div>
+        <br><br>
 
 
         <!--        <label class="switch">
@@ -767,7 +798,7 @@
 
         <!-- Modal Header -->
         <div class="modal-header">
-          <h4 class="modal-title" id = "modalDescriptionTitle">Compartilhar</h4>
+          <h4 class="modal-title" id="modalDescriptionTitle">Compartilhar</h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
