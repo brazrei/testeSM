@@ -706,6 +706,7 @@ function VisibToHtml(arrVis, idxFIR, validade) {
         valido = checaValidadeLinhaGamet(validade)
       validade = validade.replace("00/00", "")
       //console.log(validade)
+      let auxValid = validade
       if (validade == oldValid)
         validade = ""
       else
@@ -724,7 +725,7 @@ function VisibToHtml(arrVis, idxFIR, validade) {
       if (!valido)
         linha = spanGray(linha, linha, "Linha Fora do Intervalo de Validade...")
 
-      arrayGamets[idxFIR].arrVisib.push({ validade, valido, valor: vis, area: textoAreaVis })
+      arrayGamets[idxFIR].arrVisib.push({ validade: auxValid, valido, valor: vis, area: textoAreaVis })
       str = str + linha
     }
   }
