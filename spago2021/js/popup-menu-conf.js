@@ -332,7 +332,7 @@ $(document).ready(function () {
             return
         }
         $('#modalLoadLayer').modal('hide');
-        plotaAreas()
+        plotaAreas(a)
         //atualizaLayersEditados()
         //saveLayersOnServer(selectedLayer)
     }
