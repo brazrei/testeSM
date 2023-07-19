@@ -781,6 +781,8 @@ function makeMap() {
   });
 
   bringMapToFront(basemaps)
+  
+  map.panTo(new L.LatLng(-15, -35))
 
   return map;
 }
