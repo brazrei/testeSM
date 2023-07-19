@@ -1,7 +1,20 @@
 //var firRECoords = "S1016 W04740 - S0851 W04639 - S0810 W04546 - S0616 W04446 - S0555 W04413 - S0430 W04314 - S0411 W04231 - N0057 W04047 - S0316 W03205 - S0406 W03148 - S0651 W03314 - S0824 W03349 - S1513 W03739 - S1643 W03802 - S1825 W03859 - S1852 W03739 - S2111 W03922 - S2044 W03948 - S2057 W04012 - S2053 W04031 - S2042 W04048 - S2025 W04058 - S2037 W04200 - S2027 W04236 - S1833 W04229 - S1702 W04143 - S1536 W04406 - S1318 W04535 - S1200 W04654 - S1016 W04740"
 //var firBSCoords = "S1016 W04740 - S1200 W04654 - S1319 W04534 - S1538 W04405 - S1701 W04143 - S1834 W04230 - S2027 W04236 - S2013 W04321 - S2022 W04329 - S2031 W04348 - S2030 W04404 - S2247 W04545 - S2313 W04551 - S2324 W04623 - S2329 W04654 - S2313 W04725 - S2302 W04734 - S2241 W04734 - S2206 W04801 - S2132 W04937 - S2041 W05035 - S1934 W05133 - S1718 W05354 - S1642 W05306 - S1433 W05337 - S1257 W05329 - S1211 W05303 - S1031 W05105 - S1029 W04954 - S1013 W04902 - S1001 W04859 - S0951 W04852 - S0941 W04838 - S0937 W04822 - S0938 W04809 - S0942 W04800 - S0954 W04748 - S1009 W04741 - S1016 W04740"
-arrCutted = []
 //arrSobr = []
+
+/*
+function makeGametArea(s) {
+	patt = /S OF [SN]\d{2}/g
+    a = s.match(patt)
+    r = ''
+    a.forEach(s => { 
+    	r = r + s
+    })
+    return r
+}
+
+*/
+arrCutted = []
 
 function getPolyByCoords(coords) {
     var features = [];
@@ -215,8 +228,12 @@ function cutPlotSobr(poly) {
 
 }
 
-function cutPlotFIRs(poly) {
+function cutPlotFIRs(poly) {  
     let coordEdit
+    let descricao = getDescricaoLayer(poly)
+    
+    descricao = descricao?descricao:""
+     
     if (!poly) {
         coordEdit = $("#taCoordenadas").val()
     } else {
@@ -230,11 +247,11 @@ function cutPlotFIRs(poly) {
 
     arrCutted = []
     let cont = 0
-    cont += cutPlotFIR(coordEdit, [(getCoordDegAirmet((firAZCoords)))])
-    cont += cutPlotFIR(coordEdit, [(getCoordDegAirmet((firAOCoords)))])
-    cont += cutPlotFIR(coordEdit, [(getCoordDegAirmet((firRECoords)))])
-    cont += cutPlotFIR(coordEdit, [(getCoordDegAirmet((firBSCoords)))])
-    cont += cutPlotFIR(coordEdit, [(getCoordDegAirmet((firCWCoords)))])
+    cont += cutPlotFIR(coordEdit, [(getCoordDegAirmet((firAZCoords)))], descricao)
+    cont += cutPlotFIR(coordEdit, [(getCoordDegAirmet((firAOCoords)))], descricao)
+    cont += cutPlotFIR(coordEdit, [(getCoordDegAirmet((firRECoords)))], descricao)
+    cont += cutPlotFIR(coordEdit, [(getCoordDegAirmet((firBSCoords)))], descricao)
+    cont += cutPlotFIR(coordEdit, [(getCoordDegAirmet((firCWCoords)))], descricao)
 
     //map.removeLayer()
     /*    cutPlotFIR(coordEdit, [firAOCoords])
@@ -251,6 +268,7 @@ function bringCuttedToFront() {
         arrCutted[i].bringToFront()
 
 }
+
 
 function bringEditableToFront() {
     let l = editableLayers.getLayers()
@@ -287,7 +305,7 @@ function getCutCoordinates(layer) {
     return ret
 }
 
-function cutPlotFIR(coordEdit, tPolyFir) {
+function cutPlotFIR(coordEdit, tPolyFir, descricao) {
     //    let tPolyFir = [getCoordDegAirmet(coordFIR)]
     // let tPolyFir = coordFIR
     let polyFir = turf.polygon(tPolyFir)
@@ -311,7 +329,8 @@ function cutPlotFIR(coordEdit, tPolyFir) {
                 color: "green",
             });*/
 
-
+            if (descricao !== "")
+                saveDescricaoLayer(cut, descricao)
             formataLayerEdit(cut, false)
             arrCutted.push(cut)
         }
@@ -328,8 +347,8 @@ function paste(pasteText) {
 
 function isFromSkyVector(coords) {
     coords = removeEspacos(coords);
-    let latLngPatt1 = /\d{6}[nNsS]\d{7}[WwEe]/g
-    let latLngPatt2 = /\d{4}[nNsS]\d{5}[WwEe]/g
+    let latLngPatt1 = /\d{6}[nNsS]\d{7}[W]/g
+    let latLngPatt2 = /\d{4}[nNsS]\d{5}[W]/g
     let arrCoords = coords.match(latLngPatt1)
 
     if (arrCoords && (arrCoords.length > 2)) {
@@ -345,7 +364,7 @@ function isFromSkyVector(coords) {
 
 function isFromRedemet(coords) {
     coords = removeEspacos(coords);
-    let latLngPatt = /[nNsS]\d{4}[WwEe]\d{5}/g
+    let latLngPatt = /[nNsS]\d{4}[W]\d{5}/g
     let arrCoords = coords.match(latLngPatt)
 
     return arrCoords && (arrCoords.length > 2)
@@ -354,8 +373,8 @@ function isFromRedemet(coords) {
 function skyVectorToRedemet(coords) {
     coords = removeEspacos(coords);
     //console.log(coords)
-    let latLngPatt1 = /\d{6}[nNsS]\d{7}[WwEe]/g
-    let latLngPatt2 = /\d{4}[nNsS]\d{5}[WwEe]/g
+    let latLngPatt1 = /\d{6}[nNsS]\d{7}[W]/g
+    let latLngPatt2 = /\d{4}[nNsS]\d{5}[W]/g
 
     let arrCoords = coords.match(latLngPatt1)
 
@@ -370,14 +389,9 @@ function skyVectorToRedemet(coords) {
         let sepLat = "S"
         if (icoord.includes("N"))
             sepLat = "N"
-            
-        let sepLon = "W"
-        if (icoord.includes("E"))
-            sepLon = "E"
-            
         let ilat = icoord.split(sepLat)[0].substr([0, 4])
         let ilong = icoord.split(sepLat)[1].substr(0, 5)
-        arrCoords[i] = sepLat + ilat + " " + sepLon + ilong
+        arrCoords[i] = sepLat + ilat + " W" + ilong
 
     }
     if (arrCoords[0] !== arrCoords[arrCoords.length - 1])
@@ -390,7 +404,7 @@ function formataCoordsExternas(coords) {
 
     coords = removeEspacos(coords);
     //console.log(coords)
-    let latLngPatt = /[nNsS]\d{4}[WwEe]\d{5}/g
+    let latLngPatt = /[nNsS]\d{4}[W]\d{5}/g
     let arrCoords = coords.match(latLngPatt)
 
     if (!arrCoords || arrCoords.length == 0)
@@ -467,4 +481,5 @@ function addLayerToMap(layer) {
     //layersEditaveis.push(l);
     return l
 }
+
 
