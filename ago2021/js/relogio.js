@@ -14,20 +14,20 @@ var tickState = true;
 
 //Zoom control
 px_ratio = window.devicePixelRatio || window.screen.availWidth / document.documentElement.clientWidth;
-$(window).resize(function(){isZooming();});
-function isZooming(){
-    var newPx_ratio = window.devicePixelRatio || window.screen.availWidth / document.documentElement.clientWidth;
-    if(newPx_ratio != px_ratio){
-        px_ratio = newPx_ratio;
-        //console.log("zooming");
-        if (zoom2CookieTimer)
-          clearTimeout(zoom2CookieTimer)
-        zoom2CookieTimer = setTimeout(saveZoom2Cookie, 5000, Math.round(px_ratio*100));
-        return true;
-    }else{
-        //console.log("just resizing");
-        return false;
-    }
+$(window).resize(function () { isZooming(); });
+function isZooming() {
+  var newPx_ratio = window.devicePixelRatio || window.screen.availWidth / document.documentElement.clientWidth;
+  if (newPx_ratio != px_ratio) {
+    px_ratio = newPx_ratio;
+    //console.log("zooming");
+    if (zoom2CookieTimer)
+      clearTimeout(zoom2CookieTimer)
+    zoom2CookieTimer = setTimeout(saveZoom2Cookie, 5000, Math.round(px_ratio * 100));
+    return true;
+  } else {
+    //console.log("just resizing");
+    return false;
+  }
 }
 //
 
@@ -40,8 +40,8 @@ function getIp() {
 }
 
 function updateMetarGamet() {
-   BtnMetarGERALClick(false,'SM');
-   setTimeout("BtnMetarGERALClick(false,'SM');",2000)  
+  BtnMetarGERALClick(false, 'SM');
+  setTimeout("BtnMetarGERALClick(false,'SM');", 2000)
 }
 
 function updateTime() {
@@ -213,6 +213,8 @@ function inicializaGamets() {
   });
   $("#salvarGamets").click(function () {
     salvarGamets();
+    if (smartPlot)
+      smartPlot.plotaGamets()
   });
   $("#showWindowGamet").click(function () {
     document.body.scrollTop = 0; // For Safari
@@ -229,13 +231,13 @@ function setGrupos() {
 }
 
 function openSmartPlot() {
-  if (!smartPlot || smartPlot.closed){
+  if (!smartPlot || smartPlot.closed) {
     smartPlotOnline = true
     smartPlot = window.open("../spago2021/index.html", 'SMART PLOT', '')
- // smartPlot = window.open("../../smartplot8/index.html", 'SMART PLOT', 'menubar=no,status=no')
+    // smartPlot = window.open("../../smartplot8/index.html", 'SMART PLOT', 'menubar=no,status=no')
   }
   else
-  smartPlot.focus()
+    smartPlot.focus()
 }
 
 function openSmartMetar() {
@@ -275,7 +277,7 @@ $(document).ready(function () {
 
   getAeroportos();
 
-  setTimeout(getAdWRNG,1000);
+  setTimeout(getAdWRNG, 1000);
   setInterval(getAdWRNG, 60000);
 
   getGamet();
@@ -289,5 +291,5 @@ $(document).ready(function () {
 
 });
 
- 
- 
+
+

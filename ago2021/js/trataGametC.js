@@ -1,21 +1,23 @@
 var arrayLocalidadeFIR = ["SBAZ", "SBBS", "SBRE", "SBCW"]
 var gametsBrutos;
 var gamets = []
+var arrayGamets = []
 var lastGamet = ""
 var gametTimeout = false
 
 
-function GetWebContentGamet(url) {
+function GetWebContentGamet(url, update) {
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
     var erro = "ErroSM=";
     if (this.status > 0) {
       if ((this.readyState == 4 && this.status == 200) && (this.responseText !== "") && (!this.responseText.includes("Forbidden")) && (!this.responseText.includes("*#*"))) {
-//      if (this.readyState == 4 && this.status == 200) {
+        //      if (this.readyState == 4 && this.status == 200) {
         //$("#imgLoad"+idxFIR).attr('src', 'pngs/green-button30.png');
 
         trataGametRedemet(this.responseText);
-
+        if (update && smartPlot && smartPlot.isGametOn())
+          smartPlot.plotaGamets()
         return this.responseText;
       } else if (this.readyState > 2 && this.status !== 200) {
         erro = erro + this.responseText;
@@ -78,24 +80,25 @@ function trataGametRedemet(texto) {
   var part1 = [0, 0, 0, 0]
   var idx = 0;
   var posicaoGAMET = 1
+  arrayGamets = []
   while (idx < arrayLocalidadeFIR.length) {
     var gamet = texto.split(arrayLocalidadeFIR[idx] + " GAMET");
     if (OPMET) { // em caso de emenda o banco OPMET returna o gamet mais recente depois
       posicaoGAMET = 0
       gamet = gamet.reverse()
     }
-    
+
     if (gamet && gamet.length > 1) {
       //limpaArrayStatus(idx)
 
       gamet = gamet[posicaoGAMET].split("=")[0]
 
-      vis = "</br>" + getVisibHtml(gamet, idx)
-      teto = "</br>" + getNuvensHtml(gamet, idx)
       var val = getValidadeGamet(gamet)
       var horaIniGamet = getIniGamet(val)
       var horaFimGamet = getFimGamet(val)
 
+      vis = "</br>" + getVisibHtml(gamet, idx, val)
+      teto = "</br>" + getNuvensHtml(gamet, idx, val)
 
       if ((horaAtual < horaIniGamet) || (horaAtual >= horaFimGamet)) {
 
@@ -103,7 +106,7 @@ function trataGametRedemet(texto) {
         erro = " **** Gamet fora da Validade! **** "
         erro = spanRed(erro, erro)
         if (!gametTimeout)
-          gametTimeout = setTimeout("getGamet();", 5000)
+          gametTimeout = setTimeout("getGamet(1);", 5000)
 
       }
       let strStyle = ""
@@ -111,7 +114,7 @@ function trataGametRedemet(texto) {
         strStyle = 'style="display:none"'
 
       str = erro + "GAMET VALID " + val + " " + arrayLocalidadeFIR[idx].toUpperCase() + " - " + vis + " - " + teto;
-      $("#" + arrayTableFir[idx] + " thead").append('<tr class="' + classe + '" ' + strStyle + '><td colspan = "5"><b>' + str + '</b></td></tr>');
+      $("#" + arrayTableFir[idx] + " thead").append('<tr class="' + classe + '" ' + strStyle + '><td id = "td' + arrayLocalidadeFIR[idx] + '" colspan = "5"><b>' + str + '</b></td></tr>');
       $("#" + arrayTableFir[idx] + " thead").append('<tr class="cabecalho"><td><b>Mensagem</b></td><td><b>Status AD WRNG</b></td><td><b>Status GAMET</b></td><td><b>Status AIRMET</b></td><td><b>CMA-1</b></td></tr>');
 
       if ((gamet.indexOf("VIS") == -1) && (part1[idx] == 0)) {
@@ -129,8 +132,9 @@ function trataGametRedemet(texto) {
 }
 
 
-function getGamet() {
+function getGamet(update) {
   gametTimeout = false
+
   var agora = getUTCAgora();
   if (agora.getHours() < 6) {
     ini = "00"
@@ -145,20 +149,23 @@ function getGamet() {
     ini = "18"
     fim = "23"
   }
-  
+
   let dataIni = agora.getFullYear().toString() + fillZero(agora.getMonth() + 1) + fillZero(agora.getDate()) + ini;
   let dataFim = agora.getFullYear().toString() + fillZero(agora.getMonth() + 1) + fillZero(agora.getDate()) + fim;
   let url = ""
   if (redemetAntiga) {
-     if (intraer)
-         url = linkIntraer;
-     else
-         url = linkInternet;
-     url = `${url}SBAZ,SBBS,SBRE,SBCW&msg=gamet&data_ini=${dataIni}&data_fim=${dataFim}`
+    if (intraer)
+      url = linkIntraer;
+    else
+      url = linkInternet;
+    url = `${url}SBAZ,SBBS,SBRE,SBCW&msg=gamet&data_ini=${dataIni}&data_fim=${dataFim}`
   } else {
-     url = `${linkAPINova}gamet/?api_key=${apiKey}&local=SBAZ,SBBS,SBRE,SBCW;`
+    url = `${linkAPINova}gamet/?api_key=${apiKey}&local=SBAZ,SBBS,SBRE,SBCW;`
   }
 
-  GetWebContentGamet(url);
+  GetWebContentGamet(url, update == 1);
 }
 
+function getGametAZ() {
+  return $('#tdSBAZ').html()
+}

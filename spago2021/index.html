@@ -11,6 +11,7 @@
   <script src="../ago2021/js/jquery.min.js"></script>
 
   <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
   <link rel="stylesheet" href="css/switch.css">
   <link rel="stylesheet" href="css/leaflet.css" />
   <link rel="stylesheet" href="css/context-menu.css">
@@ -83,7 +84,7 @@
     }
 
     .divEspaco {
-      padding-bottom: 10px;
+      padding-bottom: 1px;
     }
 
     .hora {
@@ -403,6 +404,10 @@
 
     }
 
+    .bi {
+      padding-right: 5px;
+    }
+
     @keyframes pulsateM {
       0% {
         -webkit-transform: scale(0.1, 0.1);
@@ -440,7 +445,9 @@
     }
 
     .modal {
+
       top: 80px;
+      color: black;
     }
 
     .sombraClara {
@@ -457,6 +464,7 @@
 
   <script src="js/airmet.js"></script>
   <script src="js/sigmet.js"></script>
+  <script src="js/gamet.js"></script>
   <script src="js/smartTAF.js?v=202212220015"></script>
 
   <script src="js/aeroportos20102020.js"></script>
@@ -573,9 +581,9 @@
           </label>
 
         </div>
-        <div class="divSigmetType divEspaco" id = "divSigmetType" style="width: 100%; display: table;">
+        <div class="divSigmetType divEspaco" id="divSigmetType" style="width: 100%; display: table;">
           <div class="divStatus" style="display: table-cell; float: right;">
-            <span id = "spanICE">ICE</span>
+            <span id="spanICE">ICE</span>
 
             <label class="switch">
               <input type="checkbox" id="chkSigmetICE" onchange="mostraSigmet(this)" checked="">
@@ -584,7 +592,7 @@
 
           </div>
           <div class="divStatus" style="display: table-cell; float: right;">
-            <span id = "spanTS">TS</span>
+            <span id="spanTS">TS</span>
 
             <label class="switch">
               <input type="checkbox" id="chkSigmetTS" onchange="mostraSigmet(this)" checked="">
@@ -593,7 +601,7 @@
 
           </div>
           <div class="divStatus" style="display: table-cell; float: right;">
-            <span id = "spanTURB">TURB</span>
+            <span id="spanTURB">TURB</span>
 
             <label class="switch">
               <input type="checkbox" id="chkSigmetTURB" onchange="mostraSigmet(this)" checked="">
@@ -602,7 +610,7 @@
 
           </div>
         </div>
-
+        <br>
         <div class="divStatus divEspaco">
           <span>AIRMET</span>
           <span class="airmet"> (</span><span class="airmet" id="clockAirmet">--:--</span>
@@ -633,11 +641,42 @@
         <div class="divStatus divEspaco">
           <span>TAF</span>
 
-          <label class="switch" title = "Ativar Vigilância TAF">
+          <label class="switch" title="Ativar Vigilância TAF">
             <input type="checkbox" id="chkTAF" onchange="mostraTAF(this)" checked />
             <span class="slider round"></span>
           </label>
         </div>
+
+        <div class="divStatus divEspaco">
+          <span>GAMET</span>
+
+          <label class="switch" title="Ativar GAMETs">
+            <input type="checkbox" id="chkGAMET" onchange="mostraGamet(this)" />
+            <span class="slider round"></span>
+          </label>
+        </div>
+        <div class=" divEspaco" id="divGametType" style="width: 100%; display: none;">
+
+          <div class="divStatus" style="display: table-cell; float: right;">
+            <span id="spanGametVis">VISIB</span>
+
+            <label class="switch">
+              <input type="checkbox" id="chkGametVis" onchange="mostraGametVis(this)" checked>
+              <span class="slider round"></span>
+            </label>
+
+          </div>
+          <div class="divStatus" style="display: table-cell; float: right;">
+            <span id="spanGametTeto">TETO</span>
+
+            <label class="switch">
+              <input type="checkbox" id="chkGametTeto" onchange="mostraGametTeto(this)" checked>
+              <span class="slider round"></span>
+            </label>
+
+          </div>
+        </div>
+        <br><br>
 
 
         <!--        <label class="switch">
@@ -656,10 +695,10 @@
             placeholder="Cole aqui as coordenadas a serem plotadas (Redemet, Skyvector ou Windy) e pressione <enter>!"></textarea>
 
           <br>
-          <input type="button" value="Copiar" onclick="copyFromTextArea()" class="blue">
+          <input type="button" value="Copiar" onclick="copyFromTextArea()" class="btn btn-light blue">
           <input type="button" value="Limpar"
             onclick="$('#taCoordenadas').val('').focus(); document.getElementById('taCoordenadas').dispatchEvent(new Event('input'))"
-            class="blue">
+            class="btn btn-light blue">
         </div>
         <br>
         <div>
@@ -736,7 +775,7 @@
 
         <!-- Modal body -->
         <div class="modal-body">
-          Localidades Separadas por CMA:
+          <span>Localidades Separadas por CMA:</span>
           <textarea id="taModalAdWrng"
             style="resize: none; box-sizing: border-box; width:98%; text-transform: uppercase; font-family: monospace"
             rows="20"></textarea>
@@ -752,6 +791,120 @@
     </div>
   </div>
 
+  <!-- The Modal -->
+  <div class="modal fade" id="modalDescricaoLayer" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title" id="modalDescriptionTitle">Compartilhar</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <span> Adicionar Descrição ao Polígono: </span>
+          <textarea id="taModalDescricao"
+            style="resize: none; box-sizing: border-box; width:98%; text-transform: uppercase; font-family: monospace"
+            rows="20"></textarea>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" id="btnShare">Compartilhar</button>
+
+          <button type="button" id="btnSaveDescription" class="btn btn-primary" data-bs-dismiss="modal"
+            onclick="$('#modalDescricaoLayer').modal('hide');">Salvar</button>
+
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
+            onclick="$('#modalDescricaoLayer').modal('hide');">Fechar</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- The Modal -->
+  <div class="modal fade" id="modalLoadLayer" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Importar</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <span> Selecione as Áreas a serem Importadas: </span>
+          <div class="list-group" id="divModalLoadLayerGroup">
+            <button type="button" class="list-group-item list-group-item-action" active>Área 1</button>
+            <button type="button" class="list-group-item list-group-item-action">Área 2</button>
+            <button type="button" class="list-group-item list-group-item-action">Área 3</button>
+            <button type="button" class="list-group-item list-group-item-action">Área 4</button>
+          </div>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" id="btnImportaLayer">Importar</button>
+
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
+            onclick="$('#modalLoadLayer').modal('hide');">Fechar</button>
+
+          <!--          <button type="button" class="btn btn-danger" id="btnDeleteLayer" data-bs-dismiss="modal" onclick=""><i
+              class="bi bi-trash"></i>Excluir Selecionados</button>
+
+-->
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- The Modal -->
+  <div class="modal fade" id="modalCancelShare" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Excluir do Compatilhamento</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <span> Selecione as Áreas a Serem Excluídas do Compatilhamento: </span>
+          <div class="list-group" id="divModalCancelLayerGroup">
+            <button type="button" class="list-group-item list-group-item-action" active></button>
+          </div>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+
+          <button type="button" class="btn btn-danger" id="btnDeleteLayer" data-bs-dismiss="modal" onclick=""><i
+              class="bi bi-trash"></i>Excluir Selecionados</button>
+
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
+            onclick="$('#modalCancelShare').modal('hide');">Fechar</button>
+
+
+
+        </div>
+
+      </div>
+    </div>
+  </div>
 
 </body>
 
