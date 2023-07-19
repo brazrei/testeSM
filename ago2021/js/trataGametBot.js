@@ -121,11 +121,10 @@ function filtraValidadeZulu(texto) {
   let valPatt = /\d{2}\/\d{2}Z/g;
 
   let arrValidVis = texto.match(valPatt)
-  for (var i in arrValidVis){ 
+  for (var i in arrValidVis) {
     let validz = arrValidVis[i]
-    let validx = validz.replace("Z","")
-    while (texto.includes(validz))
-    { 
+    let validx = validz.replace("Z", "")
+    while (texto.includes(validz)) {
       texto = texto.replace(validz, validx)
     }
 
@@ -184,7 +183,7 @@ function getVisGamet(texto, idxFIR) {
     if (arrVisEspaco[c].substr(1, 5).indexOf("/") > 0)
       auxValid = arrVisEspaco[c]
     else if ((arrVisEspaco[c].length > 6) && !arrVisEspaco[c].includes("/"))
-      auxVis = auxVis + arrVisEspaco[c] + "**" + auxValid + "**"
+      auxVis = auxVis + "**" + auxValid + "**" + arrVisEspaco[c]
 
   }
   vis = auxVis.replace(/ /g, "") + ""
@@ -208,23 +207,26 @@ function getVisGamet(texto, idxFIR) {
         }
 
         //verifica se acabaram as previsoes dentro de determinada validade
-        while (vis.indexOf(v[i]) > vis.indexOf("**")) {
-          vis = vis.split("**").splice(1).join("**")
-        }
+        let xvis = vis.split(v[i])
+        vis = xvis.splice(1).join(v[i])
         //
 
-        var auxVal = vis.split("**")[1]
+        if (!xvis[0].includes("**"))
+            xvis[0] = "**00/00**" + xvis[0]
+        var auxVal = xvis[0].split("**")[1]
 
         var coord = ""
-        coord = vis.split(v[i])[0]
-        vis = vis.split(v[i]).splice(1).join(v[i])
+        coord = xvis[0].split("**")[2]
+        
+        //vis = vis.split(v[i]).splice(1).join(v[i])
 
         v[i] = v[i].split("M").join("M ") //insere espaço depois do M
         v[i] = decodificaRangeVis(v[i])
         coord = coord.replace(/AND/g, "") //retira os AND
 
         coord = putSpaceCoord(coord) //separa novamente as coordenadas
-        arrVis.push({ validade: auxVal, valor: v[i], area: getLatLon(coord), areaStr: coord.split("**")[0] })
+        arrVis.push({ validade: auxVal, valor: v[i], area: getLatLon(coord), areaStr: coord })
+       // auxVal = "00/00"
       }
     }
   }
@@ -533,10 +535,12 @@ function getNuvensGamet(texto, idxFIR) {
               camada = camada.split(" OF ")[0]
 
             arrNuvens.push(getTetoGamet(camada + " " + coord))
+            globalValidadeTeto = "00/00"
           } else {
             var v = getValidTxt(camadas[i][j] + "")
             if (v.indexOf("/") > 0)
               globalValidadeTeto = v
+          
             //console.log(i + " - "+ j +" - "+v)
           }
         }
@@ -549,9 +553,15 @@ function getNuvensGamet(texto, idxFIR) {
   return arrNuvens
 }
 
-function NuvensToHtml(arrNuv, idxFIR) {
+function NuvensToHtml(arrNuv, idxFIR, validade) {
   var str = ""
   var oldValid = ""//arrNuv[0].validade
+  if (!arrayGamets[idxFIR])
+    arrayGamets[idxFIR] = {}
+  arrayGamets[idxFIR].arrTeto = []
+  arrayGamets[idxFIR].FIR = arrayLocalidadeFIR[idxFIR]
+  arrayGamets[idxFIR].validade = validade
+
   for (var i in arrNuv) {
     var validade = arrNuv[i].validade + " "
     var valido = true
@@ -561,6 +571,7 @@ function NuvensToHtml(arrNuv, idxFIR) {
 
     validade = validade.replace("00/00", "")
     //console.log(validade)
+    let auxValid = validade
     if (validade == oldValid)
       validade = ""
     else
@@ -568,7 +579,7 @@ function NuvensToHtml(arrNuv, idxFIR) {
     var base = arrNuv[i].base
     var topo = arrNuv[i].topo.replace("FT", "")
     if (validade.includes("/"))
-      validade = validade + "</br>"
+      validade = validade + "<br>"
     var strLocs = " [ " + filtraLocs(arrNuv[i].area, idxFIR) + " ]"
     var idxTeto = '[T' + (parseInt(i) + 1) + '] ';
     if (valido) {
@@ -578,6 +589,8 @@ function NuvensToHtml(arrNuv, idxFIR) {
     let linha = validade + idxTeto + " ... " + arrNuv[i].nome + " " + arrNuv[i].base + "/" + topo + "FT ... " + arrNuv[i].area.texto + strLocs + "</br>" // + */// + " " + arrNuv[i].areaStr+ "</br>";
     if (!valido)
       linha = spanGray(linha, linha, "Linha Fora do Intervalo de Validade...")
+
+    arrayGamets[idxFIR].arrTeto.push({ validade: auxValid, valido, valor: base + '/' + topo + 'FT', area: arrNuv[i].area.texto, nome: arrNuv[i].nome })
 
     str = str + linha
   }
@@ -680,10 +693,15 @@ function getStatusGamet(loc) {
   }
 }
 
-function VisibToHtml(arrVis, idxFIR) {
+function VisibToHtml(arrVis, idxFIR, validade) {
   var str = ""
   var oldValid = ""//arrNuv[0].validade
 
+  if (!arrayGamets[idxFIR])
+    arrayGamets[idxFIR] = {}
+  arrayGamets[idxFIR].arrVisib = []
+  arrayGamets[idxFIR].FIR = arrayLocalidadeFIR[idxFIR]
+  arrayGamets[idxFIR].validade = validade
 
   for (var i in arrVis) {
     if ((arrVis[i].valor) && (arrVis[i].valor !== "undifined")) {
@@ -694,13 +712,14 @@ function VisibToHtml(arrVis, idxFIR) {
         valido = checaValidadeLinhaGamet(validade)
       validade = validade.replace("00/00", "")
       //console.log(validade)
+      let auxValid = validade
       if (validade == oldValid)
         validade = ""
       else
         oldValid = validade
       var vis = arrVis[i].valor
       if (validade.includes("/"))
-        validade = validade + "</br>"
+        validade = validade + "<br>"
       var idxVis = '[V' + (parseInt(i) + 1) + '] ';
       var strLocs = " [ " + filtraLocs(arrVis[i].area, idxFIR) + " ]"
       if (valido) {
@@ -711,6 +730,8 @@ function VisibToHtml(arrVis, idxFIR) {
       let linha = validade + idxVis + " ... " + vis + " ... " + textoAreaVis + strLocs + "</br>" // + */// + " " + arrNuv[i].areaStr+ "</br>";
       if (!valido)
         linha = spanGray(linha, linha, "Linha Fora do Intervalo de Validade...")
+
+      arrayGamets[idxFIR].arrVisib.push({ validade: auxValid, valido, valor: vis, area: textoAreaVis })
       str = str + linha
     }
   }
@@ -725,12 +746,12 @@ function VisibToHtml(arrVis, idxFIR) {
 //console.log(NuvensToHtml(getNuvensGamet(texto)))
 //$("#msg").html(NuvensToHtml(getNuvensGamet(texto)))
 
-function getNuvensHtml(gamet, idxFIR) {
-  return NuvensToHtml(getNuvensGamet(gamet, idxFIR), idxFIR)
+function getNuvensHtml(gamet, idxFIR, validade) {
+  return NuvensToHtml(getNuvensGamet(gamet, idxFIR), idxFIR, validade)
 }
 
-function getVisibHtml(gamet, idxFIR) {
-  return VisibToHtml(getVisGamet(gamet, idxFIR), idxFIR)
+function getVisibHtml(gamet, idxFIR, validade) {
+  return VisibToHtml(getVisGamet(gamet, idxFIR), idxFIR, validade)
 }
 
 
