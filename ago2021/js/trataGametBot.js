@@ -183,7 +183,7 @@ function getVisGamet(texto, idxFIR) {
     if (arrVisEspaco[c].substr(1, 5).indexOf("/") > 0)
       auxValid = arrVisEspaco[c]
     else if ((arrVisEspaco[c].length > 6) && !arrVisEspaco[c].includes("/"))
-      auxVis = auxVis + arrVisEspaco[c] + "**" + auxValid + "**"
+      auxVis = auxVis + "**" + auxValid + "**" + arrVisEspaco[c]
 
   }
   vis = auxVis.replace(/ /g, "") + ""
@@ -207,23 +207,26 @@ function getVisGamet(texto, idxFIR) {
         }
 
         //verifica se acabaram as previsoes dentro de determinada validade
-        while (vis.indexOf(v[i]) > vis.indexOf("**")) {
-          vis = vis.split("**").splice(1).join("**")
-        }
+        let xvis = vis.split(v[i])
+        vis = xvis.splice(1).join(v[i])
         //
 
-        var auxVal = vis.split("**")[1]
+        if (!xvis[0].includes("**"))
+            xvis[0] = "**00/00**" + xvis[0]
+        var auxVal = xvis[0].split("**")[1]
 
         var coord = ""
-        coord = vis.split(v[i])[0]
-        vis = vis.split(v[i]).splice(1).join(v[i])
+        coord = xvis[0].split("**")[2]
+        
+        //vis = vis.split(v[i]).splice(1).join(v[i])
 
         v[i] = v[i].split("M").join("M ") //insere espaço depois do M
         v[i] = decodificaRangeVis(v[i])
         coord = coord.replace(/AND/g, "") //retira os AND
 
         coord = putSpaceCoord(coord) //separa novamente as coordenadas
-        arrVis.push({ validade: auxVal, valor: v[i], area: getLatLon(coord), areaStr: coord.split("**")[0] })
+        arrVis.push({ validade: auxVal, valor: v[i], area: getLatLon(coord), areaStr: coord })
+       // auxVal = "00/00"
       }
     }
   }
@@ -532,10 +535,12 @@ function getNuvensGamet(texto, idxFIR) {
               camada = camada.split(" OF ")[0]
 
             arrNuvens.push(getTetoGamet(camada + " " + coord))
+            globalValidadeTeto = "00/00"
           } else {
             var v = getValidTxt(camadas[i][j] + "")
             if (v.indexOf("/") > 0)
               globalValidadeTeto = v
+          
             //console.log(i + " - "+ j +" - "+v)
           }
         }
@@ -566,6 +571,7 @@ function NuvensToHtml(arrNuv, idxFIR, validade) {
 
     validade = validade.replace("00/00", "")
     //console.log(validade)
+    let auxValid = validade
     if (validade == oldValid)
       validade = ""
     else
@@ -584,7 +590,7 @@ function NuvensToHtml(arrNuv, idxFIR, validade) {
     if (!valido)
       linha = spanGray(linha, linha, "Linha Fora do Intervalo de Validade...")
 
-    arrayGamets[idxFIR].arrTeto.push({ validade, valido, valor: base + '/' + topo + 'FT', area: arrNuv[i].area.texto, nome: arrNuv[i].nome })
+    arrayGamets[idxFIR].arrTeto.push({ validade: auxValid, valido, valor: base + '/' + topo + 'FT', area: arrNuv[i].area.texto, nome: arrNuv[i].nome })
 
     str = str + linha
   }
