@@ -146,7 +146,7 @@ function createPopUpMenu() {
         {
             'theme': 'default',
             'items': [
-          
+
                 { 'icon': '', 'name': 'Enviar para Trás', action: () => selectedSigmet.bringToBack() }
 
 
@@ -326,9 +326,13 @@ $(document).ready(function () {
     $('#btnImportaLayer').on('click', function () {
         //        let d = $('#taModalDescricao').val() + ""
         //saveDescricaoLayer(selectedLayer, $('#taModalDescricao').val())
-
+        let a = getSelecterLayersFromModal()
+        if (a.length == 0) {
+            alert("Selecione pelo menos uma área!")
+            return
+        }
         $('#modalLoadLayer').modal('hide');
-        plotaAreas(getSelecterLayersFromModal())
+        plotaAreas()
         //atualizaLayersEditados()
         //saveLayersOnServer(selectedLayer)
     }
@@ -338,8 +342,14 @@ $(document).ready(function () {
         //        let d = $('#taModalDescricao').val() + ""
         //saveDescricaoLayer(selectedLayer, $('#taModalDescricao').val())
 
+        let a = getSelecterLayersFromModal('#divModalCancelLayerGroup')
+        if (a.length == 0) {
+            alert("Selecione pelo menos uma área!")
+            return
+        }
+
         $('#modalCancelShare').modal('hide');
-        deleteLayers(getSelecterLayersFromModal('#divModalCancelLayerGroup'))
+        deleteLayers(a)
         //atualizaLayersEditados()
         //saveLayersOnServer(selectedLayer)
     }
@@ -347,7 +357,7 @@ $(document).ready(function () {
 
     $('#btnShare').on('click', function () {
         //        let d = $('#taModalDescricao').val() + ""
-        
+
         saveDescricaoLayer(selectedLayer, $('#taModalDescricao').val())
 
         $('#modalDescricaoLayer').modal('hide');
@@ -363,7 +373,7 @@ $(document).ready(function () {
         $('#btnShare').hide()
         $('#modalDescriptionTitle').html('Adicionar Descrição');
         $('#modalDescricaoLayer').modal('hide');
-       // deleteLayers(getSelecterLayersFromModal('#divModalCancelLayerGroup'))
+        // deleteLayers(getSelecterLayersFromModal('#divModalCancelLayerGroup'))
         atualizaLayersEditados()
     }
     );
