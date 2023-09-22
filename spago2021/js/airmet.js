@@ -330,11 +330,9 @@ function removeHTMLTags(txt) {
 
 function updateTAFArrayMetares (loc){
 	let met = getMetarFromArrayMetaresGeral(loc)
-	if (arrayTAFs[loc]) {
+	if (met && arrayTAFs[loc]) {
 	    taf = getTAFFromLoc(loc)
 
-	    if (!met.TAF)
-		    console.log(loc)
             met.TAF.achou = true
             met.TAF.texto = ""
             met.TAF.visibilidade = taf.visibilidade
