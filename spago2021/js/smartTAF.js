@@ -731,7 +731,7 @@ function atualizaArrayTAFs(texto) {
         arrayTAFs[loc] = dados
         try {
             updateTAFArrayMetares(loc)
-        } except(e) {
+        } catch(e) {
             console.log(e)
         }
         updateTAFsTraduzidos(dados, true)
