@@ -328,11 +328,26 @@ function removeHTMLTags(txt) {
     return removeEspacosDuplos(txt)
 }
 
+function updateTAFArrayMetares (loc){
+	let met = getMetarFromArrayMetaresGeral(loc)
+	let loc = met.METAR.loc
+	if (arrayTAFs[loc]) {
+	    taf = getTAFFromLoc(loc)
+            met.TAF.achou = true
+            met.TAF.texto = ""
+            met.TAF.visibilidade = taf.visibilidade
+            met.TAF.teto = taf.teto
+            met.TAF.permiteAMD = taf.permiteAMD
+            met.TAF.prazoAMD = taf.prazoAMD
+            met.TAF.inicioValid = taf.inicioValid
+            met.TAF.fimValid = taf.fimValid
+	}
+}
+
 function getMetarFromArrayMetaresGeral(loc) {
     for (let i in arrayMetaresGeral)
-        if (arrayMetaresGeral[i].METAR.loc == loc)
+        if (arrayMetaresGeral[i].METAR.loc == loc) 
             return arrayMetaresGeral[i]
-
     return false
 }
 
@@ -349,14 +364,6 @@ function updateArrayMetaresGeral(loc, met) {
             arrayMetaresGeral[i].METAR.visibilidade = opener.getVisibilidade(met)
             arrayMetaresGeral[i].METAR.teto = opener.getTeto(met)
 
-            arrayMetaresGeral[i].TAF.achou = achouTAF
-            arrayMetaresGeral[i].TAF.texto = ""
-            arrayMetaresGeral[i].TAF.visibilidade = taf.visibilidade
-            arrayMetaresGeral[i].TAF.teto = taf.teto
-            arrayMetaresGeral[i].TAF.permiteAMD = taf.permiteAMD
-            arrayMetaresGeral[i].TAF.prazoAMD = taf.prazoAMD
-            arrayMetaresGeral[i].TAF.inicioValid = taf.inicioValid
-            arrayMetaresGeral[i].TAF.fimValid = taf.fimValid
 
             return achou
 
