@@ -698,12 +698,24 @@ function atualizaArrayTAFs(texto) {
 
     }
 
+    function isMostRecent(TAF, array, loc)  {
+        if (!array[loc])
+            return true
+        if ( new Date (getBeginTAF(TAF)) <  new Date (getBeginTAF(array[loc].TAF)) )
+            return false
+        return true
+    }
+
     let TAFs = clearMsgIWXXM(texto).reverse() //pegar as correções por ultimo
     let tafsProxHora = getTAFsProximaHora();  // tafs que deveriam estar na proxima hora de envio
 
     for (let i in TAFs) {
         TAFs[i] = JSON.parse(TAFs[i]);
+        
         let loc = getICAOIndicator(TAFs[i])
+
+        if (!isMostRecent(TAFs[i], arrayTAFs, loc)
+            continue
 
         let dados = { TAF: TAFs[i], localidade: loc, inicio: getBeginTAF(TAFs[i]), getVisPredHora: getVisPredHora, getTetoHora: getTetoHora }
 
