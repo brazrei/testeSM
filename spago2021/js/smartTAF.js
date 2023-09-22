@@ -729,7 +729,11 @@ function atualizaArrayTAFs(texto) {
                 continue;// se a validade do taf ainda não começou, ignora da lista de TAFs validos.
         }
         arrayTAFs[loc] = dados
-        updateTAFArrayMetares(loc)
+        try {
+            updateTAFArrayMetares(loc)
+        } except(e) {
+            console.log(e)
+        }
         updateTAFsTraduzidos(dados, true)
     }
 }
