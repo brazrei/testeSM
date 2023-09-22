@@ -714,7 +714,7 @@ function atualizaArrayTAFs(texto) {
         
         let loc = getICAOIndicator(TAFs[i])
 
-        if (!isMostRecent(TAFs[i], arrayTAFs, loc)
+        if (!isMostRecent(TAFs[i], arrayTAFs, loc))
             continue
 
         let dados = { TAF: TAFs[i], localidade: loc, inicio: getBeginTAF(TAFs[i]), getVisPredHora: getVisPredHora, getTetoHora: getTetoHora }
