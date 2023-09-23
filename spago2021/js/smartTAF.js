@@ -726,11 +726,12 @@ function atualizaArrayTAFs(texto) {
 
         let dados = { TAF: TAFs[i], localidade: loc, inicio: getBeginTAF(TAFs[i]), getVisPredHora: getVisPredHora, getTetoHora: getTetoHora }
 
-        if (getBeginTAF(TAFs[i]) > getUTCAgora().addHours(-3) && getReportStatus(TAFs[i]) == "NORMAL") {
+        if (getBeginTAF(TAFs[i]) > getUTCAgora().addHours(-3)) {
 
             if (tafsProxHora.indexOf(loc) > -1) {//retorna a ultima hora enquando  não chega em hProx-3h
                 updateTAFsTraduzidos(dados, true)
-                arrayProximosTAFs[loc] = dados
+                if (getReportStatus(TAFs[i]) == "NORMAL")
+                    arrayProximosTAFs[loc] = dados
             }
             if (getBeginTAF(TAFs[i]) > getUTCAgora())
                 continue;// se a validade do taf ainda não começou, ignora da lista de TAFs validos.
