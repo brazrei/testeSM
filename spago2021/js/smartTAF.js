@@ -688,6 +688,13 @@ function excluiTAFsAntigos(arr) {
     return arr2 //retorna o valor como referencia
 }
 
+function getReportStatus(taf) {
+    try {
+        return taf.TAF.reportStatus
+    } catch {
+        return "ERRO"
+    }
+}
 function atualizaArrayTAFs(texto) {
     function clearTAFsCor() {
         let arrCorr = []
@@ -719,7 +726,7 @@ function atualizaArrayTAFs(texto) {
 
         let dados = { TAF: TAFs[i], localidade: loc, inicio: getBeginTAF(TAFs[i]), getVisPredHora: getVisPredHora, getTetoHora: getTetoHora }
 
-        if (getBeginTAF(TAFs[i]) > getUTCAgora().addHours(-3)) {
+        if (getBeginTAF(TAFs[i]) > getUTCAgora().addHours(-3) && getReportStatus(TAFs[i]) == "NORMAL") {
 
             if (tafsProxHora.indexOf(loc) > -1) {//retorna a ultima hora enquando  não chega em hProx-3h
                 updateTAFsTraduzidos(dados, true)
