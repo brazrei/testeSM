@@ -721,8 +721,8 @@ function atualizaArrayTAFs(texto) {
         
         let loc = getICAOIndicator(TAFs[i])
 
-        if (!isMostRecent(TAFs[i], arrayTAFs, loc))
-            continue
+        //if (!isMostRecent(TAFs[i], arrayTAFs, loc))
+        //    continue
 
         let dados = { TAF: TAFs[i], localidade: loc, inicio: getBeginTAF(TAFs[i]), getVisPredHora: getVisPredHora, getTetoHora: getTetoHora }
 
@@ -730,7 +730,7 @@ function atualizaArrayTAFs(texto) {
 
             if (tafsProxHora.indexOf(loc) > -1) {//retorna a ultima hora enquando  não chega em hProx-3h
                 updateTAFsTraduzidos(dados, true)
-                if (getReportStatus(TAFs[i]) == "NORMAL")
+                if (getReportStatus(TAFs[i]) !== "AMENDMENT")
                     arrayProximosTAFs[loc] = dados
             }
             if (getBeginTAF(TAFs[i]) > getUTCAgora())
