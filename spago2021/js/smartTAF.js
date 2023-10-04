@@ -211,7 +211,7 @@ function getAMDStatus(TAF) {
 
     let prazoFinal = getUTCDate(new Date(inicio))
     addHours(prazoFinal, (((horasValid.getDate() - 1) * 24) + horasValid.getHours()) / 6)
-    addMinutes(prazoFinal, -61)
+    //addMinutes(prazoFinal, -61)
 
     let h = prazoFinal
     h = ('0' + h.getHours()).slice(-2) + ":" + ('0' + h.getMinutes()).slice(-2) + 'Z'
