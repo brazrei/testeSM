@@ -83,9 +83,6 @@
                     </PolyStyle>
                 </Style>
                 <MultiGeometry>
-                    <Point>
-                        <coordinates>-47.692819365955664,-21.649744793916952</coordinates>
-                    </Point>
                     <Polygon>
                         <outerBoundaryIs><innerBoundaryIs>
                             <LinearRing>
@@ -159,9 +156,7 @@
                     </PolyStyle>
                 </Style>
                 <MultiGeometry>
-                    <Point>
-                        <coordinates>-46.04844588482621,-21.86519428775659</coordinates>
-                    </Point>
+                    
                     <Polygon>
                         <outerBoundaryIs><innerBoundaryIs>
                             <LinearRing>
@@ -235,9 +230,7 @@
                     </PolyStyle>
                 </Style>
                 <MultiGeometry>
-                    <Point>
-                        <coordinates>-50.864242990608126,-18.79263420264448</coordinates>
-                    </Point>
+                    
                     <Polygon>
                         <outerBoundaryIs><innerBoundaryIs>
                             <LinearRing>
@@ -680,9 +673,7 @@
                     </PolyStyle>
                 </Style>
                 <MultiGeometry>
-                    <Point>
-                        <coordinates>-48.4990988987718,-17.211278652267925</coordinates>
-                    </Point>
+                    
                     <Polygon>
                         <outerBoundaryIs><innerBoundaryIs>
                             <LinearRing>
@@ -756,9 +747,7 @@
                     </PolyStyle>
                 </Style>
                 <MultiGeometry>
-                    <Point>
-                        <coordinates>-45.94288408881447,-16.396394484442887</coordinates>
-                    </Point>
+                    
                     <Polygon>
                         <outerBoundaryIs><innerBoundaryIs>
                             <LinearRing>
@@ -831,9 +820,7 @@
                     </PolyStyle>
                 </Style>
                 <MultiGeometry>
-                    <Point>
-                        <coordinates>-52.16201141427926,-17.205854256982736</coordinates>
-                    </Point>
+                   
                     <Polygon>
                         <outerBoundaryIs><innerBoundaryIs>
                             <LinearRing>
@@ -906,9 +893,7 @@
                     </PolyStyle>
                 </Style>
                 <MultiGeometry>
-                    <Point>
-                        <coordinates>-47.54033049538751,-22.00096988922457</coordinates>
-                    </Point>
+                    
                     <Polygon>
                         <outerBoundaryIs><innerBoundaryIs>
                             <LinearRing>
@@ -981,9 +966,7 @@
                     </PolyStyle>
                 </Style>
                 <MultiGeometry>
-                    <Point>
-                        <coordinates>-48.01075094300354,-20.91745824714242</coordinates>
-                    </Point>
+                    
                     <Polygon>
                         <outerBoundaryIs><innerBoundaryIs>
                             <LinearRing>
@@ -1056,9 +1039,7 @@
                     </PolyStyle>
                 </Style>
                 <MultiGeometry>
-                    <Point>
-                        <coordinates>-46.84412280039175,-19.78938016136084</coordinates>
-                    </Point>
+                    
                     <Polygon>
                         <outerBoundaryIs><innerBoundaryIs>
                             <LinearRing>
@@ -1132,9 +1113,7 @@
                     </PolyStyle>
                 </Style>
                 <MultiGeometry>
-                    <Point>
-                        <coordinates>-49.48484030280039,-14.361906411617008</coordinates>
-                    </Point>
+                    
                     <Polygon>
                         <outerBoundaryIs><innerBoundaryIs>
                             <LinearRing>
@@ -1207,9 +1186,7 @@
                     </PolyStyle>
                 </Style>
                 <MultiGeometry>
-                    <Point>
-                        <coordinates>-44.09229322241783,-17.137998968207235</coordinates>
-                    </Point>
+                    
                     <Polygon>
                         <outerBoundaryIs><innerBoundaryIs>
                             <LinearRing>
@@ -1282,9 +1259,7 @@
                     </PolyStyle>
                 </Style>
                 <MultiGeometry>
-                    <Point>
-                        <coordinates>-49.04802086686925,-11.17085950624403</coordinates>
-                    </Point>
+                    
                     <Polygon>
                         <outerBoundaryIs><innerBoundaryIs>
                             <LinearRing>
@@ -1357,9 +1332,7 @@
                     </PolyStyle>
                 </Style>
                 <MultiGeometry>
-                    <Point>
-                        <coordinates>-44.09229322241783,-17.137998968207235</coordinates>
-                    </Point>
+                    
                     <Polygon>
                         <outerBoundaryIs><innerBoundaryIs>
                             <LinearRing>
@@ -1432,9 +1405,7 @@
                     </PolyStyle>
                 </Style>
                 <MultiGeometry>
-                    <Point>
-                        <coordinates>-42.92500539124038,-18.593265435066737</coordinates>
-                    </Point>
+                    
                     <Polygon>
                         <outerBoundaryIs><innerBoundaryIs>
                             <LinearRing>
@@ -1508,9 +1479,7 @@
                     </PolyStyle>
                 </Style>
                 <MultiGeometry>
-                    <Point>
-                        <coordinates>-50.0260281953427,-20.68972362472393</coordinates>
-                    </Point>
+                    
                     <Polygon>
                         <outerBoundaryIs><innerBoundaryIs>
                             <LinearRing>
@@ -1583,9 +1552,7 @@
                     </PolyStyle>
                 </Style>
                 <MultiGeometry>
-                    <Point>
-                        <coordinates>-46.333717659051366,-14.37247697576727</coordinates>
-                    </Point>
+                    
                     <Polygon>
                         <outerBoundaryIs><innerBoundaryIs>
                             <LinearRing>
@@ -1659,9 +1626,7 @@
                     </PolyStyle>
                 </Style>
                 <MultiGeometry>
-                    <Point>
-                        <coordinates>-45.358123725289296,-18.839642096937038</coordinates>
-                    </Point>
+                   
                     <Polygon>
                         <outerBoundaryIs><innerBoundaryIs>
                             <LinearRing>
@@ -1734,9 +1699,7 @@
                     </PolyStyle>
                 </Style>
                 <MultiGeometry>
-                    <Point>
-                        <coordinates>-44.437613926468,-20.306608547658566</coordinates>
-                    </Point>
+                    
                     <Polygon>
                         <outerBoundaryIs><innerBoundaryIs>
                             <LinearRing>
@@ -1810,9 +1773,7 @@
                     </PolyStyle>
                 </Style>
                 <MultiGeometry>
-                    <Point>
-                        <coordinates>-42.92500539124038,-18.593265435066737</coordinates>
-                    </Point>
+                    
                     <Polygon>
                         <outerBoundaryIs><innerBoundaryIs>
                             <LinearRing>
@@ -1885,9 +1846,7 @@
                     </PolyStyle>
                 </Style>
                 <MultiGeometry>
-                    <Point>
-                        <coordinates>-44.437613926468,-20.306608547658566</coordinates>
-                    </Point>
+                    
                     <Polygon>
                         <outerBoundaryIs><innerBoundaryIs>
                             <LinearRing>
@@ -1961,9 +1920,7 @@
                     </PolyStyle>
                 </Style>
                 <MultiGeometry>
-                    <Point>
-                        <coordinates>-45.69571877684954,-22.349390927827933</coordinates>
-                    </Point>
+               
                     <Polygon>
                         <outerBoundaryIs><innerBoundaryIs>
                             <LinearRing>
@@ -2035,9 +1992,7 @@
                     </PolyStyle>
                 </Style>
                 <MultiGeometry>
-                    <Point>
-                        <coordinates>-49.101254888009926,-19.729907660329392</coordinates>
-                    </Point>
+           
                     <Polygon>
                         <innerBoundaryIs><outerBoundaryIs>
                             <LinearRing>
@@ -2109,9 +2064,6 @@
                     </PolyStyle>
                 </Style>
                 <MultiGeometry>
-                    <Point>
-                        <coordinates>-47.025758547003086,-17.87496116267703</coordinates>
-                    </Point>
                     <Polygon>
                         <outerBoundaryIs><innerBoundaryIs>
                             <LinearRing>
