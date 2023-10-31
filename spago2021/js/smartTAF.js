@@ -1,4 +1,4 @@
-var tafsGrupoConsulta = "SBPA,SBCT,SBFI,SBFL,SBNF,SBPK,SBCO,SBSM,SBBG,SBNM,SBJV,SBBI,SBYS,SBAF,SBSC,SBAN,SBMN,SBCH,SBUG,SBPF,SBJA,SBGW,SBCC,SBCX,SBGP,SBLJ,SBPG,SNCP,SBBH,SWKQ,SBUF"
+var tafsGrupoConsulta = "SBPA,SBCT,SBFI,SBFL,SBNF,SBPK,SBCO,SBSM,SBBG,SBNM,SBJV,SBBI,SBYS,SBAF,SBSC,SBAN,SBMN,SBCH,SBUG,SBPF,SBJA,SBGW,SBCC,SBCX,SBGP,SBLJ,SBPG,SNCP,SBBH,SWKQ,SBUF,SNPD"
 var strTAFsTraduzidos = ''
 var arrayTAFsTraduzidos = []
 var arrayTAFsBrutos = []
@@ -21,8 +21,9 @@ arrTAFSCimaer.push({ indice: "12 HORAS, (12Z) SAB e DOM", localidades: "SBGP" })
 arrTAFSCimaer.push({ indice: "12 HORAS, (06Z, 12Z) DIARIAMENTE", localidades: "SBPG" });
 arrTAFSCimaer.push({ indice: "12 HORAS, (06Z, 12Z  e 18Z) SEX", localidades: "SBPG" });
 arrTAFSCimaer.push({ indice: "12 HORAS, (06Z e 18Z) DIARIAMENTE", localidades: "SNCP" });
-arrTAFSCimaer.push({ indice: "12 HORAS, (12Z) SEG, QUI, SAB e DOM", localidades: "SWKQ" });
-arrTAFSCimaer.push({ indice: "12 HORAS, (12Z) TER,QUI e DOM", localidades: "SBUF" });
+arrTAFSCimaer.push({ indice: "12 HORAS, (12Z) SEG, TER, QUI, SAB e DOM", localidades: "SWKQ" });
+arrTAFSCimaer.push({ indice: "12 HORAS, (12Z) TER, QUA, QUI, SEX e DOM", localidades: "SBUF" });
+arrTAFSCimaer.push({ indice: "12 HORAS, (12Z) SEG, QUA e SEX", localidades: "SNPD" });
 
 
 function getArrayLength(array) {
