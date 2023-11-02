@@ -30,7 +30,7 @@ session_start();
   <script src="js/trataGametC.js" type="text/javascript"></script>
   <script src="js/trataGametBot.js" type="text/javascript"></script>
   <script src="js/adwrng.js" type="text/javascript"></script>
-  <script src="js/dateFunctions.js" type="text/javascript"></script>
+  <script src="js/dateFunctions.js?v=202311022307" type="text/javascript"></script>
   <script src="js/share.js" type="text/javascript"></script>
 
   <!--Plugin para corrigir o Z-Indexc - teste update ssh
