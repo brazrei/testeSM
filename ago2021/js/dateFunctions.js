@@ -77,9 +77,9 @@ function getFullDateValid(dataI, dataF) { // retorna data inteira de AIRMET e SI
     let agora = getUTCAgora()
     let decMonthI = 0
     let decMonthF = 0
-    if ((diaI > agora.getUTCDate()) && agora.getUTCDate() == 1)
+    if ((diaI > agora.getUTCDate()) && agora.getUTCDate() == 1 && (agora.getUTCHours() < 5))
         decMonthI = -1;
-    if ((diaF > agora.getUTCDate()) && agora.getUTCDate() == 1)
+    if ((diaF > agora.getUTCDate()) && agora.getUTCDate() == 1 && (agora.getUTCHours() < 5))
         decMonthF = -1;
 
     let dataInicial = new Date(agora.getUTCFullYear(), agora.getUTCMonth() + decMonthI, diaI, horaI, minI)
