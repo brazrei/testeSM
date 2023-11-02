@@ -78,8 +78,7 @@ function getFullDateValid(dataI, dataF) { // retorna data inteira de AIRMET e SI
     let diaAgora = agora.getUTCDate()
     let adjustMonthI = 0
     let adjustMonthF = 0
-
-    if (agora.getUTCHours() < 5) {
+        // ajusta o mes
         if (diaAgora == 1 && diaI > 27)
           adjustMonthI = -1;
         else if (diaI == 1 && diaAgora > 27)
@@ -88,7 +87,7 @@ function getFullDateValid(dataI, dataF) { // retorna data inteira de AIRMET e SI
           adjustMonthF = -1;
         else  if (diaAgora > 27 && diaF == 1)
            adjustMonthF = 1;
-    }
+        
     let dataInicial = new Date(agora.getUTCFullYear(), agora.getUTCMonth() + adjustMonthI, diaI, horaI, minI)
     let dataFinal = new Date(agora.getUTCFullYear(), agora.getUTCMonth() + adjustMonthF, diaF, horaF, minF)
 
