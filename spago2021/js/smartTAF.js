@@ -22,7 +22,7 @@ arrTAFSCimaer.push({ indice: "12 HORAS, (06Z, 12Z) DIARIAMENTE", localidades: "S
 arrTAFSCimaer.push({ indice: "12 HORAS, (06Z, 12Z  e 18Z) SEX", localidades: "SBPG" });
 arrTAFSCimaer.push({ indice: "12 HORAS, (06Z e 18Z) DIARIAMENTE", localidades: "SNCP" });
 arrTAFSCimaer.push({ indice: "12 HORAS, (12Z) SEG, TER, QUI, SAB e DOM", localidades: "SWKQ" });
-arrTAFSCimaer.push({ indice: "12 HORAS, (12Z) TER, QUA, QUI, SEX e DOM", localidades: "SBUF" });
+arrTAFSCimaer.push({ indice: "12 HORAS, (12Z) SEG, TER, QUA, QUI, SEX e DOM", localidades: "SBUF" });
 arrTAFSCimaer.push({ indice: "12 HORAS, (12Z) SEG, QUA e SEX", localidades: "SNPD" });
 
 
