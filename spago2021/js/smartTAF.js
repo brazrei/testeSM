@@ -24,6 +24,7 @@ arrTAFSCimaer.push({ indice: "12 HORAS, (06Z e 18Z) DIARIAMENTE", localidades: "
 arrTAFSCimaer.push({ indice: "12 HORAS, (12Z) SEG, TER, QUI, SAB e DOM", localidades: "SWKQ" });
 arrTAFSCimaer.push({ indice: "12 HORAS, (12Z) SEG, TER, QUA, QUI, SEX e DOM", localidades: "SBUF" });
 arrTAFSCimaer.push({ indice: "12 HORAS, (12Z) SEG, QUA e SEX", localidades: "SNPD" });
+arrTAFSCimaer.push({ indice: "12 HORAS, (12Z) TER", localidades: "SNPD" , inicio: "02/01/2024"});
 
 
 function getArrayLength(array) {
