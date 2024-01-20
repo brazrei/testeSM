@@ -169,7 +169,6 @@
  <m> <lt>-14.3033333333</lt><ln>-043.7755555556</ln><t>SNNH - CARINHANHA</t><l>CARINHANHA, BA</l></m>
  <m> <lt>-07.3205555556</lt><ln>-047.4586111111</ln><t>SBCI - BRIG. LYSIAS AUGUSTO RODRIGUES</t><l>CAROLINA, MA</l></m>
  <m> <lt>-08.2844444444</lt><ln>-036.0108333333</ln><t>SNRU - CARUARU</t><l>CARUARU, PE</l></m>
- <m> <lt>-01.2502777778</lt><ln>-046.0172222222</ln><t>SNCP - CARUTAPERA</t><l>CARUTAPERA, MA</l></m>
  <m> <lt>-21.7880555556</lt><ln>-047.0555555556</ln><t>SDKB - CASA BRANCA</t><l>CASA BRANCA, SP</l></m>
  <m> <lt>-09.1597222222</lt><ln>-040.9380555556</ln><t>SDFX - CASA NOVA</t><l>CASA NOVA, BA</l></m>
  <m> <lt>-25.0022222222</lt><ln>-053.5019444444</ln><t>SBCA - CASCAVEL</t><l>CASCAVEL, PR</l></m>
@@ -776,6 +775,7 @@
  <m> <lt>-11.8850000000</lt><ln>-055.5861111100</ln><t>SBSI - PRESIDENTE JOÃO BATISTA FIGUEIREDO</t><l>SINOP, MT</l></m>
  <m> <lt>-22.6338888900</lt><ln>-040.0933333300</ln><t>SBLI - Plataforma PETROBRÁS 51 P-51 </t><l>MACAÉ, RJ</l></m>
  <m> <lt>-09.0827777800</lt><ln>-042.6444444400</ln><t>SWKQ - Serra da Capivara </t><l>São Raimundo Nonato, PI</l></m>
+ <m> <lt>-27.6341666700</lt><ln>-50.35833333000</ln><t>SNCP - Aeroporto Regional do Planalto Serrano</t><l>CORREIA PINTO, SC</l></m>
 
 
 </markers>
