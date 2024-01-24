@@ -28,14 +28,14 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
   <link rel="stylesheet" href="css/leaflet.draw.css">
   <link rel="stylesheet" href="css/leaflet-sidebar.min.css">
-  <link rel="stylesheet" href="css/editorx.css?v=202401191856" />
+  <link rel="stylesheet" href="css/editorx.css?v=202311291217" />
   <link rel="stylesheet" href="css/grid.css" />
   <link rel="stylesheet" href="css/meter.css" />
 
 
 
   <script src="js/context-menu.js"></script>
-  <script src="js/popup-menu-conf.js?v=202401191856"></script>
+  <script src="js/popup-menu-conf.js"></script>
 
 
 
@@ -46,6 +46,10 @@
   <script src="js/popper.min.js"></script>
   <script src="js/leaflet.draw.js"></script>
   <script src="js/leaflet-sidebar.min.js"></script>
+
+  <!--leaflet-velocity-->
+  <link rel="stylesheet" href="css/leaflet-velocity.css" />
+  <script src="js/leaflet-velocity.js"></script>
 
   <!--Biblioteca que calcula interseções-->
   <script src='js/turf.min.js'></script>
@@ -168,6 +172,10 @@
       color: #fff;
       pointer-events: none;
       font-size: 18px;
+    }
+
+    .shaddowText {
+      text-shadow: -1px -1px 2px rgb(0, 0, 0, 0.5), 1px -1px 2px rgb(0, 0, 0, 0.5), -1px 1px 2px rgb(0, 0, 0, 0.5), 1px 1px 2px rgb(0, 0, 0, 0.5);
     }
 
     #labelAvisoSTSC {
@@ -453,6 +461,79 @@
     .sombraClara {
       /* text-shadow: -1px -1px 1px #eee, 1px -1px 1px #eee, -1px 1px 1px #eee, 1px 1px 1px #eee;*/
       text-shadow: -0px -0px 1px rgba(255, 255, 255, 0.3), 0px -0px 1px rgba(255, 255, 255, 0.3), -0px 0px 1px rgba(255, 255, 255, 0.3), 0px 0px 1px rgba(255, 255, 255, 0.3);
+
+    }
+
+    input.sliderWind[type=range] {
+      writing-mode: bt-lr;
+      /*for IE */
+      -webkit-appearance: slider-vertical;
+      /* for chrome */
+      width: 10px;
+      height: 200px;
+      padding: 0 5px;
+      bottom: 350px;
+      left: 20px;
+      position: fixed;
+      z-index: 5000;
+    }
+
+    .labelWind {
+      z-index: 5000;
+      position: fixed;
+      background-color: #009299;
+      border-radius: 10px;
+      padding: 0px 8px;
+    }
+
+    #labelWind0 {
+      bottom: 344px;
+      left: 45px;
+      opacity: 0.3;
+      cursor: pointer;
+
+    }
+
+    #labelWind50 {
+      bottom: 433px;
+      left: 45px;
+      opacity: 0.3;
+      cursor: pointer;
+    }
+
+    #labelWind100 {
+      bottom: 523px;
+      left: 45px;
+      opacity: 0.3;
+      cursor: pointer;
+    }
+
+    #labelWind2 {
+      bottom: 300px;
+      left: 55px;
+      cursor: pointer;
+    }
+
+    .switchWind {
+      z-index: 5000;
+      bottom: 430px;
+      left: 10px;
+    }
+
+    .windy {}
+
+    #flagWind {
+      z-index: 5000;
+      background-image: url("svg/flag.svg");
+      background-color: transparent;
+
+      bottom: 100px;
+      left: 100px;
+      position: absolute;
+      width: 35px;
+      height: 35px;
+      background-repeat: no-repeat;
+      background-size: cover;
     }
   </style>
 
@@ -465,11 +546,11 @@
   <script src="js/airmet.js"></script>
   <script src="js/sigmet.js"></script>
   <script src="js/gamet.js"></script>
-  <script src="js/smartTAF.js?v=202312300102"></script>
+  <script src="js/smartTAF.js?v=202301072233"></script>
 
   <script src="js/aeroportos20102020.js"></script>
   <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.2.0/leaflet-omnivore.min.js'></script>
-  <script src="js/kmlLoad.js?v=202310241650"></script>
+  <script src="js/kmlLoad.js"></script>
   <script src="js/stsc.js"></script>
   <script src="js/editorx.js?v=202212220015"></script>
   <script src="js/intersect.js"></script>
@@ -759,7 +840,25 @@
     <a href="http://smartmetar.atwebpages.com/smartplot3/indexold.html">IR PARA VERSÃO ANTERIOR...</a>
   </div>
   <div id="msgbox-area" class="msgbox-area"></div>
+  <div id="divSliderWind">
+    <input type="range" id="sliderWind" class="sliderWind" orient="vertical" step="50" value="0" />
+    <span id="labelWind0" class="labelWind shaddowText windy">Superfície</span>
+    <span id="labelWind50" class="labelWind shaddowText windy">500hPa</span>
+    <span id="labelWind100" class="labelWind shaddowText windy">300hPa</span>
+    <label class="switch switchWind" title="Ativar Animação de Partículas">
+      <input type="checkbox" id="chkWindPart" onchange="animaWind(this)" />
+      <span class="slider round"></span>
+    </label>
+    <span id="labelWind2" class="labelWind shaddowText windy"></span>
 
+  </div>
+
+  <!--
+    A Bandeira do Vento
+  <div id="flagWind">
+  -->
+
+  </div>
   <!-- The Modal -->
   <div class="modal fade" id="modalAdWrng">
     <div class="modal-dialog modal-xl">
@@ -779,13 +878,6 @@
           <textarea id="taModalAdWrng"
             style="resize: none; box-sizing: border-box; width:98%; text-transform: uppercase; font-family: monospace"
             rows="20"></textarea>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="checkSemAvisos">
-            <label class="form-check-label" for="checkSemAvisos">
-              Exibir apenas Localidades sem Avisos de Aeródromo em Validade
-            </label>
-          </div>
-
         </div>
 
         <!-- Modal footer -->

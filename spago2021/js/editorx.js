@@ -1,3 +1,61 @@
+var velocity1, velocity2, velocity3,
+ activeLayerWind = false
+
+class Velocity {
+  layer = false;
+  horaPrevisao = false;
+  dataPrevisao = false;
+  level
+
+  createLayer() {
+    return
+  }
+  getLevel() {
+    return this.level
+  }
+
+  setLevel(l) {
+    this.level = l
+  }
+
+  update(data, rodada, offset, level, tipo, color, callback) {
+    let url = `http://localhost:8000/getjson/?data=${data}&rodada=${rodada}&offset=${offset}&level=${level}`
+    url = url.replaceAll("&", "*")
+    $.getJSON(`php/getdjango.php?data=${data}&rodada=${rodada}&offset=${offset}&level=${level}`, function (data) {
+      console.log(data)
+      this.layer = false
+      let erroGrib2 = false
+      if (Array.isArray(data) && data[0].data) {
+        if (typeof data[0].data == 'string' && data[0].data.toUpperCase() == "ERRO!") {
+          console.log("Erro no dado Grib2!")
+          erroGrib2 = true
+        }
+        else {
+          this.layer = L.velocityLayer({
+            displayValues: true,
+            displayOptions: {
+              velocityType: "Global Wind",
+              position: "bottomleft",
+              emptyString: "No Wind data",
+              angleConvention: "meteo",
+              directionString: "Direção",
+              colorScale: color,
+              speedUnit: 'kt'
+              //particleMultiplier: 1/10000
+            },
+            data: data,
+            maxVelocity: 300 // a partir de que valor a partícula fica vermelha
+
+          });
+        }
+      }
+      callback(this.layer, erroGrib2)
+    });
+
+
+  }
+}
+
 //sempre que for editados os poligonos gravar o cookie
 //editableLayers._layers[23892]._tooltip._content.split('<br>')[0]
 
@@ -12,6 +70,115 @@ var timerCopiaCoords = null
 var decMagnetica = 20
 var teste
 var timerMovemap = false
+var arrayLevelWindLabels = []
+const arrayLevelsWind = { 0: "Superfície", 50: "500hPa", 100: "300hPa" }
+const arrayLabelBottom = { 0: 348, 50: 437, 100: 527 }
+
+function updateLabelSliderWind() {
+  let val = $("#sliderWind").val()
+  $("#labelWind0").css("opacity", 0.3)
+  $("#labelWind50").css("opacity", 0.3)
+  $("#labelWind100").css("opacity", 0.3)
+
+  $("#labelWind" + val).css("opacity", 1)
+  //$("#labelWind" + val).text(arrayLevelsWind[val])
+  $("#labelWind2").text(arrayLevelWindLabels[arrayLevelsWind[val].toUpperCase()])
+
+}
+
+function animaWind(sender) {
+  if (sender.checked) {
+    $('.windy').css('background-color', '#009299')
+    $('.sliderWind').trigger('input')
+  } else {
+    $('.windy').css('background-color', '#bed2d3')
+    velocity1.layer.removeFrom(map)
+    velocity2.layer.removeFrom(map)
+    velocity3.layer.removeFrom(map)
+  }
+
+}
+
+function turnOnCheckWindy() {
+  $('#chkWindPart').prop('checked', true)
+
+}
+
+function isCheckWindyOn() {
+  return $('#chkWindPart').prop('checked')
+}
+
+$(document).ready(() => {
+  $('.windy').css('background-color', '#009299')
+  $("#sliderWind").val(0);
+
+  $("#labelWind2").on('click', () => {
+    $("#chkWindPart").trigger('click')
+    //turnOnCheckWindy()
+    //$("#sliderWind").trigger('input');
+  })
+
+  $("#labelWind0").on('click', () => {
+    if (!$('#chkWindPart').prop('checked'))
+      $("#chkWindPart").trigger('click')
+
+    turnOnCheckWindy()
+    $("#sliderWind").val(0);
+    $("#sliderWind").trigger('input');
+  })
+
+  $("#labelWind50").on('click', () => {
+    if (!$('#chkWindPart').prop('checked'))
+      $("#chkWindPart").trigger('click')
+
+    turnOnCheckWindy()
+    $("#sliderWind").val(50);
+    $("#sliderWind").trigger('input');
+  })
+
+  $("#labelWind100").on('click', () => {
+    if (!$('#chkWindPart').prop('checked'))
+      $("#chkWindPart").trigger('click')
+
+    turnOnCheckWindy()
+    $("#sliderWind").val(100);
+    $("#sliderWind").trigger('input');
+  })
+
+  $('.sliderWind').on('input', (e) => {
+    let val = parseInt(e.target.value)
+    updateLabelSliderWind()
+    setWindLevel(val)
+
+  })
+})
+
+function setWindLevel(level) {
+  switch (level) {
+    case 0:
+      velocity1.layer.addTo(map)
+      velocity2.layer.removeFrom(map)
+      velocity3.layer.removeFrom(map)
+      activeLayerWind = velocity1.getLevel();
+      break
+
+    case 50:
+      velocity2.layer.addTo(map)
+      velocity1.layer.removeFrom(map)
+      velocity3.layer.removeFrom(map)
+      activeLayerWind = velocity2.getLevel();
+      break
+
+    case 100:
+      velocity3.layer.addTo(map)
+      velocity2.layer.removeFrom(map)
+      velocity1.layer.removeFrom(map)
+      activeLayerWind = velocity3.getLevel();
+      break
+
+  }
+
+}
 
 function updateSmartMetar() {
   window.opener.BtnMetarGERALClick(false, 'SP');
@@ -471,6 +638,109 @@ function formataLayerEdit(layer, keepStyle = false) {
   return layer
 }
 
+function createVelocity(options = { data: false, rodada: false, offset: false, ativo: false, tipo: false, level: false, oldVelocity: false, rodadaAnterior: false }) {
+  function getFullDate(data) {
+    dia = ("0" + data.getUTCDate()).slice(-2)
+    mes = ("0" + (data.getUTCMonth() + 1)).slice(-2)
+    ano = data.getUTCFullYear()
+    return ano + mes + dia
+  }
+  function removeVelocity(velocity) {
+    if (velocity && velocity.layer) {
+      velocity.layer.removeFrom(map)
+      layerControl.removeLayer(velocity.layer)
+      velocity = null
+    }
+  }
+  if (!options.data)
+    options.data = getUTCAgora()
+
+  let data = getFullDate(options.data)
+
+  let hora
+  hora = options.data.getHours()
+  let rodada = options.rodada
+  if (options.rodadaAnterior) {
+    hora -= 6
+    if (hora < 0)
+      hora = 24 + hora
+  }
+  if (!rodada) {
+    if (hora > 21)
+      rodada = 18
+    else if (hora > 15)
+      rodada = 12
+    else if (hora > 9)
+      rodada = 6
+    else if (hora > 3)
+      rodada = 0
+    else
+      rodada = 18
+
+  }
+
+  rodada = ("0" + rodada).slice(-2)
+
+  let offset = options.offset
+  if (!offset) {
+    if (hora < rodada)
+      hora += 24
+    offset = hora - rodada
+  }
+  //offset+=3
+  offset = ("00" + offset).slice(-3)
+
+
+  let velocity = new Velocity()
+  let level = options.level.toLowerCase()
+  velocity.setLevel(options.level)
+  let tipo = options.tipo
+  if (tipo == "wind" && !level.includes("hpa")) {
+    level = level.replace("m", "")
+    level = parseInt(level)
+    if (level < 100)
+      level = "Superfície"
+  }
+  let horaP = (parseInt(rodada) + parseInt(offset)) % 24
+  velocity.horaPrevisao = horaP
+  velocity.dataPrevisao = data
+  horaP = ("0" + horaP).slice(-2)
+
+  let dataRodada = options.data
+  addHours(dataRodada, parseInt(offset) * -1)
+  dataRodada = getFullDate(dataRodada)
+  //rodada = "18"
+  removeVelocity(options.oldVelocity)
+  velocity.update(dataRodada, rodada, offset, options.level, options.tipo, ["red"], function (velocityLayer, erroGrib) {
+    /*
+    if (erroGrib && !options.rodadaAnterior) {
+      let now = getUTCAgora()
+      if (now.getUTCMinutes() > 30)
+        addHours(now, 1)
+      velocity1 = createVelocity({ offset: false, ativo: true, tipo: "wind", level: "10m", data: now, oldVelocity: velocity1, rodadaAnterior: true })
+    }
+    */
+    if (velocityLayer) {
+      //oVelocity1 = layerControl.addOverlay(velocityLayer, `Vento Modelo GFS - ${horaP}Z - ${level}`);
+      arrayLevelWindLabels[level.toUpperCase()] = `Vento (GFS) - ${horaP}Z`
+      updateLabelSliderWind()
+      velocity.layer = velocityLayer
+
+      if ((options.ativo || options.level == activeLayerWind) && isCheckWindyOn()){
+        if (options.ativo)
+          activeLayerWind = options.level
+
+        map.addLayer(velocityLayer)
+        activeLayerWind = options.level
+      }
+      //$('.sliderWind').trigger('input');
+
+    }
+  })
+  return velocity
+}
+
+
 function makeMap() {
   //  Init Overlays
   var overlays = {};
@@ -519,6 +789,17 @@ function makeMap() {
         id: "osm.windy"
       }
     ),
+    "Esry": L.tileLayer(
+      "http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+      {
+        minZoom: 2,
+        maxZoom: 19,
+        id: "Esry",
+        attribution:
+          "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, " +
+          "AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community"
+      }
+    ),
     "Dark": L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png', {
       maxZoom: 20,
       attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
@@ -538,7 +819,7 @@ function makeMap() {
     attributionControl: false,
     center: [-21.0529434318608, -48.01910972595218],
     zoom: 5,
-    layers: [basemaps.OpenStreetMaps]
+    layers: [basemaps.Esry]
   };
 
   //Render Main Map
@@ -566,7 +847,7 @@ function makeMap() {
     .addTo(map);
 
   //Render Layer Control & Move to Sidebar
-  var layerControl = L.control
+  layerControl = L.control
     .layers(basemaps, overlays, {
       position: "bottomleft",
       collapsed: true
@@ -586,6 +867,77 @@ function makeMap() {
   layerControl.addOverlay(editableLayers, "Cosmetic Layer");
   map.addLayer(editableLayers);
 
+  /* Efeito de trazer o mapa pra frente:
+  var topPane = map.createPane('leaflet-top-pane', map.getPanes().mapPane);
+  topPane.appendChild(basemaps.Windy.getContainer());
+  basemaps.Windy.setZIndex(5);
+  */
+
+  // efeito windy velocity
+
+  /*
+  $.getJSON("json/output.json", function(data) {
+    var velocityLayer = L.velocityLayer({
+      displayValues: true,
+      displayOptions: {
+        velocityType: "Vento",
+        position: "bottomleft",
+        emptyString: "Sem Dados de Vento",
+        directionString: "Direção",
+        speedString: "Velocidade"
+      },
+      data: data,
+      maxVelocity: 15
+  
+    });
+  
+    layerControl.addOverlay(velocityLayer, "Dados Silds 2016");
+  });
+*/
+  try {
+    let now = getUTCAgora()
+    if (now.getUTCMinutes() > 30)
+      addHours(now, 1)
+    velocity1 = createVelocity({ offset: false, ativo: true, tipo: "wind", level: "10m", data: new Date(now) })
+    velocity2 = createVelocity({ offset: false, ativo: false, tipo: "wind", level: "500hPa", data: new Date(now) })
+    velocity3 = createVelocity({ offset: false, ativo: false, tipo: "wind", level: "300hPa", data: new Date(now) })
+
+    intervalVelocity = setInterval(function () {
+      let now = getUTCAgora()
+      addHours(now, 1)
+      if (velocity1 && now.getUTCMinutes() > 30 && velocity1.horaPrevisao !== now.getUTCHours()) {
+        velocity1 = createVelocity({ offset: false, ativo: false, tipo: "wind", level: "10m", data: new Date(now), oldVelocity: velocity1, rodadaAnterior: false })
+        velocity2 = createVelocity({ offset: false, ativo: false, tipo: "wind", level: "500hPa", data: new Date(now), oldVelocity: velocity2, rodadaAnterior: false })
+        velocity3 = createVelocity({ offset: false, ativo: false, tipo: "wind", level: "300hPa", data: new Date(now), oldVelocity: velocity3, rodadaAnterior: false })
+      }
+
+    }, 60000)
+    /*velocity4 = createVelocity({offset: 11})
+    velocity4 = createVelocity({offset: 12})*/
+  } catch (e) {
+    console.log("Erro ao criar animação de vento! ")
+    console.log(e)
+  }
+
+  /*
+  $.getJSON(`http://localhost:8000/getjson/?data=${data}&rodada=${rodada}&offset=${offset}`, function (data) {
+    velocityLayer = L.velocityLayer({
+      displayValues: true,
+      displayOptions: {
+        velocityType: "Global Wind",
+        position: "bottomleft",
+        emptyString: "No Wind data",
+        angleConvention: "meteo",
+        directionString: "Direção"
+        //particleMultiplier: 1/10000
+      },
+      data: data,
+      maxVelocity: 300 // a partir de que valor a partícula fica vermelha
+
+    });
+
+  });
+  */
   //
   translateDrawBar()
   var drawOptions = {
@@ -781,7 +1133,7 @@ function makeMap() {
   });
 
   bringMapToFront(basemaps)
-  
+
   map.panTo(new L.LatLng(-15, -35))
 
   return map;
@@ -801,13 +1153,13 @@ function checkMouseGamets(point) {
           sep = '<hr>'
           //gamet.fire('mouseover')
           setStyleMouseOver(gamet)
-          }
-        } else {
-          gamet.setTooltipContent(arrayGametsTooltip[gamet._leaflet_id])
-          //gamet.fire('mouseout')
-          setStyleMouseOut(gamet)
         }
-      })
+      } else {
+        gamet.setTooltipContent(arrayGametsTooltip[gamet._leaflet_id])
+        //gamet.fire('mouseout')
+        setStyleMouseOut(gamet)
+      }
+    })
 
     arrTmp.forEach(gamet => {
       gamet.setTooltipContent(tooltip)

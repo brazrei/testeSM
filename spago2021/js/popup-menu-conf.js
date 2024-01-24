@@ -323,10 +323,6 @@ $(document).ready(function () {
         $('#taModalDescricao').focus();
     })
 
-    $('#checkSemAvisos').on('input', function () {
-        createAdWrng(selectedLayer)
-    })
-
     $('#btnImportaLayer').on('click', function () {
         //        let d = $('#taModalDescricao').val() + ""
         //saveDescricaoLayer(selectedLayer, $('#taModalDescricao').val())
@@ -418,37 +414,22 @@ function changeDescription(layer) {
 }
 
 function createAdWrng(layer) {
-    function getActiveLocs() {
-        let arr = opener.arrAdWRNGGeral
-        let locs = ''
-        for (let i in arr)
-            if (checaValidadeMsg(arr[i].codigo))
-                locs += arr[i].locs.join(',')
-        return locs
-    }
-
     let locs = getAeroportosOnEdit(layer)
 
     let patt = /[A-Z][A-Z][A-Z][A-Z]/g
     let arr = locs.match(patt)
     let arrCMA = []
     let newLine = "\t"
-    let activeLocs = getActiveLocs()
-
     if (arr.length > 0) {
         let cont = 0
 
         for (let i in arr) {
-            if ($('#checkSemAvisos').prop('checked') && activeLocs.includes(arr[i]) ) 
-                continue
             cont++;
             cma = opener.getCMA(arr[i])
-
             cma = cma !== "" ? cma : "DESCONHECIDO"
             newLine = arrCMA[cma] ? ((arrCMA[cma].split("\t").length % 5 == 0) ? "\t\n" : "\t") : "\t"
 
             arrCMA[cma] = arrCMA[cma] ? arrCMA[cma] + newLine + arr[i] : arr[i];
-            
         }
     }
 
