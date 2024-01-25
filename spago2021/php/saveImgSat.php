@@ -1,4 +1,6 @@
 <?php
+    include "deleteOldFiles.php";
+    deleteOldFiles("imgsat",12);
     ini_set('display_errors', 1);
     //header('Access-Control-Allow-Origin: *');
     
@@ -46,4 +48,5 @@
         $datafile = file_get_contents($url);
         echo "Resposta => ".file_put_contents($filename, $datafile); 
     }
+
 ?>

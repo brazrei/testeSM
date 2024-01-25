@@ -21,8 +21,8 @@ arrTAFSCimaer.push({ indice: "12 HORAS, (12Z) SAB e DOM", localidades: "SBGP" })
 arrTAFSCimaer.push({ indice: "12 HORAS, (06Z, 12Z) DIARIAMENTE", localidades: "SBPG" });
 arrTAFSCimaer.push({ indice: "12 HORAS, (06Z, 12Z  e 18Z) SEX", localidades: "SBPG" });
 arrTAFSCimaer.push({ indice: "12 HORAS, (06Z e 18Z) DIARIAMENTE", localidades: "SNCP" });
-arrTAFSCimaer.push({ indice: "12 HORAS, (12Z) SEG, TER, QUI, SAB e DOM", localidades: "SWKQ" });
-arrTAFSCimaer.push({ indice: "12 HORAS, (12Z) SEG, TER, QUA, QUI, SEX e DOM", localidades: "SBUF" });
+arrTAFSCimaer.push({ indice: "12 HORAS, (12Z) SEG, QUI, SAB e DOM", localidades: "SWKQ" });
+arrTAFSCimaer.push({ indice: "12 HORAS, (12Z) TER,QUI e DOM", localidades: "SBUF" });
 arrTAFSCimaer.push({ indice: "12 HORAS, (12Z) SEG, QUA e SEX", localidades: "SNPD" });
 arrTAFSCimaer.push({ indice: "12 HORAS, (12Z) TER", localidades: "SNPD" , inicio: "02/01/2024"});
 
@@ -213,7 +213,8 @@ function getAMDStatus(TAF) {
 
     let prazoFinal = getUTCDate(new Date(inicio))
     addHours(prazoFinal, (((horasValid.getDate() - 1) * 24) + horasValid.getHours()) / 6)
-    //addMinutes(prazoFinal, -61)
+    addMinutes(prazoFinal, -1) // -61 para deixar de mostrar no período de atraso
+    // -1 para deixar de mostrar no período em que náo se pode mais incluir o AMD
 
     let h = prazoFinal
     h = ('0' + h.getHours()).slice(-2) + ":" + ('0' + h.getMinutes()).slice(-2) + 'Z'
@@ -690,13 +691,6 @@ function excluiTAFsAntigos(arr) {
     return arr2 //retorna o valor como referencia
 }
 
-function getReportStatus(taf) {
-    try {
-        return taf.TAF.reportStatus
-    } catch {
-        return "ERRO"
-    }
-}
 function atualizaArrayTAFs(texto) {
     function clearTAFsCor() {
         let arrCorr = []
@@ -707,24 +701,12 @@ function atualizaArrayTAFs(texto) {
 
     }
 
-    function isMostRecent(TAF, array, loc)  {
-        if (!array[loc])
-            return true
-        if ( new Date (getBeginTAF(TAF)) <  new Date (getBeginTAF(array[loc].TAF)) )
-            return false
-        return true
-    }
-
     let TAFs = clearMsgIWXXM(texto).reverse() //pegar as correções por ultimo
     let tafsProxHora = getTAFsProximaHora();  // tafs que deveriam estar na proxima hora de envio
 
     for (let i in TAFs) {
         TAFs[i] = JSON.parse(TAFs[i]);
-        
         let loc = getICAOIndicator(TAFs[i])
-
-        //if (!isMostRecent(TAFs[i], arrayTAFs, loc))
-        //    continue
 
         let dados = { TAF: TAFs[i], localidade: loc, inicio: getBeginTAF(TAFs[i]), getVisPredHora: getVisPredHora, getTetoHora: getTetoHora }
 
@@ -732,18 +714,12 @@ function atualizaArrayTAFs(texto) {
 
             if (tafsProxHora.indexOf(loc) > -1) {//retorna a ultima hora enquando  não chega em hProx-3h
                 updateTAFsTraduzidos(dados, true)
-                if (getReportStatus(TAFs[i]) !== "AMENDMENT")
-                    arrayProximosTAFs[loc] = dados
+                arrayProximosTAFs[loc] = dados
             }
             if (getBeginTAF(TAFs[i]) > getUTCAgora())
                 continue;// se a validade do taf ainda não começou, ignora da lista de TAFs validos.
         }
         arrayTAFs[loc] = dados
-        try {
-            updateTAFArrayMetares(loc)
-        } catch(e) {
-            console.log(e)
-        }
         updateTAFsTraduzidos(dados, true)
     }
 }
