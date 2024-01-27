@@ -9,7 +9,7 @@ function getAeroportos() {
 
     $.ajax({
         type: "GET",
-        url: "../spago2021/files/aeroportos20102020.xml?v=202401201138",
+        url: "files/aeroportos2.xml?v=202210281200",
         dataType: "xml",
 
         error: function (e) {
