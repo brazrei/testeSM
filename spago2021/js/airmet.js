@@ -1347,7 +1347,7 @@ function atualizaHora(id = false) {
     if (!id)
         id = "#clockAirmet"
     var date = getUTCAgora();
-    var hora = adicionaZero(date.getUTCHours()) + ":" + adicionaZero(date.getUTCMinutes()) + ":" + adicionaZero(date.getUTCSeconds());
+    var hora = adicionaZero(date.getHours()) + ":" + adicionaZero(date.getMinutes()) + ":" + adicionaZero(date.getSeconds());
     $(id).html(hora + " UTC");
 
 }
