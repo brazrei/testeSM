@@ -218,6 +218,8 @@ $("document").ready(function () {
 
     iniciaAirmetGlobalVars();
     iniciaSigmetGlobalVars();
+    if (opener)
+        opener.updateStatusGamet()
     getAeroportos();
 })
 //*********************** */
