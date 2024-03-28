@@ -21,8 +21,8 @@ arrTAFSCimaer.push({ indice: "12 HORAS, (12Z) SAB e DOM", localidades: "SBGP" })
 arrTAFSCimaer.push({ indice: "12 HORAS, (06Z, 12Z) DIARIAMENTE", localidades: "SBPG" });
 arrTAFSCimaer.push({ indice: "12 HORAS, (06Z, 12Z  e 18Z) SEX", localidades: "SBPG" });
 arrTAFSCimaer.push({ indice: "12 HORAS, (06Z e 18Z) DIARIAMENTE", localidades: "SNCP" });
-arrTAFSCimaer.push({ indice: "12 HORAS, (12Z) SEG, QUI, SAB e DOM", localidades: "SWKQ" });
-arrTAFSCimaer.push({ indice: "12 HORAS, (12Z) TER,QUI e DOM", localidades: "SBUF" });
+arrTAFSCimaer.push({ indice: "12 HORAS, (12Z) SEG, TER, QUI, SAB e DOM", localidades: "SWKQ" });
+arrTAFSCimaer.push({ indice: "12 HORAS, (12Z) SEG, TER, QUA, QUI, SEX e DOM", localidades: "SBUF" });
 arrTAFSCimaer.push({ indice: "12 HORAS, (12Z) SEG, QUA e SEX", localidades: "SNPD" });
 arrTAFSCimaer.push({ indice: "12 HORAS, (12Z) TER", localidades: "SNPD" , inicio: "02/01/2024"});
 
