@@ -241,6 +241,7 @@
     }
 
     .statusTAF,
+    .statusGAMET,
     #divCoordenadas {
       /*text-shadow: 1px 1px 3px #2f2828, 1px 1px 0px #6d1717;*/
       border-radius: 8px;
@@ -444,6 +445,14 @@
 
     }
 
+    .divStatusMessages {
+      margin-right: 5px;
+      text-align: -webkit-right;
+      height: 100%;
+      margin-bottom: 10px;
+
+    }
+
     .modal {
 
       top: 80px;
@@ -519,7 +528,12 @@
     <div class='glass'>
       <div id='painel'>
         <div style="width:100%; margin-top: 15px;margin-bottom: 10px;">
-          <b><span class="sombraClara statusTAF" id="statusTAF">STATUS TAF...</span></b><br><br>
+          <div class="divStatusMessages">
+            <b><span class="sombraClara statusTAF" id="statusTAF">STATUS TAF...</span></b>
+          </div>
+          <div class="divStatusMessages">
+            <b><span class="sombraClara statusGAMET" id="statusGAMET">STATUS GAMET...</span></b>
+          </div>
           <div class="divStatus">
             <span>Teto </span>
             <label class="switch">
