@@ -282,6 +282,10 @@ $(document).ready(function () {
 
   getGamet();
 
+  
+  setTimeout(checkGamet, 5000,true)
+  setInterval(checkGamet, 60000)
+
   setInterval(atualizaCronometro, 1000);
 
   setGrupos();

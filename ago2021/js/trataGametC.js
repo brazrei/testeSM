@@ -4,6 +4,97 @@ var gamets = []
 var arrayGamets = []
 var lastGamet = ""
 var gametTimeout = false
+var horaNextGamet = false
+var gametsOK = false
+let arrayGametsOK = []
+
+function compareGametDates(date1, date2) {
+  return (date1.getDate() == date2.getDate()) && (date1.getHours() == date2.getHours())
+
+}
+
+function updateStatusGamet(time) {
+  console.log("Atualizando Status Gamet")
+  if (gametsOK)
+    console.log("GAMETS ok!")
+  else
+    console.log("GAMETS AUSENTES!")
+
+}
+
+function getGametsDateTime(gamets = false) {
+  let validade
+  let FIR
+  let arrayG = []
+  if (!gamets) {
+    if (arrayGamets.length > 0 && arrayGamets[0].validade) {
+      for (i in arrayGamets) {
+        validade = arrayGamets[i].validade.split("/")
+        FIR = arrayGamets[i].FIR
+        arrayG.push({ validade: getFullDateValid(validade[0], validade[1]), FIR })
+      }
+    }
+  } else {
+
+    for (let i in gamets) {
+      validade = gamets[i].split("VALID ")[1]
+      validade = validade.split("/")
+      FIR = gamets[i].split(" GAMET ")[0]
+      arrayG.push({ validade: getFullDateValid(validade[0], validade[1]), FIR })
+    }
+  }
+  return arrayG
+
+
+}
+
+function checkGamet(firstTime = false) { //inacabado
+  if (!horaNextGamet) { // se primeira checagem
+    horaNextGamet = getHoraNextGAMET()
+    let timeGamet = getGametsDateTime()
+    console.log(timeGamet)
+    for (let i in timeGamet) {
+      if (compareGametDates(timeGamet[i].validade[0], horaNextGamet.dataIni))  //mudou para um novo gamet
+        arrayGametsOK.push(timeGamet[i].FIR)
+    }
+    gametsOK = arrayGametsOK.length == 4
+  }
+  updateStatusGamet()
+  if (firstTime)
+    return
+  let xHoraNextGamet = getHoraNextGAMET()
+  let mudou = !compareGametDates(xHoraNextGamet.dataIni, horaNextGamet.dataIni)
+  if ((arrayGametsOK.length < 4) || mudou || !gametsOK) { // se está faltando algum gamet
+    // a hora do próximo gamet mudou?
+    //fazer nova consulta
+    //assincrona. updateStatusGamet será chamada na resposta.
+    if (mudou) {
+      arrayGametsOK = []
+      gametsOK = false
+    }
+
+
+    getGamet(false, xHoraNextGamet.dataIni)
+  }
+
+}
+
+function getHoraNextGAMET() {
+  let days = ["DOM", "SEG", "TER", "QUA", "QUI", "SEX", "SAB"]
+  let inicio = new Date(new Date(getUTCAgora().addHours(1).setMinutes(0)).setSeconds(0));
+  let hora
+  if (inicio.getHours() % 6 <= 3) {
+    while ((inicio.getHours() % 6) !== 0)
+      inicio = inicio.addHours(-1);
+  } else {
+    while ((inicio.getHours() % 6) !== 0)
+      inicio = inicio.addHours(1);
+  }
+
+  hora = (inicio.getHours() < 10) ? "0" + inicio.getHours() : "" + inicio.getHours();
+
+  return { dia: days[inicio.getDay()], hora: hora + "Z", dataIni: inicio }
+}
 
 
 function GetWebContentGamet(url, update) {
@@ -132,10 +223,16 @@ function trataGametRedemet(texto) {
 }
 
 
-function getGamet(update) {
+function getGamet(update, date = false) {
   gametTimeout = false
 
-  var agora = getUTCAgora();
+  let agora
+
+  if (!date)
+    agora = getUTCAgora();
+  else
+    agora = date
+
   if (agora.getHours() < 6) {
     ini = "00"
     fim = "05"
@@ -149,9 +246,28 @@ function getGamet(update) {
     ini = "18"
     fim = "23"
   }
+  let dataIni
+  let dataFim
 
-  let dataIni = agora.getFullYear().toString() + fillZero(agora.getMonth() + 1) + fillZero(agora.getDate()) + ini;
-  let dataFim = agora.getFullYear().toString() + fillZero(agora.getMonth() + 1) + fillZero(agora.getDate()) + fim;
+  if (date) {
+    ini = fillZero(parseInt(ini))
+
+    dataIni = agora.getFullYear().toString() + fillZero(agora.getMonth() + 1) + fillZero(agora.getDate()) + ini;
+
+    fim = parseInt(fim) + 1
+    if (fim == 24) {
+      fim = 1
+      agora.addHours(24)
+
+    }
+    fim = fillZero(fim)
+    dataFim = agora.getFullYear().toString() + fillZero(agora.getMonth() + 1) + fillZero(agora.getDate()) + fim;
+  } else {
+    dataIni = agora.getFullYear().toString() + fillZero(agora.getMonth() + 1) + fillZero(agora.getDate()) + ini;
+    dataFim = agora.getFullYear().toString() + fillZero(agora.getMonth() + 1) + fillZero(agora.getDate()) + fim;
+  }
+
+
   let url = ""
   if (redemetAntiga) {
     if (intraer)
@@ -162,10 +278,88 @@ function getGamet(update) {
   } else {
     url = `${linkAPINova}gamet/?api_key=${apiKey}&local=SBAZ,SBBS,SBRE,SBCW;`
   }
+  if (!date)
+    GetWebContentGamet(url, update == 1);
+  else
+    getNextGAMET(urlCache + url + proxy)
+}
+//http://localhost/WebServiceOPMET/getMetarOPMET.php?local=SBAZ,SBBS,SBRE,SBCW&msg=gamet&data_ini=2024031106&data_fim=2024031111
+function getNextGAMET(url) {
 
-  GetWebContentGamet(url, update == 1);
+  function getArrayGamets(gamets) {
+    let patt = /SB[A-Z][A-Z] GAMET VALID \d{6}\/\d{6}/g
+
+    return gamets.match(patt)
+  }
+
+  fetch(url, {
+    method: "GET",
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/txt"
+    }
+  })
+    .then(response => response.text())
+    .then(data => {
+      console.log(data);
+      if (data == "")
+        updateStatusGamet(false)
+      else {
+        arrayGametsOK = []
+        gamets = getArrayGamets(data);
+
+        let timeGamet = getGametsDateTime(gamets)
+        for (let i in timeGamet) {
+          if (compareGametDates(timeGamet[i].validade[0], horaNextGamet.dataIni))  //mudou para um novo gamet
+            arrayGametsOK.push(timeGamet[i].FIR)
+        }
+        gametsOK = arrayGametsOK.length == 4
+        updateStatusGamet(arrayGametsOK)
+      }
+    }
+    )
 }
 
 function getGametAZ() {
   return $('#tdSBAZ').html()
+}
+
+
+function updateStatusGamet() {
+  if (smartPlot)
+    panelStatusGAMET = smartPlot.$('#statusGAMET')
+  else
+    return
+
+  let agora = getUTCAgora()
+
+  let dh = getHoraNextGAMET()
+
+  let ligarPulse = agora > dh.dataIni.addHours(-2) //dh é alterado na funcao addHours
+  //let ignorarAusentes = agora < dh.dataIni.addHours(-1)
+
+  let arrAusentes = arrayLocalidadeFIR.filter(x => !arrayGametsOK.includes(x))
+  let strAusentes = ""
+  if (arrAusentes.length > 0)
+    strAusentes = arrAusentes.join(', ');
+
+  qtdGAMETsProxHoraNaRede = arrayGametsOK.length
+
+  if (qtdGAMETsProxHoraNaRede < 4) {
+    panelStatusGAMET.removeClass("statusOK")
+    panelStatusGAMET.removeClass("sombraClara")
+    panelStatusGAMET.addClass("statusERRO")
+    if (ligarPulse)
+      panelStatusGAMET.addClass("errorPulse")
+    panelStatusGAMET.html(`GAMET - ${dh.dia} ${dh.hora} - ${arrAusentes.length} AUSENTES`)
+    panelStatusGAMET.attr("title", `GAMETs AUSENTES: ${strAusentes}`);
+  } else {
+    panelStatusGAMET.removeClass("errorPulse")
+    panelStatusGAMET.removeClass("statusERRO")
+    panelStatusGAMET.addClass("statusOK")
+    panelStatusGAMET.addClass("sombraClara")
+    panelStatusGAMET.html(`GAMET - ${dh.dia} ${dh.hora}  - OK`)
+    panelStatusGAMET.attr("title", `${qtdGAMETsProxHoraNaRede} GAMETs ENCONTRADOS NA CONSULTA: ${arrayGametsOK.join(", ")}`);
+  }
+  panelStatusGAMET.show()
 }
